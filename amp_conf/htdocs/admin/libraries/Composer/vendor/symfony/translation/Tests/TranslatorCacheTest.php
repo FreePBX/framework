@@ -23,13 +23,13 @@ class TranslatorCacheTest extends TestCase
 {
     protected $tmpDir;
 
-    protected function setUp(): void
+    protected function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir().'/sf_translation';
+        $this->tmpDir = sys_get_temp_dir().'/sf2_translation';
         $this->deleteTmpDir();
     }
 
-    protected function tearDown(): void
+    protected function tearDown()
     {
         $this->deleteTmpDir();
     }
@@ -67,17 +67,13 @@ class TranslatorCacheTest extends TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, new ArrayLoader());
         $translator->addResource($format, [$msgid => 'OK'], $locale);
-        $translator->addResource($format, [$msgid.'+intl' => 'OK'], $locale, 'messages+intl-icu');
         $translator->trans($msgid);
-        $translator->trans($msgid.'+intl', [], 'messages+intl-icu');
 
         // Try again and see we get a valid result whilst no loader can be used
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, [$msgid => 'OK'], $locale);
-        $translator->addResource($format, [$msgid.'+intl' => 'OK'], $locale, 'messages+intl-icu');
         $this->assertEquals('OK', $translator->trans($msgid), '-> caching does not work in '.($debug ? 'debug' : 'production'));
-        $this->assertEquals('OK', $translator->trans($msgid.'+intl', [], 'messages+intl-icu'));
     }
 
     public function testCatalogueIsReloadedWhenResourcesAreNoLongerFresh()
@@ -217,7 +213,6 @@ class TranslatorCacheTest extends TestCase
         $translator->addResource('array', ['foo' => 'foo (a)'], 'a');
         $translator->addResource('array', ['foo' => 'foo (b)'], 'b');
         $translator->addResource('array', ['bar' => 'bar (b)'], 'b');
-        $translator->addResource('array', ['baz' => 'baz (b)'], 'b', 'messages+intl-icu');
 
         $catalogue = $translator->getCatalogue('a');
         $this->assertFalse($catalogue->defines('bar')); // Sure, the "a" catalogue does not contain that message.
@@ -236,14 +231,12 @@ class TranslatorCacheTest extends TestCase
         $translator->addResource('array', ['foo' => 'foo (a)'], 'a');
         $translator->addResource('array', ['foo' => 'foo (b)'], 'b');
         $translator->addResource('array', ['bar' => 'bar (b)'], 'b');
-        $translator->addResource('array', ['baz' => 'baz (b)'], 'b', 'messages+intl-icu');
 
         $catalogue = $translator->getCatalogue('a');
         $this->assertFalse($catalogue->defines('bar'));
 
         $fallback = $catalogue->getFallbackCatalogue();
         $this->assertTrue($fallback->defines('foo'));
-        $this->assertTrue($fallback->defines('baz', 'messages+intl-icu'));
     }
 
     public function testRefreshCacheWhenResourcesAreNoLongerFresh()
@@ -267,22 +260,6 @@ class TranslatorCacheTest extends TestCase
         $translator->addLoader('loader', $loader);
         $translator->addResource('loader', 'foo', 'fr');
         $translator->trans('foo');
-    }
-
-    public function testCachedCatalogueIsReDumpedWhenCacheVaryChange()
-    {
-        $translator = new Translator('a', null, $this->tmpDir, false, []);
-        $translator->addLoader('array', new ArrayLoader());
-        $translator->addResource('array', ['foo' => 'bar'], 'a', 'messages');
-
-        // Cached catalogue is dumped
-        $this->assertSame('bar', $translator->trans('foo', [], 'messages', 'a'));
-
-        $translator = new Translator('a', null, $this->tmpDir, false, ['vary']);
-        $translator->addLoader('array', new ArrayLoader());
-        $translator->addResource('array', ['foo' => 'ccc'], 'a', 'messages');
-
-        $this->assertSame('ccc', $translator->trans('foo', [], 'messages', 'a'));
     }
 
     protected function getCatalogue($locale, $messages, $resources = [])

@@ -81,7 +81,7 @@ return array (
   ),
   'premiumRate' => 
   array (
-    'NationalNumberPattern' => '9(?:0[01]|3[019])\\d{6,10}',
+    'NationalNumberPattern' => '(?:8[69][2-68]|9(?:0[01]|3[019]))\\d{6,10}',
     'ExampleNumber' => '900123456',
     'PossibleLength' => 
     array (
@@ -232,7 +232,7 @@ return array (
       'format' => '$1',
       'leadingDigitsPatterns' => 
       array (
-        0 => '1',
+        0 => '[18]',
       ),
       'nationalPrefixFormattingRule' => '',
       'domesticCarrierCodeFormattingRule' => '',
@@ -375,6 +375,5 @@ return array (
     ),
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => true,
 );

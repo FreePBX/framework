@@ -77,7 +77,7 @@ class ContainerControllerResolver extends ControllerResolver
 
         $service = $this->container->get($controller);
         if (null !== $method) {
-            return array($service, $method);
+            return [$service, $method];
         }
 
         if (!method_exists($service, '__invoke')) {
@@ -99,6 +99,8 @@ class ContainerControllerResolver extends ControllerResolver
         try {
             return parent::instantiateController($class);
         } catch (\ArgumentCountError $e) {
+        } catch (\ErrorException $e) {
+        } catch (\TypeError $e) {
         }
 
         $this->throwExceptionIfControllerWasRemoved($class, $e);

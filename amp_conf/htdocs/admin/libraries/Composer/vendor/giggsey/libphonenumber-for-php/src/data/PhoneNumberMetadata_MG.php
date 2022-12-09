@@ -38,7 +38,7 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '3[2-49]\\d{7}',
+    'NationalNumberPattern' => '3[2-489]\\d{7}',
     'ExampleNumber' => '321234567',
     'PossibleLength' => 
     array (
@@ -164,6 +164,5 @@ return array (
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => false,
 );

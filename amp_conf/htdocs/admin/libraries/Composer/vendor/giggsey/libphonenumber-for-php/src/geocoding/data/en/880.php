@@ -11,7 +11,11 @@
  */
 
 return array (
-  8802 => 'Dhaka',
+  88024 => 'Dhaka',
+  88025 => 'Dhaka',
+  88027 => 'Dhaka',
+  88028 => 'Dhaka',
+  88029 => 'Dhaka',
   8803020 => 'Banskhali',
   8803022 => 'Fatikchari',
   8803023 => 'Hathazari',

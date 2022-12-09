@@ -55,68 +55,49 @@ class TranslationPassTest extends TestCase
         $this->assertEquals($expected, $container->getDefinition((string) $translator->getArgument(0))->getArgument(0));
     }
 
-    public function testValidCommandsViewPathsArgument()
+    /**
+     * @group legacy
+     * @expectedDeprecation The default value for $readerServiceId in "Symfony\Component\Translation\DependencyInjection\TranslatorPass::__construct()" will change in 4.0 to "translation.reader".
+     *
+     * A test that verifies the deprecated "translation.loader" gets the LoaderInterfaces added.
+     *
+     * This test should be removed in 4.0.
+     */
+    public function testValidCollectorWithDeprecatedTranslationLoader()
     {
-        $container = new ContainerBuilder();
-        $container->register('translator.default')
-            ->setArguments([null, null, null, null])
-        ;
-        $debugCommand = $container->register('console.command.translation_debug')
-            ->setArguments([null, null, null, null, null, [], []])
-        ;
-        $updateCommand = $container->register('console.command.translation_update')
-            ->setArguments([null, null, null, null, null, null, [], []])
-        ;
-        $container->register('twig.template_iterator')
-            ->setArguments([null, null, ['other/templates' => null, 'tpl' => 'App']])
-        ;
-        $container->setParameter('twig.default_path', 'templates');
+        $loader = (new Definition())
+            ->addTag('translation.loader', ['alias' => 'xliff', 'legacy-alias' => 'xlf']);
 
-        $pass = new TranslatorPass('translator.default');
+        $legacyReader = new Definition();
+        $reader = new Definition();
+
+        $translator = (new Definition())
+            ->setArguments([null, null, null, null]);
+
+        $container = new ContainerBuilder();
+        $container->setDefinition('translator.default', $translator);
+        $container->setDefinition('translation.loader', $legacyReader);
+        $container->setDefinition('translation.reader', $reader);
+        $container->setDefinition('translation.xliff_loader', $loader);
+
+        $pass = new TranslatorPass();
         $pass->process($container);
 
-        $expectedViewPaths = ['other/templates', 'tpl'];
-
-        $this->assertSame('templates', $debugCommand->getArgument(4));
-        $this->assertSame('templates', $updateCommand->getArgument(5));
-        $this->assertSame($expectedViewPaths, $debugCommand->getArgument(6));
-        $this->assertSame($expectedViewPaths, $updateCommand->getArgument(7));
-    }
-
-    public function testCommandsViewPathsArgumentsAreIgnoredWithOldServiceDefinitions()
-    {
-        $container = new ContainerBuilder();
-        $container->register('translator.default')
-            ->setArguments([null, null, null, null])
+        $expectedReader = (new Definition())
+            ->addMethodCall('addLoader', ['xliff', new Reference('translation.xliff_loader')])
+            ->addMethodCall('addLoader', ['xlf', new Reference('translation.xliff_loader')])
         ;
-        $debugCommand = $container->register('console.command.translation_debug')
-            ->setArguments([
-                new Reference('translator'),
-                new Reference('translation.reader'),
-                new Reference('translation.extractor'),
-                '%translator.default_path%',
-                null,
-            ])
-        ;
-        $updateCommand = $container->register('console.command.translation_update')
-            ->setArguments([
-                new Reference('translation.writer'),
-                new Reference('translation.reader'),
-                new Reference('translation.extractor'),
-                '%kernel.default_locale%',
-                '%translator.default_path%',
-                null,
-            ])
-        ;
-        $container->register('twig.template_iterator')
-            ->setArguments([null, null, ['other/templates' => null, 'tpl' => 'App']])
-        ;
-        $container->setParameter('twig.default_path', 'templates');
+        $this->assertEquals($expectedReader, $legacyReader);
+        $this->assertEquals($expectedReader, $reader);
 
-        $pass = new TranslatorPass('translator.default');
-        $pass->process($container);
+        $expectedLoader = (new Definition())
+            ->addTag('translation.loader', ['alias' => 'xliff', 'legacy-alias' => 'xlf'])
+        ;
+        $this->assertEquals($expectedLoader, $loader);
 
-        $this->assertSame('templates', $debugCommand->getArgument(4));
-        $this->assertSame('templates', $updateCommand->getArgument(5));
+        $this->assertSame(['translation.xliff_loader' => ['xliff', 'xlf']], $translator->getArgument(3));
+
+        $expected = ['translation.xliff_loader' => new ServiceClosureArgument(new Reference('translation.xliff_loader'))];
+        $this->assertEquals($expected, $container->getDefinition((string) $translator->getArgument(0))->getArgument(0));
     }
 }

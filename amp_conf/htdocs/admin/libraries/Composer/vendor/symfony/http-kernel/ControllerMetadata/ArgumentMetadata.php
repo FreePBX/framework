@@ -25,7 +25,15 @@ class ArgumentMetadata
     private $defaultValue;
     private $isNullable;
 
-    public function __construct(string $name, ?string $type, bool $isVariadic, bool $hasDefaultValue, $defaultValue, bool $isNullable = false)
+    /**
+     * @param string $name
+     * @param string $type
+     * @param bool   $isVariadic
+     * @param bool   $hasDefaultValue
+     * @param mixed  $defaultValue
+     * @param bool   $isNullable
+     */
+    public function __construct($name, $type, $isVariadic, $hasDefaultValue, $defaultValue, $isNullable = false)
     {
         $this->name = $name;
         $this->type = $type;
@@ -50,7 +58,7 @@ class ArgumentMetadata
      *
      * The type is the PHP class in 5.5+ and additionally the basic type in PHP 7.0+.
      *
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
@@ -99,7 +107,7 @@ class ArgumentMetadata
     public function getDefaultValue()
     {
         if (!$this->hasDefaultValue) {
-            throw new \LogicException(sprintf('Argument $%s does not have a default value. Use %s::hasDefaultValue() to avoid this exception.', $this->name, __CLASS__));
+            throw new \LogicException(sprintf('Argument $%s does not have a default value. Use "%s::hasDefaultValue()" to avoid this exception.', $this->name, __CLASS__));
         }
 
         return $this->defaultValue;

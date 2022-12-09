@@ -110,7 +110,7 @@ class AsYouTypeFormatter
      * and/or NDD, etc.
      * @var string
      */
-    private $prefixBeforeNationalNumber;
+    private $prefixBeforeNationalNumber = '';
 
     /**
      * @var bool
@@ -149,7 +149,8 @@ class AsYouTypeFormatter
      * to be used by the AYTF. It is eligible when the format element under numberFormat contains
      * groups of the dollar sign followed by a single digit, separated by valid phone number punctuation.
      * This prevents invalid punctuation (such as the star sign in Israeli star numbers) getting
-     * into the output of the AYTF.
+     * into the output of the AYTF. We require that the first group is present in the output pattern to ensure
+     * no data is lost while formatting; when we format as you type, this should always be the case.
      * @var string
      */
     private static $eligibleFormatPattern;
@@ -186,7 +187,8 @@ class AsYouTypeFormatter
             self::$emptyMetadata->setInternationalPrefix('NA');
 
             self::$eligibleFormatPattern = '[' . PhoneNumberUtil::VALID_PUNCTUATION . ']*'
-                . "(\\$\\d" . '[' . PhoneNumberUtil::VALID_PUNCTUATION . ']*)+';
+                . "\\$1" . "[" . PhoneNumberUtil::VALID_PUNCTUATION . "]*(\\$\\d"
+                . "[" . PhoneNumberUtil::VALID_PUNCTUATION . "]*)*";
         }
     }
 
@@ -200,7 +202,7 @@ class AsYouTypeFormatter
 
         $this->phoneUtil = PhoneNumberUtil::getInstance();
 
-        $this->defaultCountry = $regionCode;
+        $this->defaultCountry = strtoupper($regionCode);
         $this->currentMetadata = $this->getMetadataForRegion($this->defaultCountry);
         $this->defaultMetadata = $this->currentMetadata;
     }
@@ -498,7 +500,7 @@ class AsYouTypeFormatter
                     // See if the accrued digits can be formatted properly already. If not, use the results
                     // from inputDigitHelper, which does formatting based on the formatting pattern chosen.
                     $formattedNumber = $this->attemptToFormatAccruedDigits();
-                    if (\mb_strlen($formattedNumber) > 0) {
+                    if ($formattedNumber !== '') {
                         return $formattedNumber;
                     }
                     $this->narrowDownPossibleFormats($this->nationalNumber);
@@ -661,7 +663,7 @@ class AsYouTypeFormatter
             $this->getAvailableFormats($this->nationalNumber);
             // See if the accrued digits can be formatted properly already.
             $formattedNumber = $this->attemptToFormatAccruedDigits();
-            if (\mb_strlen($formattedNumber) > 0) {
+            if ($formattedNumber !== '') {
                 return $formattedNumber;
             }
             return $this->maybeCreateNewTemplate() ? $this->inputAccruedNationalNumber() : $this->accruedInput;
@@ -765,7 +767,7 @@ class AsYouTypeFormatter
      */
     private function attemptToExtractCountryCallingCode()
     {
-        if (\mb_strlen($this->nationalNumber) == 0) {
+        if ($this->nationalNumber === '') {
             return false;
         }
         $numberWithoutCountryCallingCode = '';

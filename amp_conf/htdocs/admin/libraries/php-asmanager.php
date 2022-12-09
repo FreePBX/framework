@@ -899,7 +899,7 @@ class AGI_AsteriskManager {
 	* @param string $variable
 	* @param string $actionid message matching variable
 	*/
-	function GetVar($channel=null, $variable, $actionid=NULL) {
+	function GetVar(string $channel=null, $variable, $actionid=NULL) {
 		$parameters = array('Variable'=>$variable);
 		if(!empty($channel)) {
 			$parameters['Channel'] = $channel;

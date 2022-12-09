@@ -27,7 +27,7 @@ abstract class AbstractFileExtractor
      */
     protected function extractFiles($resource)
     {
-        if (is_iterable($resource)) {
+        if (\is_array($resource) || $resource instanceof \Traversable) {
             $files = [];
             foreach ($resource as $file) {
                 if ($this->canBeExtracted($file)) {
@@ -43,9 +43,14 @@ abstract class AbstractFileExtractor
         return $files;
     }
 
-    private function toSplFileInfo(string $file): \SplFileInfo
+    /**
+     * @param string $file
+     *
+     * @return \SplFileInfo
+     */
+    private function toSplFileInfo($file)
     {
-        return new \SplFileInfo($file);
+        return ($file instanceof \SplFileInfo) ? $file : new \SplFileInfo($file);
     }
 
     /**

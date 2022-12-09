@@ -28,7 +28,11 @@ class FragmentRendererPass implements CompilerPassInterface
     private $handlerService;
     private $rendererTag;
 
-    public function __construct(string $handlerService = 'fragment.handler', string $rendererTag = 'kernel.fragment_renderer')
+    /**
+     * @param string $handlerService Service name of the fragment handler in the container
+     * @param string $rendererTag    Tag name used for fragments
+     */
+    public function __construct($handlerService = 'fragment.handler', $rendererTag = 'kernel.fragment_renderer')
     {
         $this->handlerService = $handlerService;
         $this->rendererTag = $rendererTag;
@@ -41,7 +45,7 @@ class FragmentRendererPass implements CompilerPassInterface
         }
 
         $definition = $container->getDefinition($this->handlerService);
-        $renderers = array();
+        $renderers = [];
         foreach ($container->findTaggedServiceIds($this->rendererTag, true) as $id => $tags) {
             $def = $container->getDefinition($id);
             $class = $container->getParameterBag()->resolveValue($def->getClass());

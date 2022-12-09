@@ -191,7 +191,7 @@ class Frame implements Serializable
      *     $frame->getFileLines(); // => array( 0 => '<?php', 1 => '...', ...)
      * @example
      *     Get one line for this file, starting at line 10 (zero-indexed, remember!)
-     *     $frame->getFileLines(9, 1); // array( 10 => '...', 11 => '...')
+     *     $frame->getFileLines(9, 1); // array( 9 => '...' )
      *
      * @throws InvalidArgumentException if $length is less than or equal to 0
      * @param  int                      $start
@@ -241,6 +241,15 @@ class Frame implements Serializable
         return serialize($frame);
     }
 
+    public function __serialize()
+    {
+        $frame = $this->frame;
+        if (!empty($this->comments)) {
+            $frame['_comments'] = $this->comments;
+        }
+        return $frame;
+    }
+
     /**
      * Unserializes the frame data, while also preserving
      * any existing comment data.
@@ -252,6 +261,16 @@ class Frame implements Serializable
     {
         $frame = unserialize($serializedFrame);
 
+        if (!empty($frame['_comments'])) {
+            $this->comments = $frame['_comments'];
+            unset($frame['_comments']);
+        }
+
+        $this->frame = $frame;
+    }
+
+    public function __unserialize($frame)
+    {
         if (!empty($frame['_comments'])) {
             $this->comments = $frame['_comments'];
             unset($frame['_comments']);

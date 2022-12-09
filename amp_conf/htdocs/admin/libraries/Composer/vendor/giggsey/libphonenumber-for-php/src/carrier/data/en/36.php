@@ -11,7 +11,7 @@
  */
 
 return array (
-  3620 => 'Telenor',
+  3620 => 'Yettel Hungary',
   3630 => 'Magyar Telekom',
   36312000 => 'Netfone Telecom',
   36312001 => 'Netfone Telecom',
@@ -62,5 +62,7 @@ return array (
   3631790 => 'UPC',
   36501 => 'DIGI',
   36502 => 'DIGI',
+  36508 => 'MVM Net',
+  36509 => 'MVM Net',
   3670 => 'Vodafone',
 );

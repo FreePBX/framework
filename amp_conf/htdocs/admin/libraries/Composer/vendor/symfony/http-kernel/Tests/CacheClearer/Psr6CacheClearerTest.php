@@ -24,7 +24,7 @@ class Psr6CacheClearerTest extends TestCase
             ->expects($this->once())
             ->method('clear');
 
-        (new Psr6CacheClearer(array('pool' => $pool)))->clear('');
+        (new Psr6CacheClearer(['pool' => $pool]))->clear('');
     }
 
     public function testClearPool()
@@ -34,15 +34,34 @@ class Psr6CacheClearerTest extends TestCase
             ->expects($this->once())
             ->method('clear');
 
-        (new Psr6CacheClearer(array('pool' => $pool)))->clearPool('pool');
+        (new Psr6CacheClearer(['pool' => $pool]))->clearPool('pool');
+    }
+
+    public function testClearPoolThrowsExceptionOnUnreferencedPool()
+    {
+        $this->expectException('InvalidArgumentException');
+        $this->expectExceptionMessage('Cache pool not found: "unknown"');
+        (new Psr6CacheClearer())->clearPool('unknown');
     }
 
     /**
-     * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Cache pool not found: unknown
+     * @group legacy
+     * @expectedDeprecation The Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer::addPool() method is deprecated since Symfony 3.3 and will be removed in 4.0. Pass an array of pools indexed by name to the constructor instead.
      */
-    public function testClearPoolThrowsExceptionOnUnreferencedPool()
+    public function testClearPoolsInjectedByAdder()
     {
-        (new Psr6CacheClearer())->clearPool('unknown');
+        $pool1 = $this->getMockBuilder(CacheItemPoolInterface::class)->getMock();
+        $pool1
+            ->expects($this->once())
+            ->method('clear');
+
+        $pool2 = $this->getMockBuilder(CacheItemPoolInterface::class)->getMock();
+        $pool2
+            ->expects($this->once())
+            ->method('clear');
+
+        $clearer = new Psr6CacheClearer(['pool1' => $pool1]);
+        $clearer->addPool($pool2);
+        $clearer->clear('');
     }
 }

@@ -38,9 +38,9 @@ class Requests_Transport_cURL implements Requests_Transport {
 	public $info;
 
 	/**
-	 * cURL version number
+	 * Version string
 	 *
-	 * @var int
+	 * @var long
 	 */
 	public $version;
 
@@ -90,9 +90,9 @@ class Requests_Transport_cURL implements Requests_Transport {
 	 * Constructor
 	 */
 	public function __construct() {
-		$curl          = curl_version();
+		$curl = curl_version();
 		$this->version = $curl['version_number'];
-		$this->handle  = curl_init();
+		$this->handle = curl_init();
 
 		curl_setopt($this->handle, CURLOPT_HEADER, false);
 		curl_setopt($this->handle, CURLOPT_RETURNTRANSFER, 1);
@@ -100,11 +100,9 @@ class Requests_Transport_cURL implements Requests_Transport {
 			curl_setopt($this->handle, CURLOPT_ENCODING, '');
 		}
 		if (defined('CURLOPT_PROTOCOLS')) {
-			// phpcs:ignore PHPCompatibility.Constants.NewConstants.curlopt_protocolsFound
 			curl_setopt($this->handle, CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 		}
 		if (defined('CURLOPT_REDIR_PROTOCOLS')) {
-			// phpcs:ignore PHPCompatibility.Constants.NewConstants.curlopt_redir_protocolsFound
 			curl_setopt($this->handle, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
 		}
 	}
@@ -140,8 +138,8 @@ class Requests_Transport_cURL implements Requests_Transport {
 			$this->stream_handle = fopen($options['filename'], 'wb');
 		}
 
-		$this->response_data       = '';
-		$this->response_bytes      = 0;
+		$this->response_data = '';
+		$this->response_bytes = 0;
 		$this->response_byte_limit = false;
 		if ($options['max_bytes'] !== false) {
 			$this->response_byte_limit = $options['max_bytes'];
@@ -170,7 +168,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 			// Reset encoding and try again
 			curl_setopt($this->handle, CURLOPT_ENCODING, 'none');
 
-			$this->response_data  = '';
+			$this->response_data = '';
 			$this->response_bytes = 0;
 			curl_exec($this->handle);
 			$response = $this->response_data;
@@ -201,24 +199,23 @@ class Requests_Transport_cURL implements Requests_Transport {
 
 		$multihandle = curl_multi_init();
 		$subrequests = array();
-		$subhandles  = array();
+		$subhandles = array();
 
 		$class = get_class($this);
 		foreach ($requests as $id => $request) {
 			$subrequests[$id] = new $class();
-			$subhandles[$id]  = $subrequests[$id]->get_subrequest_handle($request['url'], $request['headers'], $request['data'], $request['options']);
+			$subhandles[$id] = $subrequests[$id]->get_subrequest_handle($request['url'], $request['headers'], $request['data'], $request['options']);
 			$request['options']['hooks']->dispatch('curl.before_multi_add', array(&$subhandles[$id]));
 			curl_multi_add_handle($multihandle, $subhandles[$id]);
 		}
 
-		$completed       = 0;
-		$responses       = array();
-		$subrequestcount = count($subrequests);
+		$completed = 0;
+		$responses = array();
 
 		$request['options']['hooks']->dispatch('curl.before_multi_exec', array(&$multihandle));
 
 		do {
-			$active = 0;
+			$active = false;
 
 			do {
 				$status = curl_multi_exec($multihandle, $active);
@@ -238,15 +235,15 @@ class Requests_Transport_cURL implements Requests_Transport {
 			// Parse the finished requests before we start getting the new ones
 			foreach ($to_process as $key => $done) {
 				$options = $requests[$key]['options'];
-				if ($done['result'] !== CURLE_OK) {
+				if (CURLE_OK !== $done['result']) {
 					//get error string for handle.
-					$reason          = curl_error($done['handle']);
-					$exception       = new Requests_Exception_Transport_cURL(
-						$reason,
-						Requests_Exception_Transport_cURL::EASY,
-						$done['handle'],
-						$done['result']
-					);
+					$reason = curl_error($done['handle']);
+					$exception = new Requests_Exception_Transport_cURL(
+									$reason,
+									Requests_Exception_Transport_cURL::EASY,
+									$done['handle'],
+									$done['result']
+								);
 					$responses[$key] = $exception;
 					$options['hooks']->dispatch('transport.internal.parse_error', array(&$responses[$key], $requests[$key]));
 				}
@@ -265,7 +262,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 				$completed++;
 			}
 		}
-		while ($active || $completed < $subrequestcount);
+		while ($active || $completed < count($subrequests));
 
 		$request['options']['hooks']->dispatch('curl.after_multi_exec', array(&$multihandle));
 
@@ -290,8 +287,8 @@ class Requests_Transport_cURL implements Requests_Transport {
 			$this->stream_handle = fopen($options['filename'], 'wb');
 		}
 
-		$this->response_data       = '';
-		$this->response_bytes      = 0;
+		$this->response_data = '';
+		$this->response_bytes = 0;
 		$this->response_byte_limit = false;
 		if ($options['max_bytes'] !== false) {
 			$this->response_byte_limit = $options['max_bytes'];
@@ -313,23 +310,8 @@ class Requests_Transport_cURL implements Requests_Transport {
 		$options['hooks']->dispatch('curl.before_request', array(&$this->handle));
 
 		// Force closing the connection for old versions of cURL (<7.22).
-		if (!isset($headers['Connection'])) {
+		if ( ! isset( $headers['Connection'] ) ) {
 			$headers['Connection'] = 'close';
-		}
-
-		/**
-		 * Add "Expect" header.
-		 *
-		 * By default, cURL adds a "Expect: 100-Continue" to most requests. This header can
-		 * add as much as a second to the time it takes for cURL to perform a request. To
-		 * prevent this, we need to set an empty "Expect" header. To match the behaviour of
-		 * Guzzle, we'll add the empty header to requests that are smaller than 1 MB and use
-		 * HTTP/1.1.
-		 *
-		 * https://curl.se/mail/lib-2017-07/0013.html
-		 */
-		if (!isset($headers['Expect']) && $options['protocol_version'] === 1.1) {
-			$headers['Expect'] = $this->get_expect_header($data);
 		}
 
 		$headers = Requests::flatten($headers);
@@ -338,7 +320,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 			$data_format = $options['data_format'];
 
 			if ($data_format === 'query') {
-				$url  = self::format_get($url, $data);
+				$url = self::format_get($url, $data);
 				$data = '';
 			}
 			elseif (!is_string($data)) {
@@ -381,7 +363,6 @@ class Requests_Transport_cURL implements Requests_Transport {
 			curl_setopt($this->handle, CURLOPT_TIMEOUT, ceil($timeout));
 		}
 		else {
-			// phpcs:ignore PHPCompatibility.Constants.NewConstants.curlopt_timeout_msFound
 			curl_setopt($this->handle, CURLOPT_TIMEOUT_MS, round($timeout * 1000));
 		}
 
@@ -389,7 +370,6 @@ class Requests_Transport_cURL implements Requests_Transport {
 			curl_setopt($this->handle, CURLOPT_CONNECTTIMEOUT, ceil($options['connect_timeout']));
 		}
 		else {
-			// phpcs:ignore PHPCompatibility.Constants.NewConstants.curlopt_connecttimeout_msFound
 			curl_setopt($this->handle, CURLOPT_CONNECTTIMEOUT_MS, round($options['connect_timeout'] * 1000));
 		}
 		curl_setopt($this->handle, CURLOPT_URL, $url);
@@ -405,9 +385,9 @@ class Requests_Transport_cURL implements Requests_Transport {
 			curl_setopt($this->handle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
 		}
 
-		if ($options['blocking'] === true) {
-			curl_setopt($this->handle, CURLOPT_HEADERFUNCTION, array($this, 'stream_headers'));
-			curl_setopt($this->handle, CURLOPT_WRITEFUNCTION, array($this, 'stream_body'));
+		if (true === $options['blocking']) {
+			curl_setopt($this->handle, CURLOPT_HEADERFUNCTION, array(&$this, 'stream_headers'));
+			curl_setopt($this->handle, CURLOPT_WRITEFUNCTION, array(&$this, 'stream_body'));
 			curl_setopt($this->handle, CURLOPT_BUFFERSIZE, Requests::BUFFER_SIZE);
 		}
 	}
@@ -417,8 +397,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 	 *
 	 * @param string $response Response data from the body
 	 * @param array $options Request options
-	 * @return string|false HTTP response data including headers. False if non-blocking.
-	 * @throws Requests_Exception
+	 * @return string HTTP response data including headers
 	 */
 	public function process_response($response, $options) {
 		if ($options['blocking'] === false) {
@@ -426,7 +405,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 			$options['hooks']->dispatch('curl.after_request', array(&$fake_headers));
 			return false;
 		}
-		if ($options['filename'] !== false && $this->stream_handle) {
+		if ($options['filename'] !== false) {
 			fclose($this->stream_handle);
 			$this->headers = trim($this->headers);
 		}
@@ -460,7 +439,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 		// interim responses, such as a 100 Continue. We don't need that.
 		// (We may want to keep this somewhere just in case)
 		if ($this->done_headers) {
-			$this->headers      = '';
+			$this->headers = '';
 			$this->done_headers = false;
 		}
 		$this->headers .= $headers;
@@ -494,7 +473,7 @@ class Requests_Transport_cURL implements Requests_Transport {
 			if (($this->response_bytes + $data_length) > $this->response_byte_limit) {
 				// Limit the length
 				$limited_length = ($this->response_byte_limit - $this->response_bytes);
-				$data           = substr($data, 0, $limited_length);
+				$data = substr($data, 0, $limited_length);
 			}
 		}
 
@@ -518,17 +497,16 @@ class Requests_Transport_cURL implements Requests_Transport {
 	 */
 	protected static function format_get($url, $data) {
 		if (!empty($data)) {
-			$query     = '';
 			$url_parts = parse_url($url);
 			if (empty($url_parts['query'])) {
-				$url_parts['query'] = '';
+				$query = $url_parts['query'] = '';
 			}
 			else {
 				$query = $url_parts['query'];
 			}
 
 			$query .= '&' . http_build_query($data, null, '&');
-			$query  = trim($query, '&');
+			$query = trim($query, '&');
 
 			if (empty($url_parts['query'])) {
 				$url .= '?' . $query;
@@ -560,30 +538,5 @@ class Requests_Transport_cURL implements Requests_Transport {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the correct "Expect" header for the given request data.
-	 *
-	 * @param string|array $data Data to send either as the POST body, or as parameters in the URL for a GET/HEAD.
-	 * @return string The "Expect" header.
-	 */
-	protected function get_expect_header($data) {
-		if (!is_array($data)) {
-			return strlen((string) $data) >= 1048576 ? '100-Continue' : '';
-		}
-
-		$bytesize = 0;
-		$iterator = new RecursiveIteratorIterator(new RecursiveArrayIterator($data));
-
-		foreach ($iterator as $datum) {
-			$bytesize += strlen((string) $datum);
-
-			if ($bytesize >= 1048576) {
-				return '100-Continue';
-			}
-		}
-
-		return '';
 	}
 }

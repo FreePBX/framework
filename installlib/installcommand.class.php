@@ -149,6 +149,7 @@ class FreePBXInstallCommand extends Command {
 		global $amp_conf; /* This makes pandas sad. :( */
 		$this->output = $output;
 		$this->input = $input;
+		$newinstall = null;
 
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');

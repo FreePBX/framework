@@ -35,7 +35,7 @@ class Chown extends Command {
 		$args = array();
 
 		$mname = $input->hasOption('module') ? $input->getOption('module') : '';
-		$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
+		$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname ?? '');
 
 		if((empty($this->moduleName) || $this->moduleName == 'framework') && posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
@@ -164,7 +164,7 @@ class Chown extends Command {
 		//Let's move the custom array to the end so it happens last
 		//FREEPBX-12515
 		//Store in a temporary variable. If Null we make it an empty array
-		$holdarray = $this->modfiles['byconfig'];
+		$holdarray = $this->modfiles['byconfig'] ?? "";
 		//Unset it from the array
 		unset($this->modfiles['byconfig']);
 		//Add it back to the array
@@ -308,6 +308,7 @@ class Chown extends Command {
 		if(empty($path)) {
 			throw new \Exception("Path is empty!");
 		}
+		$skip = '';
 		$blacklist = $this->blacklist;
 		if(!empty($blacklist['files'])) {
 			array_walk($blacklist['files'], function(&$value, $key) {
@@ -421,7 +422,7 @@ class Chown extends Command {
 	 *
 	 * @throws IOException When the change fail
 	 */
-	public function chgrp($progress=null, $files, $group, $recursive = false) {
+	public function chgrp(mixed $progress=null, $files, $group, $recursive = false) {
 		foreach ($this->toIterator($files) as $file) {
 			if(!is_null($progress)) {
 				$progress->advance();

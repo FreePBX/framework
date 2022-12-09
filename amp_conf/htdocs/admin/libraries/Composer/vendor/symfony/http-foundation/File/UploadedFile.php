@@ -243,8 +243,8 @@ class UploadedFile extends File
      */
     public static function getMaxFilesize()
     {
-        $sizePostMax = self::parseFilesize(ini_get('post_max_size'));
-        $sizeUploadMax = self::parseFilesize(ini_get('upload_max_filesize'));
+        $sizePostMax = self::parseFilesize(\ini_get('post_max_size'));
+        $sizeUploadMax = self::parseFilesize(\ini_get('upload_max_filesize'));
 
         return min($sizePostMax ?: \PHP_INT_MAX, $sizeUploadMax ?: \PHP_INT_MAX);
     }
@@ -254,7 +254,7 @@ class UploadedFile extends File
      *
      * @return int|float Returns float if size > PHP_INT_MAX
      */
-    private static function parseFilesize($size)
+    private static function parseFilesize(string $size)
     {
         if ('' === $size) {
             return 0;
@@ -263,9 +263,9 @@ class UploadedFile extends File
         $size = strtolower($size);
 
         $max = ltrim($size, '+');
-        if (0 === strpos($max, '0x')) {
+        if (str_starts_with($max, '0x')) {
             $max = \intval($max, 16);
-        } elseif (0 === strpos($max, '0')) {
+        } elseif (str_starts_with($max, '0')) {
             $max = \intval($max, 8);
         } else {
             $max = (int) $max;

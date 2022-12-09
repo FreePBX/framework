@@ -21,13 +21,32 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ControllerResolver implements ControllerResolverInterface
+class ControllerResolver implements ArgumentResolverInterface, ControllerResolverInterface
 {
     private $logger;
+
+    /**
+     * If the ...$arg functionality is available.
+     *
+     * Requires at least PHP 5.6.0 or HHVM 3.9.1
+     *
+     * @var bool
+     */
+    private $supportsVariadic;
+
+    /**
+     * If scalar types exists.
+     *
+     * @var bool
+     */
+    private $supportsScalarTypes;
 
     public function __construct(LoggerInterface $logger = null)
     {
         $this->logger = $logger;
+
+        $this->supportsVariadic = method_exists('ReflectionParameter', 'isVariadic');
+        $this->supportsScalarTypes = method_exists('ReflectionParameter', 'getType');
     }
 
     /**
@@ -58,7 +77,7 @@ class ControllerResolver implements ControllerResolverInterface
             throw new \InvalidArgumentException(sprintf('Controller "%s" for URI "%s" is not callable.', \get_class($controller), $request->getPathInfo()));
         }
 
-        if (false === strpos($controller, ':')) {
+        if (\is_string($controller) && false === strpos($controller, ':')) {
             if (method_exists($controller, '__invoke')) {
                 return $this->instantiateController($controller);
             } elseif (\function_exists($controller)) {
@@ -66,13 +85,77 @@ class ControllerResolver implements ControllerResolverInterface
             }
         }
 
-        $callable = $this->createController($controller);
-
-        if (!\is_callable($callable)) {
-            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable. %s', $request->getPathInfo(), $this->getControllerError($callable)));
+        try {
+            $callable = $this->createController($controller);
+        } catch (\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$e->getMessage(), 0, $e);
         }
 
         return $callable;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @deprecated This method is deprecated as of 3.1 and will be removed in 4.0. Implement the ArgumentResolverInterface and inject it in the HttpKernel instead.
+     */
+    public function getArguments(Request $request, $controller)
+    {
+        @trigger_error(sprintf('The "%s()" method is deprecated as of 3.1 and will be removed in 4.0. Implement the %s and inject it in the HttpKernel instead.', __METHOD__, ArgumentResolverInterface::class), \E_USER_DEPRECATED);
+
+        if (\is_array($controller)) {
+            $r = new \ReflectionMethod($controller[0], $controller[1]);
+        } elseif (\is_object($controller) && !$controller instanceof \Closure) {
+            $r = new \ReflectionObject($controller);
+            $r = $r->getMethod('__invoke');
+        } else {
+            $r = new \ReflectionFunction($controller);
+        }
+
+        return $this->doGetArguments($request, $controller, $r->getParameters());
+    }
+
+    /**
+     * @param callable               $controller
+     * @param \ReflectionParameter[] $parameters
+     *
+     * @return array The arguments to use when calling the action
+     *
+     * @deprecated This method is deprecated as of 3.1 and will be removed in 4.0. Implement the ArgumentResolverInterface and inject it in the HttpKernel instead.
+     */
+    protected function doGetArguments(Request $request, $controller, array $parameters)
+    {
+        @trigger_error(sprintf('The "%s()" method is deprecated as of 3.1 and will be removed in 4.0. Implement the %s and inject it in the HttpKernel instead.', __METHOD__, ArgumentResolverInterface::class), \E_USER_DEPRECATED);
+
+        $attributes = $request->attributes->all();
+        $arguments = [];
+        foreach ($parameters as $param) {
+            if (\array_key_exists($param->name, $attributes)) {
+                if ($this->supportsVariadic && $param->isVariadic() && \is_array($attributes[$param->name])) {
+                    $arguments = array_merge($arguments, array_values($attributes[$param->name]));
+                } else {
+                    $arguments[] = $attributes[$param->name];
+                }
+            } elseif ($this->typeMatchesRequestClass($param, $request)) {
+                $arguments[] = $request;
+            } elseif ($param->isDefaultValueAvailable()) {
+                $arguments[] = $param->getDefaultValue();
+            } elseif ($this->supportsScalarTypes && $param->hasType() && $param->allowsNull()) {
+                $arguments[] = null;
+            } else {
+                if (\is_array($controller)) {
+                    $repr = sprintf('%s::%s()', \get_class($controller[0]), $controller[1]);
+                } elseif (\is_object($controller)) {
+                    $repr = \get_class($controller);
+                } else {
+                    $repr = $controller;
+                }
+
+                throw new \RuntimeException(sprintf('Controller "%s" requires that you provide a value for the "$%s" argument (because there is no default value or because there is a non optional argument after this one).', $repr, $param->name));
+            }
+        }
+
+        return $arguments;
     }
 
     /**
@@ -82,7 +165,7 @@ class ControllerResolver implements ControllerResolverInterface
      *
      * @return callable A PHP callable
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException When the controller cannot be created
      */
     protected function createController($controller)
     {
@@ -96,7 +179,13 @@ class ControllerResolver implements ControllerResolverInterface
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist.', $class));
         }
 
-        return array($this->instantiateController($class), $method);
+        $controller = [$this->instantiateController($class), $method];
+
+        if (!\is_callable($controller)) {
+            throw new \InvalidArgumentException($this->getControllerError($controller));
+        }
+
+        return $controller;
     }
 
     /**
@@ -132,7 +221,7 @@ class ControllerResolver implements ControllerResolverInterface
         }
 
         if (2 !== \count($callable)) {
-            return 'Invalid format for controller, expected array(controller, method) or controller::method.';
+            return 'Invalid format for controller, expected [controller, method] or controller::method.';
         }
 
         list($controller, $method) = $callable;
@@ -149,7 +238,7 @@ class ControllerResolver implements ControllerResolverInterface
 
         $collection = get_class_methods($controller);
 
-        $alternatives = array();
+        $alternatives = [];
 
         foreach ($collection as $item) {
             $lev = levenshtein($method, $item);
@@ -170,5 +259,23 @@ class ControllerResolver implements ControllerResolverInterface
         }
 
         return $message;
+    }
+
+    /**
+     * @return bool
+     */
+    private function typeMatchesRequestClass(\ReflectionParameter $param, Request $request)
+    {
+        if (!method_exists($param, 'getType')) {
+            return $param->getClass() && $param->getClass()->isInstance($request);
+        }
+
+        if (!($type = $param->getType()) || $type->isBuiltin()) {
+            return false;
+        }
+
+        $class = new \ReflectionClass($type instanceof \ReflectionNamedType ? $type->getName() : (string) $type);
+
+        return $class && $class->isInstance($request);
     }
 }

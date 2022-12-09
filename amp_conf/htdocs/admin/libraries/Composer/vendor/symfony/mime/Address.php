@@ -12,6 +12,7 @@
 namespace Symfony\Component\Mime;
 
 use Egulias\EmailValidator\EmailValidator;
+use Egulias\EmailValidator\Validation\MessageIDValidation;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use Symfony\Component\Mime\Encoder\IdnAddressEncoder;
 use Symfony\Component\Mime\Exception\InvalidArgumentException;
@@ -51,7 +52,7 @@ final class Address
         $this->address = trim($address);
         $this->name = trim(str_replace(["\n", "\r"], '', $name));
 
-        if (!self::$validator->isValid($this->address, new RFCValidation())) {
+        if (!self::$validator->isValid($this->address, class_exists(MessageIDValidation::class) ? new MessageIDValidation() : new RFCValidation())) {
             throw new RfcComplianceException(sprintf('Email "%s" does not comply with addr-spec of RFC 2822.', $address));
         }
     }
@@ -77,7 +78,16 @@ final class Address
 
     public function toString(): string
     {
-        return ($n = $this->getName()) ? $n.' <'.$this->getEncodedAddress().'>' : $this->getEncodedAddress();
+        return ($n = $this->getEncodedName()) ? $n.' <'.$this->getEncodedAddress().'>' : $this->getEncodedAddress();
+    }
+
+    public function getEncodedName(): string
+    {
+        if ('' === $this->getName()) {
+            return '';
+        }
+
+        return sprintf('"%s"', preg_replace('/"/u', '\"', $this->getName()));
     }
 
     /**
@@ -88,23 +98,24 @@ final class Address
         if ($address instanceof self) {
             return $address;
         }
-        if (\is_string($address)) {
-            if (false === strpos($address, '<')) {
-                return new self($address);
-            }
 
-            if (!preg_match(self::FROM_STRING_PATTERN, $address, $matches)) {
-                throw new InvalidArgumentException(sprintf('Could not parse "%s" to a "%s" instance.', $address, self::class));
-            }
-
-            return new self($matches['addrSpec'], trim($matches['displayName'], ' \'"'));
+        if (!\is_string($address)) {
+            throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
         }
 
-        throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
+        if (false === strpos($address, '<')) {
+            return new self($address);
+        }
+
+        if (!preg_match(self::FROM_STRING_PATTERN, $address, $matches)) {
+            throw new InvalidArgumentException(sprintf('Could not parse "%s" to a "%s" instance.', $address, self::class));
+        }
+
+        return new self($matches['addrSpec'], trim($matches['displayName'], ' \'"'));
     }
 
     /**
-     * @param (Address|string)[] $addresses
+     * @param array<Address|string> $addresses
      *
      * @return Address[]
      */
@@ -125,7 +136,7 @@ final class Address
     {
         trigger_deprecation('symfony/mime', '5.2', '"%s()" is deprecated, use "%s::create()" instead.', __METHOD__, __CLASS__);
 
-        if (false === strpos($string, '<')) {
+        if (!str_contains($string, '<')) {
             return new self($string, '');
         }
 

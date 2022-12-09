@@ -109,6 +109,11 @@ abstract class AbstractHeader implements HeaderInterface
                 }
                 $phraseStr = $this->encodeWords($header, $string, $usedLength);
             }
+        } elseif (str_contains($phraseStr, '(')) {
+            foreach (['\\', '"'] as $char) {
+                $phraseStr = str_replace($char, '\\'.$char, $phraseStr);
+            }
+            $phraseStr = '"'.$phraseStr.'"';
         }
 
         return $phraseStr;
@@ -164,14 +169,14 @@ abstract class AbstractHeader implements HeaderInterface
             if ($this->tokenNeedsEncoding($token)) {
                 $encodedToken .= $token;
             } else {
-                if (\strlen($encodedToken) > 0) {
+                if ('' !== $encodedToken) {
                     $tokens[] = $encodedToken;
                     $encodedToken = '';
                 }
                 $tokens[] = $token;
             }
         }
-        if (\strlen($encodedToken)) {
+        if ('' !== $encodedToken) {
             $tokens[] = $encodedToken;
         }
 
@@ -195,7 +200,7 @@ abstract class AbstractHeader implements HeaderInterface
         $encodingWrapperLength = \strlen('=?'.$charsetDecl.'?'.self::$encoder->getName().'??=');
 
         if ($firstLineOffset >= 75) {
-            //Does this logic need to be here?
+            // Does this logic need to be here?
             $firstLineOffset = 0;
         }
 
@@ -262,7 +267,7 @@ abstract class AbstractHeader implements HeaderInterface
             // Line longer than specified maximum or token was just a new line
             if (("\r\n" === $token) ||
                 ($i > 0 && \strlen($currentLine.$token) > $this->lineLength)
-                && 0 < \strlen($currentLine)) {
+                && '' !== $currentLine) {
                 $headerLines[] = '';
                 $currentLine = &$headerLines[$lineCount++];
             }

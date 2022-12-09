@@ -141,20 +141,11 @@ class XliffFileDumper extends FileDumper
         $xliff->setAttribute('trgLang', str_replace('_', '-', $messages->getLocale()));
 
         $xliffFile = $xliff->appendChild($dom->createElement('file'));
-        if (MessageCatalogue::INTL_DOMAIN_SUFFIX === substr($domain, -($suffixLength = \strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX)))) {
-            $xliffFile->setAttribute('id', substr($domain, 0, -$suffixLength).'.'.$messages->getLocale());
-        } else {
-            $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
-        }
+        $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
 
         foreach ($messages->all($domain) as $source => $target) {
             $translation = $dom->createElement('unit');
             $translation->setAttribute('id', strtr(substr(base64_encode(hash('sha256', $source, true)), 0, 7), '/+', '._'));
-            $name = $source;
-            if (\strlen($source) > 80) {
-                $name = substr(md5($source), -7);
-            }
-            $translation->setAttribute('name', $name);
             $metadata = $messages->getMetadata($source, $domain);
 
             // Add notes section

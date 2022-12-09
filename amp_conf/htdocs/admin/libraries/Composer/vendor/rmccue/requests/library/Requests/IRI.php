@@ -67,28 +67,28 @@ class Requests_IRI {
 	/**
 	 * Scheme
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	protected $scheme = null;
 
 	/**
 	 * User Information
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	protected $iuserinfo = null;
 
 	/**
 	 * ihost
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	protected $ihost = null;
 
 	/**
 	 * Port
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	protected $port = null;
 
@@ -102,12 +102,12 @@ class Requests_IRI {
 	/**
 	 * iquery
 	 *
-	 * @var string|null
+	 * @var string
 	 */
 	protected $iquery = null;
 
 	/**
-	 * ifragment|null
+	 * ifragment
 	 *
 	 * @var string
 	 */
@@ -118,8 +118,6 @@ class Requests_IRI {
 	 *
 	 * Each key is the scheme, each value is an array with each key as the IRI
 	 * part and value as the default value for that part.
-	 *
-	 * @var array
 	 */
 	protected $normalization = array(
 		'acap' => array(
@@ -251,9 +249,9 @@ class Requests_IRI {
 	 *
 	 * Returns false if $base is not absolute, otherwise an IRI.
 	 *
-	 * @param Requests_IRI|string $base (Absolute) Base IRI
-	 * @param Requests_IRI|string $relative Relative IRI
-	 * @return Requests_IRI|false
+	 * @param IRI|string $base (Absolute) Base IRI
+	 * @param IRI|string $relative Relative IRI
+	 * @return IRI|false
 	 */
 	public static function absolutize($base, $relative) {
 		if (!($relative instanceof Requests_IRI)) {
@@ -421,7 +419,7 @@ class Requests_IRI {
 	 */
 	protected function replace_invalid_with_pct_encoding($string, $extra_chars, $iprivate = false) {
 		// Normalize as many pct-encoded sections as possible
-		$string = preg_replace_callback('/(?:%[A-Fa-f0-9]{2})+/', array($this, 'remove_iunreserved_percent_encoded'), $string);
+		$string = preg_replace_callback('/(?:%[A-Fa-f0-9]{2})+/', array(&$this, 'remove_iunreserved_percent_encoded'), $string);
 
 		// Replace invalid percent characters
 		$string = preg_replace('/%(?![A-Fa-f0-9]{2})/', '%25', $string);
@@ -1012,7 +1010,7 @@ class Requests_IRI {
 	/**
 	 * Get the complete IRI
 	 *
-	 * @return string|false
+	 * @return string
 	 */
 	protected function get_iri() {
 		if (!$this->is_valid()) {
@@ -1049,7 +1047,7 @@ class Requests_IRI {
 	/**
 	 * Get the complete iauthority
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	protected function get_iauthority() {
 		if ($this->iuserinfo === null && $this->ihost === null && $this->port === null) {

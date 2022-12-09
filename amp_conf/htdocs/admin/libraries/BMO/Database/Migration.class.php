@@ -18,10 +18,10 @@ class Migration {
 	private $version;
 	private $driver;
 
-	public function __construct($conn, $version) {
+	public function __construct($conn, $version, $driverName) {
 		$this->conn = $conn;
 		$this->version = $version;
-		$this->driver = $this->conn->getDriver()->getName();
+		$this->driver = $driverName;
 		//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
 		$this->conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 	}
