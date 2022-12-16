@@ -158,6 +158,10 @@ if (!isset($modules)) {
 //Hide the only module that would end up confusing people
 unset($modules['builtin']);
 //--------------------------------------------------------------------------------------------------------
+$sam = \FreePBX::Modules()->checkStatus('sysadmin');
+if($sam){
+	$sa = \FreePBX::Sysadmin();
+}
 switch ($action) {
 		case 'setrepo':
 			$repo = str_replace("_repo","",$REQUEST['id']);
@@ -169,8 +173,8 @@ switch ($action) {
 			}
 		break;
 		case 'restarthttpd':
-			if(\FreePBX::Modules()->checkStatus('sysadmin')){
-				\FreePBX::Sysadmin()->runHook("update-ports");
+			if($sam){
+				$sa->runHook("update-ports");
 			}
 			break;
 		case 'process':
@@ -1170,6 +1174,11 @@ switch ($action) {
 			show_view(__DIR__.'/views/module_admin/tab-systemupdates.php', $summary);
 		} else {
 			show_view(__DIR__.'/views/module_admin/unable-to-sysupdate.php');
+		}
+		if($sam){
+			$displayvars["licenses"] = sysadmin_get_license();
+			$displayvars["mod_lic"] = $sa->getModuleLicenseInformation();
+			show_view(__DIR__ . '/views/module_admin/tab-licenses.php',$displayvars);
 		}
 		show_view(__DIR__ . '/views/module_admin/tabfooter.php');
 		break;

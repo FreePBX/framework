@@ -17,6 +17,13 @@ if ($activetab == "modules") {
     <li role="presentation"><a href="#scheduletab" aria-controls="scheduletab" role="tab" data-toggle="tab"><?php echo _("Scheduler and Alerts")?></a></li>
     <li role="presentation" <?php echo $m; ?>><a href="#modulestab" aria-controls="modulestab" role="tab" data-toggle="tab"><?php echo _("Module Updates")?></a></li>
     <li role="presentation"><a href="#systemupdatestab" aria-controls="systemupdatestab" role="tab" data-toggle="tab"><?php echo _("System Updates")?></a></li>
+    <?php 
+    if(\FreePBX::Modules()->checkStatus('sysadmin')){
+    ?>
+    <li role="presentation"><a href="#licensestab" aria-controls="licensestab" role="tab" data-toggle="tab"><?php echo _("Commercial Licenses")?></a></li>
+    <?php 
+    }
+    ?>
   </ul>
   <div class='tab-content display'>
 
