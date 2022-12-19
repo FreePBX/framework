@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-28 09:38+0000\n"
+"POT-Creation-Date: 2022-12-19 05:36+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -644,11 +644,11 @@ msgstr ""
 msgid "1 RPM available for upgrade"
 msgstr ""
 
-#: ../core/views/routing/form.php:715 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:717 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr "Padrões de 10 dígitos"
 
-#: ../core/views/routing/form.php:717 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:719 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr "Padrões de 11 Dígitos"
 
@@ -657,7 +657,7 @@ msgstr "Padrões de 11 Dígitos"
 msgid "404 Not found (%s)"
 msgstr "404 Não Encontrado (%s)"
 
-#: ../core/views/routing/form.php:713 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:715 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr "Padrões de 7 dígitos"
 
@@ -890,12 +890,12 @@ msgstr "Aceitar"
 msgid "Access Restrictions"
 msgstr "Restrições De Acesso"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:237
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 #: ../core/functions.inc/drivers/Sip.class.php:479
 msgid "Account Code"
 msgstr "Código da Conta"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:236
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Account Code for this extension"
 msgstr "Código de conta para esta extensão"
 
@@ -1142,7 +1142,7 @@ msgstr "Configurações Avançadas"
 msgid "Advanced Settings Details"
 msgstr "Detalhes Configurações Avançadas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:281
+#: ../core/functions.inc/drivers/PJSip.class.php:293
 msgid "Aggregate MWI"
 msgstr "MWI Agregado"
 
@@ -1249,17 +1249,21 @@ msgstr ""
 msgid "Allow Any CID"
 msgstr "Permitir Qualquer CID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 #: ../core/views/trunks/pjsip.php:1143
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 "Permitir Cabeçalho de contato se reescrito com o endereço-porta IP de origem"
 
+#: ../core/install.php:1160
+msgid "Allow Data from other Modules"
+msgstr ""
+
 #: amp.i18n.php:792
 msgid "Allow Login With DB Credentials"
 msgstr "Permitir Logar Com Credenciar BD"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:333
+#: ../core/functions.inc/drivers/PJSip.class.php:345
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
 
@@ -1292,7 +1296,7 @@ msgid "Alt for Left Logo"
 msgstr "Alt para Logo Esquerdo"
 
 #: ../core/functions.inc.php:4668
-#: ../core/functions.inc/drivers/PJSip.class.php:314
+#: ../core/functions.inc/drivers/PJSip.class.php:326
 msgid "Always"
 msgstr "Sempre"
 
@@ -1751,7 +1755,7 @@ msgstr ""
 "Gerenciador de Usuários"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:159
-#: ../core/functions.inc/drivers/PJSip.class.php:269
+#: ../core/functions.inc/drivers/PJSip.class.php:281
 #: ../core/functions.inc/drivers/Sip.class.php:295
 #: ../core/functions.inc/drivers/Sip.class.php:299
 #: ../core/views/trunks/pjsip.php:259
@@ -2614,7 +2618,7 @@ msgstr "URI de Cliente"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:734 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:736 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "Fechar"
 
@@ -2762,7 +2766,7 @@ msgstr ""
 msgid "Context to send the Inbound Call to."
 msgstr "Contexto para enviar Chamada de Entrada."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:368
+#: ../core/functions.inc/drivers/PJSip.class.php:380
 msgid "Context where SIP MESSAGEs from this endpoint will be processed"
 msgstr ""
 
@@ -2800,7 +2804,7 @@ msgid ""
 "inbound trunk's context. (see extensions_additional.conf)."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:249
+#: ../core/functions.inc/drivers/PJSip.class.php:261
 msgid ""
 "Controls whether an additional registration will be permitted when "
 "max_contacts has already been met. If set to 'Yes', new registrations will "
@@ -3279,7 +3283,7 @@ msgstr ""
 "você não usar os valores padrão fornecidos pelo FreePBX. <br>Número da porta "
 "para o host bd."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:306
+#: ../core/functions.inc/drivers/PJSip.class.php:318
 msgid "DTLS-SRTP (not recommended)"
 msgstr "DTLS-SRTP (não recomendado)"
 
@@ -3511,7 +3515,7 @@ msgstr ""
 "para pontos de extremidade dinâmicos ou igual ao número de ramal para vários "
 "pontos de extremidade que residem no mesmo IP (VoIP Gateways)."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:299
+#: ../core/functions.inc/drivers/PJSip.class.php:311
 msgid "Defaults and enables some options that are relevant to WebRTC"
 msgstr ""
 
@@ -3732,7 +3736,7 @@ msgid ""
 "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:332
+#: ../core/functions.inc/drivers/PJSip.class.php:344
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3747,7 +3751,7 @@ msgstr ""
 "Determina se desafios de autenticação falhados são tratados como falhas "
 "permanentes."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:326
+#: ../core/functions.inc/drivers/PJSip.class.php:338
 #: ../core/views/trunks/pjsip.php:1117
 msgid "Determines whether media may flow directly between endpoints."
 msgstr ""
@@ -3759,14 +3763,14 @@ msgid ""
 "for this endpoint. %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:307
+#: ../core/functions.inc/drivers/PJSip.class.php:319
 msgid ""
 "Determines whether res_pjsip will use and enforce usage of media encryption "
 "for this endpoint. Auto will enable SRTP via in-SDP encryption if TLS is "
 "enabled in SIPSettings."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3818,7 +3822,7 @@ msgstr "Opções do dispositivo"
 msgid "Device Settings"
 msgstr "Configurações de Dispositivo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:342
+#: ../core/functions.inc/drivers/PJSip.class.php:354
 msgid "Device State Busy at"
 msgstr "Estado do Dispositivo Ocupado em"
 
@@ -3879,7 +3883,7 @@ msgstr "Padrões de Discagem que usarão esta Rota"
 msgid "Dial pattern matched"
 msgstr ""
 
-#: ../core/views/routing/form.php:450 ../core/views/routing/form.php:692
+#: ../core/views/routing/form.php:450 ../core/views/routing/form.php:694
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -3906,7 +3910,7 @@ msgstr ""
 "conferir com o padrão especificado pelas colunas subsequentes então isto "
 "será acrescentado antes de enviar aos troncos."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:327
+#: ../core/functions.inc/drivers/PJSip.class.php:339
 #: ../core/views/trunks/pjsip.php:1102
 msgid "Direct Media"
 msgstr ""
@@ -4236,7 +4240,7 @@ msgstr "Baixar para %s, manter Desabilitado"
 msgid "Download (From Web)"
 msgstr "Baixar (Da Web)"
 
-#: ../core/views/routing/form.php:709 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:711 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr "Download Padrões Locais"
 
@@ -4273,7 +4277,7 @@ msgstr ""
 msgid "Download completed in %s seconds"
 msgstr ""
 
-#: ../core/views/routing/form.php:698 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:700 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr "Baixar prefixos locais"
 
@@ -4338,7 +4342,7 @@ msgid ""
 "Dry-run only, no files will be written and Asterisk will not be reloaded"
 msgstr ""
 
-#: ../core/install.php:1134
+#: ../core/install.php:1133
 msgid ""
 "Due to bug FREEPBX-18620 routes were created without valid references which "
 "made them invisible. They are now visible and you are advised to edit/delete "
@@ -4448,7 +4452,7 @@ msgstr "Endereço de Email"
 msgid "Email Address:"
 msgstr ""
 
-#: ../core/views/routing/form.php:642
+#: ../core/views/routing/form.php:644
 msgid "Email Body"
 msgstr ""
 
@@ -4549,7 +4553,7 @@ msgstr "Habilitar Faixas de Módulos"
 msgid "Enable Performance Logging"
 msgstr "Habilitar Relatório de Desempenho"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:288
+#: ../core/functions.inc/drivers/PJSip.class.php:300
 msgid "Enable RTP bundling"
 msgstr ""
 
@@ -4570,7 +4574,7 @@ msgstr ""
 msgid "Enable Token Based Security"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:300
+#: ../core/functions.inc/drivers/PJSip.class.php:312
 msgid "Enable WebRTC defaults"
 msgstr ""
 
@@ -4718,6 +4722,13 @@ msgstr "Ativando Tronco "
 msgid "Enabling Trunk %s Run fwconsole reload"
 msgstr ""
 
+#: ../core/install.php:1161
+msgid ""
+"Enabling this will allow data to be hooked in from other modules which will "
+"be added to the mail body of the notification email which is sent when a "
+"call is made."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/components.class.php:53
 msgid "Endpoint"
 msgstr "Ponto final"
@@ -4738,7 +4749,7 @@ msgstr ""
 msgid "Enforce RFC7462"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:257
+#: ../core/functions.inc/drivers/PJSip.class.php:269
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -5473,7 +5484,7 @@ msgstr "Bandeiras"
 msgid "Flash Operator Panel"
 msgstr "Painel do Operador Flash"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:271
+#: ../core/functions.inc/drivers/PJSip.class.php:283
 msgid ""
 "For Message Waiting indicators there are three types: Auto, Solicited and "
 "Unsolicited. Auto means the PBX will try to automatically determine the type "
@@ -5482,7 +5493,7 @@ msgid ""
 "and should only be changed if you see errors in the Asterisk logs"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:267
+#: ../core/functions.inc/drivers/PJSip.class.php:279
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -5615,7 +5626,7 @@ msgstr ""
 "Forçar operação (pula dependências e verificação de status) <warning>AVISO:</"
 "warning> Use por sua conta em risco, módulos têm dependências por um motivo!"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:262
+#: ../core/functions.inc/drivers/PJSip.class.php:274
 #: ../core/views/trunks/pjsip.php:1207
 msgid "Force rport"
 msgstr "Forçar rport"
@@ -5645,11 +5656,11 @@ msgstr "Forçar execução de rotinas asterisk pre-início"
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pre-parada"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:261
+#: ../core/functions.inc/drivers/PJSip.class.php:273
 msgid "Force use of return port."
 msgstr "Forçar uso de porta de retorno."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:315
+#: ../core/functions.inc/drivers/PJSip.class.php:327
 msgid "Forced"
 msgstr "Forçado"
 
@@ -5924,7 +5935,7 @@ msgstr "Intervalo Geral de Tentativa"
 msgid "General Settings"
 msgstr "Configurações Gerais"
 
-#: ../core/views/routing/form.php:699 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:701 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr "Gerar botões"
 
@@ -5932,7 +5943,7 @@ msgstr "Gerar botões"
 msgid "Generate Diversion Headers"
 msgstr "Gerar Cabeçalhos de Desvio"
 
-#: ../core/views/routing/form.php:735 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:737 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr "Gerar Rotas"
 
@@ -5969,7 +5980,7 @@ msgstr "Driver Genérico DAHDi"
 msgid "Generic IAX2 Driver"
 msgstr "Driver Genérico IAX2"
 
-#: ../core/views/routing/form.php:700 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:702 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr "Padrões Genéricos"
 
@@ -7081,7 +7092,7 @@ msgstr ""
 msgid "Killing asterisk forcefully."
 msgstr "Matando Asterisk com força."
 
-#: ../core/views/routing/form.php:680 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:682 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr "ROTAS DE CARREGAMENTO"
 
@@ -7236,7 +7247,7 @@ msgstr "Logo em footer.Path é relativo a admin."
 msgid "Logout"
 msgstr "Sair"
 
-#: ../core/views/routing/form.php:729 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:731 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr "Longa Distância"
 
@@ -7254,7 +7265,7 @@ msgstr "Endereço MAC"
 msgid "MISSING FEATURE CODE %s:%s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:275
+#: ../core/functions.inc/drivers/PJSip.class.php:287
 msgid "MWI Subscription Type"
 msgstr "MWI Tipo de Inscrição"
 
@@ -7306,7 +7317,7 @@ msgstr "Gerenciar notificações"
 msgid "Manually Loaded Modules"
 msgstr "Módulos Carregados Manualmente"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:347
+#: ../core/functions.inc/drivers/PJSip.class.php:359
 #: ../core/views/trunks/pjsip.php:776
 msgid "Match (Permit)"
 msgstr "Correspondência (Permissão)"
@@ -7319,7 +7330,7 @@ msgstr ""
 msgid "Matches the endpoint based on the selected options."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:240
+#: ../core/functions.inc/drivers/PJSip.class.php:252
 msgid "Max Contacts"
 msgstr "Máximo de Contatos"
 
@@ -7336,11 +7347,11 @@ msgstr "Máximo de Tentativas"
 msgid "Max attempts"
 msgstr "Máximo de Tentativas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:292
+#: ../core/functions.inc/drivers/PJSip.class.php:304
 msgid "Max audio streams"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:295
+#: ../core/functions.inc/drivers/PJSip.class.php:307
 msgid "Max video streams"
 msgstr ""
 
@@ -7348,7 +7359,7 @@ msgstr ""
 msgid "Maximum Channels"
 msgstr "Máximo de canais"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:351
+#: ../core/functions.inc/drivers/PJSip.class.php:363
 msgid "Maximum Expiration"
 msgstr "Prazo Máximo"
 
@@ -7358,17 +7369,17 @@ msgstr ""
 "Quantidade máxima de tempo (em segundos) para aguardar o desligamento do "
 "asterisk"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:239
+#: ../core/functions.inc/drivers/PJSip.class.php:251
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 "Número máximo de pontos de extremidade que podem ser associados a este "
 "dispositivo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:291
+#: ../core/functions.inc/drivers/PJSip.class.php:303
 msgid "Maximum number of allowed audio streams for the endpoint"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:294
+#: ../core/functions.inc/drivers/PJSip.class.php:306
 msgid "Maximum number of allowed video streams for the endpoint"
 msgstr ""
 
@@ -7384,13 +7395,13 @@ msgstr ""
 "que foi comprometido. Limitará o número de chamadas simultâneas que podem "
 "ser feitas na extensão comprometida."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:358
+#: ../core/functions.inc/drivers/PJSip.class.php:370
 msgid ""
 "Maximum number of seconds without receiving RTP (while off hold) before "
 "terminating call."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:362
+#: ../core/functions.inc/drivers/PJSip.class.php:374
 msgid ""
 "Maximum number of seconds without receiving RTP (while on hold) before "
 "terminating call."
@@ -7404,7 +7415,7 @@ msgstr ""
 "Tempo máximo (em segundos) para aguardar que o asterisk pare graciosamente. "
 "Padrão 30 segundos"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:350
+#: ../core/functions.inc/drivers/PJSip.class.php:362
 msgid "Maximum time to keep an AoR"
 msgstr "Tempo máximo para manter um AoR"
 
@@ -7416,7 +7427,7 @@ msgstr "Pode ser inválido Verifique a ortografia"
 msgid "Media Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:308
+#: ../core/functions.inc/drivers/PJSip.class.php:320
 #: ../core/views/trunks/pjsip.php:1179
 msgid "Media Encryption"
 msgstr "Criptografia de Mídia"
@@ -7425,7 +7436,7 @@ msgstr "Criptografia de Mídia"
 msgid "Media Only"
 msgstr "Somente Mídia"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:267
 msgid "Media Use Received Transport"
 msgstr "Uso de Mídia Transporte Recebido"
 
@@ -7456,7 +7467,7 @@ msgstr ""
 msgid "Message of the request"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:369
+#: ../core/functions.inc/drivers/PJSip.class.php:381
 msgid "Messages Context"
 msgstr ""
 
@@ -7468,7 +7479,7 @@ msgstr "Migrar valores atuais para freepbx_conf.."
 msgid "Migrating call groups to named call groups"
 msgstr "Migrando grupos de chamadas para grupos de chamadas com nome"
 
-#: ../core/install.php:1070
+#: ../core/install.php:1069
 msgid "Migrating force_rport to the right default value..."
 msgstr "Migrando force_rport para o valor padrão correto..."
 
@@ -7477,7 +7488,7 @@ msgstr "Migrando force_rport para o valor padrão correto..."
 msgid "Migrating http setting '%s' to Advanced Settings..."
 msgstr "Migrando a configuração de http '%s' para Configurações Avançadas..."
 
-#: ../core/install.php:1086
+#: ../core/install.php:1085
 msgid "Migrating old media encryption values..."
 msgstr ""
 
@@ -7489,7 +7500,7 @@ msgstr "Migrando grupos de captadores para grupos de captura nomeados"
 msgid "Min Length"
 msgstr "Comprimento Mínimo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:355
+#: ../core/functions.inc/drivers/PJSip.class.php:367
 msgid "Minimum Expiration"
 msgstr "Expiração Mínima"
 
@@ -7508,13 +7519,13 @@ msgid ""
 "valid. Default value is 10"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:320
+#: ../core/functions.inc/drivers/PJSip.class.php:332
 msgid ""
 "Minimum session timer expiration period. Time in seconds. This does not "
 "matter if Session Timers is set to No"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:354
+#: ../core/functions.inc/drivers/PJSip.class.php:366
 msgid "Minimum time to keep an AoR"
 msgstr "Tempo mínimo para manter AoR"
 
@@ -7561,7 +7572,7 @@ msgstr "Faltando nome do módulo ou URL"
 msgid "Missing module.xml in %s"
 msgstr "Faltando module.xml em %s"
 
-#: ../core/install.php:1134
+#: ../core/install.php:1133
 msgid "Missing outbound routes have been found"
 msgstr ""
 
@@ -8077,13 +8088,13 @@ msgstr "Todas as noites"
 #: ../core/functions.inc/drivers/Dahdi.class.php:138
 #: ../core/functions.inc/drivers/Iax2.class.php:120
 #: ../core/functions.inc/drivers/Iax2.class.php:158
-#: ../core/functions.inc/drivers/PJSip.class.php:278
-#: ../core/functions.inc/drivers/PJSip.class.php:285
+#: ../core/functions.inc/drivers/PJSip.class.php:290
 #: ../core/functions.inc/drivers/PJSip.class.php:297
-#: ../core/functions.inc/drivers/PJSip.class.php:311
-#: ../core/functions.inc/drivers/PJSip.class.php:324
-#: ../core/functions.inc/drivers/PJSip.class.php:330
+#: ../core/functions.inc/drivers/PJSip.class.php:309
+#: ../core/functions.inc/drivers/PJSip.class.php:323
 #: ../core/functions.inc/drivers/PJSip.class.php:336
+#: ../core/functions.inc/drivers/PJSip.class.php:342
+#: ../core/functions.inc/drivers/PJSip.class.php:348
 #: ../core/functions.inc/drivers/Sip.class.php:310
 #: ../core/functions.inc/drivers/Sip.class.php:326
 #: ../core/functions.inc/drivers/Sip.class.php:334
@@ -8230,7 +8241,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:537
 #: ../core/functions.inc.php:4661
-#: ../core/functions.inc/drivers/PJSip.class.php:304
+#: ../core/functions.inc/drivers/PJSip.class.php:316
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
 #: ../core/views/trunks/pjsip.php:107 ../core/views/trunks/pjsip.php:126
 #: ../core/views/trunks/pjsip.php:858 ../core/views/trunks/pjsip.php:1184
@@ -8785,7 +8796,7 @@ msgstr "Saída Chamadas Externas"
 msgid "Outbound Internal Calls"
 msgstr "Saída Chamadas Internas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:366
+#: ../core/functions.inc/drivers/PJSip.class.php:378
 #: ../core/views/trunks/pjsip.php:527 ../core/views/trunks/pjsip.php:539
 msgid "Outbound Proxy"
 msgstr "Proxy de Saída"
@@ -8799,9 +8810,13 @@ msgstr "Rota de Saída:"
 msgid "Outbound Route: %s"
 msgstr "Rota de Saída: %s"
 
-#: amp.i18n.php:922 ../core/page.routing.php:105
+#: amp.i18n.php:922 ../core/page.routing.php:106
 msgid "Outbound Routes"
 msgstr "Rotas de saída"
+
+#: ../core/install.php:1159
+msgid "Outbound Routes Email Notifications"
+msgstr ""
 
 #: ../core/views/routing/bootnav.php:3
 msgid "Outbound Routes List"
@@ -9548,16 +9563,16 @@ msgstr ""
 "Feeds RSS que são exibidos em UCP e Dashboard. Separe cada feed por uma nova "
 "linha. Os feeds suportados são Atom 1.0 e RSS 0.91, 0.92, 1.0 e 2.0"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:363
+#: ../core/functions.inc/drivers/PJSip.class.php:375
 msgid "RTP Hold Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:258
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 #: ../core/views/trunks/pjsip.php:1153
 msgid "RTP Symmetric"
 msgstr "RTP Simétrico"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:359
+#: ../core/functions.inc/drivers/PJSip.class.php:371
 msgid "RTP Timeout"
 msgstr ""
 
@@ -9649,7 +9664,7 @@ msgstr "Gravação de chamadas de saída para fontes externas."
 msgid "Redundancy"
 msgstr "Redundância"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:339
+#: ../core/functions.inc/drivers/PJSip.class.php:351
 msgid "Refer Blind Progress"
 msgstr ""
 
@@ -9761,7 +9776,7 @@ msgstr "Remover"
 msgid "Remove CNAM"
 msgstr "Remover CNAM"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:250
+#: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid "Remove Existing"
 msgstr ""
 
@@ -9799,7 +9814,7 @@ msgstr ""
 msgid "Removing database table "
 msgstr ""
 
-#: ../core/install.php:1142
+#: ../core/install.php:1141
 msgid "Removing encoding on incoming routes alertinfo values..."
 msgstr ""
 
@@ -9835,7 +9850,7 @@ msgstr "Exigir confirmação antes de Aplicar Alterações"
 msgid "Require Strong Secrets"
 msgstr "Exigir senhas fortes"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:313
+#: ../core/functions.inc/drivers/PJSip.class.php:325
 msgid "Required"
 msgstr "Requerido"
 
@@ -9932,7 +9947,7 @@ msgstr ""
 msgid "Returns particular the advance setting's details"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:260
+#: ../core/functions.inc/drivers/PJSip.class.php:272
 #: ../core/views/trunks/pjsip.php:1128
 msgid "Rewrite Contact"
 msgstr "Reescrever Contato"
@@ -10148,7 +10163,7 @@ msgstr ""
 msgid "SIP trustrpid"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:305
+#: ../core/functions.inc/drivers/PJSip.class.php:317
 #: ../core/views/trunks/pjsip.php:1185
 msgid "SRTP via in-SDP (recommended)"
 msgstr "SRTP via in-SDP (recomendado)"
@@ -10175,7 +10190,7 @@ msgstr ""
 msgid "Save"
 msgstr "Salvar"
 
-#: ../core/views/routing/form.php:654
+#: ../core/views/routing/form.php:656
 msgid ""
 "Saving with a blank value will restore the default.\n"
 "\t\t\t\t\t\t\t<br>See Email Subject Help message for available variables."
@@ -10384,7 +10399,7 @@ msgstr "Sessão deve ser desbloqueado agora"
 msgid "Session Timeout"
 msgstr "Sessão Expirada"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:317
+#: ../core/functions.inc/drivers/PJSip.class.php:329
 #: ../core/functions.inc/drivers/Sip.class.php:370
 msgid "Session Timers"
 msgstr "Temporizadores de Sessão"
@@ -10807,11 +10822,11 @@ msgstr "Ignorar a operação chown"
 msgid "Skipping %s::%s because schedule does not match"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:274
+#: ../core/functions.inc/drivers/PJSip.class.php:286
 msgid "Solicited"
 msgstr "Solicitado"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:338
+#: ../core/functions.inc/drivers/PJSip.class.php:350
 msgid ""
 "Some SIP phones (Mitel/Aastra, Snom) expect a sip/frag \"200 OK\" after "
 "REFER has been accepted. If set to no then asterisk will not send the "
@@ -11854,7 +11869,7 @@ msgstr ""
 "O módulo que você está tentando acessar foi desativado na pendência de uma "
 "alteração de versão."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:341
+#: ../core/functions.inc/drivers/PJSip.class.php:353
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -12010,7 +12025,7 @@ msgstr ""
 "que suportam Session-Timers limparão seu estado de sessão interna. O padrão "
 "é Aceitar."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:316
+#: ../core/functions.inc/drivers/PJSip.class.php:328
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -12162,7 +12177,7 @@ msgstr ""
 msgid "The user's password"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:346
+#: ../core/functions.inc/drivers/PJSip.class.php:358
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -12240,7 +12255,7 @@ msgstr "Ocorreu um erro desconhecido ao criar este ramal"
 msgid "There were no settings to update"
 msgstr "Não havia configurações para atualizar"
 
-#: ../core/views/routing/form.php:696 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:698 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -12465,7 +12480,7 @@ msgstr ""
 "padrão antigo do Asterisk e deve ser definido para esse valor se os arquivos "
 "de música relativos ao ASTVARLIBDIR estão localizados lá."
 
-#: ../core/views/routing/form.php:698 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:700 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -12706,7 +12721,7 @@ msgstr ""
 "Tempo limite, em ms, para tempos limite em casos que o Asterisk se "
 "desconecta frequentemente"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:321
+#: ../core/functions.inc/drivers/PJSip.class.php:333
 msgid "Timer Expiration Period"
 msgstr ""
 
@@ -12869,19 +12884,19 @@ msgstr "Somente UDP"
 msgid "UNSIGNED MODULES DETECTED:"
 msgstr ""
 
-#: ../core/views/routing/form.php:725 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:727 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr "Emergência nos EUA"
 
-#: ../core/views/routing/form.php:723 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:725 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr "Informação dos EUA"
 
-#: ../core/views/routing/form.php:727 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:729 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr ""
 
-#: ../core/views/routing/form.php:721 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:723 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr ""
 
@@ -13150,7 +13165,7 @@ msgstr "Módulo(s) não assinado(s)"
 msgid "Unsigned module notifications are turned off!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:273
+#: ../core/functions.inc/drivers/PJSip.class.php:285
 msgid "Unsolicited"
 msgstr "Não solicitado"
 
@@ -13877,7 +13892,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:280
+#: ../core/functions.inc/drivers/PJSip.class.php:292
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -14064,7 +14079,7 @@ msgid ""
 "break things. Unless you pass this parameter it is readonly"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:287
+#: ../core/functions.inc/drivers/PJSip.class.php:299
 msgid ""
 "With this option enabled, Asterisk will attempt to negotiate the use of "
 "bundle. If negotiated this will result in multiple RTP streams being carried "
@@ -14099,13 +14114,13 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:119
 #: ../core/functions.inc/drivers/Iax2.class.php:157
-#: ../core/functions.inc/drivers/PJSip.class.php:279
-#: ../core/functions.inc/drivers/PJSip.class.php:286
+#: ../core/functions.inc/drivers/PJSip.class.php:291
 #: ../core/functions.inc/drivers/PJSip.class.php:298
-#: ../core/functions.inc/drivers/PJSip.class.php:312
-#: ../core/functions.inc/drivers/PJSip.class.php:325
-#: ../core/functions.inc/drivers/PJSip.class.php:331
+#: ../core/functions.inc/drivers/PJSip.class.php:310
+#: ../core/functions.inc/drivers/PJSip.class.php:324
 #: ../core/functions.inc/drivers/PJSip.class.php:337
+#: ../core/functions.inc/drivers/PJSip.class.php:343
+#: ../core/functions.inc/drivers/PJSip.class.php:349
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/functions.inc/drivers/Sip.class.php:327
 #: ../core/functions.inc/drivers/Sip.class.php:335
@@ -14342,7 +14357,7 @@ msgstr ""
 msgid "You may add multiple subnets, separate them with an &amp;."
 msgstr ""
 
-#: ../core/views/routing/form.php:699 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:701 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -14356,7 +14371,7 @@ msgstr ""
 "Você pode confirmar a seleção restante e, em seguida, verifique novamente "
 "questões listadas uma vez que dependências forem atendidas:"
 
-#: ../core/views/routing/form.php:700 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:702 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -14687,8 +14702,8 @@ msgid "description of the setting"
 msgstr ""
 
 #: install.php:197 install.php:209 install.php:220
-#: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1073
-#: ../core/install.php:1114 ../core/install.php:1156
+#: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1072
+#: ../core/install.php:1113 ../core/install.php:1155
 msgid "done"
 msgstr ""
 
@@ -14713,7 +14728,7 @@ msgstr ""
 msgid "error could not move it"
 msgstr ""
 
-#: ../core/install.php:1075
+#: ../core/install.php:1074
 msgid "error occured"
 msgstr ""
 
