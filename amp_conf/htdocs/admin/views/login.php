@@ -16,7 +16,7 @@
 	</form>
 </div>
 <?php
-	if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
+	if (\FreePBX::Modules()->checkStatus('pbxmfa') && \FreePBX::Pbxmfa()->isLicensed()) {
 	$userType = 'admin';
 	$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
 	include $webrootpath . '/admin/modules/pbxmfa/views/mfa/otpModal.php';
