@@ -69,7 +69,7 @@
                                         }
 
                                         if(!empty($mod_lic[$key]["name"]) && $mod_lic[$key]["name"] != "SmartOffice Bundles" && $mod_lic[$key]["name"] != "Zulu Users" && $mod_lic[$key]["name"] != "Global License Expiration"){
-                                            $infoM = $infoS = "";
+                                            $infoM = $infoS = $text_ex = "";
                                             $classM = $classS = "class='licColStd'";
                                             $msgS30    = _("The Support will expire in less than 30 days.");
                                             $msgS      = _("The Support has expired.");
@@ -133,10 +133,12 @@
                                                     $infoS   = "title='".$msgS."'";
                                                     $infoM   = "title='".$msgM."'";
                                                     $status  = "<i class='fa fa-times'></i>";
+                                                    $text_ex = "text-expired";
+                                                    
                                                     break;
                                             }
                                             echo "<tr>";
-                                            echo "\t<td class='licCol'><i class='fa fa-tasks'></i> <strong>".$mod_lic[$key]["name"]."</strong></td>";
+                                            echo "\t<td class='licCol'><i class='fa fa-tasks'></i> <strong class='$text_ex'>".$mod_lic[$key]["name"]."</strong></td>";
                                             echo "\t<td class='text-center licCol'>$status</td>";
                                             echo "\t<td $classM><span $infoM>$expiry</span></td>";
                                             echo "\t<td $classS><span $infoS>$upd</span></td>";

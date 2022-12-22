@@ -1176,7 +1176,7 @@ switch ($action) {
 			show_view(__DIR__.'/views/module_admin/unable-to-sysupdate.php');
 		}
 		if($sam){
-			$displayvars["licenses"] = sysadmin_get_license();
+			$displayvars["licenses"] = sysadmin_get_license(false);
 			$displayvars["mod_lic"] = $sa->getModuleLicenseInformation();
 			show_view(__DIR__ . '/views/module_admin/tab-licenses.php',$displayvars);
 		}
