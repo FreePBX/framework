@@ -120,4 +120,17 @@ class Mail {
 	public function getMailer() {
 		return $this->mailer;
 	}
+	
+	/**
+	 * Function to get mail template form
+	 * @param Array $templateData is an array of array which consists of form field data.  
+	 */
+	public function getEmailTemplateForm($templateData)
+	{
+		$displayvars = [
+			'templateData' => $templateData
+		];
+		return load_view(__DIR__ . '/../../views/email_template_form.php', $displayvars);
+	}
+
 }
