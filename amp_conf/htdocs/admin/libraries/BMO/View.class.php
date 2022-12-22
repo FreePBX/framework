@@ -66,6 +66,7 @@ class View {
 			"tableexport-1.9.6.js",
 			"timeutils.js",
 			"typeahead.bundle-0.10.5.min.js",
+			"text-editor-1.2.1.js"
 		);
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
