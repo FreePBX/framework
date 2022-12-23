@@ -507,6 +507,13 @@ switch($display) {
 					'', $amp_conf['FOPWEBROOT']);
 			}
 
+			if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
+				$sql = "SELECT val FROM kvstore_FreePBX_modules_Pbxmfa WHERE kvstore_FreePBX_modules_Pbxmfa.key = 'PBXMFA_LICENSED'";
+				$sth = FreePBX::Database()->prepare($sql);
+				$sth->execute();
+				$res = $sth->fetch();
+				$login['PBXMFA_LICENSED'] = $res['val'];
+			}
 
 			$login['amp_conf'] = $amp_conf;
 			echo load_view($amp_conf['VIEW_LOGIN'], $login);
