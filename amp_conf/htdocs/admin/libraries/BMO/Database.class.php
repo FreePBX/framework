@@ -146,6 +146,7 @@ class Database extends \PDO {
 				parent::__construct($this->dsn, $username, $password);
 			}
 		} catch(\Exception $e) {
+			$_SESSION['force_remove_stack_trace'] = true;
 			die_freepbx($e->getMessage(), $e);
 		}
 		if(defined('LOGQUERIES')) {
