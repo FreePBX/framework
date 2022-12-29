@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-23 07:05+0000\n"
+"POT-Creation-Date: 2022-12-29 09:35+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1069,7 +1069,7 @@ msgstr ""
 msgid "Add a new inbound route to the system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:728
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:729
 #, php-format
 msgid "Add new %s &#133"
 msgstr "Adicionar novo %s &#133"
@@ -2600,7 +2600,7 @@ msgstr ""
 "Clique em <a href='?display=routing'>Rotas de Saída</a> para configurar uma "
 "rota."
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:953
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:954
 msgid "Click to Expand"
 msgstr ""
 
@@ -3076,7 +3076,7 @@ msgstr "Módulo atual licenciado sob %s"
 msgid "Current setting for %s left in place"
 msgstr "Configuração atual para %s não modificada"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:556
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:557
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
@@ -4452,6 +4452,7 @@ msgstr "Endereço de Email"
 msgid "Email Address:"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/email_template_form.php:18
 #: ../core/views/routing/form.php:644
 msgid "Email Body"
 msgstr ""
@@ -4465,6 +4466,7 @@ msgstr ""
 msgid "Email Only"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/email_template_form.php:12
 #: ../core/views/routing/form.php:597
 msgid "Email Subject"
 msgstr ""
@@ -6164,11 +6166,11 @@ msgstr ""
 msgid "Hint Override"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:566
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:567
 msgid "Hit the play symbol to listen"
 msgstr "Aperte o Play para ouvir"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:564
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:565
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 "Aperte o botão de gravação vermelho para iniciar a gravação a partir do seu "
@@ -8239,7 +8241,7 @@ msgstr ""
 msgid "NodeJS version is: %s requirement is %s or higher"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:537
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:538
 #: ../core/functions.inc.php:4661
 #: ../core/functions.inc/drivers/PJSip.class.php:316
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
@@ -8362,7 +8364,7 @@ msgstr ""
 msgid "Not an array"
 msgstr "Não é um array"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:882
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:883
 msgid "Not received"
 msgstr ""
 
@@ -8449,12 +8451,12 @@ msgid "OEM Reset Port "
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:258
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:951
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:952
 msgid "Object"
 msgstr "Objeto"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:258
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:951
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:952
 msgid "Objects"
 msgstr "Objetos"
 
@@ -10273,7 +10275,7 @@ msgstr "Problema de Segurança"
 msgid "Security Warning"
 msgstr "Aviso de Segurança"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:666
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:667
 msgid "Select a Language"
 msgstr ""
 
@@ -10285,7 +10287,7 @@ msgstr ""
 "Selecione um tom de toque na lista de opções acima. Isto irá determinar como "
 "o seu telefone soa quando é tocado a partir deste grupo."
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:627
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:628
 msgid "Select a Timezone"
 msgstr ""
 
@@ -10375,7 +10377,7 @@ msgstr ""
 msgid "Server URI"
 msgstr "URI do servidor"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:881
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:882
 msgid "Server time:"
 msgstr ""
 
@@ -10419,6 +10421,18 @@ msgstr "Configurar Destino"
 #: amp.i18n.php:502
 msgid "Set Module Admin to Edge mode"
 msgstr "Definir Module Admin para modo Edge"
+
+#: amp_conf/htdocs/admin/views/email_template_form.php:11
+msgid "Set email Subject"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/email_template_form.php:17
+msgid "Set email body"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/email_template_form.php:5
+msgid "Set email type"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:26
 msgid "Set permissions on a specific module: <rawname>"
@@ -12753,7 +12767,7 @@ msgstr ""
 "Para executar a quantidade mínima de conversões de arquivos para suporte a "
 "HTML5 e suporte de conversão, você precisa pelo menos instalar SOX"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:602
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:603
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -12864,6 +12878,10 @@ msgstr ""
 msgid "Type"
 msgstr "Tipo"
 
+#: amp_conf/htdocs/admin/views/email_template_form.php:6
+msgid "Type of email"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid ""
 "Typically the direct address of a module tarball where FreePBX will attempt "
@@ -12908,7 +12926,7 @@ msgstr "Contexto do usuário"
 msgid "USER Details"
 msgstr "Detalhes do usuário"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:639
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:640
 msgid "UTC"
 msgstr ""
 
@@ -13199,7 +13217,7 @@ msgstr "Atualizar"
 msgid "Update Notifications"
 msgstr "Atualizar Notificações"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:601
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:602
 msgid "Update Required"
 msgstr "Atualização necessária"
 
@@ -13417,7 +13435,7 @@ msgid "Use wget For Module Admin"
 msgstr "Usar wget para Módulo Admin"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:260
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:952
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:953
 #, php-format
 msgid "Used as Destination by %s %s"
 msgstr "Usado como destino por %s %s"
@@ -13717,7 +13735,7 @@ msgstr ""
 msgid "Vulnerable, Requires: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/header.php:106
+#: amp_conf/htdocs/admin/views/header.php:107
 #, php-format
 msgid ""
 "WARNING: Javascript is disabled in your browser. The %s administration "
@@ -14653,7 +14671,7 @@ msgstr ""
 msgid "checking if res_odbc.conf needs migration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:725
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:726
 msgid "choose one"
 msgstr ""
 
