@@ -43,6 +43,9 @@
                                     foreach($licenses as $key => $content){
                                         $upd    = empty($update[$key]) ? _("None") : date("Y-m-d",$update[$key]);
                                         $expiry = empty($content) ? _("None") : $content;
+                                        if($expiry != _("None") && !preg_match('/\d{4}-\d{2}-\d{2}/', $expiry)){
+                                            continue;
+                                        };
                                         $status = "<i class='fa fa-check'></i>";
 
                                         /**
