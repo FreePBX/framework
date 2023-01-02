@@ -126,16 +126,8 @@ class featurecode {
 				$this->_featurename
 			);
 		} else {
-			$sql = "UPDATE `featurecodes` (`description`, `helptext`, `defaultcode`, `customcode`, `enabled`, `providedest`, `depend`) VALUES (?,?,?,?,?,?,?)";
-			$sql_data = array(
-				$this->_description,
-				$this->_helptext,
-				$this->_defaultcode,
-				$cc,
-				$this->_enabled,
-				$this->_providedest,
-				$this->_depend,
-			);
+			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, helptext, defaultcode, customcode, enabled, providedest) '.
+        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($cc).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
 		}
 
 		$sth = $this->db->prepare($sql);
