@@ -6,10 +6,13 @@ class featurecode {
 	var $_defaultcode;	// Default code if user doesn't pick one
 	var $_customcode;	// Custom code
 	var $_enabled;		// Enabled/Disabled (0=disabled; 1=enabled; -1=unknown)
-	var $_providedest;		// 1=provide a featurecode destination for this code to modules
+	var $_providedest;	// 1=provide a featurecode destination for this code to modules
 	var $_loaded;		// If this feature code was succesfully loaded from the DB
-	var $_overridecodes;		// Overide defaults from featurecodes.conf
-	var $_helptext = '';		//Help Text for popup bubbles, set to nothing because the table doesnt accept NULLs
+	var $_overridecodes;// Overide defaults from featurecodes.conf
+	var $_helptext = '';//Help Text for popup bubbles, set to nothing because the table doesnt accept NULLs
+	var $_depend = '';	// Dependencies for this feature cod
+
+	private $db;
 
 	/**
 	 * Define a feature code to add or update
@@ -34,6 +37,8 @@ class featurecode {
 		$this->_enabled = -1;  // -1 means not initialised
 		$this->_providedest = 0;  // no destination by default
 		$this->_loaded = false;
+
+		$this->db = \FreePBX::Database();
 	}
 
 	/**
@@ -57,28 +62,31 @@ class featurecode {
 				die_freepbx('FeatureCode: init already called!');
 		}
 
-		$s = "SELECT description, defaultcode, customcode, enabled, providedest ";
-		$s .= "FROM featurecodes ";
-		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." AND featurename = ".sql_formattext($this->_featurename)." ";
+		$sql = "SELECT `description`, `defaultcode`, `customcode`, `enabled`, `providedest`, `depend` FROM `featurecodes` WHERE `modulename` = ? AND `featurename` = ?";
+		$sth = $this->db->prepare($sql);
+		$sth->execute(array($this->_modulename, $this->_featurename));
+		$res = $sth->fetch(\PDO::FETCH_ASSOC);
 
-		$res = sql($s, "getRow");
 		if (is_array($res)) { // found something, read it
-			$this->_description = $res[0];
+			$this->_description = $res['description'];
+
 			if (isset($this->_overridecodes[$this->_modulename][$this->_featurename]) && trim($this->_overridecodes[$this->_modulename][$this->_featurename]) != '') {
 				$this->_defaultcode = $this->_overridecodes[$this->_modulename][$this->_featurename];
-				if ($this->_defaultcode != $res[1]) {
-					$sql = 'UPDATE featurecodes SET defaultcode = '.sql_formattext($this->_defaultcode).
-						'WHERE modulename = '.sql_formattext($this->_modulename). ' AND featurename = '.sql_formattext($this->_featurename);
-					sql($sql, 'query');
+				if ($this->_defaultcode != $res['defaultcode'])
+				{
+					$sql = 'UPDATE `featurecodes` SET `defaultcode` = ? WHERE `modulename` = ? AND `featurename` = ?';
+					$sth = $this->db->prepare($sql);
+					$sth->execute(array($this->_defaultcode, $this->_modulename, $this->_featurename));
 				}
 			} else {
-				$this->_defaultcode = $res[1];
+				$this->_defaultcode = $res['defaultcode'];
 			}
-			$this->_customcode = $res[2];
-			$this->_enabled = $res[3];
-			$this->_providedest = $res[4];
+			$this->_customcode 	= $res['customcode'];
+			$this->_enabled 	= $res['enabled'];
+			$this->_providedest = $res['providedest'];
+			$this->_depend 		= $res['depend'];
 
-			$this->_loaded = true;
+			$this->_loaded 		= true;
 
 			return true;
 		} else {
@@ -103,22 +111,35 @@ class featurecode {
 			die_freepbx('FeatureCode: class function init never called...will not update');
 
 		$cc = isset($this->_customcode) ? $this->_customcode : "";
-		if ($this->_loaded) {
-			$sql = 'UPDATE featurecodes SET '.
-			       'description = '.sql_formattext($this->_description).', '.
-					'helptext = '.sql_formattext($this->_helptext).', '.
-			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
-			       'customcode = '.sql_formattext($cc).', '.
-			       'enabled = '.sql_formattext($this->_enabled).', '.
-			       'providedest = '.sql_formattext($this->_providedest).' '.
-			       'WHERE modulename = '.sql_formattext($this->_modulename).
-			       ' AND featurename = '.sql_formattext($this->_featurename);
+		if ($this->_loaded)
+		{
+			$sql = 'UPDATE `featurecodes` SET `description` = ?, `helptext` = ?, `defaultcode` = ?, `customcode` = ?, `enabled` = ?, `providedest` = ?, `depend` = ? WHERE `modulename` = ? AND `featurename` = ?';
+			$sql_data = array(
+				$this->_description,
+				$this->_helptext,
+				$this->_defaultcode,
+				$cc,
+				$this->_enabled,
+				$this->_providedest,
+				$this->_depend,
+				$this->_modulename,
+				$this->_featurename
+			);
 		} else {
-			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, helptext, defaultcode, customcode, enabled, providedest) '.
-        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($cc).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
+			$sql = "UPDATE `featurecodes` (`description`, `helptext`, `defaultcode`, `customcode`, `enabled`, `providedest`, `depend`) VALUES (?,?,?,?,?,?,?)";
+			$sql_data = array(
+				$this->_description,
+				$this->_helptext,
+				$this->_defaultcode,
+				$cc,
+				$this->_enabled,
+				$this->_providedest,
+				$this->_depend,
+			);
 		}
 
-		sql($sql, 'query');
+		$sth = $this->db->prepare($sql);
+		$sth->execute($sql_data);
 
 		return true;
 	}
@@ -321,12 +342,11 @@ class featurecode {
 	 *
 	 * @return bool True if it's deleted
 	 */
-	function delete() {
-		$s = "DELETE ";
-		$s .= "FROM featurecodes ";
-		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." ";
-		$s .= "AND featurename = ".sql_formattext($this->_featurename);
-		sql($s, 'query');
+	function delete(){
+
+		$sql = 'DELETE FROM `featurecodes` WHERE `modulename` = ? AND `featurename` = ?';
+		$sth = $this->db->prepare($sql);
+		$sth->execute(array($this->_modulename, $this->_featurename));
 
 		$this->_enabled = -1; // = not ready
 
@@ -334,10 +354,35 @@ class featurecode {
 	}
 
 	public static function getAll($modulename) {
-		$sql = "SELECT * FROM featurecodes WHERE modulename = ?";
-		$db = FreePBX::Database();
+		$sql = "SELECT * FROM `featurecodes` WHERE `modulename` = ?";
+		$db = \FreePBX::Database();
 		$sth = $db->prepare($sql);
 		$sth->execute(array($modulename));
 		return $sth->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+	public static function CodeActive($modulename, $featurename) {
+		$fcc = new \featurecode($modulename, $featurename);
+		$code = $fcc->getCodeActive();
+		unset($fcc);
+		return $code;
+	}
+	
+	function setDepend($new_depend) {
+		if (!$this->isReady())
+			$this->init(1);
+
+		if ($new_depend == '') {
+			unset($this->_depend);
+		} else {
+			$this->_depend = $new_depend;
+		}
+	}
+
+	function getDepend() {
+		if (!$this->isReady())
+			$this->init(1);
+
+		return (isset($this->_depend) ? $this->_depend : '');
 	}
 }
