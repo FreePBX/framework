@@ -31,7 +31,13 @@
                                 <th data-halign="center" data-width="100%" data-field="module" data-sortable="true"><?php echo _("Modules") ?></th>
                                 <th data-halign="center" data-width="30" data-field="status" data-sortable="true"><?php echo _("Status") ?></th>
                                 <th data-halign="center" data-width="150" data-field="module_expiry" data-sortable="true"><?php echo _("Module expiry") ?></th>
+                                <?php 
+                                if(!empty($licenses["updates"])){
+                                ?>
                                 <th data-halign="center" data-width="150" data-field="support_expiry" data-sortable="true"><?php echo _("Support / Update expiry") ?></th>
+                                <?php 
+                                }
+                                ?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,7 +150,9 @@
                                             echo "\t<td class='licCol'><i class='fa fa-tasks'></i> <strong class='$text_ex'>".$mod_lic[$key]["name"]."</strong></td>";
                                             echo "\t<td class='text-center licCol'>$status</td>";
                                             echo "\t<td $classM><span $infoM>$expiry</span></td>";
-                                            echo "\t<td $classS><span $infoS>$upd</span></td>";
+                                            if(!empty($licenses["updates"])){
+                                                echo "\t<td $classS><span $infoS>$upd</span></td>";
+                                            }
                                             echo "</tr>";
                                         }
                                     }
