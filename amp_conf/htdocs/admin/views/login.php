@@ -58,3 +58,10 @@
 	</div>
 </div>
 <script type="text/javascript" src="assets/js/views/login.js"></script>
+<?php
+	if (\FreePBX::Modules()->checkStatus('userman')) {
+?>
+	<script type="text/javascript" src='/admin/modules/userman/assets/js/adminPwdExpReminder.js'></script>
+<?php
+	}
+?>

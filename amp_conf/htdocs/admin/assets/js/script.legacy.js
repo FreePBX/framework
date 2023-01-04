@@ -1819,10 +1819,18 @@ $(document).ready(function() {
 					{
 						text: fpbx.msg.framework.continuemsg,
 						click: function () {
-							if (typeof checkMFAenabled === "function") {
-								checkMFAenabled(false, false, false, '', this);
+							if (typeof checkPasswordReminder === "function") {
+								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
+									resetAdminPassswordWithToken(this).then(value => {
+										handleMFAFunc(value, this);
+									})
+								} else {
+									checkPasswordReminder(this).then(value => {
+										handleMFAFunc(value, this);
+									})
+								}
 							} else {
-								$(this).find("form").trigger("submit");
+								handleMFAFunc(true, this);
 							}
 						}
 					},
@@ -1842,6 +1850,16 @@ $(document).ready(function() {
 				}
 			});
 	});
+
+	function handleMFAFunc(response, thisPointer) {
+		if (response) {
+			if (typeof checkMFAenabled === "function") {
+				checkMFAenabled(false, false, false, '', thisPointer);
+			} else {
+				$(thisPointer).find("form").trigger("submit");
+			}
+		}
+	}
 
 	/**
 	 * Remove all hidden secondary dropdown boxes for destinations if
