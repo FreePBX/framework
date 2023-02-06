@@ -438,8 +438,6 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 			$amp_conf['AMPDBHOST'] = $answers['dbhost'];
 			$amp_conf['AMPDBPORT'] = $answers['dbport'];
-			//update with a newly generated password
-			$amp_conf['FPBX_ARI_PASSWORD'] = md5(openssl_random_pseudo_bytes(16));
 
 			if($dbroot) {
 				$output->write("Database Root installation checking credentials and permissions..");
