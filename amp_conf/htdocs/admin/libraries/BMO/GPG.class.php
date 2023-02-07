@@ -58,8 +58,8 @@ class GPG {
 	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10 --no-tty";
 
 	// List of well-known keyservers.
+	// Removing this server hkp://keys.openpgp.org, cause gpg: Fatal: status-fd is invalid: Bad file descriptor
 	private $keyservers = array(
-		"hkp://keys.openpgp.org",
 		"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
 		"pgp.mit.edu", // Other random keyservers
 		"keyserver.pgp.com"  // Other random keyserver
