@@ -558,7 +558,9 @@ class Installer {
 	'options' => '',
 	'name' => 'Enable Module Signature Checking',
 	'description' => 'Checks to make sure modules and their files are validly signed. Will display a notice on any module page that is not correctly verified.',
+	'readonly' => 1,
 	'type' => CONF_TYPE_BOOL,
+	'level' => 4,
 	);
 
 	$settings[$category]['AMPTRACKENABLE'] = array(
