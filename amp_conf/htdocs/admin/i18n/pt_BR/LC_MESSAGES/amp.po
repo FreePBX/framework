@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-02 11:20+0000\n"
+"POT-Creation-Date: 2023-02-28 09:11+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -890,12 +890,12 @@ msgstr "Aceitar"
 msgid "Access Restrictions"
 msgstr "Restrições De Acesso"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:249
+#: ../core/functions.inc/drivers/PJSip.class.php:253
 #: ../core/functions.inc/drivers/Sip.class.php:479
 msgid "Account Code"
 msgstr "Código da Conta"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:248
+#: ../core/functions.inc/drivers/PJSip.class.php:252
 msgid "Account Code for this extension"
 msgstr "Código de conta para esta extensão"
 
@@ -1142,7 +1142,7 @@ msgstr "Configurações Avançadas"
 msgid "Advanced Settings Details"
 msgstr "Detalhes Configurações Avançadas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:293
+#: ../core/functions.inc/drivers/PJSip.class.php:297
 msgid "Aggregate MWI"
 msgstr "MWI Agregado"
 
@@ -1249,7 +1249,7 @@ msgstr ""
 msgid "Allow Any CID"
 msgstr "Permitir Qualquer CID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:271
+#: ../core/functions.inc/drivers/PJSip.class.php:275
 #: ../core/views/trunks/pjsip.php:1143
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
@@ -1263,7 +1263,7 @@ msgstr ""
 msgid "Allow Login With DB Credentials"
 msgstr "Permitir Logar Com Credenciar BD"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:345
+#: ../core/functions.inc/drivers/PJSip.class.php:349
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
 
@@ -1296,7 +1296,7 @@ msgid "Alt for Left Logo"
 msgstr "Alt para Logo Esquerdo"
 
 #: ../core/functions.inc.php:4668
-#: ../core/functions.inc/drivers/PJSip.class.php:326
+#: ../core/functions.inc/drivers/PJSip.class.php:330
 msgid "Always"
 msgstr "Sempre"
 
@@ -1755,7 +1755,7 @@ msgstr ""
 "Gerenciador de Usuários"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:159
-#: ../core/functions.inc/drivers/PJSip.class.php:281
+#: ../core/functions.inc/drivers/PJSip.class.php:285
 #: ../core/functions.inc/drivers/Sip.class.php:295
 #: ../core/functions.inc/drivers/Sip.class.php:299
 #: ../core/views/trunks/pjsip.php:259
@@ -2766,7 +2766,7 @@ msgstr ""
 msgid "Context to send the Inbound Call to."
 msgstr "Contexto para enviar Chamada de Entrada."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:380
+#: ../core/functions.inc/drivers/PJSip.class.php:390
 msgid "Context where SIP MESSAGEs from this endpoint will be processed"
 msgstr ""
 
@@ -2804,7 +2804,7 @@ msgid ""
 "inbound trunk's context. (see extensions_additional.conf)."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:261
+#: ../core/functions.inc/drivers/PJSip.class.php:265
 msgid ""
 "Controls whether an additional registration will be permitted when "
 "max_contacts has already been met. If set to 'Yes', new registrations will "
@@ -3283,7 +3283,7 @@ msgstr ""
 "você não usar os valores padrão fornecidos pelo FreePBX. <br>Número da porta "
 "para o host bd."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:318
+#: ../core/functions.inc/drivers/PJSip.class.php:322
 msgid "DTLS-SRTP (not recommended)"
 msgstr "DTLS-SRTP (não recomendado)"
 
@@ -3515,7 +3515,7 @@ msgstr ""
 "para pontos de extremidade dinâmicos ou igual ao número de ramal para vários "
 "pontos de extremidade que residem no mesmo IP (VoIP Gateways)."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:311
+#: ../core/functions.inc/drivers/PJSip.class.php:315
 msgid "Defaults and enables some options that are relevant to WebRTC"
 msgstr ""
 
@@ -3736,7 +3736,7 @@ msgid ""
 "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:344
+#: ../core/functions.inc/drivers/PJSip.class.php:348
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3751,7 +3751,7 @@ msgstr ""
 "Determina se desafios de autenticação falhados são tratados como falhas "
 "permanentes."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:338
+#: ../core/functions.inc/drivers/PJSip.class.php:342
 #: ../core/views/trunks/pjsip.php:1117
 msgid "Determines whether media may flow directly between endpoints."
 msgstr ""
@@ -3763,14 +3763,14 @@ msgid ""
 "for this endpoint. %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:319
+#: ../core/functions.inc/drivers/PJSip.class.php:323
 msgid ""
 "Determines whether res_pjsip will use and enforce usage of media encryption "
 "for this endpoint. Auto will enable SRTP via in-SDP encryption if TLS is "
 "enabled in SIPSettings."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:266
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3822,7 +3822,7 @@ msgstr "Opções do dispositivo"
 msgid "Device Settings"
 msgstr "Configurações de Dispositivo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:354
+#: ../core/functions.inc/drivers/PJSip.class.php:358
 msgid "Device State Busy at"
 msgstr "Estado do Dispositivo Ocupado em"
 
@@ -3910,7 +3910,7 @@ msgstr ""
 "conferir com o padrão especificado pelas colunas subsequentes então isto "
 "será acrescentado antes de enviar aos troncos."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:339
+#: ../core/functions.inc/drivers/PJSip.class.php:343
 #: ../core/views/trunks/pjsip.php:1102
 msgid "Direct Media"
 msgstr ""
@@ -4555,7 +4555,7 @@ msgstr "Habilitar Faixas de Módulos"
 msgid "Enable Performance Logging"
 msgstr "Habilitar Relatório de Desempenho"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:300
+#: ../core/functions.inc/drivers/PJSip.class.php:304
 msgid "Enable RTP bundling"
 msgstr ""
 
@@ -4576,7 +4576,7 @@ msgstr ""
 msgid "Enable Token Based Security"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:312
+#: ../core/functions.inc/drivers/PJSip.class.php:316
 msgid "Enable WebRTC defaults"
 msgstr ""
 
@@ -4751,7 +4751,7 @@ msgstr ""
 msgid "Enforce RFC7462"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:269
+#: ../core/functions.inc/drivers/PJSip.class.php:273
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -5486,7 +5486,7 @@ msgstr "Bandeiras"
 msgid "Flash Operator Panel"
 msgstr "Painel do Operador Flash"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:283
+#: ../core/functions.inc/drivers/PJSip.class.php:287
 msgid ""
 "For Message Waiting indicators there are three types: Auto, Solicited and "
 "Unsolicited. Auto means the PBX will try to automatically determine the type "
@@ -5495,7 +5495,7 @@ msgid ""
 "and should only be changed if you see errors in the Asterisk logs"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:279
+#: ../core/functions.inc/drivers/PJSip.class.php:283
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -5628,7 +5628,7 @@ msgstr ""
 "Forçar operação (pula dependências e verificação de status) <warning>AVISO:</"
 "warning> Use por sua conta em risco, módulos têm dependências por um motivo!"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:274
+#: ../core/functions.inc/drivers/PJSip.class.php:278
 #: ../core/views/trunks/pjsip.php:1207
 msgid "Force rport"
 msgstr "Forçar rport"
@@ -5658,11 +5658,11 @@ msgstr "Forçar execução de rotinas asterisk pre-início"
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pre-parada"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:273
+#: ../core/functions.inc/drivers/PJSip.class.php:277
 msgid "Force use of return port."
 msgstr "Forçar uso de porta de retorno."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:327
+#: ../core/functions.inc/drivers/PJSip.class.php:331
 msgid "Forced"
 msgstr "Forçado"
 
@@ -7267,7 +7267,7 @@ msgstr "Endereço MAC"
 msgid "MISSING FEATURE CODE %s:%s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:287
+#: ../core/functions.inc/drivers/PJSip.class.php:291
 msgid "MWI Subscription Type"
 msgstr "MWI Tipo de Inscrição"
 
@@ -7319,7 +7319,7 @@ msgstr "Gerenciar notificações"
 msgid "Manually Loaded Modules"
 msgstr "Módulos Carregados Manualmente"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:359
+#: ../core/functions.inc/drivers/PJSip.class.php:363
 #: ../core/views/trunks/pjsip.php:776
 msgid "Match (Permit)"
 msgstr "Correspondência (Permissão)"
@@ -7332,7 +7332,7 @@ msgstr ""
 msgid "Matches the endpoint based on the selected options."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:256
 msgid "Max Contacts"
 msgstr "Máximo de Contatos"
 
@@ -7349,11 +7349,11 @@ msgstr "Máximo de Tentativas"
 msgid "Max attempts"
 msgstr "Máximo de Tentativas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:304
+#: ../core/functions.inc/drivers/PJSip.class.php:308
 msgid "Max audio streams"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:307
+#: ../core/functions.inc/drivers/PJSip.class.php:311
 msgid "Max video streams"
 msgstr ""
 
@@ -7361,7 +7361,7 @@ msgstr ""
 msgid "Maximum Channels"
 msgstr "Máximo de canais"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:363
+#: ../core/functions.inc/drivers/PJSip.class.php:367
 msgid "Maximum Expiration"
 msgstr "Prazo Máximo"
 
@@ -7371,17 +7371,17 @@ msgstr ""
 "Quantidade máxima de tempo (em segundos) para aguardar o desligamento do "
 "asterisk"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 "Número máximo de pontos de extremidade que podem ser associados a este "
 "dispositivo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:303
+#: ../core/functions.inc/drivers/PJSip.class.php:307
 msgid "Maximum number of allowed audio streams for the endpoint"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:306
+#: ../core/functions.inc/drivers/PJSip.class.php:310
 msgid "Maximum number of allowed video streams for the endpoint"
 msgstr ""
 
@@ -7397,13 +7397,13 @@ msgstr ""
 "que foi comprometido. Limitará o número de chamadas simultâneas que podem "
 "ser feitas na extensão comprometida."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:370
+#: ../core/functions.inc/drivers/PJSip.class.php:374
 msgid ""
 "Maximum number of seconds without receiving RTP (while off hold) before "
 "terminating call."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:374
+#: ../core/functions.inc/drivers/PJSip.class.php:378
 msgid ""
 "Maximum number of seconds without receiving RTP (while on hold) before "
 "terminating call."
@@ -7417,7 +7417,7 @@ msgstr ""
 "Tempo máximo (em segundos) para aguardar que o asterisk pare graciosamente. "
 "Padrão 30 segundos"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:362
+#: ../core/functions.inc/drivers/PJSip.class.php:366
 msgid "Maximum time to keep an AoR"
 msgstr "Tempo máximo para manter um AoR"
 
@@ -7429,7 +7429,7 @@ msgstr "Pode ser inválido Verifique a ortografia"
 msgid "Media Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:320
+#: ../core/functions.inc/drivers/PJSip.class.php:324
 #: ../core/views/trunks/pjsip.php:1179
 msgid "Media Encryption"
 msgstr "Criptografia de Mídia"
@@ -7438,7 +7438,7 @@ msgstr "Criptografia de Mídia"
 msgid "Media Only"
 msgstr "Somente Mídia"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:267
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 msgid "Media Use Received Transport"
 msgstr "Uso de Mídia Transporte Recebido"
 
@@ -7469,7 +7469,7 @@ msgstr ""
 msgid "Message of the request"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:381
+#: ../core/functions.inc/drivers/PJSip.class.php:391
 msgid "Messages Context"
 msgstr ""
 
@@ -7502,7 +7502,7 @@ msgstr "Migrando grupos de captadores para grupos de captura nomeados"
 msgid "Min Length"
 msgstr "Comprimento Mínimo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:367
+#: ../core/functions.inc/drivers/PJSip.class.php:371
 msgid "Minimum Expiration"
 msgstr "Expiração Mínima"
 
@@ -7521,13 +7521,13 @@ msgid ""
 "valid. Default value is 10"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:332
+#: ../core/functions.inc/drivers/PJSip.class.php:336
 msgid ""
 "Minimum session timer expiration period. Time in seconds. This does not "
 "matter if Session Timers is set to No"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:366
+#: ../core/functions.inc/drivers/PJSip.class.php:370
 msgid "Minimum time to keep an AoR"
 msgstr "Tempo mínimo para manter AoR"
 
@@ -8090,13 +8090,14 @@ msgstr "Todas as noites"
 #: ../core/functions.inc/drivers/Dahdi.class.php:138
 #: ../core/functions.inc/drivers/Iax2.class.php:120
 #: ../core/functions.inc/drivers/Iax2.class.php:158
-#: ../core/functions.inc/drivers/PJSip.class.php:290
-#: ../core/functions.inc/drivers/PJSip.class.php:297
-#: ../core/functions.inc/drivers/PJSip.class.php:309
-#: ../core/functions.inc/drivers/PJSip.class.php:323
-#: ../core/functions.inc/drivers/PJSip.class.php:336
-#: ../core/functions.inc/drivers/PJSip.class.php:342
-#: ../core/functions.inc/drivers/PJSip.class.php:348
+#: ../core/functions.inc/drivers/PJSip.class.php:294
+#: ../core/functions.inc/drivers/PJSip.class.php:301
+#: ../core/functions.inc/drivers/PJSip.class.php:313
+#: ../core/functions.inc/drivers/PJSip.class.php:327
+#: ../core/functions.inc/drivers/PJSip.class.php:340
+#: ../core/functions.inc/drivers/PJSip.class.php:346
+#: ../core/functions.inc/drivers/PJSip.class.php:352
+#: ../core/functions.inc/drivers/PJSip.class.php:384
 #: ../core/functions.inc/drivers/Sip.class.php:310
 #: ../core/functions.inc/drivers/Sip.class.php:326
 #: ../core/functions.inc/drivers/Sip.class.php:334
@@ -8243,7 +8244,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:538
 #: ../core/functions.inc.php:4661
-#: ../core/functions.inc/drivers/PJSip.class.php:316
+#: ../core/functions.inc/drivers/PJSip.class.php:320
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
 #: ../core/views/trunks/pjsip.php:107 ../core/views/trunks/pjsip.php:126
 #: ../core/views/trunks/pjsip.php:858 ../core/views/trunks/pjsip.php:1184
@@ -8770,6 +8771,10 @@ msgstr "Outros"
 msgid "Outbound"
 msgstr "Saída"
 
+#: ../core/functions.inc/drivers/PJSip.class.php:387
+msgid "Outbound Auth"
+msgstr ""
+
 #: ../core/functions.inc.php:4845 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "CID de Saída"
@@ -8798,7 +8803,7 @@ msgstr "Saída Chamadas Externas"
 msgid "Outbound Internal Calls"
 msgstr "Saída Chamadas Internas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:378
+#: ../core/functions.inc/drivers/PJSip.class.php:382
 #: ../core/views/trunks/pjsip.php:527 ../core/views/trunks/pjsip.php:539
 msgid "Outbound Proxy"
 msgstr "Proxy de Saída"
@@ -9565,16 +9570,16 @@ msgstr ""
 "Feeds RSS que são exibidos em UCP e Dashboard. Separe cada feed por uma nova "
 "linha. Os feeds suportados são Atom 1.0 e RSS 0.91, 0.92, 1.0 e 2.0"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:375
+#: ../core/functions.inc/drivers/PJSip.class.php:379
 msgid "RTP Hold Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:270
+#: ../core/functions.inc/drivers/PJSip.class.php:274
 #: ../core/views/trunks/pjsip.php:1153
 msgid "RTP Symmetric"
 msgstr "RTP Simétrico"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:371
+#: ../core/functions.inc/drivers/PJSip.class.php:375
 msgid "RTP Timeout"
 msgstr ""
 
@@ -9666,7 +9671,7 @@ msgstr "Gravação de chamadas de saída para fontes externas."
 msgid "Redundancy"
 msgstr "Redundância"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:351
+#: ../core/functions.inc/drivers/PJSip.class.php:355
 msgid "Refer Blind Progress"
 msgstr ""
 
@@ -9778,7 +9783,7 @@ msgstr "Remover"
 msgid "Remove CNAM"
 msgstr "Remover CNAM"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:262
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 msgid "Remove Existing"
 msgstr ""
 
@@ -9852,7 +9857,7 @@ msgstr "Exigir confirmação antes de Aplicar Alterações"
 msgid "Require Strong Secrets"
 msgstr "Exigir senhas fortes"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:325
+#: ../core/functions.inc/drivers/PJSip.class.php:329
 msgid "Required"
 msgstr "Requerido"
 
@@ -9949,7 +9954,7 @@ msgstr ""
 msgid "Returns particular the advance setting's details"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:272
+#: ../core/functions.inc/drivers/PJSip.class.php:276
 #: ../core/views/trunks/pjsip.php:1128
 msgid "Rewrite Contact"
 msgstr "Reescrever Contato"
@@ -10165,7 +10170,7 @@ msgstr ""
 msgid "SIP trustrpid"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:317
+#: ../core/functions.inc/drivers/PJSip.class.php:321
 #: ../core/views/trunks/pjsip.php:1185
 msgid "SRTP via in-SDP (recommended)"
 msgstr "SRTP via in-SDP (recomendado)"
@@ -10401,7 +10406,7 @@ msgstr "Sessão deve ser desbloqueado agora"
 msgid "Session Timeout"
 msgstr "Sessão Expirada"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:329
+#: ../core/functions.inc/drivers/PJSip.class.php:333
 #: ../core/functions.inc/drivers/Sip.class.php:370
 msgid "Session Timers"
 msgstr "Temporizadores de Sessão"
@@ -10836,11 +10841,11 @@ msgstr "Ignorar a operação chown"
 msgid "Skipping %s::%s because schedule does not match"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:286
+#: ../core/functions.inc/drivers/PJSip.class.php:290
 msgid "Solicited"
 msgstr "Solicitado"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:350
+#: ../core/functions.inc/drivers/PJSip.class.php:354
 msgid ""
 "Some SIP phones (Mitel/Aastra, Snom) expect a sip/frag \"200 OK\" after "
 "REFER has been accepted. If set to no then asterisk will not send the "
@@ -10877,6 +10882,10 @@ msgstr ""
 "ATENDER. Você perceberá que isso acontece se é possível enviar chamadas "
 "diretamente para um telefone, mas se você enviá-la para um URA, não vai "
 "completar a chamada."
+
+#: ../core/functions.inc/drivers/PJSip.class.php:386
+msgid "Some extensions must use outbound_auth."
+msgstr ""
 
 #: amp.i18n.php:372
 msgid ""
@@ -11883,7 +11892,7 @@ msgstr ""
 "O módulo que você está tentando acessar foi desativado na pendência de uma "
 "alteração de versão."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:353
+#: ../core/functions.inc/drivers/PJSip.class.php:357
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -12039,7 +12048,7 @@ msgstr ""
 "que suportam Session-Timers limparão seu estado de sessão interna. O padrão "
 "é Aceitar."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:328
+#: ../core/functions.inc/drivers/PJSip.class.php:332
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -12191,7 +12200,7 @@ msgstr ""
 msgid "The user's password"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:358
+#: ../core/functions.inc/drivers/PJSip.class.php:362
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -12735,7 +12744,7 @@ msgstr ""
 "Tempo limite, em ms, para tempos limite em casos que o Asterisk se "
 "desconecta frequentemente"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:333
+#: ../core/functions.inc/drivers/PJSip.class.php:337
 msgid "Timer Expiration Period"
 msgstr ""
 
@@ -13183,7 +13192,7 @@ msgstr "Módulo(s) não assinado(s)"
 msgid "Unsigned module notifications are turned off!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:285
+#: ../core/functions.inc/drivers/PJSip.class.php:289
 msgid "Unsolicited"
 msgstr "Não solicitado"
 
@@ -13910,7 +13919,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:292
+#: ../core/functions.inc/drivers/PJSip.class.php:296
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -14097,7 +14106,7 @@ msgid ""
 "break things. Unless you pass this parameter it is readonly"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:299
+#: ../core/functions.inc/drivers/PJSip.class.php:303
 msgid ""
 "With this option enabled, Asterisk will attempt to negotiate the use of "
 "bundle. If negotiated this will result in multiple RTP streams being carried "
@@ -14132,13 +14141,14 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:119
 #: ../core/functions.inc/drivers/Iax2.class.php:157
-#: ../core/functions.inc/drivers/PJSip.class.php:291
-#: ../core/functions.inc/drivers/PJSip.class.php:298
-#: ../core/functions.inc/drivers/PJSip.class.php:310
-#: ../core/functions.inc/drivers/PJSip.class.php:324
-#: ../core/functions.inc/drivers/PJSip.class.php:337
-#: ../core/functions.inc/drivers/PJSip.class.php:343
-#: ../core/functions.inc/drivers/PJSip.class.php:349
+#: ../core/functions.inc/drivers/PJSip.class.php:295
+#: ../core/functions.inc/drivers/PJSip.class.php:302
+#: ../core/functions.inc/drivers/PJSip.class.php:314
+#: ../core/functions.inc/drivers/PJSip.class.php:328
+#: ../core/functions.inc/drivers/PJSip.class.php:341
+#: ../core/functions.inc/drivers/PJSip.class.php:347
+#: ../core/functions.inc/drivers/PJSip.class.php:353
+#: ../core/functions.inc/drivers/PJSip.class.php:385
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/functions.inc/drivers/Sip.class.php:327
 #: ../core/functions.inc/drivers/Sip.class.php:335
