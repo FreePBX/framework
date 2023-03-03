@@ -431,7 +431,7 @@ class FreePBXInstallCommand extends Command {
 
 		$dbencoding = 'utf8'; //jic
 		if ($newinstall || $force) {
-			$amp_conf['AMPMGRUSER'] = 'admin';
+			$amp_conf['AMPMGRUSER'] = md5(uniqid());
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
 
 			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
@@ -892,6 +892,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		//run this here so that we make sure everything is square for asterisk
 		$this->executeSystemCommand($amp_conf['AMPSBIN'] . "/fwconsole chown");
 
+		if($answers['dev-links'] && $newinstall) {
+			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRUSER ".$amp_conf['AMPMGRUSER']." > /dev/null");
+		}
 		if($answers['dev-links'] && $newinstall) {
 			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRPASS ".$amp_conf['AMPMGRPASS']." > /dev/null");
 		}
