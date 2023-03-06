@@ -32,7 +32,7 @@ foreach ($vars as $k => $v) {
 	//special handling
 	switch ($k) {
 	case 'extdisplay':
-		$extdisplay = (isset($extdisplay) && $extdisplay !== false && is_numeric($extdisplay))
+		$extdisplay = (isset($extdisplay) && $extdisplay !== false)
 			? htmlspecialchars($extdisplay, ENT_QUOTES)
 			: false;
 		$_REQUEST['extdisplay'] = $extdisplay;
@@ -48,6 +48,10 @@ foreach ($vars as $k => $v) {
 		$bootstrap_settings['skip_astman']	= $skip_astman;
 		break;
 	}
+}
+
+if($display == "extensions" && !is_numeric($extdisplay)){
+	$_REQUEST['extdisplay'] = false;
 }
 
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
