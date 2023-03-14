@@ -57,7 +57,7 @@ class View {
 			"jquery.tablednd-0.9.1.min.js",
 			"js.cookie-2.1.3.min.js",
 			"modernizr-3.3.1.min.js",
-			"moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
+			"moment-timezone-with-data-1970-2030.min.js",
 			"moment-duration-format-2.2.1.js",
 			"notie-3.9.4.min.js",
 			"recorder.js",
