@@ -64,6 +64,8 @@ class Validate extends Command {
 		} else {
 			$process = new Process("/tmp/validate.phar");
 		}
+		// By default, processes have a timeout of 60 seconds changing it to 3 mins
+		$process->setTimeout(180);
 		$process->setTty(true);
 		$process->run();
 	}
