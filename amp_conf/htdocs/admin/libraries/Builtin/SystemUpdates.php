@@ -102,6 +102,8 @@ class SystemUpdates {
 			$nt = \notifications::create();
 			if($this->checkIfTestingRepoEnabled()) {
 				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
+			} else {
+				$nt->delete('framework', 'test_repos_enabled');
 			}
 
 			$nt->delete("freepbx", "RPM_BROKEN");
@@ -592,9 +594,7 @@ class SystemUpdates {
 			$currentstatus = _("Working");
 		}
 		if($this->checkIfTestingRepoEnabled()) {
-			$html .= "<div class='container-fluid'>";
 			$html .= show_help(_("This system has test repos enabled."), _('Test Repos Enabled'), false, false);
-			$html .= "</div>";
 		}
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Current System Update Status:")."</div>
