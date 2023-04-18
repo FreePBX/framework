@@ -530,6 +530,12 @@ class ext_stackpop extends extension {
 	}
 }
 
+class ext_bridge extends extension {
+	function output() {
+		return "Bridge(".$this->data.")";
+	}
+}
+
 class ext_gosubif extends extension {
 	var $true_priority;
 	var $false_priority;
