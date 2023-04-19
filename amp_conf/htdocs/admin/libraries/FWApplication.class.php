@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\ListCommand;
 
 class FWApplication extends Application{
-	protected function getDefaultCommands() {
+	protected function getDefaultCommands(): array {
 		$defaultCommands = array(new FWHelpCommand(), new FWListCommand());
 		return $defaultCommands;
 	}

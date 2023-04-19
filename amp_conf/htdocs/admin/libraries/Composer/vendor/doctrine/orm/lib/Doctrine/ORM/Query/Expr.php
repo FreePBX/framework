@@ -1,33 +1,25 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
- */
+
+declare(strict_types=1);
 
 namespace Doctrine\ORM\Query;
+
+use Traversable;
+
+use function func_get_args;
+use function implode;
+use function is_bool;
+use function is_iterable;
+use function is_numeric;
+use function is_string;
+use function iterator_to_array;
+use function str_replace;
 
 /**
  * This class is used to generate DQL expressions via a set of PHP static functions.
  *
  * @link    www.doctrine-project.org
- * @since   2.0
- * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author  Jonathan Wage <jonwage@gmail.com>
- * @author  Roman Borschel <roman@code-factory.org>
- * @author  Benjamin Eberlei <kontakt@beberlei.de>
+ *
  * @todo Rename: ExpressionBuilder
  */
 class Expr
@@ -41,10 +33,10 @@ class Expr
      *     // (u.type = ?1) AND (u.role = ?2)
      *     $expr->andX($expr->eq('u.type', ':1'), $expr->eq('u.role', ':2'));
      *
-     * @param \Doctrine\ORM\Query\Expr\Comparison |
-     *        \Doctrine\ORM\Query\Expr\Func |
-     *        \Doctrine\ORM\Query\Expr\Orx
-     *        $x Optional clause. Defaults to null, but requires at least one defined when converting to string.
+     * @param Expr\Comparison|Expr\Func|Expr\Andx|Expr\Orx|string $x Optional clause. Defaults to null,
+     *                                                               but requires at least one defined
+     *                                                               when converting to string.
+     * @psalm-param Expr\Comparison|Expr\Func|Expr\Andx|Expr\Orx|string ...$x
      *
      * @return Expr\Andx
      */
@@ -62,8 +54,10 @@ class Expr
      *     // (u.type = ?1) OR (u.role = ?2)
      *     $q->where($q->expr()->orX('u.type = ?1', 'u.role = ?2'));
      *
-     * @param mixed $x Optional clause. Defaults to null, but requires
-     *                 at least one defined when converting to string.
+     * @param Expr\Comparison|Expr\Func|Expr\Andx|Expr\Orx|string $x Optional clause. Defaults to null,
+     *                                                               but requires at least one defined
+     *                                                               when converting to string.
+     * @psalm-param Expr\Comparison|Expr\Func|Expr\Andx|Expr\Orx|string ...$x
      *
      * @return Expr\Orx
      */
@@ -220,7 +214,7 @@ class Expr
      */
     public function avg($x)
     {
-        return new Expr\Func('AVG', array($x));
+        return new Expr\Func('AVG', [$x]);
     }
 
     /**
@@ -232,7 +226,7 @@ class Expr
      */
     public function max($x)
     {
-        return new Expr\Func('MAX', array($x));
+        return new Expr\Func('MAX', [$x]);
     }
 
     /**
@@ -244,7 +238,7 @@ class Expr
      */
     public function min($x)
     {
-        return new Expr\Func('MIN', array($x));
+        return new Expr\Func('MIN', [$x]);
     }
 
     /**
@@ -256,7 +250,7 @@ class Expr
      */
     public function count($x)
     {
-        return new Expr\Func('COUNT', array($x));
+        return new Expr\Func('COUNT', [$x]);
     }
 
     /**
@@ -280,7 +274,7 @@ class Expr
      */
     public function exists($subquery)
     {
-        return new Expr\Func('EXISTS', array($subquery));
+        return new Expr\Func('EXISTS', [$subquery]);
     }
 
     /**
@@ -292,7 +286,7 @@ class Expr
      */
     public function all($subquery)
     {
-        return new Expr\Func('ALL', array($subquery));
+        return new Expr\Func('ALL', [$subquery]);
     }
 
     /**
@@ -304,7 +298,7 @@ class Expr
      */
     public function some($subquery)
     {
-        return new Expr\Func('SOME', array($subquery));
+        return new Expr\Func('SOME', [$subquery]);
     }
 
     /**
@@ -316,7 +310,7 @@ class Expr
      */
     public function any($subquery)
     {
-        return new Expr\Func('ANY', array($subquery));
+        return new Expr\Func('ANY', [$subquery]);
     }
 
     /**
@@ -328,7 +322,7 @@ class Expr
      */
     public function not($restriction)
     {
-        return new Expr\Func('NOT', array($restriction));
+        return new Expr\Func('NOT', [$restriction]);
     }
 
     /**
@@ -340,7 +334,18 @@ class Expr
      */
     public function abs($x)
     {
-        return new Expr\Func('ABS', array($x));
+        return new Expr\Func('ABS', [$x]);
+    }
+
+    /**
+     * Creates a MOD($x, $y) function expression to return the remainder of $x divided by $y.
+     *
+     * @param mixed $x
+     * @param mixed $y
+     */
+    public function mod($x, $y): Expr\Func
+    {
+        return new Expr\Func('MOD', [$x, $y]);
     }
 
     /**
@@ -389,7 +394,7 @@ class Expr
      *
      *     [php]
      *     // u.numChildren + 1
-     *     $q->expr()->diff('u.numChildren', '1')
+     *     $q->expr()->sum('u.numChildren', '1')
      *
      * @param mixed $x Left expression.
      * @param mixed $y Right expression.
@@ -429,7 +434,7 @@ class Expr
      */
     public function sqrt($x)
     {
-        return new Expr\Func('SQRT', array($x));
+        return new Expr\Func('SQRT', [$x]);
     }
 
     /**
@@ -442,13 +447,18 @@ class Expr
      */
     public function in($x, $y)
     {
-        if (is_array($y)) {
+        if (is_iterable($y)) {
+            if ($y instanceof Traversable) {
+                $y = iterator_to_array($y);
+            }
+
             foreach ($y as &$literal) {
-                if ( ! ($literal instanceof Expr\Literal)) {
-                    $literal = $this->_quoteLiteral($literal);
+                if (! ($literal instanceof Expr\Literal)) {
+                    $literal = $this->quoteLiteral($literal);
                 }
             }
         }
+
         return new Expr\Func($x . ' IN', (array) $y);
     }
 
@@ -456,19 +466,24 @@ class Expr
      * Creates a NOT IN() expression with the given arguments.
      *
      * @param string $x Field in string format to be restricted by NOT IN() function.
-     * @param mixed $y Argument to be used in NOT IN() function.
+     * @param mixed  $y Argument to be used in NOT IN() function.
      *
      * @return Expr\Func
      */
     public function notIn($x, $y)
     {
-        if (is_array($y)) {
+        if (is_iterable($y)) {
+            if ($y instanceof Traversable) {
+                $y = iterator_to_array($y);
+            }
+
             foreach ($y as &$literal) {
-                if ( ! ($literal instanceof Expr\Literal)) {
-                    $literal = $this->_quoteLiteral($literal);
+                if (! ($literal instanceof Expr\Literal)) {
+                    $literal = $this->quoteLiteral($literal);
                 }
             }
         }
+
         return new Expr\Func($x . ' NOT IN', (array) $y);
     }
 
@@ -525,14 +540,14 @@ class Expr
     /**
      * Creates a CONCAT() function expression with the given arguments.
      *
-     * @param mixed $x First argument to be used in CONCAT() function.
-     * @param mixed $y Second argument to be used in CONCAT() function.
+     * @param mixed $x     First argument to be used in CONCAT() function.
+     * @param mixed $y,... Other arguments to be used in CONCAT() function.
      *
      * @return Expr\Func
      */
     public function concat($x, $y)
     {
-        return new Expr\Func('CONCAT', array($x, $y));
+        return new Expr\Func('CONCAT', func_get_args());
     }
 
     /**
@@ -546,10 +561,11 @@ class Expr
      */
     public function substring($x, $from, $len = null)
     {
-        $args = array($x, $from);
-        if (null !== $len) {
+        $args = [$x, $from];
+        if ($len !== null) {
             $args[] = $len;
         }
+
         return new Expr\Func('SUBSTRING', $args);
     }
 
@@ -562,7 +578,7 @@ class Expr
      */
     public function lower($x)
     {
-        return new Expr\Func('LOWER', array($x));
+        return new Expr\Func('LOWER', [$x]);
     }
 
     /**
@@ -574,7 +590,7 @@ class Expr
      */
     public function upper($x)
     {
-        return new Expr\Func('UPPER', array($x));
+        return new Expr\Func('UPPER', [$x]);
     }
 
     /**
@@ -586,7 +602,7 @@ class Expr
      */
     public function length($x)
     {
-        return new Expr\Func('LENGTH', array($x));
+        return new Expr\Func('LENGTH', [$x]);
     }
 
     /**
@@ -598,35 +614,33 @@ class Expr
      */
     public function literal($literal)
     {
-        return new Expr\Literal($this->_quoteLiteral($literal));
+        return new Expr\Literal($this->quoteLiteral($literal));
     }
 
     /**
      * Quotes a literal value, if necessary, according to the DQL syntax.
      *
      * @param mixed $literal The literal value.
-     *
-     * @return string
      */
-    private function _quoteLiteral($literal)
+    private function quoteLiteral($literal): string
     {
-        if (is_numeric($literal) && !is_string($literal)) {
+        if (is_numeric($literal) && ! is_string($literal)) {
             return (string) $literal;
-        } else if (is_bool($literal)) {
-            return $literal ? "true" : "false";
-        } else {
-            return "'" . str_replace("'", "''", $literal) . "'";
+        } elseif (is_bool($literal)) {
+            return $literal ? 'true' : 'false';
         }
+
+        return "'" . str_replace("'", "''", $literal) . "'";
     }
 
     /**
      * Creates an instance of BETWEEN() function, with the given argument.
      *
-     * @param mixed   $val Valued to be inspected by range values.
-     * @param integer $x   Starting range value to be used in BETWEEN() function.
-     * @param integer $y   End point value to be used in BETWEEN() function.
+     * @param mixed      $val Valued to be inspected by range values.
+     * @param int|string $x   Starting range value to be used in BETWEEN() function.
+     * @param int|string $y   End point value to be used in BETWEEN() function.
      *
-     * @return Expr\Func A BETWEEN expression.
+     * @return string A BETWEEN expression.
      */
     public function between($val, $x, $y)
     {

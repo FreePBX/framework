@@ -54,7 +54,7 @@ return array (
   ),
   'tollFree' => 
   array (
-    'NationalNumberPattern' => '(?:[48]0\\d|6802)\\d{5}',
+    'NationalNumberPattern' => '(?:[48]0\\d|680[29])\\d{5}',
     'ExampleNumber' => '80123456',
     'PossibleLength' => 
     array (
@@ -141,7 +141,7 @@ return array (
   ),
   'noInternationalDialling' => 
   array (
-    'NationalNumberPattern' => '(?:[48]0\\d|6802)\\d{5}',
+    'NationalNumberPattern' => '(?:[48]0\\d|680[29])\\d{5}',
     'PossibleLength' => 
     array (
     ),
@@ -198,6 +198,5 @@ return array (
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => true,
 );

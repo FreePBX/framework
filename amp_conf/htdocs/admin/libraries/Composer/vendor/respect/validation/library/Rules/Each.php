@@ -3,94 +3,96 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Exceptions\EachException;
 use Respect\Validation\Exceptions\ValidationException;
+use Respect\Validation\Helpers\CanValidateIterable;
 use Respect\Validation\Validatable;
 
-class Each extends IterableType
+/**
+ * Validates whether each value in the input is valid according to another rule.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Nick Lombard <github@jigsoft.co.za>
+ * @author William Espindola <oi@williamespindola.com.br>
+ */
+final class Each extends AbstractRule
 {
-    public $itemValidator;
-    public $keyValidator;
+    use CanValidateIterable;
 
-    public function __construct(Validatable $itemValidator = null, Validatable $keyValidator = null)
+    /**
+     * @var Validatable
+     */
+    private $rule;
+
+    /**
+     * Initializes the constructor.
+     */
+    public function __construct(Validatable $rule)
     {
-        $this->itemValidator = $itemValidator;
-        $this->keyValidator = $keyValidator;
+        $this->rule = $rule;
     }
 
-    public function assert($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function assert($input): void
     {
-        $exceptions = [];
-
-        if (!parent::validate($input)) {
+        if (!$this->isIterable($input)) {
             throw $this->reportError($input);
         }
 
-        foreach ($input as $key => $item) {
-            if (isset($this->itemValidator)) {
-                try {
-                    $this->itemValidator->assert($item);
-                } catch (ValidationException $e) {
-                    $exceptions[] = $e;
-                }
-            }
-
-            if (isset($this->keyValidator)) {
-                try {
-                    $this->keyValidator->assert($key);
-                } catch (ValidationException $e) {
-                    $exceptions[] = $e;
-                }
+        $exceptions = [];
+        foreach ($input as $value) {
+            try {
+                $this->rule->assert($value);
+            } catch (ValidationException $exception) {
+                $exceptions[] = $exception;
             }
         }
 
         if (!empty($exceptions)) {
-            throw $this->reportError($input)->setRelated($exceptions);
-        }
+            /** @var EachException $eachException */
+            $eachException = $this->reportError($input);
+            $eachException->addChildren($exceptions);
 
-        return true;
+            throw $eachException;
+        }
     }
 
-    public function check($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function check($input): void
     {
-        if (!parent::validate($input)) {
+        if (!$this->isIterable($input)) {
             throw $this->reportError($input);
         }
 
-        foreach ($input as $key => $item) {
-            if (isset($this->itemValidator)) {
-                $this->itemValidator->check($item);
-            }
-
-            if (isset($this->keyValidator)) {
-                $this->keyValidator->check($key);
-            }
+        foreach ($input as $value) {
+            $this->rule->check($value);
         }
-
-        return true;
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        if (!parent::validate($input)) {
+        try {
+            $this->check($input);
+        } catch (ValidationException $exception) {
             return false;
-        }
-
-        foreach ($input as $key => $item) {
-            if (isset($this->itemValidator) && !$this->itemValidator->validate($item)) {
-                return false;
-            }
-
-            if (isset($this->keyValidator) && !$this->keyValidator->validate($key)) {
-                return false;
-            }
         }
 
         return true;

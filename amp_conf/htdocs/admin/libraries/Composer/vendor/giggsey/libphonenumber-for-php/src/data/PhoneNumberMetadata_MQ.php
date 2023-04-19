@@ -14,7 +14,7 @@
 return array (
   'generalDesc' => 
   array (
-    'NationalNumberPattern' => '69\\d{7}|(?:59|97)6\\d{6}',
+    'NationalNumberPattern' => '596\\d{6}|(?:69|80|9\\d)\\d{7}',
     'PossibleLength' => 
     array (
       0 => 9,
@@ -25,7 +25,7 @@ return array (
   ),
   'fixedLine' => 
   array (
-    'NationalNumberPattern' => '596(?:0[0-7]|10|2[7-9]|3[05-9]|4[0-46-8]|[5-7]\\d|8[09]|9[4-8])\\d{4}',
+    'NationalNumberPattern' => '596(?:[03-7]\\d|10|2[7-9]|8[09]|9[4-9])\\d{4}',
     'ExampleNumber' => '596301234',
     'PossibleLength' => 
     array (
@@ -36,7 +36,7 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '69(?:6(?:[0-47-9]\\d|5[0-6]|6[0-4])|727)\\d{4}',
+    'NationalNumberPattern' => '69(?:6(?:[0-46-9]\\d|5[0-6])|727)\\d{4}',
     'ExampleNumber' => '696201234',
     'PossibleLength' => 
     array (
@@ -47,9 +47,10 @@ return array (
   ),
   'tollFree' => 
   array (
+    'NationalNumberPattern' => '80[0-5]\\d{6}',
+    'ExampleNumber' => '800012345',
     'PossibleLength' => 
     array (
-      0 => -1,
     ),
     'PossibleLengthLocalOnly' => 
     array (
@@ -87,7 +88,7 @@ return array (
   ),
   'voip' => 
   array (
-    'NationalNumberPattern' => '976(?:6[1-9]|7[0-367])\\d{4}',
+    'NationalNumberPattern' => '9(?:397[01]|477[0-2]|76(?:6\\d|7[0-367]))\\d{4}',
     'ExampleNumber' => '976612345',
     'PossibleLength' => 
     array (
@@ -156,11 +157,22 @@ return array (
       'domesticCarrierCodeFormattingRule' => '',
       'nationalPrefixOptionalWhenFormatting' => false,
     ),
+    1 => 
+    array (
+      'pattern' => '(\\d{3})(\\d{2})(\\d{2})(\\d{2})',
+      'format' => '$1 $2 $3 $4',
+      'leadingDigitsPatterns' => 
+      array (
+        0 => '8',
+      ),
+      'nationalPrefixFormattingRule' => '0$1',
+      'domesticCarrierCodeFormattingRule' => '',
+      'nationalPrefixOptionalWhenFormatting' => false,
+    ),
   ),
   'intlNumberFormat' => 
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => true,
 );

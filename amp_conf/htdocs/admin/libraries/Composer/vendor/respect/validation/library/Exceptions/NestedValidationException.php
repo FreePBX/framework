@@ -3,11 +3,13 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
@@ -15,153 +17,83 @@ use IteratorAggregate;
 use RecursiveIteratorIterator;
 use SplObjectStorage;
 
+use function array_shift;
+use function count;
+use function current;
+use function implode;
+use function is_array;
+use function is_string;
+use function spl_object_hash;
+use function sprintf;
+use function str_repeat;
+
+use const PHP_EOL;
+
+/**
+ * Exception for nested validations.
+ *
+ * This exception allows to have exceptions inside itself and providers methods
+ * to handle them and to retrieve nested messages based on itself and its
+ * children.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Jonathan Stewmon <jstewmon@rmn.com>
+ * @author Wojciech Frącz <fraczwojciech@gmail.com>
+ *
+ * @implements IteratorAggregate<ValidationException>
+ */
 class NestedValidationException extends ValidationException implements IteratorAggregate
 {
     /**
-     * @var SplObjectStorage
+     * @var ValidationException[]
      */
     private $exceptions = [];
 
     /**
-     * @param ValidationException $exception
+     * Returns the exceptions that are children of the exception.
      *
-     * @return self
+     * @return ValidationException[]
      */
-    public function addRelated(ValidationException $exception)
+    public function getChildren(): array
     {
-        $this->getRelated()->attach($exception);
+        return $this->exceptions;
+    }
+
+    /**
+     * Adds a child to the exception.
+     */
+    public function addChild(ValidationException $exception): self
+    {
+        $this->exceptions[spl_object_hash($exception)] = $exception;
 
         return $this;
     }
 
     /**
-     * @param string $path
-     * @param ValidationException $exception
+     * Adds children to the exception.
      *
-     * @return ValidationException
+     * @param ValidationException[] $exceptions
      */
-    private function getExceptionForPath($path, ValidationException $exception)
+    public function addChildren(array $exceptions): self
     {
-        if ($path === $exception->guessId()) {
-            return $exception;
+        foreach ($exceptions as $exception) {
+            $this->addChild($exception);
         }
 
-        if (!$exception instanceof self) {
-            return $exception;
-        }
-
-        foreach ($exception as $subException) {
-            return $subException;
-        }
-
-        return $exception;
+        return $this;
     }
 
-    /**
-     * @param array $paths
-     *
-     * @return array
-     */
-    public function findMessages(array $paths)
-    {
-        $messages = [];
-
-        foreach ($paths as $key => $value) {
-            $numericKey = is_numeric($key);
-            $path = $numericKey ? $value : $key;
-
-            if (!($exception = $this->getRelatedByName($path))) {
-                $exception = $this->findRelated($path);
-            }
-
-            $path = str_replace('.', '_', $path);
-
-            if (!$exception) {
-                $messages[$path] = '';
-                continue;
-            }
-
-            $exception = $this->getExceptionForPath($path, $exception);
-            if (!$numericKey) {
-                $exception->setTemplate($value);
-            }
-
-            $messages[$path] = $exception->getMainMessage();
-        }
-
-        return $messages;
-    }
-
-    /**
-     * @return Exception
-     */
-    public function findRelated($path)
-    {
-        $target = $this;
-        $pieces = explode('.', $path);
-
-        while (!empty($pieces) && $target) {
-            $piece = array_shift($pieces);
-            $target = $target->getRelatedByName($piece);
-        }
-
-        return $target;
-    }
-
-    /**
-     * @return RecursiveIteratorIterator
-     */
-    private function getRecursiveIterator()
-    {
-        $exceptionIterator = new RecursiveExceptionIterator($this);
-        $recursiveIteratorIterator = new RecursiveIteratorIterator(
-            $exceptionIterator,
-            RecursiveIteratorIterator::SELF_FIRST
-        );
-
-        return $recursiveIteratorIterator;
-    }
-
-    private function isSkippable(ValidationException $exception)
-    {
-        if (!$exception instanceof self) {
-            return false;
-        }
-
-        if (1 !== $exception->getRelated()->count()) {
-            return false;
-        }
-
-        if (!$exception->hasCustomTemplate()) {
-            return true;
-        }
-
-        return $this->hasChildTemplate($exception);
-    }
-
-    private function hasChildTemplate(self $exception)
-    {
-        $exception->getRelated()->rewind();
-        $childException = $exception->getRelated()->current();
-
-        return $childException->getMessage() === $exception->getMessage();
-    }
-
-    /**
-     * @return SplObjectStorage
-     */
-    public function getIterator()
+    public function getIterator(): SplObjectStorage
     {
         $childrenExceptions = new SplObjectStorage();
-
         $recursiveIteratorIterator = $this->getRecursiveIterator();
-        $exceptionIterator = $recursiveIteratorIterator->getInnerIterator();
 
         $lastDepth = 0;
         $lastDepthOriginal = 0;
         $knownDepths = [];
         foreach ($recursiveIteratorIterator as $childException) {
-            if ($this->isSkippable($childException)) {
+            if ($this->isOmissible($childException)) {
                 continue;
             }
 
@@ -181,55 +113,72 @@ class NestedValidationException extends ValidationException implements IteratorA
             $lastDepth = $currentDepth;
             $lastDepthOriginal = $currentDepthOriginal;
 
-            $childrenExceptions->attach(
-                $childException,
-                [
-                    'depth' => $currentDepth,
-                    'depth_original' => $currentDepthOriginal,
-                    'previous_depth' => $lastDepth,
-                    'previous_depth_original' => $lastDepthOriginal,
-                ]
-            );
+            $childrenExceptions->attach($childException, $currentDepth);
         }
 
         return $childrenExceptions;
     }
 
     /**
-     * @return array
+     * Returns a key->value array with all the messages of the exception.
+     *
+     * In this array the "keys" are the ids of the exceptions (defined name or
+     * name of the rule) and the values are the message.
+     *
+     * Once templates are passed it overwrites the templates of the given
+     * messages.
+     *
+     * @param string[]|string[][] $templates
+     *
+     * @return string[]
      */
-    public function getMessages()
+    public function getMessages(array $templates = []): array
     {
-        $messages = [$this->getMessage()];
-        foreach ($this as $exception) {
-            $messages[] = $exception->getMessage();
+        $messages = [$this->getId() => $this->renderMessage($this, $templates)];
+        foreach ($this->getChildren() as $exception) {
+            $id = $exception->getId();
+            if (!$exception instanceof self) {
+                $messages[$id] = $this->renderMessage(
+                    $exception,
+                    $this->findTemplates($templates, $this->getId())
+                );
+                continue;
+            }
+
+            $messages[$id] = $exception->getMessages($this->findTemplates($templates, $id, $this->getId()));
+            if (count($messages[$id]) > 1) {
+                continue;
+            }
+
+            $messages[$id] = current($messages[$exception->getId()]);
         }
 
         if (count($messages) > 1) {
-            array_shift($messages);
+            unset($messages[$this->getId()]);
         }
 
         return $messages;
     }
 
     /**
-     * @return string
+     * Returns a string with all the messages of the exception.
      */
-    public function getFullMessage()
+    public function getFullMessage(): string
     {
         $messages = [];
         $leveler = 1;
 
-        if (!$this->isSkippable($this)) {
+        if (!$this->isOmissible($this)) {
             $leveler = 0;
             $messages[] = sprintf('- %s', $this->getMessage());
         }
 
         $exceptions = $this->getIterator();
+        /** @var ValidationException $exception */
         foreach ($exceptions as $exception) {
             $messages[] = sprintf(
                 '%s- %s',
-                str_repeat(' ', ($exceptions[$exception]['depth'] - $leveler) * 2),
+                str_repeat(' ', (int) ($exceptions[$exception] - $leveler) * 2),
                 $exception->getMessage()
             );
         }
@@ -237,72 +186,70 @@ class NestedValidationException extends ValidationException implements IteratorA
         return implode(PHP_EOL, $messages);
     }
 
-    /**
-     * @return SplObjectStorage
-     */
-    public function getRelated()
+    private function getRecursiveIterator(): RecursiveIteratorIterator
     {
-        if (!$this->exceptions instanceof SplObjectStorage) {
-            $this->exceptions = new SplObjectStorage();
+        return new RecursiveIteratorIterator(
+            new RecursiveExceptionIterator($this),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+    }
+
+    private function isOmissible(Exception $exception): bool
+    {
+        if (!$exception instanceof self) {
+            return false;
         }
 
-        return $this->exceptions;
+        if (count($exception->getChildren()) !== 1) {
+            return false;
+        }
+
+        /** @var ValidationException $childException */
+        $childException = current($exception->getChildren());
+        if ($childException->getMessage() === $exception->getMessage()) {
+            return true;
+        }
+
+        if ($exception->hasCustomTemplate()) {
+            return $childException->hasCustomTemplate();
+        }
+
+        return !$childException instanceof NonOmissibleException;
     }
 
     /**
-     * @param string $name
-     * @param mixed  $value
+     * @param string[]|string[][] $templates
+     */
+    private function renderMessage(ValidationException $exception, array $templates): string
+    {
+        if (isset($templates[$exception->getId()]) && is_string($templates[$exception->getId()])) {
+            $exception->updateTemplate($templates[$exception->getId()]);
+        }
+
+        return $exception->getMessage();
+    }
+
+    /**
+     * @param string[]|string[][] $templates
+     * @param mixed ...$ids
      *
-     * @return self
+     * @return string[]|string[][]
      */
-    public function setParam($name, $value)
+    private function findTemplates(array $templates, ...$ids): array
     {
-        if ('translator' === $name) {
-            foreach ($this->getRelated() as $exception) {
-                $exception->setParam($name, $value);
+        while (count($ids) > 0) {
+            $id = array_shift($ids);
+            if (!isset($templates[$id])) {
+                continue;
             }
-        }
 
-        parent::setParam($name, $value);
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    private function isRelated($name, ValidationException $exception)
-    {
-        return ($exception->getId() === $name || $exception->getName() === $name);
-    }
-
-    /**
-     * @return ValidationException
-     */
-    public function getRelatedByName($name)
-    {
-        if ($this->isRelated($name, $this)) {
-            return $this;
-        }
-
-        foreach ($this->getRecursiveIterator() as $exception) {
-            if ($this->isRelated($name, $exception)) {
-                return $exception;
+            if (!is_array($templates[$id])) {
+                continue;
             }
-        }
-    }
 
-    /**
-     * @param array $exceptions
-     *
-     * @return self
-     */
-    public function setRelated(array $exceptions)
-    {
-        foreach ($exceptions as $exception) {
-            $this->addRelated($exception);
+            $templates = $templates[$id];
         }
 
-        return $this;
+        return $templates;
     }
 }

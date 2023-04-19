@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace malkusch\lock\mutex;
 
 use malkusch\lock\exception\DeadlineException;
-use malkusch\lock\exception\ExecutionOutsideLockException;
 use malkusch\lock\exception\LockAcquireException;
 use malkusch\lock\exception\LockReleaseException;
 use malkusch\lock\exception\TimeoutException;
@@ -20,7 +21,7 @@ use malkusch\lock\util\PcntlTimeout;
  */
 class FlockMutex extends LockMutex
 {
-    const INFINITE_TIMEOUT = -1;
+    public const INFINITE_TIMEOUT = -1;
 
     /**
      * @internal
@@ -35,7 +36,7 @@ class FlockMutex extends LockMutex
     /**
      * @internal
      */
-    const STRATEGY_BUSY  = 3;
+    const STRATEGY_BUSY = 3;
 
     /**
      * @var resource $fileHandle The file handle.
@@ -58,15 +59,15 @@ class FlockMutex extends LockMutex
      * @param resource $fileHandle The file handle.
      * @param int $timeout
      */
-    public function __construct($fileHandle, $timeout = self::INFINITE_TIMEOUT)
+    public function __construct($fileHandle, int $timeout = self::INFINITE_TIMEOUT)
     {
         if (!is_resource($fileHandle)) {
-            throw new \InvalidArgumentException("The file handle is not a valid resource.");
+            throw new \InvalidArgumentException('The file handle is not a valid resource.');
         }
 
         $this->fileHandle = $fileHandle;
-        $this->timeout    = $timeout;
-        $this->strategy   = $this->determineLockingStrategy();
+        $this->timeout = $timeout;
+        $this->strategy = $this->determineLockingStrategy();
     }
 
     private function determineLockingStrategy()
@@ -85,10 +86,10 @@ class FlockMutex extends LockMutex
     /**
      * @throws LockAcquireException
      */
-    private function lockBlocking()
+    private function lockBlocking(): void
     {
         if (!flock($this->fileHandle, LOCK_EX)) {
-            throw new LockAcquireException("Failed to lock the file.");
+            throw new LockAcquireException('Failed to lock the file.');
         }
     }
 
@@ -96,13 +97,13 @@ class FlockMutex extends LockMutex
      * @throws LockAcquireException
      * @throws TimeoutException
      */
-    private function lockPcntl()
+    private function lockPcntl(): void
     {
         $timebox = new PcntlTimeout($this->timeout);
 
         try {
             $timebox->timeBoxed(
-                function () {
+                function (): void {
                     $this->lockBlocking();
                 }
             );
@@ -118,7 +119,7 @@ class FlockMutex extends LockMutex
     private function lockBusy()
     {
         $loop = new Loop($this->timeout);
-        $loop->execute(function () use ($loop) {
+        $loop->execute(function () use ($loop): void {
             if ($this->acquireNonBlockingLock()) {
                 $loop->end();
             }
@@ -126,20 +127,21 @@ class FlockMutex extends LockMutex
     }
 
     /**
-     * @return bool
      * @throws LockAcquireException
+     * @return bool
      */
-    private function acquireNonBlockingLock()
+    private function acquireNonBlockingLock(): bool
     {
-        if (!flock($this->fileHandle, LOCK_EX | LOCK_NB, $wouldBlock)) {
+        if (!flock($this->fileHandle, LOCK_EX|LOCK_NB, $wouldBlock)) {
             if ($wouldBlock) {
                 /*
                  * Another process holds the lock.
                  */
                 return false;
             }
-            throw new LockAcquireException("Failed to lock the file.");
+            throw new LockAcquireException('Failed to lock the file.');
         }
+
         return true;
     }
 
@@ -147,17 +149,20 @@ class FlockMutex extends LockMutex
      * @throws LockAcquireException
      * @throws TimeoutException
      */
-    protected function lock()
+    protected function lock(): void
     {
         switch ($this->strategy) {
             case self::STRATEGY_BLOCK:
                 $this->lockBlocking();
+
                 return;
             case self::STRATEGY_PCNTL:
                 $this->lockPcntl();
+
                 return;
             case self::STRATEGY_BUSY:
                 $this->lockBusy();
+
                 return;
         }
 
@@ -167,10 +172,10 @@ class FlockMutex extends LockMutex
     /**
      * @throws LockReleaseException
      */
-    protected function unlock()
+    protected function unlock(): void
     {
         if (!flock($this->fileHandle, LOCK_UN)) {
-            throw new LockReleaseException("Failed to unlock the file.");
+            throw new LockReleaseException('Failed to unlock the file.');
         }
     }
 }

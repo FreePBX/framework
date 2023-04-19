@@ -26,7 +26,7 @@ return array (
   ),
   'fixedLine' => 
   array (
-    'NationalNumberPattern' => '1624[5-8]\\d{5}',
+    'NationalNumberPattern' => '1624(?:230|[5-8]\\d\\d)\\d{3}',
     'ExampleNumber' => '1624756789',
     'PossibleLength' => 
     array (
@@ -146,7 +146,7 @@ return array (
   'countryCode' => 44,
   'internationalPrefix' => '00',
   'nationalPrefix' => '0',
-  'nationalPrefixForParsing' => '0|([5-8]\\d{5})$',
+  'nationalPrefixForParsing' => '([25-8]\\d{5})$|0',
   'nationalPrefixTransformRule' => '1624$1',
   'sameMobileAndFixedLinePattern' => false,
   'numberFormat' => 
@@ -157,6 +157,5 @@ return array (
   ),
   'mainCountryForCode' => false,
   'leadingDigits' => '74576|(?:16|7[56])24',
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => false,
 );

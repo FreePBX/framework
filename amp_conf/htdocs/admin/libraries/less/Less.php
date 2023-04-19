@@ -1712,7 +1712,7 @@ class Less_Parser{
 
 		$this->expectChar(']');
 
-		return $this->NewObj3('Less_Tree_Attribute',array( $key, $op[0], $val));
+		return $this->NewObj3('Less_Tree_Attribute',array( $key,is_array($op) ? $op[0] : "", $val));
 	}
 
 	//
@@ -5277,9 +5277,9 @@ class Less_Tree_Directive extends Less_Tree{
 	public $debugInfo;
 	public $type = 'Directive';
 
-	public function __construct($name, $value = null, $rules, $index = null, $currentFileInfo = null, $debugInfo = null ){
+	public function __construct($name, $value, $rules, $index = null, $currentFileInfo = null, $debugInfo = null ){
 		$this->name = $name;
-		$this->value = $value;
+		$this->value = $value ?? null;
 		if( $rules ){
 			$this->rules = $rules;
 			$this->rules->allowImports = true;

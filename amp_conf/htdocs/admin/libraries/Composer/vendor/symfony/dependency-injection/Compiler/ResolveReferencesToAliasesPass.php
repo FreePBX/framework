@@ -22,9 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ResolveReferencesToAliasesPass extends AbstractRecursivePass
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container)
     {
         parent::process($container);
@@ -34,15 +31,12 @@ class ResolveReferencesToAliasesPass extends AbstractRecursivePass
             $this->currentId = $id;
 
             if ($aliasId !== $defId = $this->getDefinitionId($aliasId, $container)) {
-                $container->setAlias($id, $defId)->setPublic($alias->isPublic())->setPrivate($alias->isPrivate());
+                $container->setAlias($id, $defId)->setPublic($alias->isPublic());
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);
@@ -64,7 +58,8 @@ class ResolveReferencesToAliasesPass extends AbstractRecursivePass
         if ($alias->isDeprecated()) {
             $referencingDefinition = $container->hasDefinition($this->currentId) ? $container->getDefinition($this->currentId) : $container->getAlias($this->currentId);
             if (!$referencingDefinition->isDeprecated()) {
-                @trigger_error(sprintf('%s. It is being referenced by the "%s" %s.', rtrim($alias->getDeprecationMessage($id), '. '), $this->currentId, $container->hasDefinition($this->currentId) ? 'service' : 'alias'), \E_USER_DEPRECATED);
+                $deprecation = $alias->getDeprecation($id);
+                trigger_deprecation($deprecation['package'], $deprecation['version'], rtrim($deprecation['message'], '. ').'. It is being referenced by the "%s" '.($container->hasDefinition($this->currentId) ? 'service.' : 'alias.'), $this->currentId);
             }
         }
 

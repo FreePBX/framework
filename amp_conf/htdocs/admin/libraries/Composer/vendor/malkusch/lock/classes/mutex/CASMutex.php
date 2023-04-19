@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace malkusch\lock\mutex;
 
 use malkusch\lock\exception\TimeoutException;
@@ -19,12 +21,11 @@ use malkusch\lock\util\Loop;
  */
 class CASMutex extends Mutex
 {
-    
     /**
      * @var Loop The loop.
      */
     private $loop;
-    
+
     /**
      * Sets the timeout.
      *
@@ -33,19 +34,19 @@ class CASMutex extends Mutex
      * @param int $timeout The timeout in seconds.
      * @throws \LengthException The timeout must be greater than 0.
      */
-    public function __construct($timeout = 3)
+    public function __construct(int $timeout = 3)
     {
         $this->loop = new Loop($timeout);
     }
-    
+
     /**
      * Notifies the Mutex about a successful CAS operation.
      */
-    public function notify()
+    public function notify(): void
     {
         $this->loop->end();
     }
-    
+
     /**
      * Repeats executing a code until a compare-and-swap operation was successful.
      *
@@ -72,10 +73,10 @@ class CASMutex extends Mutex
      * </code>
      *
      * @param callable $code The synchronized execution block.
-     * @return mixed The return value of the execution block.
-     *
      * @throws \Exception The execution block threw an exception.
      * @throws TimeoutException The timeout was reached.
+     * @return mixed The return value of the execution block.
+     *
      */
     public function synchronized(callable $code)
     {

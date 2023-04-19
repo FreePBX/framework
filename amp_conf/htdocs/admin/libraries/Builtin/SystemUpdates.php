@@ -1,7 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\Builtin;
-use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 
 class SystemUpdates {
@@ -694,7 +694,7 @@ class SystemUpdates {
 			return $this->lock;
 		}
 		$lockStore = new SemaphoreStore();
-		$factory = new Factory($lockStore);
+		$factory = new LockFactory($lockStore);
 		$this->lock = $factory->createLock('systemupdates',7200);
 		return $this->lock;
 	}

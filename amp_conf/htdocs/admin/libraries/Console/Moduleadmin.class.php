@@ -244,6 +244,8 @@ class Moduleadmin extends Command {
 			$this->writeln($this->showHelp());
 		}
 		$this->resetMode();
+		//The successful execution of the command should return 0"
+		return 0;
 	}
 
 	private function resetMode() {
@@ -469,7 +471,7 @@ class Moduleadmin extends Command {
 		global $modulerepository_path;
 
 		$module = $this->mf->getinfo($modulename);
-		$module = $module[$modulename];
+		$module = $module[$modulename] ?? null;
 		if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
 			$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
 			if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {

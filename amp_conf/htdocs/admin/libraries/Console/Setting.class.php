@@ -50,12 +50,11 @@ class Setting extends Command {
 			$fs = new Filesystem();
 			try {
 				$fs->dumpFile($filename,$configjson);
-				return true;
+				return 0;
 			} catch (IOExceptionInterface $e){
 				$output->writeln(sprintf(_("Could not write to %s"),$filename));
-				return false;
+				return 1;
 			}
-			return;
 		}
 		if ($input->getOption('import')){
 			$filename = $input->getOption('import');
@@ -63,11 +62,13 @@ class Setting extends Command {
 			foreach($settings as $key => $val){
 				if($this->FreePBXConf->conf_setting_exists($key)){
 					$this->changeConfSetting($key, $val, $input, $output);
+					//The successful execution of the command should return 0"
+					return 0;
 				}else{
 					$output->writeln(sprintf(_('The setting %s was not found!'),$key));
+					return 1;
 				}
 			}
-			return;
 		}
 		if ($input->getOption('list')){
 			$conf = $this->FreePBXConf->get_conf_settings();
@@ -90,7 +91,8 @@ class Setting extends Command {
 			}
 			$table->setRows($rows);
 			$table->render();
-			return;
+			//The successful execution of the command should return 0"
+			return 0;
 		}
 		if($input->getOption('reset')){
 			if($args){
@@ -110,7 +112,8 @@ class Setting extends Command {
 					}
 				}
 			}
-			return;
+			//The successful execution of the command should return 0"
+			return 0;
 		}
 
 		if(isset($args[0])) {
@@ -131,10 +134,13 @@ class Setting extends Command {
 			}else{
 				$output->writeln(sprintf(_('The setting %s was not found!'),$setting));
 			}
-			return;
+			//The successful execution of the command should return 0"
+			return 0;
 		}
 
 		$this->outputHelp($input,$output);
+		//The successful execution of the command should return 0"
+		return 0;
 	}
 
 	/**

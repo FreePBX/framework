@@ -95,6 +95,7 @@ class Reload extends Command {
 			$this->error = $e->getMessage();
 			throw $e;
 		}
+		return 0;
 	}
 
 	private function reload() {
@@ -846,7 +847,7 @@ class Reload extends Command {
 		if(empty($loc)) {
 			throw new \Exception(_("Unable to find the Asterisk binary"));
 		} else {
-			$process = new Process($loc . " -rx 'core show version'");
+			$process = Process::fromShellCommandline($loc . " -rx 'core show version'");
 			$process->mustRun();
 		}
 

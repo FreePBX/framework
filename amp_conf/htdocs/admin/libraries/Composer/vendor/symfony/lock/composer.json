@@ -1,7 +1,7 @@
 {
     "name": "symfony/lock",
     "type": "library",
-    "description": "Symfony Lock Component",
+    "description": "Creates and manages locks, a mechanism to provide exclusive access to a shared resource",
     "keywords": ["locking", "redlock", "mutex", "semaphore", "flock", "cas"],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,12 +16,16 @@
         }
     ],
     "require": {
-        "php": "^5.5.9|>=7.0.8",
-        "symfony/polyfill-php70": "~1.0",
-        "psr/log": "~1.0"
+        "php": ">=8.1",
+        "psr/log": "^1|^2|^3"
     },
     "require-dev": {
+        "doctrine/dbal": "^2.13|^3.0",
         "predis/predis": "~1.0"
+    },
+    "conflict": {
+        "doctrine/dbal": "<2.13",
+        "symfony/cache": "<6.2"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Lock\\": "" },

@@ -153,7 +153,30 @@ class Database extends \PDO {
 		}
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
+		$this->dsnarr = $dsnarr;
+		$this->username = $username;
+		$this->password = $password;
+		$this->engine = $engine;
 	}
+
+	/**
+	 * List of URL schemes from a database URL and their mappings to driver.
+	 *
+	 * @deprecated Use actual driver names instead.
+	 *
+	 * @var string[]
+	 */
+	private static array $driverSchemeAliases = [
+		'db2'        => 'ibm_db2',
+		'mssql'      => 'pdo_sqlsrv',
+		'mysql'      => 'pdo_mysql',
+		'mysql2'     => 'pdo_mysql', // Amazon RDS, for some weird reason
+		'postgres'   => 'pdo_pgsql',
+		'postgresql' => 'pdo_pgsql',
+		'pgsql'      => 'pdo_pgsql',
+		'sqlite'     => 'pdo_sqlite',
+		'sqlite3'    => 'pdo_sqlite',
+	];
 
 	/**
 	 * Fetch the mysql command to use with required parameters
@@ -236,7 +259,16 @@ class Database extends \PDO {
 		return $migrate->modifyMultiple($tables,$dryrun);
 	}
 
-	public function query() {
+	/**
+	 * Executes an SQL statement, returning the results
+	 *
+	 * @param string|null $query The SQL statement to prepare and execute.
+	 * @param int|null $fetchMode The fetch mode must be one of the
+	 *   PDO::FETCH_* constants.
+	 * @param mixed|null $fetchModeArgs Column number, class name or object.
+	 * @return Statement
+	 */
+	public function query(?string $query = null, ?int $fetchMode = null, mixed ...$fetchModeArgs){
 		$args = func_get_args();
 		if(defined('LOGPREPARES')) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
@@ -247,14 +279,26 @@ class Database extends \PDO {
 	}
 
 	public function migrate($table) {
-		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
+		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion, $this->engine);
 		$migrate->setTable($table);
 		return $migrate;
 	}
 
 	public function getDoctrineConnection() {
 		if(empty($this->dConn)) {
-			$this->dConn = DriverManager::getConnection(array("pdo" => $this));
+			if (!isset(self::$driverSchemeAliases[$this->engine])) {
+				throw new \Exception("Engine not set!");
+			}
+			$connectionParams = [
+				'dbname' => $this->dsnarr['dbname'],
+				'user' => $this->username,
+				'password' => $this->password,
+				'host' => $this->dsnarr['host'],
+				'driver' => self::$driverSchemeAliases[$this->engine],
+				'port' => $this->dsnarr['port'],
+				'charset' => $this->dsnarr['charset'],
+			];
+			$this->dConn = DriverManager::getConnection($connectionParams);
 		}
 		return $this->dConn;
 	}

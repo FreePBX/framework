@@ -11,12 +11,12 @@ use PHPUnit\Framework\TestCase;
 
 class MomentTurkishLocaleTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Moment::setLocale('tr_TR');
     }
 
-    public function testWeekdayNames()
+    public function testWeekdayNames(): void
     {
         $startingDate = '2015-01-04T00:00:00+0000';
 
@@ -32,14 +32,14 @@ class MomentTurkishLocaleTest extends TestCase
             7 => array('Paz', 'Pazar'),
         );
         for ($d = 1; $d < 7; $d++) {
-            $this->assertEquals($weekdayNames[$moment->getWeekday()][0], $moment->getWeekdayNameShort(), 'weekday short name failed');
-            $this->assertEquals($weekdayNames[$moment->getWeekday()][1], $moment->getWeekdayNameLong(), 'weekday long name failed');
+            self::assertEquals($weekdayNames[$moment->getWeekday()][0], $moment->getWeekdayNameShort(), 'weekday short name failed');
+            self::assertEquals($weekdayNames[$moment->getWeekday()][1], $moment->getWeekdayNameLong(), 'weekday long name failed');
 
             $moment->addDays(1);
         }
     }
 
-    public function testMonthNames()
+    public function testMonthNames(): void
     {
         $startingDate = '2015-01-04T00:00:00+0000';
 
@@ -61,14 +61,14 @@ class MomentTurkishLocaleTest extends TestCase
         );
 
         for ($d = 1; $d <= 12; $d++) {
-            $this->assertEquals($monthNames[$moment->format('n')][0], $moment->getMonthNameShort(), 'month short name failed');
-            $this->assertEquals($monthNames[$moment->format('n')][1], $moment->getMonthNameLong(), 'month long name failed');
+            self::assertEquals($monthNames[$moment->format('n')][0], $moment->getMonthNameShort(), 'month short name failed');
+            self::assertEquals($monthNames[$moment->format('n')][1], $moment->getMonthNameLong(), 'month long name failed');
 
             $moment->addMonths(1);
         }
     }
 
-    public function testFormat()
+    public function testFormat(): void
     {
         $a = array(
             array('l, F d Y, g:i:s a',                  'Pazar, Şubat 14 2010, 3:25:50 pm'),
@@ -80,59 +80,59 @@ class MomentTurkishLocaleTest extends TestCase
         );
         $b = new Moment('2010-02-14 15:25:50');
         for ($i = 0; $i < count($a); $i++) {
-            $this->assertEquals($a[$i][1], $b->format($a[$i][0]));
+            self::assertEquals($a[$i][1], $b->format($a[$i][0]));
         }
     }
 
-    public function testRelative()
+    public function testRelative(): void
     {
         $beginningMoment = new Moment('2015-06-14 20:46:22', 'Europe/Istanbul');
         $endMoment = new Moment('2015-06-14 20:48:32', 'Europe/Istanbul');
-        $this->assertEquals('2 dakika sonra', $endMoment->from($beginningMoment)->getRelative());
-        $this->assertEquals('2 dakika önce', $beginningMoment->from($endMoment)->getRelative());
+        self::assertEquals('2 dakika sonra', $endMoment->from($beginningMoment)->getRelative());
+        self::assertEquals('2 dakika önce', $beginningMoment->from($endMoment)->getRelative());
     }
 
-    public function testMinutes()
+    public function testMinutes(): void
     {
         $past = new Moment('2016-01-03 16:17:07', 'Europe/Kiev');
 
         $relative = $past->from('2016-01-03 16:34:07');
-        $this->assertEquals('17 dakika önce', $relative->getRelative());
+        self::assertEquals('17 dakika önce', $relative->getRelative());
 
         $relative = $past->from('2016-01-03 16:40:07');
-        $this->assertEquals('23 dakika önce', $relative->getRelative());
+        self::assertEquals('23 dakika önce', $relative->getRelative());
 
         $relative = $past->from('2016-01-03 16:30:07');
-        $this->assertEquals('13 dakika önce', $relative->getRelative());
+        self::assertEquals('13 dakika önce', $relative->getRelative());
     }
 
-    public function testLastWeekWeekend()
+    public function testLastWeekWeekend(): void
     {
         $past = new Moment('2016-04-10 16:30:07');
-        $this->assertEquals('Geçen hafta Pazar 16:30', $past->calendar(true, new Moment('2016-04-12')));
+        self::assertEquals('Geçen hafta Pazar 16:30', $past->calendar(true, new Moment('2016-04-12')));
 
         $past = new Moment('2016-09-24 11:30:07');
-        $this->assertEquals('Geçen hafta Cumartesi 11:30', $past->calendar(true, new Moment('2016-09-26')));
+        self::assertEquals('Geçen hafta Cumartesi 11:30', $past->calendar(true, new Moment('2016-09-26')));
 
         $past = new Moment('2016-04-11');
-        $this->assertEquals('Geçen hafta Pazartesi', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Geçen hafta Pazartesi', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-12');
-        $this->assertEquals('Geçen hafta Salı', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Geçen hafta Salı', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-13');
-        $this->assertEquals('Geçen hafta Çarşamba', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Geçen hafta Çarşamba', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-14');
-        $this->assertEquals('Geçen hafta Perşembe', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Geçen hafta Perşembe', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-15');
-        $this->assertEquals('Geçen hafta Cuma', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Geçen hafta Cuma', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-16');
-        $this->assertEquals('Dün', $past->calendar(false, new Moment('2016-04-17')));
+        self::assertEquals('Dün', $past->calendar(false, new Moment('2016-04-17')));
 
         $past = new Moment('2016-04-16');
-        $this->assertEquals('Geçen hafta Cumartesi', $past->calendar(false, new Moment('2016-04-18')));
+        self::assertEquals('Geçen hafta Cumartesi', $past->calendar(false, new Moment('2016-04-18')));
     }
 }

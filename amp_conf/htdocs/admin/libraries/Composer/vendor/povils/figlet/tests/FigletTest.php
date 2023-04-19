@@ -9,13 +9,21 @@
 namespace Povils\Figlet\Tests;
 
 use Povils\Figlet\Figlet;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 
 /**
  * Class FigletTest
  */
 class FigletTest extends TestCase
 {
+    public function testClear()
+    {
+        $figlet = new Figlet();
+        $output = $figlet->render('Test');
+
+        $this->assertNull($figlet->clear());
+    }
+
     public function testRender_Default()
     {
         $figlet = new Figlet();

@@ -3,20 +3,38 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ComponentException;
 
-class Type extends AbstractRule
+use function array_keys;
+use function gettype;
+use function implode;
+use function is_callable;
+use function sprintf;
+
+/**
+ * Validates the type of input.
+ *
+ * @author Gabriel Caruso <carusogabriel34@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Paul Karikari <paulkarikari1@gmail.com>
+ */
+final class Type extends AbstractRule
 {
-    public $type;
-    public $availableTypes = [
+    /**
+     * Collection of available types for validation.
+     *
+     */
+    private const AVAILABLE_TYPES = [
         'array' => 'array',
         'bool' => 'boolean',
         'boolean' => 'boolean',
@@ -31,23 +49,42 @@ class Type extends AbstractRule
         'string' => 'string',
     ];
 
-    public function __construct($type)
+    /**
+     * Type to validate input against.
+     *
+     * @var string
+     */
+    private $type;
+
+    /**
+     * Initializes the rule.
+     *
+     * @throws ComponentException When $type is not a valid one
+     */
+    public function __construct(string $type)
     {
-        $lowerType = strtolower($type);
-        if (!isset($this->availableTypes[$lowerType])) {
-            throw new ComponentException(sprintf('"%s" is not a valid type', print_r($type, true)));
+        if (!isset(self::AVAILABLE_TYPES[$type])) {
+            throw new ComponentException(
+                sprintf(
+                    '"%s" is not a valid type (Available: %s)',
+                    $type,
+                    implode(', ', array_keys(self::AVAILABLE_TYPES))
+                )
+            );
         }
 
         $this->type = $type;
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        $lowerType = strtolower($this->type);
-        if ('callable' === $lowerType) {
+        if ($this->type === 'callable') {
             return is_callable($input);
         }
 
-        return ($this->availableTypes[$lowerType] === gettype($input));
+        return self::AVAILABLE_TYPES[$this->type] === gettype($input);
     }
 }

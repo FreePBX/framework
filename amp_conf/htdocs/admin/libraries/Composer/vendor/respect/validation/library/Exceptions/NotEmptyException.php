@@ -3,19 +3,29 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class NotEmptyException extends ValidationException
+/**
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Bram Van der Sype <bram.vandersype@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class NotEmptyException extends ValidationException
 {
-    const STANDARD = 0;
-    const NAMED = 1;
-    public static $defaultTemplates = [
+    public const NAMED = 'named';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => 'The value must not be empty',
             self::NAMED => '{{name}} must not be empty',
@@ -26,8 +36,15 @@ class NotEmptyException extends ValidationException
         ],
     ];
 
-    public function chooseTemplate()
+    /**
+     * {@inheritDoc}
+     */
+    protected function chooseTemplate(): string
     {
-        return $this->getName() == '' ? static::STANDARD : static::NAMED;
+        if ($this->getParam('input') || $this->getParam('name')) {
+            return self::NAMED;
+        }
+
+        return self::STANDARD;
     }
 }

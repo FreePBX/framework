@@ -22,7 +22,7 @@ class Debug extends Command {
 		->setAliases(array('dbug'))
 		->setDescription(_('Stream files for debugging'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),
 			new InputOption('skipstandard', 's', InputOption::VALUE_NONE, _('Do not tail standard freepbx.log')),)
 		);
 	}
@@ -63,7 +63,7 @@ class Debug extends Command {
 		}
 		$files = implode(' ', $files);
 		//passthru('tail -f ' . $files);
-		$process = new Process('tail -f ' . $files);
+		$process = Process::fromShellCommandline('tail -f ' . $files);
 		//Timeout for the above process. Not sure if there is a no limit but 42 Years seems long enough.
 		$process->setTimeout(1325390892);
 		$process->run(function ($type, $buffer) {
@@ -73,5 +73,7 @@ class Debug extends Command {
 				echo 'OUT > '.$buffer;
 			}
 		});
+		//The successful execution of the command should return 0
+		return 0;
 	}
 }

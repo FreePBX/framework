@@ -16,36 +16,35 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 use Symfony\Component\Lock\Exception\InvalidArgumentException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
-use Symfony\Component\Lock\Exception\NotSupportedException;
 use Symfony\Component\Lock\Key;
-use Symfony\Component\Lock\StoreInterface;
+use Symfony\Component\Lock\PersistingStoreInterface;
+use Symfony\Component\Lock\SharedLockStoreInterface;
 use Symfony\Component\Lock\Strategy\StrategyInterface;
 
 /**
- * CombinedStore is a StoreInterface implementation able to manage and synchronize several StoreInterfaces.
+ * CombinedStore is a PersistingStoreInterface implementation able to manage and synchronize several StoreInterfaces.
  *
  * @author Jérémy Derussé <jeremy@derusse.com>
  */
-class CombinedStore implements StoreInterface, LoggerAwareInterface
+class CombinedStore implements SharedLockStoreInterface, LoggerAwareInterface
 {
     use ExpiringStoreTrait;
     use LoggerAwareTrait;
 
-    /** @var StoreInterface[] */
-    private $stores;
-    /** @var StrategyInterface */
-    private $strategy;
+    /** @var PersistingStoreInterface[] */
+    private array $stores;
+    private StrategyInterface $strategy;
 
     /**
-     * @param StoreInterface[] $stores The list of synchronized stores
+     * @param PersistingStoreInterface[] $stores The list of synchronized stores
      *
      * @throws InvalidArgumentException
      */
     public function __construct(array $stores, StrategyInterface $strategy)
     {
         foreach ($stores as $store) {
-            if (!$store instanceof StoreInterface) {
-                throw new InvalidArgumentException(sprintf('The store must implement "%s". Got "%s".', StoreInterface::class, \get_class($store)));
+            if (!$store instanceof PersistingStoreInterface) {
+                throw new InvalidArgumentException(sprintf('The store must implement "%s". Got "%s".', PersistingStoreInterface::class, get_debug_type($store)));
             }
         }
 
@@ -54,9 +53,6 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
         $this->logger = new NullLogger();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function save(Key $key)
     {
         $successCount = 0;
@@ -68,7 +64,7 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
                 $store->save($key);
                 ++$successCount;
             } catch (\Exception $e) {
-                $this->logger->warning('One store failed to save the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
+                $this->logger->debug('One store failed to save the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
                 ++$failureCount;
             }
 
@@ -83,7 +79,7 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
             return;
         }
 
-        $this->logger->warning('Failed to store the "{resource}" lock. Quorum has not been met.', ['resource' => $key, 'success' => $successCount, 'failure' => $failureCount]);
+        $this->logger->info('Failed to store the "{resource}" lock. Quorum has not been met.', ['resource' => $key, 'success' => $successCount, 'failure' => $failureCount]);
 
         // clean up potential locks
         $this->delete($key);
@@ -91,15 +87,45 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
         throw new LockConflictedException();
     }
 
-    public function waitAndSave(Key $key)
+    public function saveRead(Key $key)
     {
-        throw new NotSupportedException(sprintf('The store "%s" does not support blocking locks.', static::class));
+        $successCount = 0;
+        $failureCount = 0;
+        $storesCount = \count($this->stores);
+
+        foreach ($this->stores as $store) {
+            try {
+                if ($store instanceof SharedLockStoreInterface) {
+                    $store->saveRead($key);
+                } else {
+                    $store->save($key);
+                }
+                ++$successCount;
+            } catch (\Exception $e) {
+                $this->logger->debug('One store failed to save the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
+                ++$failureCount;
+            }
+
+            if (!$this->strategy->canBeMet($failureCount, $storesCount)) {
+                break;
+            }
+        }
+
+        $this->checkNotExpired($key);
+
+        if ($this->strategy->isMet($successCount, $storesCount)) {
+            return;
+        }
+
+        $this->logger->info('Failed to store the "{resource}" lock. Quorum has not been met.', ['resource' => $key, 'success' => $successCount, 'failure' => $failureCount]);
+
+        // clean up potential locks
+        $this->delete($key);
+
+        throw new LockConflictedException();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function putOffExpiration(Key $key, $ttl)
+    public function putOffExpiration(Key $key, float $ttl)
     {
         $successCount = 0;
         $failureCount = 0;
@@ -109,7 +135,7 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
         foreach ($this->stores as $store) {
             try {
                 if (0.0 >= $adjustedTtl = $expireAt - microtime(true)) {
-                    $this->logger->warning('Stores took to long to put off the expiration of the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'ttl' => $ttl]);
+                    $this->logger->debug('Stores took to long to put off the expiration of the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'ttl' => $ttl]);
                     $key->reduceLifetime(0);
                     break;
                 }
@@ -117,7 +143,7 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
                 $store->putOffExpiration($key, $adjustedTtl);
                 ++$successCount;
             } catch (\Exception $e) {
-                $this->logger->warning('One store failed to put off the expiration of the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
+                $this->logger->debug('One store failed to put off the expiration of the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
                 ++$failureCount;
             }
 
@@ -132,7 +158,7 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
             return;
         }
 
-        $this->logger->warning('Failed to define the expiration for the "{resource}" lock. Quorum has not been met.', ['resource' => $key, 'success' => $successCount, 'failure' => $failureCount]);
+        $this->logger->notice('Failed to define the expiration for the "{resource}" lock. Quorum has not been met.', ['resource' => $key, 'success' => $successCount, 'failure' => $failureCount]);
 
         // clean up potential locks
         $this->delete($key);
@@ -140,9 +166,6 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
         throw new LockConflictedException();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete(Key $key)
     {
         foreach ($this->stores as $store) {
@@ -154,19 +177,21 @@ class CombinedStore implements StoreInterface, LoggerAwareInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exists(Key $key)
+    public function exists(Key $key): bool
     {
         $successCount = 0;
         $failureCount = 0;
         $storesCount = \count($this->stores);
 
         foreach ($this->stores as $store) {
-            if ($store->exists($key)) {
-                ++$successCount;
-            } else {
+            try {
+                if ($store->exists($key)) {
+                    ++$successCount;
+                } else {
+                    ++$failureCount;
+                }
+            } catch (\Exception $e) {
+                $this->logger->debug('One store failed to check the "{resource}" lock.', ['resource' => $key, 'store' => $store, 'exception' => $e]);
                 ++$failureCount;
             }
 

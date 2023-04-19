@@ -35,7 +35,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 	 */
 	private static function hasAAC() {
 		$loc = fpbx_which("ffmpeg");
-		$process = new Process($loc.' -version');
+		$process = Process::fromShellCommandline($loc.' -version');
 		$process->mustRun();
 		$output = $process->getOutput();
 		return !!preg_match_all('/enable-libfdk-aac\s/', $output);
@@ -60,7 +60,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 
 	public static function installed() {
 		$loc = fpbx_which("ffmpeg");
-		$process = new Process($loc.' -version');
+		$process = Process::fromShellCommandline($loc.' -version');
 		$process->run();
 
 		// executes after the command finishes
@@ -88,7 +88,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process($this->binary.' -version');
+		$process = Process::fromShellCommandline($this->binary.' -version');
 		$process->run();
 
 		// executes after the command finishes
@@ -106,39 +106,39 @@ class FfmpegShell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "sln":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 8000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 8000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln12":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 12000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 12000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln16":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 16000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 16000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln24":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 24000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 24000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln32":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 32000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 32000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln44":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 44000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 44000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln48":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 48000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 48000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln96":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 96000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 96000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln192":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 192000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar 192000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "wav":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar '.escapeshellarg($this->options['samplerate']).' -ac 1 -y '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -ar '.escapeshellarg($this->options['samplerate']).' -ac 1 -y '.escapeshellarg($newFilename).'');
 			break;
 			case "mp4":
 			case "m4a":
 				if(self::hasAAC()) {
-					$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
+					$process = Process::fromShellCommandline($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
 				} else {
 					throw new \Exception("MP4 and M4A are not supported by FFMPEG");
 				}

@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\HttpKernel\Log;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * DebugLoggerInterface.
  *
@@ -21,20 +23,24 @@ interface DebugLoggerInterface
     /**
      * Returns an array of logs.
      *
-     * A log is an array with the following mandatory keys:
-     * timestamp, message, priority, and priorityName.
-     * It can also have an optional context key containing an array.
-     *
-     * @return array An array of logs
+     * @return array<array{
+     *     channel: ?string,
+     *     context: array<string, mixed>,
+     *     message: string,
+     *     priority: int,
+     *     priorityName: string,
+     *     timestamp: int,
+     *     timestamp_rfc3339: string,
+     * }>
      */
-    public function getLogs();
+    public function getLogs(Request $request = null);
 
     /**
      * Returns the number of errors.
      *
-     * @return int The number of errors
+     * @return int
      */
-    public function countErrors();
+    public function countErrors(Request $request = null);
 
     /**
      * Removes all log records.

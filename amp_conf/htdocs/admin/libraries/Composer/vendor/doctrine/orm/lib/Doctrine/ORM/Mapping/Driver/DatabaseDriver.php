@@ -1,75 +1,82 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
- */
+
+declare(strict_types=1);
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Util\Inflector;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\Deprecations\Deprecation;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\ClassMetadata as PersistenceClassMetadata;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use InvalidArgumentException;
+
+use function array_diff;
+use function array_keys;
+use function array_merge;
+use function assert;
+use function count;
+use function current;
+use function get_class;
+use function in_array;
+use function preg_replace;
+use function sort;
+use function strtolower;
 
 /**
  * The DatabaseDriver reverse engineers the mapping metadata from a database.
  *
  * @link    www.doctrine-project.org
- * @since   2.0
- * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author  Jonathan Wage <jonwage@gmail.com>
- * @author  Benjamin Eberlei <kontakt@beberlei.de>
  */
 class DatabaseDriver implements MappingDriver
 {
     /**
-     * @var AbstractSchemaManager
+     * Replacement for {@see Types::ARRAY}.
+     *
+     * To be removed as soon as support for DBAL 3 is dropped.
      */
+    private const ARRAY = 'array';
+
+    /**
+     * Replacement for {@see Types::OBJECT}.
+     *
+     * To be removed as soon as support for DBAL 3 is dropped.
+     */
+    private const OBJECT = 'object';
+
+    /**
+     * Replacement for {@see Types::JSON_ARRAY}.
+     *
+     * To be removed as soon as support for DBAL 2 is dropped.
+     */
+    private const JSON_ARRAY = 'json_array';
+
+    /** @var AbstractSchemaManager */
     private $_sm;
 
-    /**
-     * @var array|null
-     */
+    /** @var array<string,Table>|null */
     private $tables = null;
 
-    /**
-     * @var array
-     */
-    private $classToTableNames = array();
+    /** @var mixed[] */
+    private $classToTableNames = [];
 
-    /**
-     * @var array
-     */
-    private $manyToManyTables = array();
+    /** @psalm-var array<string, Table> */
+    private $manyToManyTables = [];
 
-    /**
-     * @var array
-     */
-    private $classNamesForTables = array();
+    /** @var mixed[] */
+    private $classNamesForTables = [];
 
-    /**
-     * @var array
-     */
-    private $fieldNamesForColumns = array();
+    /** @var mixed[] */
+    private $fieldNamesForColumns = [];
 
     /**
      * The namespace for the generated entities.
@@ -78,12 +85,13 @@ class DatabaseDriver implements MappingDriver
      */
     private $namespace;
 
-    /**
-     * @param AbstractSchemaManager $schemaManager
-     */
+    /** @var Inflector */
+    private $inflector;
+
     public function __construct(AbstractSchemaManager $schemaManager)
     {
-        $this->_sm = $schemaManager;
+        $this->_sm       = $schemaManager;
+        $this->inflector = InflectorFactory::create()->build();
     }
 
     /**
@@ -146,20 +154,22 @@ class DatabaseDriver implements MappingDriver
     /**
      * Sets tables manually instead of relying on the reverse engineering capabilities of SchemaManager.
      *
-     * @param array $entityTables
-     * @param array $manyToManyTables
+     * @param Table[] $entityTables
+     * @param Table[] $manyToManyTables
+     * @psalm-param list<Table> $entityTables
+     * @psalm-param list<Table> $manyToManyTables
      *
      * @return void
      */
     public function setTables($entityTables, $manyToManyTables)
     {
-        $this->tables = $this->manyToManyTables = $this->classToTableNames = array();
+        $this->tables = $this->manyToManyTables = $this->classToTableNames = [];
 
         foreach ($entityTables as $table) {
             $className = $this->getClassNameForTable($table->getName());
 
             $this->classToTableNames[$className] = $table->getName();
-            $this->tables[$table->getName()] = $table;
+            $this->tables[$table->getName()]     = $table;
         }
 
         foreach ($manyToManyTables as $table) {
@@ -167,20 +177,41 @@ class DatabaseDriver implements MappingDriver
         }
     }
 
+    public function setInflector(Inflector $inflector): void
+    {
+        $this->inflector = $inflector;
+    }
+
     /**
      * {@inheritDoc}
+     *
+     * @psalm-param class-string<T> $className
+     * @psalm-param ClassMetadata<T> $metadata
+     *
+     * @template T of object
      */
-    public function loadMetadataForClass($className, ClassMetadata $metadata)
+    public function loadMetadataForClass($className, PersistenceClassMetadata $metadata)
     {
+        if (! $metadata instanceof ClassMetadata) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/pull/249',
+                'Passing an instance of %s to %s is deprecated, please pass a ClassMetadata instance instead.',
+                get_class($metadata),
+                __METHOD__,
+                ClassMetadata::class
+            );
+        }
+
         $this->reverseEngineerMappingFromDatabase();
 
-        if ( ! isset($this->classToTableNames[$className])) {
-            throw new \InvalidArgumentException("Unknown class " . $className);
+        if (! isset($this->classToTableNames[$className])) {
+            throw new InvalidArgumentException('Unknown class ' . $className);
         }
 
         $tableName = $this->classToTableNames[$className];
 
-        $metadata->name = $className;
+        $metadata->name          = $className;
         $metadata->table['name'] = $tableName;
 
         $this->buildIndexes($metadata);
@@ -190,103 +221,92 @@ class DatabaseDriver implements MappingDriver
         foreach ($this->manyToManyTables as $manyTable) {
             foreach ($manyTable->getForeignKeys() as $foreignKey) {
                 // foreign key maps to the table of the current entity, many to many association probably exists
-                if ( ! (strtolower($tableName) === strtolower($foreignKey->getForeignTableName()))) {
+                if (! (strtolower($tableName) === strtolower($foreignKey->getForeignTableName()))) {
                     continue;
                 }
 
-                $myFk = $foreignKey;
+                $myFk    = $foreignKey;
                 $otherFk = null;
 
                 foreach ($manyTable->getForeignKeys() as $foreignKey) {
-                    if ($foreignKey != $myFk) {
+                    if ($foreignKey !== $myFk) {
                         $otherFk = $foreignKey;
                         break;
                     }
                 }
 
-                if ( ! $otherFk) {
+                if (! $otherFk) {
                     // the definition of this many to many table does not contain
                     // enough foreign key information to continue reverse engineering.
                     continue;
                 }
 
-                $localColumn = current($myFk->getColumns());
+                $localColumn = current($myFk->getLocalColumns());
 
-                $associationMapping = array();
-                $associationMapping['fieldName'] = $this->getFieldNameForColumn($manyTable->getName(), current($otherFk->getColumns()), true);
+                $associationMapping                 = [];
+                $associationMapping['fieldName']    = $this->getFieldNameForColumn($manyTable->getName(), current($otherFk->getLocalColumns()), true);
                 $associationMapping['targetEntity'] = $this->getClassNameForTable($otherFk->getForeignTableName());
 
-                if (current($manyTable->getColumns())->getName() == $localColumn) {
-                    $associationMapping['inversedBy'] = $this->getFieldNameForColumn($manyTable->getName(), current($myFk->getColumns()), true);
-                    $associationMapping['joinTable'] = array(
+                if (current($manyTable->getColumns())->getName() === $localColumn) {
+                    $associationMapping['inversedBy'] = $this->getFieldNameForColumn($manyTable->getName(), current($myFk->getLocalColumns()), true);
+                    $associationMapping['joinTable']  = [
                         'name' => strtolower($manyTable->getName()),
-                        'joinColumns' => array(),
-                        'inverseJoinColumns' => array(),
-                    );
+                        'joinColumns' => [],
+                        'inverseJoinColumns' => [],
+                    ];
 
                     $fkCols = $myFk->getForeignColumns();
-                    $cols = $myFk->getColumns();
+                    $cols   = $myFk->getLocalColumns();
 
-                    for ($i = 0; $i < count($cols); $i++) {
-                        $associationMapping['joinTable']['joinColumns'][] = array(
+                    for ($i = 0, $colsCount = count($cols); $i < $colsCount; $i++) {
+                        $associationMapping['joinTable']['joinColumns'][] = [
                             'name' => $cols[$i],
                             'referencedColumnName' => $fkCols[$i],
-                        );
+                        ];
                     }
 
                     $fkCols = $otherFk->getForeignColumns();
-                    $cols = $otherFk->getColumns();
+                    $cols   = $otherFk->getLocalColumns();
 
-                    for ($i = 0; $i < count($cols); $i++) {
-                        $associationMapping['joinTable']['inverseJoinColumns'][] = array(
+                    for ($i = 0, $colsCount = count($cols); $i < $colsCount; $i++) {
+                        $associationMapping['joinTable']['inverseJoinColumns'][] = [
                             'name' => $cols[$i],
                             'referencedColumnName' => $fkCols[$i],
-                        );
+                        ];
                     }
                 } else {
-                    $associationMapping['mappedBy'] = $this->getFieldNameForColumn($manyTable->getName(), current($myFk->getColumns()), true);
+                    $associationMapping['mappedBy'] = $this->getFieldNameForColumn($manyTable->getName(), current($myFk->getLocalColumns()), true);
                 }
 
                 $metadata->mapManyToMany($associationMapping);
-                
+
                 break;
             }
         }
     }
 
-    /**
-     * @return void
-     *
-     * @throws \Doctrine\ORM\Mapping\MappingException
-     */
-    private function reverseEngineerMappingFromDatabase()
+    /** @throws MappingException */
+    private function reverseEngineerMappingFromDatabase(): void
     {
         if ($this->tables !== null) {
             return;
         }
 
-        $tables = array();
+        $this->tables = $this->manyToManyTables = $this->classToTableNames = [];
 
-        foreach ($this->_sm->listTableNames() as $tableName) {
-            $tables[$tableName] = $this->_sm->listTableDetails($tableName);
-        }
+        foreach ($this->_sm->listTables() as $table) {
+            $tableName   = $table->getName();
+            $foreignKeys = $table->getForeignKeys();
 
-        $this->tables = $this->manyToManyTables = $this->classToTableNames = array();
-
-        foreach ($tables as $tableName => $table) {
-            $foreignKeys = ($this->_sm->getDatabasePlatform()->supportsForeignKeyConstraints())
-                ? $table->getForeignKeys()
-                : array();
-
-            $allForeignKeyColumns = array();
+            $allForeignKeyColumns = [];
 
             foreach ($foreignKeys as $foreignKey) {
                 $allForeignKeyColumns = array_merge($allForeignKeyColumns, $foreignKey->getLocalColumns());
             }
 
-            if ( ! $table->hasPrimaryKey()) {
+            if (! $table->hasPrimaryKey()) {
                 throw new MappingException(
-                    "Table " . $table->getName() . " has no primary key. Doctrine does not ".
+                    'Table ' . $tableName . ' has no primary key. Doctrine does not ' .
                     "support reverse engineering from tables that don't have a primary key."
                 );
             }
@@ -296,14 +316,14 @@ class DatabaseDriver implements MappingDriver
             sort($pkColumns);
             sort($allForeignKeyColumns);
 
-            if ($pkColumns == $allForeignKeyColumns && count($foreignKeys) == 2) {
+            if ($pkColumns === $allForeignKeyColumns && count($foreignKeys) === 2) {
                 $this->manyToManyTables[$tableName] = $table;
             } else {
                 // lower-casing is necessary because of Oracle Uppercase Tablenames,
                 // assumption is lower-case + underscore separated.
                 $className = $this->getClassNameForTable($tableName);
 
-                $this->tables[$tableName] = $table;
+                $this->tables[$tableName]            = $table;
                 $this->classToTableNames[$className] = $tableName;
             }
         }
@@ -311,15 +331,13 @@ class DatabaseDriver implements MappingDriver
 
     /**
      * Build indexes from a class metadata.
-     *
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
      */
-    private function buildIndexes(ClassMetadataInfo $metadata)
+    private function buildIndexes(ClassMetadataInfo $metadata): void
     {
         $tableName = $metadata->table['name'];
         $indexes   = $this->tables[$tableName]->getIndexes();
 
-        foreach($indexes as $index){
+        foreach ($indexes as $index) {
             if ($index->isPrimary()) {
                 continue;
             }
@@ -336,42 +354,40 @@ class DatabaseDriver implements MappingDriver
 
     /**
      * Build field mapping from class metadata.
-     *
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
      */
-    private function buildFieldMappings(ClassMetadataInfo $metadata)
+    private function buildFieldMappings(ClassMetadataInfo $metadata): void
     {
         $tableName      = $metadata->table['name'];
         $columns        = $this->tables[$tableName]->getColumns();
         $primaryKeys    = $this->getTablePrimaryKeys($this->tables[$tableName]);
-        $foreignKeys    = $this->getTableForeignKeys($this->tables[$tableName]);
-        $allForeignKeys = array();
+        $foreignKeys    = $this->tables[$tableName]->getForeignKeys();
+        $allForeignKeys = [];
 
         foreach ($foreignKeys as $foreignKey) {
             $allForeignKeys = array_merge($allForeignKeys, $foreignKey->getLocalColumns());
         }
 
-        $ids           = array();
-        $fieldMappings = array();
+        $ids           = [];
+        $fieldMappings = [];
 
         foreach ($columns as $column) {
-            if (in_array($column->getName(), $allForeignKeys)) {
+            if (in_array($column->getName(), $allForeignKeys, true)) {
                 continue;
             }
 
             $fieldMapping = $this->buildFieldMapping($tableName, $column);
 
-            if ($primaryKeys && in_array($column->getName(), $primaryKeys)) {
+            if ($primaryKeys && in_array($column->getName(), $primaryKeys, true)) {
                 $fieldMapping['id'] = true;
-                $ids[] = $fieldMapping;
+                $ids[]              = $fieldMapping;
             }
 
             $fieldMappings[] = $fieldMapping;
         }
 
         // We need to check for the columns here, because we might have associations as id as well.
-        if ($ids && count($primaryKeys) == 1) {
-            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
+        if ($ids && count($primaryKeys) === 1) {
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_AUTO);
         }
 
         foreach ($fieldMappings as $fieldMapping) {
@@ -382,54 +398,68 @@ class DatabaseDriver implements MappingDriver
     /**
      * Build field mapping from a schema column definition
      *
-     * @param string                       $tableName
-     * @param \Doctrine\DBAL\Schema\Column $column
-     *
-     * @return array
+     * @return mixed[]
+     * @psalm-return array{
+     *     fieldName: string,
+     *     columnName: string,
+     *     type: string,
+     *     nullable: bool,
+     *     options?: array{
+     *         unsigned?: bool,
+     *         fixed?: bool,
+     *         comment?: string,
+     *         default?: string
+     *     },
+     *     precision?: int,
+     *     scale?: int,
+     *     length?: int|null
+     * }
      */
-    private function buildFieldMapping($tableName, Column $column)
+    private function buildFieldMapping(string $tableName, Column $column): array
     {
-        $fieldMapping = array(
+        $fieldMapping = [
             'fieldName'  => $this->getFieldNameForColumn($tableName, $column->getName(), false),
             'columnName' => $column->getName(),
-            'type'       => $column->getType()->getName(),
-            'nullable'   => ( ! $column->getNotNull()),
-        );
+            'type'       => Type::getTypeRegistry()->lookupName($column->getType()),
+            'nullable'   => ! $column->getNotnull(),
+        ];
 
         // Type specific elements
         switch ($fieldMapping['type']) {
-            case Type::TARRAY:
-            case Type::BLOB:
-            case Type::GUID:
-            case Type::JSON_ARRAY:
-            case Type::OBJECT:
-            case Type::SIMPLE_ARRAY:
-            case Type::STRING:
-            case Type::TEXT:
-                $fieldMapping['length'] = $column->getLength();
-                $fieldMapping['options']['fixed']  = $column->getFixed();
+            case self::ARRAY:
+            case Types::BLOB:
+            case Types::GUID:
+            case self::JSON_ARRAY:
+            case self::OBJECT:
+            case Types::SIMPLE_ARRAY:
+            case Types::STRING:
+            case Types::TEXT:
+                $fieldMapping['length']           = $column->getLength();
+                $fieldMapping['options']['fixed'] = $column->getFixed();
                 break;
 
-            case Type::DECIMAL:
-            case Type::FLOAT:
+            case Types::DECIMAL:
+            case Types::FLOAT:
                 $fieldMapping['precision'] = $column->getPrecision();
                 $fieldMapping['scale']     = $column->getScale();
                 break;
 
-            case Type::INTEGER:
-            case Type::BIGINT:
-            case Type::SMALLINT:
+            case Types::INTEGER:
+            case Types::BIGINT:
+            case Types::SMALLINT:
                 $fieldMapping['options']['unsigned'] = $column->getUnsigned();
                 break;
         }
 
         // Comment
-        if (($comment = $column->getComment()) !== null) {
+        $comment = $column->getComment();
+        if ($comment !== null) {
             $fieldMapping['options']['comment'] = $comment;
         }
 
         // Default
-        if (($default = $column->getDefault()) !== null) {
+        $default = $column->getDefault();
+        if ($default !== null) {
             $fieldMapping['options']['default'] = $default;
         }
 
@@ -439,41 +469,43 @@ class DatabaseDriver implements MappingDriver
     /**
      * Build to one (one to one, many to one) association mapping from class metadata.
      *
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $metadata
+     * @return void
      */
     private function buildToOneAssociationMappings(ClassMetadataInfo $metadata)
     {
+        assert($this->tables !== null);
+
         $tableName   = $metadata->table['name'];
         $primaryKeys = $this->getTablePrimaryKeys($this->tables[$tableName]);
-        $foreignKeys = $this->getTableForeignKeys($this->tables[$tableName]);
+        $foreignKeys = $this->tables[$tableName]->getForeignKeys();
 
         foreach ($foreignKeys as $foreignKey) {
             $foreignTableName   = $foreignKey->getForeignTableName();
-            $fkColumns          = $foreignKey->getColumns();
+            $fkColumns          = $foreignKey->getLocalColumns();
             $fkForeignColumns   = $foreignKey->getForeignColumns();
             $localColumn        = current($fkColumns);
-            $associationMapping = array(
+            $associationMapping = [
                 'fieldName'    => $this->getFieldNameForColumn($tableName, $localColumn, true),
                 'targetEntity' => $this->getClassNameForTable($foreignTableName),
-            );
+            ];
 
             if (isset($metadata->fieldMappings[$associationMapping['fieldName']])) {
                 $associationMapping['fieldName'] .= '2'; // "foo" => "foo2"
             }
 
-            if ($primaryKeys && in_array($localColumn, $primaryKeys)) {
+            if ($primaryKeys && in_array($localColumn, $primaryKeys, true)) {
                 $associationMapping['id'] = true;
             }
 
-            for ($i = 0; $i < count($fkColumns); $i++) {
-                $associationMapping['joinColumns'][] = array(
+            for ($i = 0, $fkColumnsCount = count($fkColumns); $i < $fkColumnsCount; $i++) {
+                $associationMapping['joinColumns'][] = [
                     'name'                 => $fkColumns[$i],
                     'referencedColumnName' => $fkForeignColumns[$i],
-                );
+                ];
             }
 
             // Here we need to check if $fkColumns are the same as $primaryKeys
-            if ( ! array_diff($fkColumns, $primaryKeys)) {
+            if (! array_diff($fkColumns, $primaryKeys)) {
                 $metadata->mapOneToOne($associationMapping);
             } else {
                 $metadata->mapManyToOne($associationMapping);
@@ -482,65 +514,46 @@ class DatabaseDriver implements MappingDriver
     }
 
     /**
-     * Retreive schema table definition foreign keys.
+     * Retrieve schema table definition primary keys.
      *
-     * @param \Doctrine\DBAL\Schema\Table $table
-     *
-     * @return array
+     * @return string[]
      */
-    private function getTableForeignKeys(Table $table)
-    {
-        return ($this->_sm->getDatabasePlatform()->supportsForeignKeyConstraints())
-            ? $table->getForeignKeys()
-            : array();
-    }
-
-    /**
-     * Retreive schema table definition primary keys.
-     *
-     * @param \Doctrine\DBAL\Schema\Table $table
-     *
-     * @return array
-     */
-    private function getTablePrimaryKeys(Table $table)
+    private function getTablePrimaryKeys(Table $table): array
     {
         try {
             return $table->getPrimaryKey()->getColumns();
-        } catch(SchemaException $e) {
+        } catch (SchemaException $e) {
             // Do nothing
         }
 
-        return array();
+        return [];
     }
 
     /**
      * Returns the mapped class name for a table if it exists. Otherwise return "classified" version.
      *
-     * @param string $tableName
-     *
-     * @return string
+     * @psalm-return class-string
      */
-    private function getClassNameForTable($tableName)
+    private function getClassNameForTable(string $tableName): string
     {
         if (isset($this->classNamesForTables[$tableName])) {
             return $this->namespace . $this->classNamesForTables[$tableName];
         }
 
-        return $this->namespace . Inflector::classify(strtolower($tableName));
+        return $this->namespace . $this->inflector->classify(strtolower($tableName));
     }
 
     /**
      * Return the mapped field name for a column, if it exists. Otherwise return camelized version.
      *
-     * @param string  $tableName
-     * @param string  $columnName
-     * @param boolean $fk Whether the column is a foreignkey or not.
-     *
-     * @return string
+     * @param bool $fk Whether the column is a foreignkey or not.
      */
-    private function getFieldNameForColumn($tableName, $columnName, $fk = false)
-    {
-        if (isset($this->fieldNamesForColumns[$tableName]) && isset($this->fieldNamesForColumns[$tableName][$columnName])) {
+    private function getFieldNameForColumn(
+        string $tableName,
+        string $columnName,
+        bool $fk = false
+    ): string {
+        if (isset($this->fieldNamesForColumns[$tableName], $this->fieldNamesForColumns[$tableName][$columnName])) {
             return $this->fieldNamesForColumns[$tableName][$columnName];
         }
 
@@ -548,8 +561,9 @@ class DatabaseDriver implements MappingDriver
 
         // Replace _id if it is a foreignkey column
         if ($fk) {
-            $columnName = str_replace('_id', '', $columnName);
+            $columnName = preg_replace('/_id$/', '', $columnName);
         }
-        return Inflector::camelize($columnName);
+
+        return $this->inflector->camelize($columnName);
     }
 }

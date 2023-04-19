@@ -23,18 +23,18 @@ namespace Symfony\Component\CssSelector\Parser\Tokenizer;
  */
 class TokenizerPatterns
 {
-    private $unicodeEscapePattern;
-    private $simpleEscapePattern;
-    private $newLineEscapePattern;
-    private $escapePattern;
-    private $stringEscapePattern;
-    private $nonAsciiPattern;
-    private $nmCharPattern;
-    private $nmStartPattern;
-    private $identifierPattern;
-    private $hashPattern;
-    private $numberPattern;
-    private $quotedStringPattern;
+    private string $unicodeEscapePattern;
+    private string $simpleEscapePattern;
+    private string $newLineEscapePattern;
+    private string $escapePattern;
+    private string $stringEscapePattern;
+    private string $nonAsciiPattern;
+    private string $nmCharPattern;
+    private string $nmStartPattern;
+    private string $identifierPattern;
+    private string $hashPattern;
+    private string $numberPattern;
+    private string $quotedStringPattern;
 
     public function __construct()
     {
@@ -49,63 +49,40 @@ class TokenizerPatterns
         $this->identifierPattern = '-?(?:'.$this->nmStartPattern.')(?:'.$this->nmCharPattern.')*';
         $this->hashPattern = '#((?:'.$this->nmCharPattern.')+)';
         $this->numberPattern = '[+-]?(?:[0-9]*\.[0-9]+|[0-9]+)';
-        $this->quotedStringPattern = '([^\n\r\f%s]|'.$this->stringEscapePattern.')*';
+        $this->quotedStringPattern = '([^\n\r\f\\\\%s]|'.$this->stringEscapePattern.')*';
     }
 
-    /**
-     * @return string
-     */
-    public function getNewLineEscapePattern()
+    public function getNewLineEscapePattern(): string
     {
-        return '~^'.$this->newLineEscapePattern.'~';
+        return '~'.$this->newLineEscapePattern.'~';
     }
 
-    /**
-     * @return string
-     */
-    public function getSimpleEscapePattern()
+    public function getSimpleEscapePattern(): string
     {
-        return '~^'.$this->simpleEscapePattern.'~';
+        return '~'.$this->simpleEscapePattern.'~';
     }
 
-    /**
-     * @return string
-     */
-    public function getUnicodeEscapePattern()
+    public function getUnicodeEscapePattern(): string
     {
-        return '~^'.$this->unicodeEscapePattern.'~i';
+        return '~'.$this->unicodeEscapePattern.'~i';
     }
 
-    /**
-     * @return string
-     */
-    public function getIdentifierPattern()
+    public function getIdentifierPattern(): string
     {
         return '~^'.$this->identifierPattern.'~i';
     }
 
-    /**
-     * @return string
-     */
-    public function getHashPattern()
+    public function getHashPattern(): string
     {
         return '~^'.$this->hashPattern.'~i';
     }
 
-    /**
-     * @return string
-     */
-    public function getNumberPattern()
+    public function getNumberPattern(): string
     {
         return '~^'.$this->numberPattern.'~';
     }
 
-    /**
-     * @param string $quote
-     *
-     * @return string
-     */
-    public function getQuotedStringPattern($quote)
+    public function getQuotedStringPattern(string $quote): string
     {
         return '~^'.sprintf($this->quotedStringPattern, $quote).'~i';
     }

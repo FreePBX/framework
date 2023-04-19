@@ -25,7 +25,7 @@ return array (
   ),
   'fixedLine' => 
   array (
-    'NationalNumberPattern' => '2(?:0(?:[19]\\d|3[1-4]|6[059])|[1-357]\\d\\d)\\d{4}',
+    'NationalNumberPattern' => '20(?:3[1-4]|6[059])\\d{4}|2(?:0[19]|[1-357]\\d|60)\\d{5}',
     'ExampleNumber' => '21001234',
     'PossibleLength' => 
     array (
@@ -47,7 +47,7 @@ return array (
   ),
   'tollFree' => 
   array (
-    'NationalNumberPattern' => '800[3467]\\d{4}',
+    'NationalNumberPattern' => '800(?:02|[3467]\\d)\\d{3}',
     'ExampleNumber' => '80071234',
     'PossibleLength' => 
     array (
@@ -163,6 +163,5 @@ return array (
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => true,
 );

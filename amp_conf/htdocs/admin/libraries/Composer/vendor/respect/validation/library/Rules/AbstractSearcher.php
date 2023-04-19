@@ -3,51 +3,44 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Helpers\CanValidateUndefined;
+
+use function in_array;
+
+/**
+ * Abstract class for searches into arrays.
+ *
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
 abstract class AbstractSearcher extends AbstractRule
 {
-    public $haystack;
-    public $compareIdentical;
+    use CanValidateUndefined;
 
-    protected function validateEquals($input)
+    /**
+     * @return mixed[]
+     */
+    abstract protected function getDataSource(): array;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        if (is_array($this->haystack)) {
-            return in_array($input, $this->haystack);
+        $dataSource = $this->getDataSource();
+        if ($this->isUndefined($input) && empty($dataSource)) {
+            return true;
         }
 
-        if ($input === null || $input === '') {
-            return ($input == $this->haystack);
-        }
-
-        return (false !== mb_stripos($this->haystack, $input, 0, mb_detect_encoding($input)));
-    }
-
-    protected function validateIdentical($input)
-    {
-        if (is_array($this->haystack)) {
-            return in_array($input, $this->haystack, true);
-        }
-
-        if ($input === null || $input === '') {
-            return ($input === $this->haystack);
-        }
-
-        return (false !== mb_strpos($this->haystack, $input, 0, mb_detect_encoding($input)));
-    }
-
-    public function validate($input)
-    {
-        if ($this->compareIdentical) {
-            return $this->validateIdentical($input);
-        }
-
-        return $this->validateEquals($input);
+        return in_array($input, $dataSource, true);
     }
 }

@@ -3,22 +3,31 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class OneOfException extends NestedValidationException
+/**
+ * @author Bradyn Poulsen <bradyn@bradynpoulsen.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class OneOfException extends NestedValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => 'At least one of these rules must pass for {{name}}',
+            self::STANDARD => 'Only one of these rules must pass for {{name}}',
         ],
         self::MODE_NEGATIVE => [
-            self::STANDARD => 'At least one of these rules must not pass for {{name}}',
+            self::STANDARD => 'Only one of these rules must not pass for {{name}}',
         ],
     ];
 }

@@ -27,7 +27,8 @@ class FWHelpCommand extends HelpCommand {
 	public function setCommand(Command $command) {
 		$this->command = $command;
 	}
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	
+	protected function execute(InputInterface $input, OutputInterface $output) : int{
 		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 		if(is_array($this->banner)) {
 			//http://www.figlet.org/examples.html

@@ -27,7 +27,7 @@ return array (
   ),
   'tollFree' => 
   array (
-    'NationalNumberPattern' => '11[25]|1(?:16\\d\\d|5[1589]|8[279])\\d',
+    'NationalNumberPattern' => '11[257]|1(?:16\\d\\d|5[1589]|8[279])\\d',
     'ExampleNumber' => '112',
     'PossibleLength' => 
     array (
@@ -110,6 +110,5 @@ return array (
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => false,
 );

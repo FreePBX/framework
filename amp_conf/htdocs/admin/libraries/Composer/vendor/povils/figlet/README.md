@@ -13,6 +13,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/figlet/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/figlet/?branch=master)
 [![Total Downloads](https://poser.pugx.org/povils/figlet/downloads)](https://packagist.org/packages/povils/figlet)
 [![License](https://poser.pugx.org/povils/figlet/license)](https://packagist.org/packages/povils/figlet)
+[![Build Status](https://travis-ci.org/povils/figlet.svg?branch=master)](https://travis-ci.org/povils/figlet)
+[![Coverage Status](https://coveralls.io/repos/github/povils/figlet/badge.svg?branch=master)](https://coveralls.io/github/povils/figlet?branch=master)
 
 ## Installation
 

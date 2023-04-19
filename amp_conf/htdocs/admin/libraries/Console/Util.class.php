@@ -17,7 +17,7 @@ class Util extends Command {
 		$this->setName('util')
 			->setDescription(_('Common utilities'))
 			->setDefinition(array(
-				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+				new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		global $amp_conf;

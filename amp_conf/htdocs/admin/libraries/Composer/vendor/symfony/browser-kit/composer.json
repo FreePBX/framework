@@ -1,7 +1,7 @@
 {
     "name": "symfony/browser-kit",
     "type": "library",
-    "description": "Symfony BrowserKit Component",
+    "description": "Simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically",
     "keywords": [],
     "homepage": "https://symfony.com",
     "license": "MIT",
@@ -16,12 +16,14 @@
         }
     ],
     "require": {
-        "php": "^5.5.9|>=7.0.8",
-        "symfony/dom-crawler": "~2.8|~3.0|~4.0"
+        "php": ">=8.1",
+        "symfony/dom-crawler": "^5.4|^6.0"
     },
     "require-dev": {
-        "symfony/process": "~2.8|~3.0|~4.0",
-        "symfony/css-selector": "~2.8|~3.0|~4.0"
+        "symfony/css-selector": "^5.4|^6.0",
+        "symfony/http-client": "^5.4|^6.0",
+        "symfony/mime": "^5.4|^6.0",
+        "symfony/process": "^5.4|^6.0"
     },
     "suggest": {
         "symfony/process": ""

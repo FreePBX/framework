@@ -3,34 +3,55 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Validatable;
 
-class Key extends AbstractRelated
+use function array_key_exists;
+use function is_array;
+use function is_scalar;
+
+/**
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Emmerson Siqueira <emmersonsiqueira@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class Key extends AbstractRelated
 {
-    public function __construct($reference, Validatable $referenceValidator = null, $mandatory = true)
+    /**
+     * @param mixed $reference
+     */
+    public function __construct($reference, ?Validatable $rule = null, bool $mandatory = true)
     {
-        if (!is_scalar($reference) || '' === $reference) {
+        if (!is_scalar($reference) || $reference === '') {
             throw new ComponentException('Invalid array key name');
         }
-        parent::__construct($reference, $referenceValidator, $mandatory);
+
+        parent::__construct($reference, $rule, $mandatory);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getReferenceValue($input)
     {
-        return $input[$this->reference];
+        return $input[$this->getReference()];
     }
 
-    public function hasReference($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function hasReference($input): bool
     {
-        return is_array($input) && array_key_exists($this->reference, $input);
+        return is_array($input) && array_key_exists($this->getReference(), $input);
     }
 }

@@ -19,7 +19,7 @@ class Doctrine extends Command {
 			new InputOption('database', '', InputOption::VALUE_REQUIRED, _("Database name")),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'xml,php')),
 			new InputOption('force', '', InputOption::VALUE_NONE, _('Force XML/PHP output even if there is an alter string after generation checks')),
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$args = $input->getArgument('args');

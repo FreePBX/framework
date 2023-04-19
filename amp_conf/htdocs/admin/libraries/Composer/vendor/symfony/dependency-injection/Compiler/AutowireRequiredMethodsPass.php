@@ -12,6 +12,7 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Contracts\Service\Attribute\Required;
 
 /**
  * Looks for definitions with autowiring enabled and registers their corresponding "@required" methods as setters.
@@ -20,10 +21,7 @@ use Symfony\Component\DependencyInjection\Definition;
  */
 class AutowireRequiredMethodsPass extends AbstractRecursivePass
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         $value = parent::processValue($value, $isRoot);
 
@@ -49,9 +47,17 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
             }
 
             while (true) {
+                if ($r->getAttributes(Required::class)) {
+                    if ($this->isWither($r, $r->getDocComment() ?: '')) {
+                        $withers[] = [$r->name, [], true];
+                    } else {
+                        $value->addMethodCall($r->name, []);
+                    }
+                    break;
+                }
                 if (false !== $doc = $r->getDocComment()) {
                     if (false !== stripos($doc, '@required') && preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@required(?:\s|\*/$)#i', $doc)) {
-                        if (preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@return\s++static[\s\*]#i', $doc)) {
+                        if ($this->isWither($reflectionMethod, $doc)) {
                             $withers[] = [$reflectionMethod->name, [], true];
                         } else {
                             $value->addMethodCall($reflectionMethod->name, []);
@@ -64,7 +70,7 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
                 }
                 try {
                     $r = $r->getPrototype();
-                } catch (\ReflectionException $e) {
+                } catch (\ReflectionException) {
                     break; // method has no prototype
                 }
             }
@@ -80,5 +86,21 @@ class AutowireRequiredMethodsPass extends AbstractRecursivePass
         }
 
         return $value;
+    }
+
+    private function isWither(\ReflectionMethod $reflectionMethod, string $doc): bool
+    {
+        $match = preg_match('#(?:^/\*\*|\n\s*+\*)\s*+@return\s++(static|\$this)[\s\*]#i', $doc, $matches);
+        if ($match && 'static' === $matches[1]) {
+            return true;
+        }
+
+        if ($match && '$this' === $matches[1]) {
+            return false;
+        }
+
+        $reflectionType = $reflectionMethod->hasReturnType() ? $reflectionMethod->getReturnType() : null;
+
+        return $reflectionType instanceof \ReflectionNamedType && 'static' === $reflectionType->getName();
     }
 }

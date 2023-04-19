@@ -3,17 +3,26 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class AlnumException extends AlphaException
+/**
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class AlnumException extends FilteredValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must contain only letters (a-z) and digits (0-9)',
             self::EXTRA => '{{name}} must contain only letters (a-z), digits (0-9) and {{additionalChars}}',

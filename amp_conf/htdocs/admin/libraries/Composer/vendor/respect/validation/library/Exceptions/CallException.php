@@ -3,14 +3,31 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class CallException extends GroupedValidationException
+/**
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class CallException extends NestedValidationException
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
+        self::MODE_DEFAULT => [
+            self::STANDARD => '{{input}} must be valid when executed with {{callable}}',
+        ],
+        self::MODE_NEGATIVE => [
+            self::STANDARD => '{{input}} must not be valid when executed with {{callable}}',
+        ],
+    ];
 }

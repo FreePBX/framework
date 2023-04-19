@@ -55,7 +55,7 @@ EOF
 		return $this->createDefinition();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output):int {
 		if(is_array($this->banner)) {
 			//http://www.figlet.org/examples.html
 			$font = !empty($this->banner['font']) ? $this->banner['font'] : "doom";
@@ -96,6 +96,7 @@ EOF
 			'raw_text' => $input->getOption('raw'),
 			'namespace' => $input->getArgument('namespace'),
 		));
+		return 1;
 	}
 
 	private function createDefinition()

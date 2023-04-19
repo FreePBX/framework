@@ -3,22 +3,47 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-class Directory extends AbstractRule
+use Directory as NativeDirectory;
+use SplFileInfo;
+
+use function is_dir;
+use function is_scalar;
+
+/**
+ * Validates if the given path is a directory.
+ *
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author William Espindola <oi@williamespindola.com.br>
+ */
+final class Directory extends AbstractRule
 {
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        if ($input instanceof \SplFileInfo) {
+        if ($input instanceof SplFileInfo) {
             return $input->isDir();
         }
 
-        return (is_string($input) && is_dir($input));
+        if ($input instanceof NativeDirectory) {
+            return true;
+        }
+
+        if (!is_scalar($input)) {
+            return false;
+        }
+
+        return is_dir((string) $input);
     }
 }

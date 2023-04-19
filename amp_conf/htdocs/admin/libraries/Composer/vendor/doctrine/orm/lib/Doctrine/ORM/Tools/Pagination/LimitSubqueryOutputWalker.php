@@ -1,37 +1,44 @@
 <?php
-/**
- * Doctrine ORM
- *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to kontakt@beberlei.de so I can send you a copy immediately.
- */
+
+declare(strict_types=1);
 
 namespace Doctrine\ORM\Tools\Pagination;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\DB2Platform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SQLAnywherePlatform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
-use Doctrine\ORM\Query\AST\ArithmeticExpression;
-use Doctrine\ORM\Query\AST\ArithmeticFactor;
-use Doctrine\ORM\Query\AST\ArithmeticTerm;
-use Doctrine\ORM\Query\AST\Literal;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\QuoteStrategy;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\AST\OrderByClause;
-use Doctrine\ORM\Query\AST\OrderByItem;
 use Doctrine\ORM\Query\AST\PartialObjectExpression;
 use Doctrine\ORM\Query\AST\PathExpression;
 use Doctrine\ORM\Query\AST\SelectExpression;
-use Doctrine\ORM\Query\AST\SimpleArithmeticExpression;
-use Doctrine\ORM\Query\Expr\OrderBy;
-use Doctrine\ORM\Query\Expr\Select;
-use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\AST\SelectStatement;
+use Doctrine\ORM\Query\Parser;
+use Doctrine\ORM\Query\ParserResult;
+use Doctrine\ORM\Query\QueryException;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\SqlWalker;
+use RuntimeException;
+
+use function array_diff;
+use function array_keys;
+use function assert;
+use function count;
+use function implode;
+use function in_array;
+use function is_string;
+use function method_exists;
+use function preg_replace;
+use function reset;
+use function sprintf;
+use function strrpos;
+use function substr;
 
 /**
  * Wraps the query in order to select root entity IDs for pagination.
@@ -42,50 +49,35 @@ use Doctrine\ORM\Query\AST\SelectStatement;
  * Works with composite keys but cannot deal with queries that have multiple
  * root entities (e.g. `SELECT f, b from Foo, Bar`)
  *
- * @author Sander Marechal <s.marechal@jejik.com>
+ * @psalm-import-type QueryComponent from Parser
  */
 class LimitSubqueryOutputWalker extends SqlWalker
 {
-    /**
-     * @var \Doctrine\DBAL\Platforms\AbstractPlatform
-     */
+    private const ORDER_BY_PATH_EXPRESSION = '/(?<![a-z0-9_])%s\.%s(?![a-z0-9_])/i';
+
+    /** @var AbstractPlatform */
     private $platform;
 
-    /**
-     * @var \Doctrine\ORM\Query\ResultSetMapping
-     */
+    /** @var ResultSetMapping */
     private $rsm;
 
-    /**
-     * @var array
-     */
-    private $queryComponents;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     private $firstResult;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $maxResults;
 
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
+    /** @var EntityManagerInterface */
     private $em;
 
     /**
      * The quote strategy.
      *
-     * @var \Doctrine\ORM\Mapping\QuoteStrategy
+     * @var QuoteStrategy
      */
     private $quoteStrategy;
 
-    /**
-     * @var array
-     */
+    /** @var list<PathExpression> */
     private $orderByPathExpressions = [];
 
     /**
@@ -95,41 +87,37 @@ class LimitSubqueryOutputWalker extends SqlWalker
     private $inSubSelect = false;
 
     /**
-     * Constructor.
-     *
      * Stores various parameters that are otherwise unavailable
      * because Doctrine\ORM\Query\SqlWalker keeps everything private without
      * accessors.
      *
-     * @param \Doctrine\ORM\Query              $query
-     * @param \Doctrine\ORM\Query\ParserResult $parserResult
-     * @param array                            $queryComponents
+     * @param Query        $query
+     * @param ParserResult $parserResult
+     * @param mixed[]      $queryComponents
+     * @psalm-param array<string, QueryComponent> $queryComponents
      */
     public function __construct($query, $parserResult, array $queryComponents)
     {
         $this->platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
-        $this->rsm = $parserResult->getResultSetMapping();
-        $this->queryComponents = $queryComponents;
+        $this->rsm      = $parserResult->getResultSetMapping();
 
         // Reset limit and offset
         $this->firstResult = $query->getFirstResult();
-        $this->maxResults = $query->getMaxResults();
-        $query->setFirstResult(null)->setMaxResults(null);
+        $this->maxResults  = $query->getMaxResults();
+        $query->setFirstResult(0)->setMaxResults(null);
 
-        $this->em               = $query->getEntityManager();
-        $this->quoteStrategy    = $this->em->getConfiguration()->getQuoteStrategy();
+        $this->em            = $query->getEntityManager();
+        $this->quoteStrategy = $this->em->getConfiguration()->getQuoteStrategy();
 
         parent::__construct($query, $parserResult, $queryComponents);
     }
 
     /**
      * Check if the platform supports the ROW_NUMBER window function.
-     *
-     * @return bool
      */
-    private function platformSupportsRowNumber()
+    private function platformSupportsRowNumber(): bool
     {
-        return $this->platform instanceof PostgreSqlPlatform
+        return $this->platform instanceof PostgreSQLPlatform
             || $this->platform instanceof SQLServerPlatform
             || $this->platform instanceof OraclePlatform
             || $this->platform instanceof SQLAnywherePlatform
@@ -141,12 +129,10 @@ class LimitSubqueryOutputWalker extends SqlWalker
     /**
      * Rebuilds a select statement's order by clause for use in a
      * ROW_NUMBER() OVER() expression.
-     *
-     * @param SelectStatement $AST
      */
-    private function rebuildOrderByForRowNumber(SelectStatement $AST)
+    private function rebuildOrderByForRowNumber(SelectStatement $AST): void
     {
-        $orderByClause = $AST->orderByClause;
+        $orderByClause              = $AST->orderByClause;
         $selectAliasToExpressionMap = [];
         // Get any aliases that are available for select expressions.
         foreach ($AST->selectClause->selectExpressions as $selectExpression) {
@@ -159,8 +145,9 @@ class LimitSubqueryOutputWalker extends SqlWalker
                 $orderByItem->expression = $selectAliasToExpressionMap[$orderByItem->expression];
             }
         }
-        $func = new RowNumberOverFunction('dctrn_rownum');
-        $func->orderByClause = $AST->orderByClause;
+
+        $func                                   = new RowNumberOverFunction('dctrn_rownum');
+        $func->orderByClause                    = $AST->orderByClause;
         $AST->selectClause->selectExpressions[] = new SelectExpression($func, 'dctrn_rownum', true);
 
         // No need for an order by clause, we'll order by rownum in the outer query.
@@ -168,19 +155,14 @@ class LimitSubqueryOutputWalker extends SqlWalker
     }
 
     /**
-     * Walks down a SelectStatement AST node, wrapping it in a SELECT DISTINCT.
-     *
-     * @param SelectStatement $AST
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
+     * {@inheritdoc}
      */
     public function walkSelectStatement(SelectStatement $AST)
     {
         if ($this->platformSupportsRowNumber()) {
             return $this->walkSelectStatementWithRowNumber($AST);
         }
+
         return $this->walkSelectStatementWithoutRowNumber($AST);
     }
 
@@ -188,15 +170,13 @@ class LimitSubqueryOutputWalker extends SqlWalker
      * Walks down a SelectStatement AST node, wrapping it in a SELECT DISTINCT.
      * This method is for use with platforms which support ROW_NUMBER.
      *
-     * @param SelectStatement $AST
-     *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function walkSelectStatementWithRowNumber(SelectStatement $AST)
     {
-        $hasOrderBy = false;
+        $hasOrderBy   = false;
         $outerOrderBy = ' ORDER BY dctrn_minrownum ASC';
         $orderGroupBy = '';
         if ($AST->orderByClause instanceof OrderByClause) {
@@ -209,7 +189,7 @@ class LimitSubqueryOutputWalker extends SqlWalker
         $sqlIdentifier = $this->getSQLIdentifier($AST);
 
         if ($hasOrderBy) {
-            $orderGroupBy = ' GROUP BY ' . implode(', ', $sqlIdentifier);
+            $orderGroupBy    = ' GROUP BY ' . implode(', ', $sqlIdentifier);
             $sqlIdentifier[] = 'MIN(' . $this->walkResultVariable('dctrn_rownum') . ') AS dctrn_minrownum';
         }
 
@@ -246,12 +226,11 @@ class LimitSubqueryOutputWalker extends SqlWalker
      * Walks down a SelectStatement AST node, wrapping it in a SELECT DISTINCT.
      * This method is for platforms which DO NOT support ROW_NUMBER.
      *
-     * @param SelectStatement $AST
      * @param bool $addMissingItemsFromOrderByToSelect
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function walkSelectStatementWithoutRowNumber(SelectStatement $AST, $addMissingItemsFromOrderByToSelect = true)
     {
@@ -265,7 +244,7 @@ class LimitSubqueryOutputWalker extends SqlWalker
 
         // Remove order by clause from the inner query
         // It will be re-appended in the outer select generated by this method
-        $orderByClause = $AST->orderByClause;
+        $orderByClause      = $AST->orderByClause;
         $AST->orderByClause = null;
 
         $innerSql = $this->getInnerSQL($AST);
@@ -273,15 +252,20 @@ class LimitSubqueryOutputWalker extends SqlWalker
         $sqlIdentifier = $this->getSQLIdentifier($AST);
 
         // Build the counter query
-        $sql = sprintf('SELECT DISTINCT %s FROM (%s) dctrn_result',
-            implode(', ', $sqlIdentifier), $innerSql);
+        $sql = sprintf(
+            'SELECT DISTINCT %s FROM (%s) dctrn_result',
+            implode(', ', $sqlIdentifier),
+            $innerSql
+        );
 
         // http://www.doctrine-project.org/jira/browse/DDC-1958
         $sql = $this->preserveSqlOrdering($sqlIdentifier, $innerSql, $sql, $orderByClause);
 
         // Apply the limit and offset.
         $sql = $this->platform->modifyLimitQuery(
-            $sql, $this->maxResults, $this->firstResult
+            $sql,
+            $this->maxResults,
+            $this->firstResult
         );
 
         // Add the columns to the ResultSetMapping. It's not really nice but
@@ -301,10 +285,8 @@ class LimitSubqueryOutputWalker extends SqlWalker
     /**
      * Finds all PathExpressions in an AST's OrderByClause, and ensures that
      * the referenced fields are present in the SelectClause of the passed AST.
-     *
-     * @param SelectStatement $AST
      */
-    private function addMissingItemsFromOrderByToSelect(SelectStatement $AST)
+    private function addMissingItemsFromOrderByToSelect(SelectStatement $AST): void
     {
         $this->orderByPathExpressions = [];
 
@@ -322,11 +304,13 @@ class LimitSubqueryOutputWalker extends SqlWalker
         // Get a map of referenced identifiers to field names.
         $selects = [];
         foreach ($orderByPathExpressions as $pathExpression) {
+            assert($pathExpression->field !== null);
             $idVar = $pathExpression->identificationVariable;
             $field = $pathExpression->field;
-            if (!isset($selects[$idVar])) {
+            if (! isset($selects[$idVar])) {
                 $selects[$idVar] = [];
             }
+
             $selects[$idVar][$field] = true;
         }
 
@@ -335,9 +319,10 @@ class LimitSubqueryOutputWalker extends SqlWalker
         foreach ($AST->selectClause->selectExpressions as $selectExpression) {
             if ($selectExpression instanceof SelectExpression) {
                 $idVar = $selectExpression->expression;
-                if (!is_string($idVar)) {
+                if (! is_string($idVar)) {
                     continue;
                 }
+
                 $field = $selectExpression->fieldIdentificationVariable;
                 if ($field === null) {
                     // No need to add this select, as we're already fetching the whole object.
@@ -357,69 +342,87 @@ class LimitSubqueryOutputWalker extends SqlWalker
     /**
      * Generates new SQL for statements with an order by clause
      *
-     * @param array           $sqlIdentifier
-     * @param string          $innerSql
-     * @param string          $sql
-     * @param OrderByClause   $orderByClause
-     *
-     * @return string
+     * @param mixed[] $sqlIdentifier
      */
-    private function preserveSqlOrdering(array $sqlIdentifier, $innerSql, $sql, $orderByClause)
-    {
-        // If the sql statement has an order by clause, we need to wrap it in a new select distinct
-        // statement
-        if (! $orderByClause instanceof OrderByClause) {
+    private function preserveSqlOrdering(
+        array $sqlIdentifier,
+        string $innerSql,
+        string $sql,
+        ?OrderByClause $orderByClause
+    ): string {
+        // If the sql statement has an order by clause, we need to wrap it in a new select distinct statement
+        if (! $orderByClause) {
             return $sql;
         }
 
-        // Rebuild the order by clause to work in the scope of the new select statement
-        /* @var array $orderBy an array of rebuilt order by items */
-        $orderBy = $this->rebuildOrderByClauseForOuterScope($orderByClause);
-
-        // Build the select distinct statement
-        $sql = sprintf(
-            'SELECT DISTINCT %s FROM (%s) dctrn_result ORDER BY %s',
+        // now only select distinct identifier
+        return sprintf(
+            'SELECT DISTINCT %s FROM (%s) dctrn_result',
             implode(', ', $sqlIdentifier),
-            $innerSql,
-            implode(', ', $orderBy)
+            $this->recreateInnerSql($orderByClause, $sqlIdentifier, $innerSql)
         );
-
-        return $sql;
     }
 
     /**
-     * Generates a new order by clause that works in the scope of a select query wrapping the original
+     * Generates a new SQL statement for the inner query to keep the correct sorting
      *
-     * @param OrderByClause $orderByClause
-     * @return array
+     * @param mixed[] $identifiers
      */
-    private function rebuildOrderByClauseForOuterScope(OrderByClause $orderByClause)
-    {
-        $dqlAliasToSqlTableAliasMap
-            = $searchPatterns
-            = $replacements
-            = $dqlAliasToClassMap
-            = $selectListAdditions
-            = $orderByItems
-            = [];
+    private function recreateInnerSql(
+        OrderByClause $orderByClause,
+        array $identifiers,
+        string $innerSql
+    ): string {
+        [$searchPatterns, $replacements] = $this->generateSqlAliasReplacements();
 
-        // Generate DQL alias -> SQL table alias mapping
-        foreach(array_keys($this->rsm->aliasMap) as $dqlAlias) {
-            $dqlAliasToClassMap[$dqlAlias] = $class = $this->queryComponents[$dqlAlias]['metadata'];
-            $dqlAliasToSqlTableAliasMap[$dqlAlias] = $this->getSQLTableAlias($class->getTableName(), $dqlAlias);
+        $orderByItems = [];
+
+        foreach ($orderByClause->orderByItems as $orderByItem) {
+            // Walk order by item to get string representation of it and
+            // replace path expressions in the order by clause with their column alias
+            $orderByItemString = preg_replace(
+                $searchPatterns,
+                $replacements,
+                $this->walkOrderByItem($orderByItem)
+            );
+
+            $orderByItems[] = $orderByItemString;
+            $identifier     = substr($orderByItemString, 0, strrpos($orderByItemString, ' '));
+
+            if (! in_array($identifier, $identifiers, true)) {
+                $identifiers[] = $identifier;
+            }
         }
 
-        // Pattern to find table path expressions in the order by clause
-        $fieldSearchPattern = '/(?<![a-z0-9_])%s\.%s(?![a-z0-9_])/i';
+        return $sql = sprintf(
+            'SELECT DISTINCT %s FROM (%s) dctrn_result_inner ORDER BY %s',
+            implode(', ', $identifiers),
+            $innerSql,
+            implode(', ', $orderByItems)
+        );
+    }
+
+    /**
+     * @return string[][]
+     * @psalm-return array{0: list<string>, 1: list<string>}
+     */
+    private function generateSqlAliasReplacements(): array
+    {
+        $aliasMap = $searchPatterns = $replacements = $metadataList = [];
+
+        // Generate DQL alias -> SQL table alias mapping
+        foreach (array_keys($this->rsm->aliasMap) as $dqlAlias) {
+            $metadataList[$dqlAlias] = $class = $this->getMetadataForDqlAlias($dqlAlias);
+            $aliasMap[$dqlAlias]     = $this->getSQLTableAlias($class->getTableName(), $dqlAlias);
+        }
 
         // Generate search patterns for each field's path expression in the order by clause
-        foreach($this->rsm->fieldMappings as $fieldAlias => $fieldName) {
+        foreach ($this->rsm->fieldMappings as $fieldAlias => $fieldName) {
             $dqlAliasForFieldAlias = $this->rsm->columnOwnerMap[$fieldAlias];
-            $class = $dqlAliasToClassMap[$dqlAliasForFieldAlias];
+            $class                 = $metadataList[$dqlAliasForFieldAlias];
 
-            // If the field is from a joined child table, we won't be ordering
-            // on it.
-            if (!isset($class->fieldMappings[$fieldName])) {
+            // If the field is from a joined child table, we won't be ordering on it.
+            if (! isset($class->fieldMappings[$fieldName])) {
                 continue;
             }
 
@@ -428,44 +431,35 @@ class LimitSubqueryOutputWalker extends SqlWalker
             // Get the proper column name as will appear in the select list
             $columnName = $this->quoteStrategy->getColumnName(
                 $fieldName,
-                $dqlAliasToClassMap[$dqlAliasForFieldAlias],
+                $metadataList[$dqlAliasForFieldAlias],
                 $this->em->getConnection()->getDatabasePlatform()
             );
 
             // Get the SQL table alias for the entity and field
-            $sqlTableAliasForFieldAlias = $dqlAliasToSqlTableAliasMap[$dqlAliasForFieldAlias];
+            $sqlTableAliasForFieldAlias = $aliasMap[$dqlAliasForFieldAlias];
+
             if (isset($fieldMapping['declared']) && $fieldMapping['declared'] !== $class->name) {
                 // Field was declared in a parent class, so we need to get the proper SQL table alias
                 // for the joined parent table.
                 $otherClassMetadata = $this->em->getClassMetadata($fieldMapping['declared']);
-                if (!$otherClassMetadata->isMappedSuperclass) {
+
+                if (! $otherClassMetadata->isMappedSuperclass) {
                     $sqlTableAliasForFieldAlias = $this->getSQLTableAlias($otherClassMetadata->getTableName(), $dqlAliasForFieldAlias);
-                    
                 }
             }
 
-            // Compose search/replace patterns
-            $searchPatterns[] = sprintf($fieldSearchPattern, $sqlTableAliasForFieldAlias, $columnName);
-            $replacements[] = $fieldAlias;
+            // Compose search and replace patterns
+            $searchPatterns[] = sprintf(self::ORDER_BY_PATH_EXPRESSION, $sqlTableAliasForFieldAlias, $columnName);
+            $replacements[]   = $fieldAlias;
         }
 
-        foreach($orderByClause->orderByItems as $orderByItem) {
-            // Walk order by item to get string representation of it
-            $orderByItemString = $this->walkOrderByItem($orderByItem);
-
-            // Replace path expressions in the order by clause with their column alias
-            $orderByItemString = preg_replace($searchPatterns, $replacements, $orderByItemString);
-
-            $orderByItems[] = $orderByItemString;
-        }
-
-        return $orderByItems;
+        return [$searchPatterns, $replacements];
     }
 
     /**
      * getter for $orderByPathExpressions
      *
-     * @return array
+     * @return list<PathExpression>
      */
     public function getOrderByPathExpressions()
     {
@@ -473,14 +467,10 @@ class LimitSubqueryOutputWalker extends SqlWalker
     }
 
     /**
-     * @param SelectStatement $AST
-     *
-     * @return string
-     *
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\Query\QueryException
+     * @throws OptimisticLockException
+     * @throws QueryException
      */
-    private function getInnerSQL(SelectStatement $AST)
+    private function getInnerSQL(SelectStatement $AST): string
     {
         // Set every select expression as visible(hidden = false) to
         // make $AST have scalar mappings properly - this is relevant for referencing selected
@@ -488,7 +478,7 @@ class LimitSubqueryOutputWalker extends SqlWalker
         $hiddens = [];
 
         foreach ($AST->selectClause->selectExpressions as $idx => $expr) {
-            $hiddens[$idx] = $expr->hiddenAliasResultVariable;
+            $hiddens[$idx]                   = $expr->hiddenAliasResultVariable;
             $expr->hiddenAliasResultVariable = false;
         }
 
@@ -502,12 +492,8 @@ class LimitSubqueryOutputWalker extends SqlWalker
         return $innerSql;
     }
 
-    /**
-     * @param SelectStatement $AST
-     *
-     * @return array
-     */
-    private function getSQLIdentifier(SelectStatement $AST)
+    /** @return string[] */
+    private function getSQLIdentifier(SelectStatement $AST): array
     {
         // Find out the SQL alias of the identifier column of the root entity.
         // It may be possible to make this work with multiple root entities but that
@@ -517,20 +503,20 @@ class LimitSubqueryOutputWalker extends SqlWalker
         // Get the root entity and alias from the AST fromClause.
         $from = $AST->fromClause->identificationVariableDeclarations;
         if (count($from) !== 1) {
-            throw new \RuntimeException('Cannot count query which selects two FROM components, cannot make distinction');
+            throw new RuntimeException('Cannot count query which selects two FROM components, cannot make distinction');
         }
 
         $fromRoot       = reset($from);
         $rootAlias      = $fromRoot->rangeVariableDeclaration->aliasIdentificationVariable;
-        $rootClass      = $this->queryComponents[$rootAlias]['metadata'];
+        $rootClass      = $this->getMetadataForDqlAlias($rootAlias);
         $rootIdentifier = $rootClass->identifier;
 
         // For every identifier, find out the SQL alias by combing through the ResultSetMapping
         $sqlIdentifier = [];
         foreach ($rootIdentifier as $property) {
             if (isset($rootClass->fieldMappings[$property])) {
-                foreach (array_keys($this->rsm->fieldMappings, $property) as $alias) {
-                    if ($this->rsm->columnOwnerMap[$alias] == $rootAlias) {
+                foreach (array_keys($this->rsm->fieldMappings, $property, true) as $alias) {
+                    if ($this->rsm->columnOwnerMap[$alias] === $rootAlias) {
                         $sqlIdentifier[$property] = $alias;
                     }
                 }
@@ -539,8 +525,8 @@ class LimitSubqueryOutputWalker extends SqlWalker
             if (isset($rootClass->associationMappings[$property])) {
                 $joinColumn = $rootClass->associationMappings[$property]['joinColumns'][0]['name'];
 
-                foreach (array_keys($this->rsm->metaMappings, $joinColumn) as $alias) {
-                    if ($this->rsm->columnOwnerMap[$alias] == $rootAlias) {
+                foreach (array_keys($this->rsm->metaMappings, $joinColumn, true) as $alias) {
+                    if ($this->rsm->columnOwnerMap[$alias] === $rootAlias) {
                         $sqlIdentifier[$property] = $alias;
                     }
                 }
@@ -548,11 +534,11 @@ class LimitSubqueryOutputWalker extends SqlWalker
         }
 
         if (count($sqlIdentifier) === 0) {
-            throw new \RuntimeException('The Paginator does not support Queries which only yield ScalarResults.');
+            throw new RuntimeException('The Paginator does not support Queries which only yield ScalarResults.');
         }
 
-        if (count($rootIdentifier) != count($sqlIdentifier)) {
-            throw new \RuntimeException(sprintf(
+        if (count($rootIdentifier) !== count($sqlIdentifier)) {
+            throw new RuntimeException(sprintf(
                 'Not all identifier properties can be found in the ResultSetMapping: %s',
                 implode(', ', array_diff($rootIdentifier, array_keys($sqlIdentifier)))
             ));
@@ -566,7 +552,7 @@ class LimitSubqueryOutputWalker extends SqlWalker
      */
     public function walkPathExpression($pathExpr)
     {
-        if (!$this->inSubSelect && !$this->platformSupportsRowNumber() && !in_array($pathExpr, $this->orderByPathExpressions)) {
+        if (! $this->inSubSelect && ! $this->platformSupportsRowNumber() && ! in_array($pathExpr, $this->orderByPathExpressions, true)) {
             $this->orderByPathExpressions[] = $pathExpr;
         }
 

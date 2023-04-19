@@ -1,54 +1,42 @@
 <?php
-/*
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * This software consists of voluntary contributions made by many individuals
- * and is licensed under the MIT license. For more information, see
- * <http://www.doctrine-project.org>.
- */
+
+declare(strict_types=1);
 
 namespace Doctrine\ORM\Mapping\Builder;
 
+use Doctrine\Deprecations\Deprecation;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+
+use function get_class;
 
 /**
  * Builder Object for ClassMetadata
  *
- * @license     http://www.opensource.org/licenses/mit-license.php MIT
  * @link        www.doctrine-project.com
- * @since       2.2
- * @author      Benjamin Eberlei <kontakt@beberlei.de>
- * @author      Guilherme Blanco <guilhermeblanco@hotmail.com>
  */
 class ClassMetadataBuilder
 {
-    /**
-     * @var \Doctrine\ORM\Mapping\ClassMetadataInfo
-     */
+    /** @var ClassMetadataInfo */
     private $cm;
 
-    /**
-     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $cm
-     */
     public function __construct(ClassMetadataInfo $cm)
     {
+        if (! $cm instanceof ClassMetadata) {
+            Deprecation::trigger(
+                'doctrine/orm',
+                'https://github.com/doctrine/orm/pull/249',
+                'Passing an instance of %s to %s is deprecated, please pass a ClassMetadata instance instead.',
+                get_class($cm),
+                __METHOD__,
+                ClassMetadata::class
+            );
+        }
+
         $this->cm = $cm;
     }
 
-    /**
-     * @return ClassMetadata
-     */
+    /** @return ClassMetadataInfo */
     public function getClassMetadata()
     {
         return $this->cm;
@@ -57,12 +45,12 @@ class ClassMetadataBuilder
     /**
      * Marks the class as mapped superclass.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setMappedSuperClass()
     {
         $this->cm->isMappedSuperclass = true;
-        $this->cm->isEmbeddedClass = false;
+        $this->cm->isEmbeddedClass    = false;
 
         return $this;
     }
@@ -70,11 +58,11 @@ class ClassMetadataBuilder
     /**
      * Marks the class as embeddable.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setEmbeddable()
     {
-        $this->cm->isEmbeddedClass = true;
+        $this->cm->isEmbeddedClass    = true;
         $this->cm->isMappedSuperclass = false;
 
         return $this;
@@ -83,19 +71,21 @@ class ClassMetadataBuilder
     /**
      * Adds and embedded class
      *
-     * @param string      $fieldName
-     * @param string      $class
-     * @param string|null $columnPrefix
+     * @param string            $fieldName
+     * @param string            $class
+     * @param string|false|null $columnPrefix
      *
      * @return $this
      */
     public function addEmbedded($fieldName, $class, $columnPrefix = null)
     {
-        $this->cm->mapEmbedded(array(
-            'fieldName'    => $fieldName,
-            'class'        => $class,
-            'columnPrefix' => $columnPrefix
-        ));
+        $this->cm->mapEmbedded(
+            [
+                'fieldName'    => $fieldName,
+                'class'        => $class,
+                'columnPrefix' => $columnPrefix,
+            ]
+        );
 
         return $this;
     }
@@ -105,7 +95,7 @@ class ClassMetadataBuilder
      *
      * @param string $repositoryClassName
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setCustomRepositoryClass($repositoryClassName)
     {
@@ -117,7 +107,7 @@ class ClassMetadataBuilder
     /**
      * Marks class read only.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setReadOnly()
     {
@@ -131,11 +121,11 @@ class ClassMetadataBuilder
      *
      * @param string $name
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setTable($name)
     {
-        $this->cm->setPrimaryTable(array('name' => $name));
+        $this->cm->setPrimaryTable(['name' => $name]);
 
         return $this;
     }
@@ -143,18 +133,18 @@ class ClassMetadataBuilder
     /**
      * Adds Index.
      *
-     * @param array  $columns
      * @param string $name
+     * @psalm-param list<string> $columns
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function addIndex(array $columns, $name)
     {
-        if (!isset($this->cm->table['indexes'])) {
-            $this->cm->table['indexes'] = array();
+        if (! isset($this->cm->table['indexes'])) {
+            $this->cm->table['indexes'] = [];
         }
 
-        $this->cm->table['indexes'][$name] = array('columns' => $columns);
+        $this->cm->table['indexes'][$name] = ['columns' => $columns];
 
         return $this;
     }
@@ -162,18 +152,18 @@ class ClassMetadataBuilder
     /**
      * Adds Unique Constraint.
      *
-     * @param array  $columns
      * @param string $name
+     * @psalm-param list<string> $columns
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function addUniqueConstraint(array $columns, $name)
     {
-        if ( ! isset($this->cm->table['uniqueConstraints'])) {
-            $this->cm->table['uniqueConstraints'] = array();
+        if (! isset($this->cm->table['uniqueConstraints'])) {
+            $this->cm->table['uniqueConstraints'] = [];
         }
 
-        $this->cm->table['uniqueConstraints'][$name] = array('columns' => $columns);
+        $this->cm->table['uniqueConstraints'][$name] = ['columns' => $columns];
 
         return $this;
     }
@@ -184,14 +174,16 @@ class ClassMetadataBuilder
      * @param string $name
      * @param string $dqlQuery
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function addNamedQuery($name, $dqlQuery)
     {
-        $this->cm->addNamedQuery(array(
-            'name' => $name,
-            'query' => $dqlQuery,
-        ));
+        $this->cm->addNamedQuery(
+            [
+                'name' => $name,
+                'query' => $dqlQuery,
+            ]
+        );
 
         return $this;
     }
@@ -199,7 +191,7 @@ class ClassMetadataBuilder
     /**
      * Sets class as root of a joined table inheritance hierarchy.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setJoinedTableInheritance()
     {
@@ -211,7 +203,7 @@ class ClassMetadataBuilder
     /**
      * Sets class as root of a single table inheritance hierarchy.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setSingleTableInheritance()
     {
@@ -227,15 +219,17 @@ class ClassMetadataBuilder
      * @param string $type
      * @param int    $length
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setDiscriminatorColumn($name, $type = 'string', $length = 255)
     {
-        $this->cm->setDiscriminatorColumn(array(
-            'name' => $name,
-            'type' => $type,
-            'length' => $length,
-        ));
+        $this->cm->setDiscriminatorColumn(
+            [
+                'name' => $name,
+                'type' => $type,
+                'length' => $length,
+            ]
+        );
 
         return $this;
     }
@@ -246,7 +240,7 @@ class ClassMetadataBuilder
      * @param string $name
      * @param string $class
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function addDiscriminatorMapClass($name, $class)
     {
@@ -258,7 +252,7 @@ class ClassMetadataBuilder
     /**
      * Sets deferred explicit change tracking policy.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setChangeTrackingPolicyDeferredExplicit()
     {
@@ -270,7 +264,7 @@ class ClassMetadataBuilder
     /**
      * Sets notify change tracking policy.
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function setChangeTrackingPolicyNotify()
     {
@@ -285,7 +279,7 @@ class ClassMetadataBuilder
      * @param string $methodName
      * @param string $event
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
     public function addLifecycleEvent($methodName, $event)
     {
@@ -299,14 +293,14 @@ class ClassMetadataBuilder
      *
      * @param string $name
      * @param string $type
-     * @param array  $mapping
+     * @psalm-param array<string, mixed> $mapping
      *
-     * @return ClassMetadataBuilder
+     * @return $this
      */
-    public function addField($name, $type, array $mapping = array())
+    public function addField($name, $type, array $mapping = [])
     {
         $mapping['fieldName'] = $name;
-        $mapping['type'] = $type;
+        $mapping['type']      = $type;
 
         $this->cm->mapField($mapping);
 
@@ -325,10 +319,10 @@ class ClassMetadataBuilder
     {
         return new FieldBuilder(
             $this,
-            array(
+            [
                 'fieldName' => $name,
-                'type'      => $type
-            )
+                'type'      => $type,
+            ]
         );
     }
 
@@ -344,11 +338,11 @@ class ClassMetadataBuilder
     {
         return new EmbeddedBuilder(
             $this,
-            array(
+            [
                 'fieldName'    => $fieldName,
                 'class'        => $class,
-                'columnPrefix' => null
-            )
+                'columnPrefix' => null,
+            ]
         );
     }
 
@@ -386,10 +380,10 @@ class ClassMetadataBuilder
     {
         return new AssociationBuilder(
             $this,
-            array(
+            [
                 'fieldName'    => $name,
-                'targetEntity' => $targetEntity
-            ),
+                'targetEntity' => $targetEntity,
+            ],
             ClassMetadata::MANY_TO_ONE
         );
     }
@@ -406,10 +400,10 @@ class ClassMetadataBuilder
     {
         return new AssociationBuilder(
             $this,
-            array(
+            [
                 'fieldName'    => $name,
-                'targetEntity' => $targetEntity
-            ),
+                'targetEntity' => $targetEntity,
+            ],
             ClassMetadata::ONE_TO_ONE
         );
     }
@@ -463,10 +457,10 @@ class ClassMetadataBuilder
     {
         return new ManyToManyAssociationBuilder(
             $this,
-            array(
+            [
                 'fieldName'    => $name,
-                'targetEntity' => $targetEntity
-            ),
+                'targetEntity' => $targetEntity,
+            ],
             ClassMetadata::MANY_TO_MANY
         );
     }
@@ -520,10 +514,10 @@ class ClassMetadataBuilder
     {
         return new OneToManyAssociationBuilder(
             $this,
-            array(
+            [
                 'fieldName'    => $name,
-                'targetEntity' => $targetEntity
-            ),
+                'targetEntity' => $targetEntity,
+            ],
             ClassMetadata::ONE_TO_MANY
         );
     }

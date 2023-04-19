@@ -13,7 +13,7 @@ class Unlock extends Command {
 		$this->setName('unlock')
 		->setDescription(_('Unlock Session'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$sp = session_save_path();

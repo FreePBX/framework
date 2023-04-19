@@ -14,7 +14,7 @@ class Extip extends Command {
 		->setAliases(array('externalip'))
 		->setDescription(_('Get External IP'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$extipsrc = 'http://mirror.freepbx.org/whatismyip.php';

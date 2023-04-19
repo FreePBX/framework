@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * This file is part of the Monolog package.
@@ -11,7 +11,9 @@
 
 namespace Monolog\Formatter;
 
+use Closure;
 use Monolog\Utils;
+use Monolog\LogRecord;
 
 /**
  * Formats incoming records into a one-line string
@@ -23,61 +25,69 @@ use Monolog\Utils;
  */
 class LineFormatter extends NormalizerFormatter
 {
-    const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+    public const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
-    protected $format;
-    protected $allowInlineLineBreaks;
-    protected $ignoreEmptyContextAndExtra;
-    protected $includeStacktraces;
+    protected string $format;
+    protected bool $allowInlineLineBreaks;
+    protected bool $ignoreEmptyContextAndExtra;
+    protected bool $includeStacktraces;
+    protected Closure|null $stacktracesParser = null;
 
     /**
-     * @param string $format                     The format of the message
-     * @param string $dateFormat                 The format of the timestamp: one supported by DateTime::format
-     * @param bool   $allowInlineLineBreaks      Whether to allow inline line breaks in log entries
-     * @param bool   $ignoreEmptyContextAndExtra
+     * @param string|null $format                The format of the message
+     * @param string|null $dateFormat            The format of the timestamp: one supported by DateTime::format
+     * @param bool        $allowInlineLineBreaks Whether to allow inline line breaks in log entries
+     *
+     * @throws \RuntimeException If the function json_encode does not exist
      */
-    public function __construct($format = null, $dateFormat = null, $allowInlineLineBreaks = false, $ignoreEmptyContextAndExtra = false)
+    public function __construct(?string $format = null, ?string $dateFormat = null, bool $allowInlineLineBreaks = false, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
-        $this->format = $format ?: static::SIMPLE_FORMAT;
+        $this->format = $format === null ? static::SIMPLE_FORMAT : $format;
         $this->allowInlineLineBreaks = $allowInlineLineBreaks;
         $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
+        $this->includeStacktraces($includeStacktraces);
         parent::__construct($dateFormat);
     }
 
-    public function includeStacktraces($include = true)
+    public function includeStacktraces(bool $include = true, ?Closure $parser = null): self
     {
         $this->includeStacktraces = $include;
         if ($this->includeStacktraces) {
             $this->allowInlineLineBreaks = true;
+            $this->stacktracesParser = $parser;
         }
+
+        return $this;
     }
 
-    public function allowInlineLineBreaks($allow = true)
+    public function allowInlineLineBreaks(bool $allow = true): self
     {
         $this->allowInlineLineBreaks = $allow;
+
+        return $this;
     }
 
-    public function ignoreEmptyContextAndExtra($ignore = true)
+    public function ignoreEmptyContextAndExtra(bool $ignore = true): self
     {
         $this->ignoreEmptyContextAndExtra = $ignore;
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function format(array $record)
+    public function format(LogRecord $record): string
     {
         $vars = parent::format($record);
 
         $output = $this->format;
-
         foreach ($vars['extra'] as $var => $val) {
             if (false !== strpos($output, '%extra.'.$var.'%')) {
                 $output = str_replace('%extra.'.$var.'%', $this->stringify($val), $output);
                 unset($vars['extra'][$var]);
             }
         }
-
 
         foreach ($vars['context'] as $var => $val) {
             if (false !== strpos($output, '%context.'.$var.'%')) {
@@ -87,12 +97,12 @@ class LineFormatter extends NormalizerFormatter
         }
 
         if ($this->ignoreEmptyContextAndExtra) {
-            if (empty($vars['context'])) {
+            if (\count($vars['context']) === 0) {
                 unset($vars['context']);
                 $output = str_replace('%context%', '', $output);
             }
 
-            if (empty($vars['extra'])) {
+            if (\count($vars['extra']) === 0) {
                 unset($vars['extra']);
                 $output = str_replace('%extra%', '', $output);
             }
@@ -107,12 +117,17 @@ class LineFormatter extends NormalizerFormatter
         // remove leftover %extra.xxx% and %context.xxx% if any
         if (false !== strpos($output, '%')) {
             $output = preg_replace('/%(?:extra|context)\..+?%/', '', $output);
+            if (null === $output) {
+                $pcreErrorCode = preg_last_error();
+
+                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+            }
         }
 
         return $output;
     }
 
-    public function formatBatch(array $records)
+    public function formatBatch(array $records): string
     {
         $message = '';
         foreach ($records as $record) {
@@ -122,34 +137,37 @@ class LineFormatter extends NormalizerFormatter
         return $message;
     }
 
-    public function stringify($value)
+    /**
+     * @param mixed $value
+     */
+    public function stringify($value): string
     {
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    protected function normalizeException($e)
+    protected function normalizeException(\Throwable $e, int $depth = 0): string
     {
-        // TODO 2.0 only check for Throwable
-        if (!$e instanceof \Exception && !$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.Utils::getClass($e));
-        }
+        $str = $this->formatException($e);
 
-        $previousText = '';
-        if ($previous = $e->getPrevious()) {
+        if (($previous = $e->getPrevious()) instanceof \Throwable) {
             do {
-                $previousText .= ', '.Utils::getClass($previous).'(code: '.$previous->getCode().'): '.$previous->getMessage().' at '.$previous->getFile().':'.$previous->getLine();
-            } while ($previous = $previous->getPrevious());
-        }
+                $depth++;
+                if ($depth > $this->maxNormalizeDepth) {
+                    $str .= '\n[previous exception] Over ' . $this->maxNormalizeDepth . ' levels deep, aborting normalization';
+                    break;
+                }
 
-        $str = '[object] ('.Utils::getClass($e).'(code: '.$e->getCode().'): '.$e->getMessage().' at '.$e->getFile().':'.$e->getLine().$previousText.')';
-        if ($this->includeStacktraces) {
-            $str .= "\n[stacktrace]\n".$e->getTraceAsString()."\n";
+                $str .= "\n[previous exception] " . $this->formatException($previous);
+            } while ($previous = $previous->getPrevious());
         }
 
         return $str;
     }
 
-    protected function convertToString($data)
+    /**
+     * @param mixed $data
+     */
+    protected function convertToString($data): string
     {
         if (null === $data || is_bool($data)) {
             return var_export($data, true);
@@ -159,23 +177,68 @@ class LineFormatter extends NormalizerFormatter
             return (string) $data;
         }
 
-        if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
-            return $this->toJson($data, true);
-        }
-
-        return str_replace('\\/', '/', $this->toJson($data, true));
+        return $this->toJson($data, true);
     }
 
-    protected function replaceNewlines($str)
+    protected function replaceNewlines(string $str): string
     {
         if ($this->allowInlineLineBreaks) {
             if (0 === strpos($str, '{')) {
-                return str_replace(array('\r', '\n'), array("\r", "\n"), $str);
+                $str = preg_replace('/(?<!\\\\)\\\\[rn]/', "\n", $str);
+                if (null === $str) {
+                    $pcreErrorCode = preg_last_error();
+                    throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+                }
             }
 
             return $str;
         }
 
-        return str_replace(array("\r\n", "\r", "\n"), ' ', $str);
+        return str_replace(["\r\n", "\r", "\n"], ' ', $str);
+    }
+
+    private function formatException(\Throwable $e): string
+    {
+        $str = '[object] (' . Utils::getClass($e) . '(code: ' . $e->getCode();
+        if ($e instanceof \SoapFault) {
+            if (isset($e->faultcode)) {
+                $str .= ' faultcode: ' . $e->faultcode;
+            }
+
+            if (isset($e->faultactor)) {
+                $str .= ' faultactor: ' . $e->faultactor;
+            }
+
+            if (isset($e->detail)) {
+                if (is_string($e->detail)) {
+                    $str .= ' detail: ' . $e->detail;
+                } elseif (is_object($e->detail) || is_array($e->detail)) {
+                    $str .= ' detail: ' . $this->toJson($e->detail, true);
+                }
+            }
+        }
+        $str .= '): ' . $e->getMessage() . ' at ' . $e->getFile() . ':' . $e->getLine() . ')';
+
+        if ($this->includeStacktraces) {
+            $str .= $this->stacktracesParser($e);
+        }
+
+        return $str;
+    }
+
+    private function stacktracesParser(\Throwable $e): string
+    {
+        $trace = $e->getTraceAsString();
+
+        if ($this->stacktracesParser !== null) {
+            $trace = $this->stacktracesParserCustom($trace);
+        }
+
+        return "\n[stacktrace]\n" . $trace . "\n";
+    }
+
+    private function stacktracesParserCustom(string $trace): string
+    {
+        return implode("\n", array_filter(array_map($this->stacktracesParser, explode("\n", $trace))));
     }
 }
