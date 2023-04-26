@@ -66,6 +66,7 @@ class View {
 			"tableexport-1.26.0.js",
 			"timeutils.js",
 			"typeahead.bundle-0.10.5.min.js",
+			 "common.js",
 			"text-editor-1.2.1.js"
 		);
 
