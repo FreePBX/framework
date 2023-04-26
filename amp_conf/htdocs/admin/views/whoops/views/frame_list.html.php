@@ -1,7 +1,13 @@
 <?php /* List file names & line numbers for all stack frames;
          clicking these links/buttons will display the code view
          for that particular frame */ ?>
-<?php foreach ($frames as $i => $frame): ?>
+<?php 
+  // DO NOT DISPLAY STACK FRAMES if force_remove_stack_trace session variable is set
+  if(isset($_SESSION['force_remove_stack_trace']) && $_SESSION['force_remove_stack_trace']){
+    $frames = array();
+    unset($_SESSION['force_remove_stack_trace']);
+  }
+  foreach ($frames as $i => $frame): ?>
   <div class="frame <?php echo ($i == 0 ? 'active' : '') ?> <?php echo ($frame->isApplication() ? 'frame-application' : '') ?>" id="frame-line-<?php echo $i ?>">
       <span class="frame-index"><?php echo (count($frames) - $i - 1) ?></span>
       <div class="frame-method-info">

@@ -50,6 +50,10 @@ foreach ($vars as $k => $v) {
 	}
 }
 
+if($display == "extensions" && !is_numeric($extdisplay)){
+	$_REQUEST['extdisplay'] = false;
+}
+
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
 header('Cache-Control: post-check=0, pre-check=0',false);
@@ -507,6 +511,13 @@ switch($display) {
 					'', $amp_conf['FOPWEBROOT']);
 			}
 
+			if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
+				$sql = "SELECT val FROM kvstore_FreePBX_modules_Pbxmfa WHERE kvstore_FreePBX_modules_Pbxmfa.key = 'PBXMFA_LICENSED'";
+				$sth = FreePBX::Database()->prepare($sql);
+				$sth->execute();
+				$res = $sth->fetch();
+				$login['PBXMFA_LICENSED'] = $res['val'];
+			}
 
 			$login['amp_conf'] = $amp_conf;
 			echo load_view($amp_conf['VIEW_LOGIN'], $login);

@@ -16,10 +16,9 @@
 	</form>
 </div>
 <?php
-	if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
-	$userType = 'admin';
-	$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
-	include $webrootpath . '/admin/modules/pbxmfa/views/mfa/otpModal.php';
+	if (\FreePBX::Modules()->checkStatus('pbxmfa') && $PBXMFA_LICENSED) {
+		$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
+		include $webrootpath . '/admin/modules/pbxmfa/views/mfa/otpModal.php';
 	}
 ?>
 <div id="login_icon_holder">
@@ -59,3 +58,10 @@
 	</div>
 </div>
 <script type="text/javascript" src="assets/js/views/login.js"></script>
+<?php
+	if (\FreePBX::Modules()->checkStatus('userman')) {
+?>
+	<script type="text/javascript" src='/admin/modules/userman/assets/js/adminPwdExpReminder.js'></script>
+<?php
+	}
+?>

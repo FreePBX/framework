@@ -57,7 +57,7 @@ class View {
 			"jquery.tablednd-0.9.1.min.js",
 			"js.cookie-3.0.1.min.js",
 			"modernizr-3.3.1.min.js",
-			"moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
+			"moment-timezone-with-data-1970-2030-0.5.41.min.js",
 			"moment-duration-format-2.2.1.js",
 			"notie-3.9.4.min.js",
 			"recorder.js",
@@ -66,7 +66,7 @@ class View {
 			"tableexport-1.26.0.js",
 			"timeutils.js",
 			"typeahead.bundle-0.10.5.min.js",
-			"common.js"
+			"text-editor-1.2.1.js"
 		);
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
