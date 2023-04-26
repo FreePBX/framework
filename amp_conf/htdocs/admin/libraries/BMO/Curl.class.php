@@ -16,7 +16,7 @@ class Curl {
 	private $hooks = array();
 
 	public function __construct($freepbx=null) {
-		$this->hooks = new \Requests_Hooks();
+		$this->hooks = new \WpOrg\Requests\Hooks();
 	}
 
 	public function getProxySettings() {
@@ -100,7 +100,7 @@ class Curl {
 			throw new \Exception("Invalid URL");
 		}
 		if (!isset($this->requestshandles[$url])) {
-			$session = new \Requests_Session($url);
+			$session = new \WpOrg\Requests\Session($url);
 			$this->setProxy();
 			$session->options = $this->options;
 			$this->requestshandles[$url] = $session;
@@ -111,32 +111,32 @@ class Curl {
 	public function get($url, $data = array()) {
 		$this->setProxy();
 		$data = !empty($data) ? '?'.http_build_query($data) : '';
-		return \Requests::get($url.$data, $this->headers, $this->options);
+		return \WpOrg\Requests\Requests::get($url.$data, $this->headers, $this->options);
 	}
 
 	public function head($url) {
 		$this->setProxy();
-		return \Requests::delete($url, $this->headers, $this->options);
+		return \WpOrg\Requests\Requests::delete($url, $this->headers, $this->options);
 	}
 
 	public function delete($url) {
 		$this->setProxy();
-		return \Requests::delete($url, $this->headers, $this->options);
+		return \WpOrg\Requests\Requests::delete($url, $this->headers, $this->options);
 	}
 
 	public function post($url, $data = array()) {
 		$this->setProxy();
-		return \Requests::post($url, $this->headers, $data, $this->options);
+		return \WpOrg\Requests\Requests::post($url, $this->headers, $data, $this->options);
 	}
 
 	public function put($url, $data = array()) {
 		$this->setProxy();
-		return \Requests::put($url, $this->headers, $data, $this->options);
+		return \WpOrg\Requests\Requests::put($url, $this->headers, $data, $this->options);
 	}
 
 	public function patch($url, $data = array()) {
 		$this->setProxy();
-		return \Requests::patch($url, $this->headers, $data, $this->options);
+		return \WpOrg\Requests\Requests::patch($url, $this->headers, $data, $this->options);
 	}
 
 	public function progressCallback($method) {

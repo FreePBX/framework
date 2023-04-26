@@ -3,39 +3,55 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
+use ReflectionException;
 use ReflectionProperty;
-use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Validatable;
 
-class Attribute extends AbstractRelated
-{
-    public function __construct($reference, Validatable $validator = null, $mandatory = true)
-    {
-        if (!is_string($reference) || empty($reference)) {
-            throw new ComponentException('Invalid attribute/property name');
-        }
+use function is_object;
+use function property_exists;
 
-        parent::__construct($reference, $validator, $mandatory);
+/**
+ * Validates an object attribute, event private ones.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Emmerson Siqueira <emmersonsiqueira@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class Attribute extends AbstractRelated
+{
+    public function __construct(string $reference, ?Validatable $rule = null, bool $mandatory = true)
+    {
+        parent::__construct($reference, $rule, $mandatory);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws ReflectionException
+     */
     public function getReferenceValue($input)
     {
-        $propertyMirror = new ReflectionProperty($input, $this->reference);
+        $propertyMirror = new ReflectionProperty($input, (string) $this->getReference());
         $propertyMirror->setAccessible(true);
 
         return $propertyMirror->getValue($input);
     }
 
-    public function hasReference($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function hasReference($input): bool
     {
-        return is_object($input) && property_exists($input, $this->reference);
+        return is_object($input) && property_exists($input, (string) $this->getReference());
     }
 }

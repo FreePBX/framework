@@ -18,10 +18,10 @@ class Migration {
 	private $version;
 	private $driver;
 
-	public function __construct($conn, $version) {
+	public function __construct($conn, $version, $driverName) {
 		$this->conn = $conn;
 		$this->version = $version;
-		$this->driver = $this->conn->getDriver()->getName();
+		$this->driver =  $driverName;
 		//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
 		$this->conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 	}
@@ -131,7 +131,7 @@ class Migration {
 	 * @return mixed
 	 */
 	public function modifyMultiple($tables=array(),$dryrun=false) {
-		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
+		$synchronizer = new \FreePBX\Database\DBAL\SingleDatabaseSynchronizer($this->conn);
 		$schemaConfig = new SchemaConfig();
 		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge")) {
 			$schemaConfig->setDefaultTableOptions(array(
@@ -150,6 +150,11 @@ class Migration {
 				if(!is_null($pk)) {
 					if($pk) {
 						$primaryKeys[] = $name;
+						if(isset($options['primaryKey'])) {
+							unset($options['primaryKey']);
+						}else if(isset($options['primarykey'])){ 
+							unset($options['primarykey']);
+						}
 					}
 				}
 				$table->addColumn($name, $type, $options);

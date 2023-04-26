@@ -3,35 +3,54 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Exceptions\ComponentException;
+use Respect\Validation\Helpers\Subdivisions;
+
+use function array_keys;
 
 /**
  * Validates country subdivision codes according to ISO 3166-2.
  *
- * @link http://en.wikipedia.org/wiki/ISO_3166-2
- * @link http://www.geonames.org/countries/
+ * @see http://en.wikipedia.org/wiki/ISO_3166-2
+ * @see http://www.geonames.org/countries/
+ *
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Mazen Touati <mazen_touati@hotmail.com>
  */
-class SubdivisionCode extends AbstractWrapper
+final class SubdivisionCode extends AbstractSearcher
 {
-    public $countryCode;
+    /**
+     * @var string
+     */
+    private $countryName; /** @phpstan-ignore-line */
 
-    public function __construct($countryCode)
+    /**
+     * @var string[]
+     */
+    private $subdivisions;
+
+    public function __construct(string $countryCode)
     {
-        $shortName = ucfirst(strtolower($countryCode)).'SubdivisionCode';
-        $className = __NAMESPACE__.'\\SubdivisionCode\\'.$shortName;
-        if (!class_exists($className)) {
-            throw new ComponentException(sprintf('"%s" is not a valid country code in ISO 3166-2', $countryCode));
-        }
+        $subdivisions = new Subdivisions($countryCode);
 
-        $this->countryCode = $countryCode;
-        $this->validatable = new $className();
+        $this->countryName = $subdivisions->getCountry();
+        $this->subdivisions = array_keys($subdivisions->getSubdivisions());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getDataSource(): array
+    {
+        return $this->subdivisions;
     }
 }

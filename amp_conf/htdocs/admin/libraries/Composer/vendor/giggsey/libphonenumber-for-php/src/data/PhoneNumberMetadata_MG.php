@@ -38,7 +38,7 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '3[2-49]\\d{7}',
+    'NationalNumberPattern' => '3[2-47-9]\\d{7}',
     'ExampleNumber' => '321234567',
     'PossibleLength' => 
     array (
@@ -142,7 +142,7 @@ return array (
   'countryCode' => 261,
   'internationalPrefix' => '00',
   'nationalPrefix' => '0',
-  'nationalPrefixForParsing' => '0|([24-9]\\d{6})$',
+  'nationalPrefixForParsing' => '([24-9]\\d{6})$|0',
   'nationalPrefixTransformRule' => '20$1',
   'sameMobileAndFixedLinePattern' => false,
   'numberFormat' => 
@@ -164,6 +164,5 @@ return array (
   array (
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => false,
 );

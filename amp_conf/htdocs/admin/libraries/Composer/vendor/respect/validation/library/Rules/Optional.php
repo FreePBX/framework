@@ -3,49 +3,55 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Validatable;
+use Respect\Validation\Helpers\CanValidateUndefined;
 
-class Optional extends AbstractWrapper
+/**
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class Optional extends AbstractWrapper
 {
-    public function __construct(Validatable $rule)
-    {
-        $this->validatable = $rule;
-    }
+    use CanValidateUndefined;
 
-    private function isOptional($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function assert($input): void
     {
-        return in_array($input, [null, ''], true);
-    }
-
-    public function assert($input)
-    {
-        if ($this->isOptional($input)) {
-            return true;
+        if ($this->isUndefined($input)) {
+            return;
         }
 
-        return parent::assert($input);
+        parent::assert($input);
     }
 
-    public function check($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function check($input): void
     {
-        if ($this->isOptional($input)) {
-            return true;
+        if ($this->isUndefined($input)) {
+            return;
         }
 
-        return parent::check($input);
+        parent::check($input);
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        if ($this->isOptional($input)) {
+        if ($this->isUndefined($input)) {
             return true;
         }
 

@@ -10,9 +10,7 @@
 
     <filter>
         <whitelist>
-            <exclude>
-                <directory>./vendor</directory>
-            </exclude>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 

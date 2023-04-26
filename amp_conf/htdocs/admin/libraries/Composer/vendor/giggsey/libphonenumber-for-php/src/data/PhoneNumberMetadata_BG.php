@@ -14,13 +14,14 @@
 return array (
   'generalDesc' => 
   array (
-    'NationalNumberPattern' => '[2-7]\\d{6,7}|[89]\\d{6,8}|2\\d{5}',
+    'NationalNumberPattern' => '00800\\d{7}|[2-7]\\d{6,7}|[89]\\d{6,8}|2\\d{5}',
     'PossibleLength' => 
     array (
       0 => 6,
       1 => 7,
       2 => 8,
       3 => 9,
+      4 => 12,
     ),
     'PossibleLengthLocalOnly' => 
     array (
@@ -46,8 +47,8 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '43[07-9]\\d{5}|(?:48|8[7-9]\\d|9(?:8\\d|9[69]))\\d{6}',
-    'ExampleNumber' => '48123456',
+    'NationalNumberPattern' => '(?:43[07-9]|99[69]\\d)\\d{5}|(?:8[7-9]|98)\\d{7}',
+    'ExampleNumber' => '43012345',
     'PossibleLength' => 
     array (
       0 => 8,
@@ -59,11 +60,12 @@ return array (
   ),
   'tollFree' => 
   array (
-    'NationalNumberPattern' => '800\\d{5}',
+    'NationalNumberPattern' => '(?:00800\\d\\d|800)\\d{5}',
     'ExampleNumber' => '80012345',
     'PossibleLength' => 
     array (
       0 => 8,
+      1 => 12,
     ),
     'PossibleLengthLocalOnly' => 
     array (
@@ -370,6 +372,5 @@ return array (
     ),
   ),
   'mainCountryForCode' => false,
-  'leadingZeroPossible' => false,
   'mobileNumberPortableRegion' => true,
 );

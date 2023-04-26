@@ -128,6 +128,9 @@ class module_functions {
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if (!isset($result['time']) || empty($result['time'])) {
+			if(!is_array($result)){
+				$result = array();
+			}
 			$result['time'] = time(); // initialize time variable if not set
 		}
 		if(!$never_refresh && ($force || ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ))) {
@@ -203,6 +206,12 @@ class module_functions {
 
 		if(!empty($security)) {
 			foreach($security['issue'] as $item) {
+				if(!is_array($this->security_array)){
+					$this->security_array = array();
+				}
+				if(!is_array($sec_array)){
+					$sec_array = array();
+				}
 				$this->security_array[$item['id']] = $item;
 				$sec_array[$item['id']] = $item;
 			}
@@ -791,13 +800,13 @@ class module_functions {
 			$depends = $this->modDepends;
 			if(!empty($depends)) {
 				foreach($depends as $m) {
-					$module = $m['module'];
-					$version = $m['version'];
+					$module = $m['module'] ?? '' ;
+					$version = $m['version'] ?? '' ;
 					out(sprintf(_("Detected Missing Dependency of: %s %s"),$module,$version));
 					$this->getinfo(false,false,false);
 					$m = $this->getinfo($module);
 					if(!empty($m[$module])) {
-						if(!$devmode && ((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<'))) {
+						if(!$devmode && ((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || (!empty($m[$module]['version']) && version_compare_freepbx($m[$module]['version'],$version,'<')))) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
 								out(_("The following error(s) occured:"));
@@ -817,7 +826,7 @@ class module_functions {
 									out(sprintf(_("Installed Missing Dependency of: %s %s"),$module,$version));
 								}
 							}
-						} elseif(version_compare_freepbx($m[$module]['version'],$version,'>=')) {
+						} elseif(!empty($m[$module]['version']) && version_compare_freepbx($m[$module]['version'],$version,'>=')) {
 							out(sprintf(_("Found local Dependency of: %s %s"),$module,$m[$module]['version']));
 						} elseif($devmode) {
 							out(_("Could not find dependency locally and 'Developer Mode' is enabled so will not check online"));
@@ -928,7 +937,7 @@ class module_functions {
 			$modulename = $modulename['rawname'];
 		} else {
 			$modulexml = $this->getinfo($modulename);
-			$modulexml = $modulexml[$modulename];
+			$modulexml = $modulexml[$modulename] ?? array();
 		}
 
 		$errors = array();
@@ -990,6 +999,8 @@ class module_functions {
 							*/
 							$phpcomponents = explode('||',$value);
 							$newerrors = array();
+							$compare_version = '';
+							$operator = 'ge';
 							foreach($phpcomponents as $value) {
 								if (preg_match('/^([a-z0-9_]+|Zend (Optimizer|Guard Loader))(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 									// matches[1] = extension name, [3]=comparison operator, [4] = version
@@ -1298,11 +1309,11 @@ class module_functions {
 				$data = file_get_contents($override_xml);
 				$parser = new xml2ModuleArray($data);
 				$xml = $parser->parseAdvanced($data);
-				if(!isset($xml[$modeuledata])) {
+				if(!isset($xml[$moduledata])) {
 					$errors[] = _("Module XML was not in the proper format");
 					return $errors;
 				}
-				$modulexml = $xml[$modeuledata];
+				$modulexml = $xml[$moduledata];
 			} else {
 				$modulexml = $this->getonlinexml($moduledata, false, false , $force);
 			}
@@ -1510,13 +1521,14 @@ class module_functions {
 		//
 		$totalread = 0;
 		// invoke progress_callback
+		$headers['content-length'] = !empty($headers['content-length']) ? $headers['content-length'] : '0';
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
-		$hooks = new Requests_Hooks();
+		$hooks = new \WpOrg\Requests\Hooks();
 		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
@@ -1652,6 +1664,7 @@ class module_functions {
 	function handledownload($module_location, $progress_callback = null) {
 		global $amp_conf;
 		$errors = array();
+		$modulename = '';
 
 		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
 			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
@@ -1702,7 +1715,7 @@ class module_functions {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
-		$hooks = new Requests_Hooks();
+		$hooks = new \WpOrg\Requests\Hooks();
 		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
@@ -1785,6 +1798,7 @@ class module_functions {
 
 	function _process_archive($filename,$progress_callback='') {
 		global $amp_conf;
+		$modulename = '';
 
 		if (is_readable($filename) !== TRUE ) {
 			return array(sprintf(_('Unable to save %s'),$filename));
@@ -3250,7 +3264,7 @@ class module_functions {
 			}
 			$modules['modules'][$mod['modulename']] = $mod;
 			if(!is_int($mod['signature']['status'])) {
-				$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is is missing its signature status.'),$modname);
+				$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is is missing its signature status.'),$mod['modulename']);
 				continue;
 			}
 			if(~$mod['signature']['status'] & FreePBX\GPG::STATE_GOOD) {

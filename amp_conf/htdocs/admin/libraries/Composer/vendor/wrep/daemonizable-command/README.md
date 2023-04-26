@@ -1,4 +1,4 @@
-# Daemonizable Commands for Symfony [![Build Status of Master](https://travis-ci.org/mac-cain13/daemonizable-command.png?branch=master)](https://travis-ci.org/mac-cain13/daemonizable-command)
+# Daemonizable Commands for Symfony [![Build Status](https://travis-ci.org/mac-cain13/daemonizable-command.svg?branch=master)](https://travis-ci.org/mac-cain13/daemonizable-command)
 
 **A small bundle to create endless running commands with Symfony.**
 
@@ -14,11 +14,9 @@ Use composer to include it into your Symfony project:
 
 ### What version to use?
 Symfony did make some breaking changes, so you should make sure to use a compatible bundle version:
-* Version 2.1.* for Symfony 4.0 and higher
-* Version 2.0.* for Symfony 3.0 - 3.4
-* Version 1.3.* for Symfony 2.8
-
-When upgrading, please consult the [changelog](Changelog.md) to see what could break your code.
+* Version 3.0.* for Symfony 4 and 5 and higher
+* Version 2.0.* for Symfony 3
+* Version 1.3.* for Symfony 2.8+
 
 ## How to use?
 Just create a Symfony command that extends from `EndlessCommand` and off you go. Here is a minimal example:
@@ -36,7 +34,7 @@ class MinimalDemoCommand extends EndlessCommand
 	protected function configure()
 	{
 		$this->setName('acme:minimaldemo')
-			 ->setDescription('An EndlessCommand implementation example');
+		     ->setDescription('An EndlessCommand implementation example');
 	}
 
 	// Execute will be called in a endless loop
@@ -67,7 +65,7 @@ You should use [systemd](http://www.freedesktop.org/wiki/Software/systemd) to da
 
 If you can't use Upstart or systemd, you can use `.lock` file with [LockHandler](http://symfony.com/doc/current/components/filesystem/lock_handler.html) with [crontab](https://wikipedia.org/wiki/Cron) wich start script every minute.
 
-An [example Upstart script](examples/example-daemon.conf) is available, place your script in `/etc/init/` and start the daemon with `start example-daemon`. The name of the `.conf`-file will be the name of the daemon. A systemd example is not yet available, but it shouldn't be that hard to [figure out](http://patrakov.blogspot.nl/2011/01/writing-systemd-service-files.html).
+An [example Upstart script](https://github.com/mac-cain13/daemonizable-command/blob/master/examples/example-systemd.service) is available, place your script in `/etc/init/` and start the daemon with `start example-daemon`. The name of the `.conf`-file will be the name of the daemon. A systemd example is not yet available, but it shouldn't be that hard to [figure out](http://patrakov.blogspot.nl/2011/01/writing-systemd-service-files.html).
 
 ## Command line switches
 A few switches are available by default to make life somewhat easier:
@@ -81,8 +79,6 @@ Memory usage is very important for long running processes. Symfony is not the sm
 
 ### How to prevent leaks?
 Always start your command with the `-e prod --no-debug` flags. This disables all debugging features of Symfony that will eat up more and more memory.
-
-Do not use Monolog in Symfony 2.2 and lower, there is a [bug in the MonologBundle](https://github.com/symfony/MonologBundle/issues/37) that starts the debughandler even though you disable the profiler. This eats up your memory. Note that this is [fixed](https://github.com/symfony/MonologBundle/commit/1fc0864a9344b15a04ed90612a91cf8e5b8fb305) in Symfony 2.3 and up.
 
 Make sure you cleanup in the `execute`-method, make sure you're not appending data to an array every iteration or leave sockets/file handles open for example.
 

@@ -3,20 +3,27 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class OptionalException extends ValidationException
+/**
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class OptionalException extends ValidationException
 {
-    const STANDARD = 0;
-    const NAMED = 1;
+    public const NAMED = 'named';
 
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => 'The value must be optional',
             self::NAMED => '{{name}} must be optional',
@@ -27,8 +34,8 @@ class OptionalException extends ValidationException
         ],
     ];
 
-    public function chooseTemplate()
+    protected function chooseTemplate(): string
     {
-        return $this->getName() == '' ? static::STANDARD : static::NAMED;
+        return $this->getParam('name') ? self::NAMED : self::STANDARD;
     }
 }

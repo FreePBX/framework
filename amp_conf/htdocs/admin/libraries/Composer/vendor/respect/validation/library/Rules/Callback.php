@@ -3,39 +3,69 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Exceptions\ComponentException;
+use function array_merge;
+use function call_user_func_array;
+use function count;
 
-class Callback extends AbstractRule
+/**
+ * Validates the input using the return of a given callable.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author William Espindola <oi@williamespindola.com.br>
+ */
+final class Callback extends AbstractRule
 {
-    public $callback;
-    public $arguments;
+    /**
+     * @var callable
+     */
+    private $callback;
 
-    public function __construct($callback)
+    /**
+     * @var mixed[]
+     */
+    private $arguments;
+
+    /**
+     * Initializes the rule.
+     *
+     * @param mixed ...$arguments
+     */
+    public function __construct(callable $callback, ...$arguments)
     {
-        if (!is_callable($callback)) {
-            throw new ComponentException('Invalid callback');
-        }
-
-        $arguments = func_get_args();
-        array_shift($arguments);
-
         $this->callback = $callback;
         $this->arguments = $arguments;
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        $params = $this->arguments;
-        array_unshift($params, $input);
+        return (bool) call_user_func_array($this->callback, $this->getArguments($input));
+    }
 
-        return (bool) call_user_func_array($this->callback, $params);
+    /**
+     * @param mixed $input
+     * @return mixed[]
+     */
+    private function getArguments($input): array
+    {
+        $arguments = [$input];
+        if (count($this->arguments) === 0) {
+            return $arguments;
+        }
+
+        return array_merge($arguments, $this->arguments);
     }
 }

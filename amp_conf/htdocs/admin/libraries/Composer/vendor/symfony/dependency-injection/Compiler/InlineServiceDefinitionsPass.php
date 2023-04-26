@@ -22,29 +22,19 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class InlineServiceDefinitionsPass extends AbstractRecursivePass implements RepeatablePassInterface
+class InlineServiceDefinitionsPass extends AbstractRecursivePass
 {
-    private $analyzingPass;
-    private $repeatedPass;
-    private $cloningIds = [];
-    private $connectedIds = [];
-    private $notInlinedIds = [];
-    private $inlinedIds = [];
-    private $notInlinableIds = [];
-    private $graph;
+    private ?AnalyzeServiceReferencesPass $analyzingPass;
+    private array $cloningIds = [];
+    private array $connectedIds = [];
+    private array $notInlinedIds = [];
+    private array $inlinedIds = [];
+    private array $notInlinableIds = [];
+    private ?ServiceReferenceGraph $graph = null;
 
     public function __construct(AnalyzeServiceReferencesPass $analyzingPass = null)
     {
         $this->analyzingPass = $analyzingPass;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setRepeatedPass(RepeatedPass $repeatedPass)
-    {
-        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 4.2.', __METHOD__), \E_USER_DEPRECATED);
-        $this->repeatedPass = $repeatedPass;
     }
 
     public function process(ContainerBuilder $container)
@@ -95,10 +85,6 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
                 }
             } while ($this->inlinedIds && $this->analyzingPass);
 
-            if ($this->inlinedIds && $this->repeatedPass) {
-                $this->repeatedPass->setRepeat();
-            }
-
             foreach ($remainingInlinedIds as $id) {
                 if (isset($this->notInlinableIds[$id])) {
                     continue;
@@ -118,13 +104,10 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function processValue($value, $isRoot = false)
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($value instanceof ArgumentInterface) {
-            // Reference found in ArgumentInterface::getValues() are not inlineable
+            // References found in ArgumentInterface::getValues() are not inlineable
             return $value;
         }
 
@@ -177,7 +160,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
      */
     private function isInlineableDefinition(string $id, Definition $definition): bool
     {
-        if ($definition->hasErrors() || $definition->isDeprecated() || $definition->isLazy() || $definition->isSynthetic()) {
+        if ($definition->hasErrors() || $definition->isDeprecated() || $definition->isLazy() || $definition->isSynthetic() || $definition->hasTag('container.do_not_inline')) {
             return false;
         }
 
@@ -190,7 +173,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
                 $srcId = $edge->getSourceNode()->getId();
                 $this->connectedIds[$srcId] = true;
                 if ($edge->isWeak() || $edge->isLazy()) {
-                    return false;
+                    return !$this->connectedIds[$id] = true;
                 }
             }
 
@@ -212,9 +195,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
 
         $srcIds = [];
         $srcCount = 0;
-        $isReferencedByConstructor = false;
         foreach ($this->graph->getNode($id)->getInEdges() as $edge) {
-            $isReferencedByConstructor = $isReferencedByConstructor || $edge->isReferencedByConstructor();
             $srcId = $edge->getSourceNode()->getId();
             $this->connectedIds[$srcId] = true;
             if ($edge->isWeak() || $edge->isLazy()) {

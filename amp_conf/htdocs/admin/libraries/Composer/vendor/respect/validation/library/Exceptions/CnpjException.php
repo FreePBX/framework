@@ -3,17 +3,27 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class CnpjException extends ValidationException
+/**
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Leonn Leite <leonnleite@gmail.com>
+ * @author William Espindola <oi@williamespindola.com.br>
+ */
+final class CnpjException extends ValidationException
 {
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be a valid CNPJ number',
         ],

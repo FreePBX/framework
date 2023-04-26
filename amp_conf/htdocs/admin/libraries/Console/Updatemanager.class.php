@@ -23,7 +23,7 @@ class UpdateManager extends Command {
 		->setDescription(_('View and change Update/Notification Manager Settings'))
 		->setDefinition(array(
 			new InputOption('list', 'l', InputOption::VALUE_NONE, _('List Configs')),
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->um = new \FreePBX\Builtin\UpdateManager();

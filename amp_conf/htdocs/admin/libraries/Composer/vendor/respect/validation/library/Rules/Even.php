@@ -3,18 +3,38 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-class Even extends AbstractRule
+use function filter_var;
+
+use const FILTER_VALIDATE_INT;
+
+/**
+ * Validates whether the input is an even number or not.
+ *
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Jean Pimentel <jeanfap@gmail.com>
+ * @author Paul Karikari <paulkarikari1@gmail.com>
+ */
+final class Even extends AbstractRule
 {
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
-        return ((int) $input % 2 === 0);
+        if (filter_var($input, FILTER_VALIDATE_INT) === false) {
+            return false;
+        }
+
+        return (int) $input % 2 === 0;
     }
 }

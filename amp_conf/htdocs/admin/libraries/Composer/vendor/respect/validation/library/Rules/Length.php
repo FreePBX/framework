@@ -3,78 +3,112 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
+use Countable as CountableInterface;
 use Respect\Validation\Exceptions\ComponentException;
 
-class Length extends AbstractRule
-{
-    public $minValue;
-    public $maxValue;
-    public $inclusive;
+use function count;
+use function get_object_vars;
+use function is_array;
+use function is_int;
+use function is_object;
+use function is_string;
+use function mb_strlen;
+use function sprintf;
 
-    public function __construct($min = null, $max = null, $inclusive = true)
+/**
+ * Validates the length of the given input.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Blake Hair <blake.hair@gmail.com>
+ * @author Danilo Correa <danilosilva87@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Hugo Hamon <hugo.hamon@sensiolabs.com>
+ * @author João Torquato <joao.otl@gmail.com>
+ * @author Marcelo Araujo <msaraujo@php.net>
+ */
+final class Length extends AbstractRule
+{
+    /**
+     * @var int|null
+     */
+    private $minValue;
+
+    /**
+     * @var int|null
+     */
+    private $maxValue;
+
+    /**
+     * @var bool
+     */
+    private $inclusive;
+
+    /**
+     * Creates the rule with a minimum and maximum value.
+     *
+     * @throws ComponentException
+     */
+    public function __construct(?int $min = null, ?int $max = null, bool $inclusive = true)
     {
         $this->minValue = $min;
         $this->maxValue = $max;
         $this->inclusive = $inclusive;
-        $paramValidator = new OneOf(new Numeric(), new NullType());
-        if (!$paramValidator->validate($min)) {
-            throw new ComponentException(
-                sprintf('%s is not a valid numeric length', $min)
-            );
-        }
 
-        if (!$paramValidator->validate($max)) {
-            throw new ComponentException(
-                sprintf('%s is not a valid numeric length', $max)
-            );
-        }
-
-        if (!is_null($min) && !is_null($max) && $min > $max) {
-            throw new ComponentException(
-                sprintf('%s cannot be less than %s for validation', $min, $max)
-            );
+        if ($max !== null && $min > $max) {
+            throw new ComponentException(sprintf('%d cannot be less than %d for validation', $min, $max));
         }
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
         $length = $this->extractLength($input);
+        if ($length === null) {
+            return false;
+        }
 
         return $this->validateMin($length) && $this->validateMax($length);
     }
 
-    protected function extractLength($input)
+    /**
+     * @param mixed $input
+     */
+    private function extractLength($input): ?int
     {
         if (is_string($input)) {
-            return mb_strlen($input, mb_detect_encoding($input));
+            return (int) mb_strlen($input);
         }
 
-        if (is_array($input) || $input instanceof \Countable) {
+        if (is_array($input) || $input instanceof CountableInterface) {
             return count($input);
         }
 
         if (is_object($input)) {
-            return count(get_object_vars($input));
+            return $this->extractLength(get_object_vars($input));
         }
 
         if (is_int($input)) {
-            return strlen((string)$input);
+            return $this->extractLength((string) $input);
         }
 
-        return false;
+        return null;
     }
 
-    protected function validateMin($length)
+    private function validateMin(int $length): bool
     {
-        if (is_null($this->minValue)) {
+        if ($this->minValue === null) {
             return true;
         }
 
@@ -85,9 +119,9 @@ class Length extends AbstractRule
         return $length > $this->minValue;
     }
 
-    protected function validateMax($length)
+    private function validateMax(int $length): bool
     {
-        if (is_null($this->maxValue)) {
+        if ($this->maxValue === null) {
             return true;
         }
 

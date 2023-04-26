@@ -286,7 +286,7 @@ class DB_Helper {
 
 		// Is our value too large to store in the standard kvstore?
 		// If it is, store it as a blob, and link to it.
-		if (strlen($query[':val']) > 4000) {
+		if (!empty($query[':val']) && strlen($query[':val']) > 4000) {
 			if (!empty($check) && $check['type'] === "blob") {
 				$uuid = $this->insertBlob($check['val'], $query[':val'], $query[':type']);
 			} else {

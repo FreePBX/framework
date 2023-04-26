@@ -14,7 +14,7 @@ class Context extends Command {
 		->setAliases(array('cx'))
 		->setDescription(_('Shows the specified context from the dialplan'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$args = $input->getArgument('args');

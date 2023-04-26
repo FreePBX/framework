@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace malkusch\lock\util;
 
-use malkusch\lock\exception\LockAcquireException;
-use malkusch\lock\exception\LockReleaseException;
 use malkusch\lock\mutex\Mutex;
 
 /**
  * The double-checked locking pattern.
  *
- * You should not instantiate this class directly. Use {@link Mutex::check()}.
+ * You should not instantiate this class directly. Use
+ * {@link \malkusch\lock\mutex\Mutex::check()}.
  *
  * @author Markus Malkusch <markus@malkusch.de>
  * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
@@ -17,60 +18,64 @@ use malkusch\lock\mutex\Mutex;
  */
 class DoubleCheckedLocking
 {
-    
     /**
-     * @var Mutex The mutex.
+     * @var \malkusch\lock\mutex\Mutex The mutex.
      */
     private $mutex;
-    
+
     /**
      * @var callable The check.
      */
     private $check;
 
     /**
-     * Sets the mutex.
+     * Constructs a new instance of the DoubleCheckedLocking pattern.
      *
-     * @param Mutex $mutex The mutex.
-     * @internal
+     * @param \malkusch\lock\mutex\Mutex $mutex Provides methods for exclusive
+     * code execution.
+     * @param callable $check Callback that decides if the lock should be
+     * acquired and if the critical code callback should be executed after
+     * acquiring the lock.
      */
-    public function __construct(Mutex $mutex)
+    public function __construct(Mutex $mutex, callable $check)
     {
         $this->mutex = $mutex;
-    }
-    
-    /**
-     * Sets the check.
-     *
-     * @param callable $check The check.
-     * @internal
-     */
-    public function setCheck(callable $check)
-    {
         $this->check = $check;
     }
-    
+
     /**
-     * Executes a code only if a check is true.
+     * Executes a synchronized callback only after the check callback passes
+     * before and after acquiring the lock.
      *
-     * Both the check and the code execution are locked by a mutex.
-     * Only if the check fails the method returns before acquiring a lock.
+     * If then returns boolean boolean false, the check did not pass before or
+     * after acquiring the lock. A boolean false can also be returned from the
+     * critical code callback to indicate that processing did not occure or has
+     * failed. It is up to the user to decide the last point.
      *
-     * @param callable $code The locked code.
-     *
-     * @throws \Exception The execution block or the check threw an exception.
-     * @throws LockAcquireException The mutex could not be acquired.
-     * @throws LockReleaseException The mutex could not be released.
+     * @param callable $code The critical code callback.
+     * @throws \Exception The execution callback or the check threw an
+     * exception.
+     * @throws \malkusch\lock\exception\LockAcquireException The mutex could not
+     * be acquired.
+     * @throws \malkusch\lock\exception\LockReleaseException The mutex could not
+     * be released.
+     * @throws \malkusch\lock\exception\ExecutionOutsideLockException Some code
+     * has been executed outside of the lock.
+     * @return mixed Boolean false if check did not pass or mixed for what ever
+     * the critical code callback returns.
      */
     public function then(callable $code)
     {
-        if (!call_user_func($this->check)) {
-            return;
+        if (!\call_user_func($this->check)) {
+            return false;
         }
-        $this->mutex->synchronized(function () use ($code) {
-            if (call_user_func($this->check)) {
-                call_user_func($code);
+
+        return $this->mutex->synchronized(function () use ($code) {
+            if (!\call_user_func($this->check)) {
+                return false;
             }
+
+            return $code();
         });
     }
 }

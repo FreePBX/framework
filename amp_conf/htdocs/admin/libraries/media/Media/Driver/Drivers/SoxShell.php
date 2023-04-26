@@ -36,7 +36,7 @@ class SoxShell extends \Media\Driver\Driver {
 			return self::$supported;
 		}
 		$loc = fpbx_which("sox");
-		$process = new Process($loc.' -h');
+		$process = Process::fromShellCommandline($loc.' -h');
 		$process->run();
 		if(preg_match("/AUDIO FILE FORMATS: (.*)/",$process->getOutput(),$matches)) {
 			$codecs = explode(" ",$matches[1]);
@@ -72,7 +72,7 @@ class SoxShell extends \Media\Driver\Driver {
 
 	public static function installed() {
 		$loc = fpbx_which("sox");
-		$process = new Process($loc.' --version');
+		$process = Process::fromShellCommandline($loc.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -100,7 +100,7 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process($this->binary.' --version');
+		$process = Process::fromShellCommandline($this->binary.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -120,72 +120,72 @@ class SoxShell extends \Media\Driver\Driver {
 			case "wav":
 				switch($this->extension) {
 					case "sln":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 8000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 8000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln12":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 12000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 12000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln16":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 16000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 16000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln24":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 24000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 24000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln32":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 32000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 32000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln44":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 44000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 44000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln48":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 48000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 48000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln96":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 96000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 96000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "sln192":
-						$process = new Process($this->binary.' -t raw -s -b 16 -r 192000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t raw -s -b 16 -r 192000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					case "wav16":
-						$process = new Process($this->binary.' -t wav -s -b 16 -r 16000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' -t wav -s -b 16 -r 16000 '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 					default:
-						$process = new Process($this->binary.' '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
+						$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -r '.escapeshellarg($this->options['samplerate']).' -b '.escapeshellarg($this->options['bitdepth']).' -c 1 '.escapeshellarg($newFilename).'');
 					break;
 				}
 			break;
 			case "sln":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 8000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 8000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln12":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 12000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 12000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln16":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 16000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 16000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln24":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 24000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 24000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln32":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 32000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 32000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln44":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 44100 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 44100 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln48":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 48000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 48000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln96":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 96000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 96000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "sln192":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 192000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t raw -b 16 -r 192000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			case "wav16":
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -t wav -b 16 -r 16000 -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -t wav -b 16 -r 16000 -c 1 '.escapeshellarg($newFilename).'');
 			break;
 			default:
-				$process = new Process($this->binary.' '.escapeshellarg($this->track).' -c 1 '.escapeshellarg($newFilename).'');
+				$process = Process::fromShellCommandline($this->binary.' '.escapeshellarg($this->track).' -c 1 '.escapeshellarg($newFilename).'');
 			break;
 		}
 		if(!$this->background) {

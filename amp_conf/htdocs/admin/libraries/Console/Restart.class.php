@@ -17,7 +17,7 @@ class Restart extends Command {
 			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->setDefinition(array(
 				new InputOption('immediate', 'i', InputOption::VALUE_NONE, _('Shutdown NOW rather than convieniently')),
-				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+				new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){

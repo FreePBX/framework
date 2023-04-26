@@ -141,7 +141,7 @@ class FreePBXInstallCommand extends Command {
 		$this->addOption('force', 'f', InputOption::VALUE_NONE, 'Force an install. Rewriting all databases with default information');
 	}
 
-	public function getHelp() {
+	public function getHelp(): string  {
 		return '';
 	}
 
@@ -344,6 +344,7 @@ class FreePBXInstallCommand extends Command {
 		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
 
 		$output->write("Checking if this is a new install...");
+		$newinstall = false;
 		if(file_exists($answers['webroot']."/admin/bootstrap.php") && !is_link($answers['webroot']."/admin/bootstrap.php") && $answers['dev-links']) {
 			//Previous install, not in dev mode. We need to do cleanup
 			$output->writeln("No (Forcing dev-links)");
@@ -903,6 +904,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		$output->writeln("Finished generating default configurations");
 
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
+		return 1;
 	}
 
 	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
@@ -1030,7 +1032,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 	 * @return void
 	 */
 	private function executeSystemCommand($command,$timeout =180) {
-		$process = new Process($command);
+		$process = new Process(explode(' ',$command));
 		$process->setTimeout($timeout);
 		if($this->isTtySupported()) {
 			$process->setTty(true);

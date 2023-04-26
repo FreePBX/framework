@@ -20,7 +20,7 @@ class Notifications extends Command {
 			new InputOption('list', null, InputOption::VALUE_NONE, _('list notifications')),
 			new InputOption('json', null, InputOption::VALUE_NONE, _('format list as xml')),
 			new InputOption('delete', null, InputOption::VALUE_NONE, _('Delete notification')),
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),))
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),))
 		->setHelp($this->showHelp());
 	}
 

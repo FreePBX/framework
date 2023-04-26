@@ -19,6 +19,7 @@ return array (
   3584322 => 'Benemen Oy',
   3584323 => 'Top Connect OU',
   3584324 => 'Nord Connect SIA',
+  3584325 => 'NETTIA',
   358436 => 'DNA',
   358438 => 'DNA',
   35844 => 'DNA',
@@ -57,5 +58,6 @@ return array (
   3584579 => 'DNA',
   358458 => 'Elisa',
   35846 => 'Elisa',
+  35849 => 'Elisa',
   35850 => 'Elisa',
 );

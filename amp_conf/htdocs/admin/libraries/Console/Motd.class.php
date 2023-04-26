@@ -25,7 +25,7 @@ class Motd extends Command {
 		$this->setName('motd')
 		->setDescription(_('Prints MOTD'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 
 		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 	}

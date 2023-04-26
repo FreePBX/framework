@@ -59,7 +59,7 @@ class WriteConfig {
 	 * @param mixed $contents What should be written to the file
 	 * @param bool $generateHeader Backward compatibility to generate FreePBX header or not
 	 */
-	public function writeConfig($filename = null, $contents, $generateHeader = true) {
+	public function writeConfig($filename = null, $contents = '', $generateHeader = true) {
 		if ($filename == null)
 			throw new Exception("No filename given to writeConfig. This is a bug");
 

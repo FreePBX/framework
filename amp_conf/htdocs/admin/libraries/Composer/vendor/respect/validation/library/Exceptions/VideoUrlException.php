@@ -3,19 +3,29 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Exceptions;
 
-class VideoUrlException extends ValidationException
+/**
+ * @author Danilo Correa <danilosilva87@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Ricardo Gobbo <ricardo@clicknow.com.br>
+ */
+final class VideoUrlException extends ValidationException
 {
-    const SERVICE = 1;
+    public const SERVICE = 'service';
 
-    public static $defaultTemplates = [
+    /**
+     * {@inheritDoc}
+     */
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be a valid video URL',
             self::SERVICE => '{{name}} must be a valid {{service}} video URL',
@@ -27,14 +37,14 @@ class VideoUrlException extends ValidationException
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function chooseTemplate()
+    protected function chooseTemplate(): string
     {
-        if (false !== $this->getParam('service')) {
+        if ($this->getParam('service')) {
             return self::SERVICE;
         }
 
-        return static::STANDARD;
+        return self::STANDARD;
     }
 }

@@ -15,7 +15,7 @@ class Session extends Command {
 			new InputOption('list', 'l', InputOption::VALUE_NONE, _('List all sessions')),
 			new InputOption('destroy', 'd', InputOption::VALUE_REQUIRED, _('Destroy Session')),
 			new InputOption('killall', 'k', InputOption::VALUE_NONE, _('Destroy all sessions')),
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		if($input->getOption('list')){

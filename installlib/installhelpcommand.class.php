@@ -18,7 +18,7 @@ class FreePBXHelpCommand extends HelpCommand {
 	public function setCommand(\Symfony\Component\Console\Command\Command $command) {
 		$this->command = $command;
 	}
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output):int {
 		$output->writeln(" ______             _____  ______   __");
 		$output->writeln("|  ____|           |  __ \|  _ \ \ / /");
 		$output->writeln("| |__ _ __ ___  ___| |__) | |_) \ V /");

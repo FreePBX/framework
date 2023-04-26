@@ -12,17 +12,17 @@ use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
 
 class FreePBXInstallApplication extends Application {
-	protected function getCommandName(InputInterface $input) {
+	protected function getCommandName(InputInterface $input): string {
 		return 'install';
 	}
 
-	protected function getDefaultCommands() {
+	protected function getDefaultCommands(): array{
 		$defaultCommands = array(new FreePBXHelpCommand());
 		$defaultCommands[] = new FreePBXInstallCommand();
 		return $defaultCommands;
 	}
 
-	public function getDefinition() {
+	public function getDefinition(): InputDefinition  {
 		$inputDefinition = parent::getDefinition();
 		$inputDefinition->setArguments();
 		return $inputDefinition;

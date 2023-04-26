@@ -11,16 +11,20 @@
 
 namespace Symfony\Component\DependencyInjection\Argument;
 
+trigger_deprecation('symfony/dependency-injection', '6.1', '"%s" is deprecated.', ReferenceSetArgumentTrait::class);
+
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
  * @author Nicolas Grekas <p@tchwork.com>
+ *
+ * @deprecated since Symfony 6.1
  */
 trait ReferenceSetArgumentTrait
 {
-    private $values;
+    private array $values;
 
     /**
      * @param Reference[] $values
@@ -31,9 +35,9 @@ trait ReferenceSetArgumentTrait
     }
 
     /**
-     * @return Reference[] The values in the set
+     * @return Reference[]
      */
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -45,7 +49,7 @@ trait ReferenceSetArgumentTrait
     {
         foreach ($values as $k => $v) {
             if (null !== $v && !$v instanceof Reference) {
-                throw new InvalidArgumentException(sprintf('A "%s" must hold only Reference instances, "%s" given.', __CLASS__, \is_object($v) ? \get_class($v) : \gettype($v)));
+                throw new InvalidArgumentException(sprintf('A "%s" must hold only Reference instances, "%s" given.', __CLASS__, get_debug_type($v)));
             }
         }
 

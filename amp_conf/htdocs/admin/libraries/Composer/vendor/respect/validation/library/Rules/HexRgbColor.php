@@ -3,31 +3,26 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-class HexRgbColor extends Xdigit
+/**
+ * Validates weather the input is a hex RGB color or not.
+ *
+ * @author Davide Pastore <pasdavide@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ */
+final class HexRgbColor extends AbstractEnvelope
 {
-    public function validate($input)
+    public function __construct()
     {
-        if (!is_string($input)) {
-            return false;
-        }
-
-        if (0 === strpos($input, '#')) {
-            $input = substr($input, 1);
-        }
-
-        $length = strlen($input);
-        if ($length != 3 && $length != 6) {
-            return false;
-        }
-
-        return parent::validate($input);
+        parent::__construct(new Regex('/^#?([0-9A-F]{3}|[0-9A-F]{6})$/i'));
     }
 }

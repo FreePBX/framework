@@ -3,26 +3,53 @@
 /*
  * This file is part of Respect/Validation.
  *
- * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
  *
- * For the full copyright and license information, please view the "LICENSE.md"
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-class StartsWith extends AbstractRule
-{
-    public $startValue;
-    public $identical;
+use function is_array;
+use function mb_stripos;
+use function mb_strpos;
+use function reset;
 
-    public function __construct($startValue, $identical = false)
+/**
+ * Validates whether the input starts with a given value.
+ *
+ * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * @author Henrique Moody <henriquemoody@gmail.com>
+ * @author Marcelo Araujo <msaraujo@php.net>
+ */
+final class StartsWith extends AbstractRule
+{
+    /**
+     * @var mixed
+     */
+    private $startValue;
+
+    /**
+     * @var bool
+     */
+    private $identical;
+
+    /**
+     * @param mixed $startValue
+     */
+    public function __construct($startValue, bool $identical = false)
     {
         $this->startValue = $startValue;
         $this->identical = $identical;
     }
 
-    public function validate($input)
+    /**
+     * {@inheritDoc}
+     */
+    public function validate($input): bool
     {
         if ($this->identical) {
             return $this->validateIdentical($input);
@@ -31,21 +58,27 @@ class StartsWith extends AbstractRule
         return $this->validateEquals($input);
     }
 
-    protected function validateEquals($input)
+    /**
+     * @param mixed $input
+     */
+    protected function validateEquals($input): bool
     {
         if (is_array($input)) {
             return reset($input) == $this->startValue;
         }
 
-        return 0 === mb_stripos($input, $this->startValue, 0, mb_detect_encoding($input));
+        return mb_stripos($input, $this->startValue) === 0;
     }
 
-    protected function validateIdentical($input)
+    /**
+     * @param mixed $input
+     */
+    protected function validateIdentical($input): bool
     {
         if (is_array($input)) {
             return reset($input) === $this->startValue;
         }
 
-        return 0 === mb_strpos($input, $this->startValue, 0, mb_detect_encoding($input));
+        return mb_strpos($input, $this->startValue) === 0;
     }
 }

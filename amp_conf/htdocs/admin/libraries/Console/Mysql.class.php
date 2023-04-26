@@ -19,7 +19,7 @@ class Mysql extends Command {
 		->setAliases(array('m'))
 		->setDescription('Run a mysql Query:')
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		global $amp_conf; //an angel lost it's wings today for using this
@@ -34,10 +34,10 @@ class Mysql extends Command {
 		$cmd = $this->FreePBX->Database()->fetchSqlCommand();
 
 		if(posix_isatty(STDIN)) {
-			$process = new Process($cmd);
+			$process = Process::fromShellCommandline(explode(' ',$cmd));
 			$process->setTty(true);
 		} else {
-			$process = new Process($cmd.' -e '.escapeshellarg(fgets(STDIN)));
+			$process = Process::fromShellCommandline(explode(' ', $cmd . ' -e ' . escapeshellarg(fgets(STDIN))));
 		}
 
 		/* setting the mysql process timeout to 60 minutes */
