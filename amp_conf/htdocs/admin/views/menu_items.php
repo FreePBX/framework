@@ -53,6 +53,7 @@ if(false) {
   _("Other");
 }
 $connected = FreePBX::create()->astman->connected();
+$menu = array();
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
 	$out = null;
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
@@ -151,7 +152,7 @@ function _menu_sort($a, $b) {
 	else if ($b == 'other')
 		return false;
 	else
-		return $a > $b;
+		return $a > $b ? 1 : -1;
 }
 
 function _item_sort($a, $b) {
@@ -160,5 +161,5 @@ function _item_sort($a, $b) {
 	if (!empty($_item_sort[$a]) && !empty($_item_sort[$a]) && $_item_sort[$a] != $_item_sort[$b])
 		return $_item_sort[$a] > $_item_sort[$b];
 	else
-		return $a > $b;
+		return $a > $b ? 1 : -1;
 }

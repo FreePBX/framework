@@ -297,9 +297,11 @@ class Modules extends DB_Helper{
 		$res = array();
 		if(!empty($this->active_modules)) {
 			foreach ($this->active_modules as $active => $mod) {
-				$funct = $mod['rawname'] . '_' . $func;
-				if (function_exists($funct)) {
-					$res[$mod['rawname']] = $funct($opts);
+				if (isset($mod['rawname'])) {
+					$funct = $mod['rawname'] . '_' . $func;
+					if (function_exists($funct)) {
+						$res[$mod['rawname']] = $funct($opts);
+					}
 				}
 			}
 		}

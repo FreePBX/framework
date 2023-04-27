@@ -53,6 +53,7 @@
 			<field name="customcode" type="string" length="20" notnull="false"/>
 			<field name="enabled" type="boolean" default="0"/>
 			<field name="providedest" type="boolean" default="0"/>
+			<field name="depend" type="string" length="200" default=""/>
 			<key name="enabled" type="index">
 				<column name="enabled"/>
 			</key>
@@ -212,6 +213,7 @@
 			<name>job</name>
 		</command>
 	</console>
+	<category>Admin</category>
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
 	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->

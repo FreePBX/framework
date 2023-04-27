@@ -362,7 +362,7 @@ if(is_array($active_modules)){
 }
 
 //TODO remove this at a later date
-if(is_object($_SESSION["AMP_user"]) && !method_exists($_SESSION["AMP_user"],'getMode')) {
+if (!empty($_SESSION["AMP_user"]) && is_object($_SESSION["AMP_user"]) && !method_exists($_SESSION["AMP_user"], 'getMode')) {
 	$_SESSION['AMP_user'] = null;
 }
 
@@ -806,7 +806,7 @@ if ($quietmode) {
 	//to assume module upload from Module Admin failed due to the file being too large.  
 	//The page_content is being overwritten to display an error and option to try again,
 	//instead of going back to the admin dashboard/index
-	if ((preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER'])
+	if (!empty($_SERVER['HTTP_REFERER']) && (preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER'])
 		|| preg_match('/config.php\?display=updates&action=upload/', $_SERVER['HTTP_REFERER'])) &&
 		empty($_FILES) && empty($_POST) && $_REQUEST['display'] === 'index' && 
 		$_SERVER['CONTENT_LENGTH'] > 0) 

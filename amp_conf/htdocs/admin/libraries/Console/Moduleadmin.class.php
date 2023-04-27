@@ -440,7 +440,7 @@ class Moduleadmin extends Command {
 		}
 		if(!$this->force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s"),$modulename), "error", false);
-			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name));
+			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name ?? ""));
 			return false;
 		} else {
 			$result = $this->mf->install($modulename, $this->force, $this->skipbreaking);

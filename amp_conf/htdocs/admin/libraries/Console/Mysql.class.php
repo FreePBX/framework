@@ -34,10 +34,10 @@ class Mysql extends Command {
 		$cmd = $this->FreePBX->Database()->fetchSqlCommand();
 
 		if(posix_isatty(STDIN)) {
-			$process = Process::fromShellCommandline(explode(' ',$cmd));
+			$process = Process::fromShellCommandline($cmd);
 			$process->setTty(true);
 		} else {
-			$process = Process::fromShellCommandline(explode(' ', $cmd . ' -e ' . escapeshellarg(fgets(STDIN))));
+			$process = Process::fromShellCommandline($cmd . ' -e ' . escapeshellarg(fgets(STDIN)));
 		}
 
 		/* setting the mysql process timeout to 60 minutes */

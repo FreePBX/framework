@@ -51,7 +51,7 @@ EOF
 		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 	}
 
-	public function getNativeDefinition() {
+	public function getNativeDefinition() : InputDefinition {
 		return $this->createDefinition();
 	}
 

@@ -1978,7 +1978,7 @@ class module_functions {
 
 		// don't force this bit - we can't install a broken module (missing files)
 		if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
-			return array(sprintf(_("Module %s is broken and cannot be installed. You should try to download it again."), $modules[$modulename]['rawname']));
+			return array(sprintf(_("Module %s is broken and cannot be installed. You should try to download it again."), $modules[$modulename]['rawname'] ?? ""));
 		}
 
 		$mod = $FreePBX->GPG->verifyModule($modulename);
