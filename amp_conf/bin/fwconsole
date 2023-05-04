@@ -107,7 +107,7 @@ if(!empty($list['framework']['console'])) {
 * It will likely break everything!
 */
 foreach($amodules as $module){
-	$rawname = $module['rawname'];
+	$rawname = $module['rawname'] ?? "";
 	if($rawname === 'framework') {
 		continue;
 	}

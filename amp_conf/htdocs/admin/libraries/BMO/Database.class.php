@@ -256,7 +256,7 @@ class Database extends \PDO {
 			);
 		}
 
-		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
+		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion, $this->engine);
 		return $migrate->modifyMultiple($tables,$dryrun);
 	}
 

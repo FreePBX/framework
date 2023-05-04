@@ -201,7 +201,8 @@ class Request_Helper extends Self_Helper {
 	 * @method getSanitizedRequest
 	 * @return array              $_REQUEST, sanitized
 	 */
-	public function getSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_empty = true) {
+	public function getSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true)
+	{
 		$order = ini_get('request_order');
 		$order = !empty($order) ? $order : ini_get('variables_order');
 		$total = strlen($order);

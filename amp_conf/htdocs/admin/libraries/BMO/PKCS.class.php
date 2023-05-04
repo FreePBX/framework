@@ -213,7 +213,7 @@ EOF;
 	 * @param  bool $regen  Whether to regenerate the CSR if it already exists
 	 * @return bool
 	 */
-	public function createCSR($name = false, $params, $regen = false) {
+	public function createCSR($name = false, $params = array(), $regen = false) {
 
 		$name = $this->validateName($name);
 

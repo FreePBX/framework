@@ -98,6 +98,7 @@ class Motd extends Command {
 			}
 		}
 
+		return 0;
 	}
 	private function listIFS(){
 		$iflist = array();

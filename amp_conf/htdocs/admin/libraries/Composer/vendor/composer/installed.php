@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '4c256742043f5b2496a91c9ac9b7f0eba225de38',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '4c256742043f5b2496a91c9ac9b7f0eba225de38',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -173,9 +173,9 @@
             'dev_requirement' => false,
         ),
         'giggsey/libphonenumber-for-php' => array(
-            'pretty_version' => '8.13.10',
-            'version' => '8.13.10.0',
-            'reference' => '5b5a467a322d3a23706c729e28b88e3cc73df74f',
+            'pretty_version' => '8.13.11',
+            'version' => '8.13.11.0',
+            'reference' => 'e2395dadce92f139fc6ec71bfe8ae46a2e942944',
             'type' => 'library',
             'install_path' => __DIR__ . '/../giggsey/libphonenumber-for-php',
             'aliases' => array(),
@@ -236,9 +236,9 @@
             'dev_requirement' => false,
         ),
         'masterminds/html5' => array(
-            'pretty_version' => '2.7.6',
-            'version' => '2.7.6.0',
-            'reference' => '897eb517a343a2281f11bc5556d6548db7d93947',
+            'pretty_version' => '2.8.0',
+            'version' => '2.8.0.0',
+            'reference' => '3c5d5a56d56f48a1ca08a0670f0f80c1dad368f3',
             'type' => 'library',
             'install_path' => __DIR__ . '/../masterminds/html5',
             'aliases' => array(),
@@ -254,9 +254,9 @@
             'dev_requirement' => false,
         ),
         'monolog/monolog' => array(
-            'pretty_version' => '3.3.1',
-            'version' => '3.3.1.0',
-            'reference' => '9b5daeaffce5b926cac47923798bba91059e60e2',
+            'pretty_version' => '2.7.0',
+            'version' => '2.7.0.0',
+            'reference' => '5579edf28aee1190a798bfa5be8bc16c563bd524',
             'type' => 'library',
             'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
@@ -431,7 +431,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'ralouphie/getallheaders' => array(

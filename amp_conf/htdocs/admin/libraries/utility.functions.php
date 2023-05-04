@@ -1381,7 +1381,7 @@ function freepbx_filesize($file) {
  * The filter extension is enabled by default as of PHP 5.2.0. To disable the filter extension, use --disable-filter .
  * Before PHP 5.2 an experimental PECL extension was used, however, the PECL version is no longer recommended or updated.
  */
-function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_empty = true) {
+function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_CHARS, $add_empty = true) {
 	$order = ini_get('request_order');
 	$order = !empty($order) ? $order : ini_get('variables_order');
 	$total = strlen($order);

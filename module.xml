@@ -53,6 +53,7 @@
 			<field name="customcode" type="string" length="20" notnull="false"/>
 			<field name="enabled" type="boolean" default="0"/>
 			<field name="providedest" type="boolean" default="0"/>
+			<field name="depend" type="string" length="200" default=""/>
 			<key name="enabled" type="index">
 				<column name="enabled"/>
 			</key>

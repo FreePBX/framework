@@ -11,32 +11,39 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Level;
+use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\JsonFormatter;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AMQPChannel;
 use AMQPExchange;
-use Monolog\LogRecord;
 
+/**
+ * @phpstan-import-type Record from \Monolog\Logger
+ */
 class AmqpHandler extends AbstractProcessingHandler
 {
-    protected AMQPExchange|AMQPChannel $exchange;
+    /**
+     * @var AMQPExchange|AMQPChannel $exchange
+     */
+    protected $exchange;
 
-    /** @var array<string, mixed> */
-    private array $extraAttributes = [];
-
-    protected string $exchangeName;
+    /**
+     * @var string
+     */
+    protected $exchangeName;
 
     /**
      * @param AMQPExchange|AMQPChannel $exchange     AMQPExchange (php AMQP ext) or PHP AMQP lib channel, ready for use
      * @param string|null              $exchangeName Optional exchange name, for AMQPChannel (PhpAmqpLib) only
      */
-    public function __construct(AMQPExchange|AMQPChannel $exchange, ?string $exchangeName = null, int|string|Level $level = Level::Debug, bool $bubble = true)
+    public function __construct($exchange, ?string $exchangeName = null, $level = Logger::DEBUG, bool $bubble = true)
     {
         if ($exchange instanceof AMQPChannel) {
             $this->exchangeName = (string) $exchangeName;
-        } elseif ($exchangeName !== null) {
+        } elseif (!$exchange instanceof AMQPExchange) {
+            throw new \InvalidArgumentException('PhpAmqpLib\Channel\AMQPChannel or AMQPExchange instance required');
+        } elseif ($exchangeName) {
             @trigger_error('The $exchangeName parameter can only be passed when using PhpAmqpLib, if using an AMQPExchange instance configure it beforehand', E_USER_DEPRECATED);
         }
         $this->exchange = $exchange;
@@ -45,49 +52,22 @@ class AmqpHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @return array<string, mixed>
+     * {@inheritDoc}
      */
-    public function getExtraAttributes(): array
+    protected function write(array $record): void
     {
-        return $this->extraAttributes;
-    }
-
-    /**
-     * Configure extra attributes to pass to the AMQPExchange (if you are using the amqp extension)
-     *
-     * @param array<string, mixed> $extraAttributes  One of content_type, content_encoding,
-     *                                               message_id, user_id, app_id, delivery_mode,
-     *                                               priority, timestamp, expiration, type
-     *                                               or reply_to, headers.
-     * @return $this
-     */
-    public function setExtraAttributes(array $extraAttributes): self
-    {
-        $this->extraAttributes = $extraAttributes;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function write(LogRecord $record): void
-    {
-        $data = $record->formatted;
+        $data = $record["formatted"];
         $routingKey = $this->getRoutingKey($record);
 
         if ($this->exchange instanceof AMQPExchange) {
-            $attributes = [
-                'delivery_mode' => 2,
-                'content_type'  => 'application/json',
-            ];
-            if (\count($this->extraAttributes) > 0) {
-                $attributes = array_merge($attributes, $this->extraAttributes);
-            }
             $this->exchange->publish(
                 $data,
                 $routingKey,
                 0,
-                $attributes
+                [
+                    'delivery_mode' => 2,
+                    'content_type' => 'application/json',
+                ]
             );
         } else {
             $this->exchange->basic_publish(
@@ -99,7 +79,7 @@ class AmqpHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function handleBatch(array $records): void
     {
@@ -114,6 +94,7 @@ class AmqpHandler extends AbstractProcessingHandler
                 continue;
             }
 
+            /** @var Record $record */
             $record = $this->processRecord($record);
             $data = $this->getFormatter()->format($record);
 
@@ -129,28 +110,29 @@ class AmqpHandler extends AbstractProcessingHandler
 
     /**
      * Gets the routing key for the AMQP exchange
+     *
+     * @phpstan-param Record $record
      */
-    protected function getRoutingKey(LogRecord $record): string
+    protected function getRoutingKey(array $record): string
     {
-        $routingKey = sprintf('%s.%s', $record->level->name, $record->channel);
+        $routingKey = sprintf('%s.%s', $record['level_name'], $record['channel']);
 
         return strtolower($routingKey);
     }
 
     private function createAmqpMessage(string $data): AMQPMessage
     {
-        $attributes = [
-            'delivery_mode' => 2,
-            'content_type' => 'application/json',
-        ];
-        if (\count($this->extraAttributes) > 0) {
-            $attributes = array_merge($attributes, $this->extraAttributes);
-        }
-        return new AMQPMessage($data, $attributes);
+        return new AMQPMessage(
+            $data,
+            [
+                'delivery_mode' => 2,
+                'content_type' => 'application/json',
+            ]
+        );
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getDefaultFormatter(): FormatterInterface
     {
