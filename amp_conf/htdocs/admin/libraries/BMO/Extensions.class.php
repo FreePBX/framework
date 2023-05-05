@@ -11,6 +11,7 @@ class Extensions {
 		}
 
 		$this->FreePBX = $freepbx;
+		$this->FreePBX->Modules->loadAllFunctionsInc();
 	}
 
 	/**
