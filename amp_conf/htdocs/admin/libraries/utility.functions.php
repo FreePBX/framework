@@ -1465,3 +1465,39 @@ function checkFreeSpace($allowedSpace)
 		return array('status'=>true, 'available_space'=> $availableSpace);
 	}
 }
+
+/**
+ * Fetch the from Email address to use while sending the email
+ * If Sysadmin is installed and has the fromEmail then use that one
+ * else use Advanced Settings define 'AMPUSERMANEMAILFROM' field
+ */
+function fetchFromEmail($isWelcomeEmail=false) {
+	$from = '';
+	$femail = \FreePBX::Config()->get('AMPUSERMANEMAILFROM');
+	if (!function_exists('sysadmin_get_storage_email') &&
+			\FreePBX::Modules()->checkStatus('sysadmin') &&
+			file_exists(FreePBX::Config()->get('AMPWEBROOT').'/admin/modules/sysadmin/functions.inc.php')) {
+		include \FreePBX::Config()->get('AMPWEBROOT').'/admin/modules/sysadmin/functions.inc.php';
+	}
+
+	if(function_exists('sysadmin_get_storage_email')) {
+		$emails = sysadmin_get_storage_email();
+		if(!empty($emails['fromemail'])) {
+			$femail = $emails['fromemail'];
+		}
+	}
+	/* validate if from email is a valid email */
+	if (isset($femail) && !empty($femail) &&
+			filter_var($femail, FILTER_VALIDATE_EMAIL)) {
+		$from = $femail;
+	} else {
+		/* for backward support where userman using below default from email for welcome emails*/
+		if ($isWelcomeEmail) {
+			$from = 'freepbx@freepbx.org';
+		} else {
+			$from = get_current_user() . '@' . gethostname();
+		}
+	}
+	return $from;
+}
+
