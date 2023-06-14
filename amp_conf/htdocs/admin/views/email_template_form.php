@@ -26,11 +26,11 @@ foreach ($templateData as $key => $template) {
     <div class="element-container <?= $identifier . "EmailTypeWrapper" ?> <?= $emailTypeHasError ?>" style="<?= $displayEmailType ? '' : 'display:none' ?>">
         <div class="row">
             <div class="form-group">
-                <div class="col-md-7">
+                <div class="col-md-3">
                     <label class="control-label"><?php echo _($emailTypeLabel); ?></label>
                     <i class="fa fa-question-circle fpbx-help-icon" data-for="<?= $identifier . "EmailType" ?>"></i>&nbsp;
                 </div>
-                <div class="col-md-5 radioset text-right">
+                <div class="col-md-9 radioset">
                     <input type="radio" id="<?= $identifier . "EmailType" ?>Html" name="<?= $identifier . "EmailType" ?>" onclick="handleEmailType('<?= $identifier ?>');" value="html" <?php echo $emailTypeDefaultValue == 'html' ? 'checked=""' : "" ?>>
                     <label for="<?= $identifier . "EmailType" ?>Html">HTML</label>
                     <input type="radio" id="<?= $identifier . "EmailType" ?>Text" name="<?= $identifier . "EmailType" ?>" onclick="handleEmailType('<?= $identifier ?>');" value="text" <?php echo $emailTypeDefaultValue == 'text' || $emailTypeDefaultValue == '' ? 'checked=""' : "" ?>>
