@@ -89,7 +89,7 @@ class component {
 			}
 		}
 
-		if(!ctype_digit($sortorder) && is_string($sortorder)) {
+		if(!is_numeric($sortorder) && is_string($sortorder)) {
 			$category = $sortorder;
 			$sortorder = 5;
 		}
@@ -520,6 +520,7 @@ class guielement {
 		// otherwise $html will be blanked out
 		$this->_html = $html;
 		$this->_javascript = $javascript;
+		$this->type = '';
 
 
 		$this->_opts = & $CC->_opts;
@@ -576,7 +577,7 @@ class gui_hidden extends guielement {
 		// call parent class contructor
 		parent::__construct($elemname, '', '');
 
-		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue) . "\">";
+		$this->_html = "<input type=\"hidden\" name=\"$this->_elemname\" id=\"$this->_elemname\" value=\"" . htmlentities($currentvalue ?? '') . "\">";
 		$this->type = "hidden";
 
 		// make it a new row
@@ -738,9 +739,9 @@ class gui_textbox extends guiinput {
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled':'';
 		if($inputgroup) {
-			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue ?? '') . "\">";
 		} else {
-			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue ?? '') . "\">";
 		}
 		$this->type = "textbox";
 	}
@@ -814,7 +815,7 @@ class gui_password extends guiinput {
 					<input type="text" class="form-control" placeholder="Search for...">
 				</div><!-- /input-group -->
 		 */
-		$this->html_input = "<input type=\"password\" autocomplete=\"new-password\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
+		$this->html_input = "<input type=\"password\" autocomplete=\"new-password\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue ?? '') . "\">";
 		if($passwordToggle) {
 			$input = $this->html_input;
 			$this->html_input = "<div class=\"input-group\">".$input."<span class=\"input-group-btn\"><button data-id=\"$this->_elemname\" class=\"btn btn-default toggle-password ".$class."\" type=\"button\" $disable_state><i class=\"fa fa-eye fa-2x\" style=\"margin-top: -2px;\"></i></button></span></div>";
@@ -1084,7 +1085,7 @@ class gui_textarea extends guiinput {
 		$rows = (($rows > 20) ? 20 : $rows);
 		$rows++;
 
-		$this->html_input = "<textarea rows=\"$rows\" name=\"$this->_elemname\" class=\"form-control autosize ".$class."\" id=\"$this->_elemname\" $maxlength $disable_state>" . htmlentities($this->currentvalue) . "</textarea>";
+		$this->html_input = "<textarea rows=\"$rows\" name=\"$this->_elemname\" class=\"form-control autosize ".$class."\" id=\"$this->_elemname\" $maxlength $disable_state>" . htmlentities($this->currentvalue ?? '') . "</textarea>";
 		$this->type = "textarea";
 	}
 }
@@ -1105,7 +1106,7 @@ class gui_textarea_select extends gui_textarea {
 		$rows++;
 
 		$this->html_input = '<div class="input-group">';
-		$this->html_input .= '<textarea id="'.$this->_elemname.'" class="form-control autosize '.$class.'" rows="'.$rows.'" name="'.$this->_elemname.'" '.$maxlength.' '.$disable_state.'>'.htmlentities($this->currentvalue).'</textarea>';
+		$this->html_input .= '<textarea id="'.$this->_elemname.'" class="form-control autosize '.$class.'" rows="'.$rows.'" name="'.$this->_elemname.'" '.$maxlength.' '.$disable_state.'>'.htmlentities($this->currentvalue ?? '').'</textarea>';
 		$this->html_input .= '<span class="input-group-addon">';
 		$this->html_input .= '<select id="'.$this->_elemname.'_select" class="form-control" data-for="'.$this->_elemname.'" style="width:170px;">';
 		$this->html_input .= '<option selected="" value="">'._("Quick Select").'</option>';
