@@ -302,7 +302,7 @@ class AGI_AsteriskManager {
 				restore_error_handler();
 				return false;
 			}
-			$buffer = trim(fgets($this->socket, 4096));
+			$buffer = trim(fgets($this->socket, 4096) ?? '');
 			while($buffer != '') {
 				$a = strpos($buffer, ':');
 				if($a) {
@@ -326,7 +326,7 @@ class AGI_AsteriskManager {
 							$buff = fgets($this->socket, 4096);
 							while($buff !== "\r\n") {
 								$buff = preg_replace("/^Output:\s*/","",$buff);
-								$parameters['data'] .= trim($buff)."\n";
+								$parameters['data'] .= trim($buff ?? '')."\n";
 								$buff = fgets($this->socket, 4096);
 							}
 							break;
@@ -336,7 +336,7 @@ class AGI_AsteriskManager {
 					// store parameter in $parameters
 					$parameters[substr($buffer, 0, $a)] = substr($buffer, $a + 2);
 				}
-				$buffer = trim(fgets($this->socket, 4096));
+				$buffer = trim(fgets($this->socket, 4096) ?? '');
 			}
 
 			// process response
@@ -383,7 +383,7 @@ class AGI_AsteriskManager {
 		$errno = $errstr = NULL;
 
 		$this->socket = stream_socket_client("tcp://".$this->server.":".$this->port, $errno, $errstr);
-		stream_set_timeout($this->socket,30);
+		if ($this->socket) stream_set_timeout($this->socket,30);
 		if(!$this->socket) {
 			$this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
 			restore_error_handler();
@@ -451,12 +451,12 @@ class AGI_AsteriskManager {
 		$errno = $errstr = NULL;
 
 		$this->socket = stream_socket_client("tcp://".$this->server.":".$this->port, $errno, $errstr);
-		stream_set_timeout($this->socket,30);
 		if(!$this->socket) {
 			$this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
 			restore_error_handler();
 			return false;
 		}
+		stream_set_timeout($this->socket,30);
 
 		// read the header
 		$str = fgets($this->socket);
@@ -1671,9 +1671,9 @@ class AGI_AsteriskManager {
 			// which have a : in them:
 			// /registrar/contact/301;@sip:301@192.168.15.125:5062: {"outbound_proxy":"",....
 			$temp = explode(": ",$line,2);
-			if (trim($temp[0]) != '' && count($temp) == 2) {
+			if (trim($temp[0] ?? '') != '' && count($temp) == 2) {
 				$temp[1] = isset($temp[1])?$temp[1]:null;
-				$db[ trim($temp[0]) ] = trim($temp[1]);
+				$db[ trim($temp[0]) ?? ''] = trim($temp[1] ?? '');
 			}
 		}
 		return $db;
@@ -1727,7 +1727,7 @@ class AGI_AsteriskManager {
 			$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 			$data = strpos($r["data"],"Value:");
 			if ($data !== false) {
-				return trim(substr($r["data"],6+$data));
+				return trim(substr($r["data"],6+$data) ?? '');
 			}
 		}
 		return false;
@@ -1860,12 +1860,12 @@ class AGI_AsteriskManager {
 		if (!$channel || !$file) {
 			return false;
 		}
-		$args = 'mixmonitor start ' . trim($channel) . ' ' . trim($file);
+		$args = 'mixmonitor start ' . trim($channel ?? '') . ' ' . trim($file ?? '');
 		if ($options || $postcommand) {
-			$args .= ',' . trim($options);
+			$args .= ',' . trim($options ?? '');
 		}
 		if ($postcommand) {
-			$args .= ',' . trim($postcommand);
+			$args .= ',' . trim($postcommand ?? '');
 		}
 		return $this->command($args, $actionid);
 	}

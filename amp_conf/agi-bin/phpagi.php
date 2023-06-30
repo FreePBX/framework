@@ -1234,7 +1234,7 @@
         $callerid = $this->request['agi_callerid'];
 
       $ret = array('name'=>'', 'protocol'=>'', 'username'=>'', 'host'=>'', 'port'=>'');
-      $callerid = trim($callerid);
+      $callerid = trim($callerid ?? ' ');
 
       if($callerid[0] == '"' || $callerid[0] == "'")
       {
@@ -1285,7 +1285,7 @@
       // festival TTS config
       if(!isset($this->config['festival']['text2wave'])) $this->config['festival']['text2wave'] = $this->which('text2wave');
 
-      $text = trim($text);
+      $text = trim($text ?? ' ');
       if($text == '') return true;
 
       $hash = md5($text);
@@ -1342,7 +1342,7 @@
       elseif(isset($this->config['cepstral']['voice']))
         $voice = "-n {$this->config['cepstral']['voice']}";
 
-      $text = trim($text);
+      $text = trim($text ?? ' ');
       if($text == '') return true;
 
       $hash = md5($text);
@@ -1538,10 +1538,10 @@
       // write command
       if(is_null($this->socket))
       {
-        if(!@fwrite($this->out, trim($command) . "\n")) return $broken;
+        if(!@fwrite($this->out, trim($command ?? ' ') . "\n")) return $broken;
         fflush($this->out);
       }
-      elseif(socket_write($this->socket, trim($command) . "\n") === false) return $broken;
+      elseif(socket_write($this->socket, trim($command ?? ' ') . "\n") === false) return $broken;
 
       // Read result.  Occasionally, a command return a string followed by an extra new line.
       // When this happens, our script will ignore the new line, but it will still be in the
@@ -1574,7 +1574,7 @@
         {
           $str .= $line;
           $line = is_null($this->socket) ? @fgets($this->in, 4096) : @socket_read($this->socket, 4096, PHP_NORMAL_READ);
-          $count = (trim($line) == '') ? $count + 1 : 0;
+          $count = (trim($line ?? ' ') == '') ? $count + 1 : 0;
         }
         if($count >= 5)
         {
@@ -1598,10 +1598,10 @@
         {
           if($in_token) // we previously hit a token starting with '(' but not ending in ')'
           {
-	    $tmp = trim($token);
+	    $tmp = trim($token ?? ' ');
 	    $tmp = $tmp[0] == '(' ? substr($tmp,1):$tmp;
 	    $tmp = substr($tmp,-1) == ')' ? substr($tmp,0,strlen($tmp)-1):$tmp;
-	    $ret['data'] .= ' ' . trim($tmp);
+	    $ret['data'] .= ' ' . trim($tmp ?? ' ');
             if($token[strlen($token)-1] == ')') $in_token = false;
           }
           elseif($token[0] == '(')
@@ -1609,7 +1609,7 @@
             if($token[strlen($token)-1] != ')') $in_token = true;
 	    $tmp = trim(substr($token,1));
 	    $tmp = $in_token ? $tmp : substr($tmp,0,strlen($tmp)-1);
-	    $ret['data'] .= ' ' . trim($tmp);
+	    $ret['data'] .= ' ' . trim($tmp ?? ' ');
           }
           elseif(strpos($token, '='))
           {
@@ -1619,7 +1619,7 @@
           elseif($token != '')
             $ret['data'] .= ' ' . $token;
         }
-        $ret['data'] = trim($ret['data']);
+        $ret['data'] = trim($ret['data'] ?? ' ');
       }
 
       // log some errors

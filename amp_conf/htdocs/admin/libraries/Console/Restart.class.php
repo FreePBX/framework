@@ -31,5 +31,6 @@ class Restart extends Command {
 
 		$stop->execute($input, $output);
 		$start->execute($input, $output);
+		return 0;
 	}
 }

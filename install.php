@@ -9,7 +9,7 @@ if(\FreePBX::Modules()->checkStatus("sysadmin")) {
 	touch("/var/spool/asterisk/incron/framework.logrotate");
 }
 $output = exec("node --version"); //v0.10.29
-$output = str_replace("v","",trim($output));
+$output = str_replace("v","",trim($output ?? ' '));
 if(empty($output)) {
 	out("NodeJS 8 or higher is not installed. This is now a requirement");
 	return false;

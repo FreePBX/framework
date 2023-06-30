@@ -34,7 +34,7 @@ class Stop extends Command {
 		$post = $this->postAsteriskHooks($output,false);
 		$aststat = $this->asteriskProcess();
 		$bmo = \FreePBX::create();
-		$maxwait = (int) $options['maxwait'];
+		$maxwait = (int) ($options['maxwait'] ?? '0');
 		if ($maxwait < 5) {
 			$maxwait = 30;
 		}
@@ -43,13 +43,13 @@ class Stop extends Command {
 		}
 
 		// We were asked to only run the pre-stop hooks?
-		if ($options['pre']) {
+		if ($options['pre'] ?? false) {
 			// Note: Do not i18n.
 			$output->writeln("Only running pre-hooks");
 			$runpre = true;
 			$stopasterisk = false;
 			$runpost = false;
-		} elseif ($options['post']) {
+		} elseif ($options['post'] ?? false) {
 			// Note: Do not i18n.
 			$output->writeln("Only running post-hooks");
 			$runpre = false;
@@ -132,7 +132,7 @@ class Stop extends Command {
 
 				// Seconds may have ticked over between the two time() calls, which is why
 				// we recalculate.
-				$pct = 100/($killafter - $starttime);
+				$pct = (int) (100/($killafter - $starttime));
 
 				if (!$output->isQuiet()) {
 					stream_set_blocking(STDIN,0);
@@ -208,11 +208,12 @@ class Stop extends Command {
 				$bmo->{$data['module']}->{$data['method']}($output);
 			}
 		}
+		return 0;
 	}
 
 	private function asteriskProcess() {
 		$pid = `/usr/bin/env pidof asterisk`;
-		return trim($pid);
+		return trim($pid ?? '');
 	}
 
 	private function stopAsterisk($output, $method){

@@ -226,7 +226,7 @@ class AGI_AsteriskManager {
 				$this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
 				return false;
 			}
-			$buffer = trim(fgets($this->socket, 4096));
+			$buffer = trim(fgets($this->socket, 4096) ?? ' ');
 			while($buffer != '') {
 				$a = strpos($buffer, ':');
 				if($a) {
@@ -246,7 +246,7 @@ class AGI_AsteriskManager {
 					// store parameter in $parameters
 					$parameters[substr($buffer, 0, $a)] = substr($buffer, $a + 2);
 				}
-				$buffer = trim(fgets($this->socket, 4096));
+				$buffer = trim(fgets($this->socket, 4096) ?? ' ');
 			}
 
 			// process response
@@ -1237,9 +1237,9 @@ class AGI_AsteriskManager {
 		array_shift($data);
 		foreach ($data as $line) {
 			$temp = explode(":",$line,2);
-			if (trim($temp[0]) != '' && count($temp) == 2) {
+			if (trim($temp[0] ?? ' ') != '' && count($temp) == 2) {
 				$temp[1] = isset($temp[1])?$temp[1]:null;
-				$db[ trim($temp[0]) ] = trim($temp[1]);
+				$db[ trim($temp[0] ?? ' ') ] = trim($temp[1] ?? ' ');
 			}
 		}
 		return $db;
@@ -1252,7 +1252,7 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_put($family, $key, $value) {
-		$value = (trim($value) == '')?'"'.$value.'"':$value;
+		$value = (trim($value ?? ' ') == '')?'"'.$value.'"':$value;
 		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
@@ -1279,7 +1279,7 @@ class AGI_AsteriskManager {
 			$r = $this->command("database get ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
 			$data = strpos($r["data"],"Value:");
 			if ($data !== false) {
-				return trim(substr($r["data"],6+$data));
+				return trim(substr($r["data"],6+$data) ?? ' ');
 			}
 		}
 		return false;
@@ -1396,12 +1396,12 @@ class AGI_AsteriskManager {
 		if (!$channel || !$file) {
 			return false;
 		}
-		$args = 'mixmonitor start ' . trim($channel) . ' ' . trim($file);
+		$args = 'mixmonitor start ' . trim($channel ?? ' ') . ' ' . trim($file ?? ' ');
 		if ($options || $postcommand) {
-			$args .= ',' . trim($options);
+			$args .= ',' . trim($options ?? ' ');
 		}
 		if ($postcommand) {
-			$args .= ',' . trim($postcommand);
+			$args .= ',' . trim($postcommand ?? ' ');
 		}
 		return $this->command($args, $actionid);
 	}
@@ -1416,7 +1416,7 @@ class AGI_AsteriskManager {
 		if (!$channel) {
 			return false;
 		}
-		$args = 'mixmonitor stop ' . trim($channel);
+		$args = 'mixmonitor stop ' . trim($channel ?? ' ');
 		return $this->command($args, $actionid);
 	}
 }

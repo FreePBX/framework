@@ -32,8 +32,9 @@ class Start extends Command {
 			$output->writeln("<error>You need to be root to run this command</error>");
 			exit(1);
 		}
+			$output->writeln("kapil");
 		$options = $input->getOptions();
-		$this->skipChown = $options['skipchown'] ? true : $this->skipChown;
+		$this->skipChown = ($options['skipchown']?? false) ? true : $this->skipChown;
 		$args = $input->getArgument('args');
 		$pre = $this->preAsteriskHooks($output,false);
 		$post = $this->postAsteriskHooks($output,false);
@@ -42,13 +43,13 @@ class Start extends Command {
 		$bmo = \FreePBX::create();
 
 		// We were asked to only run the pre-start hooks?
-		if ($options['pre']) {
+		if ($options['pre'] ?? false) {
 			// Note: Do not i18n.
 			$output->writeln("Only running pre-hooks");
 			$runpre = "force";
 			$startasterisk = false;
 			$runpost = false;
-		} elseif ($options['post']) {
+		} elseif ($options['post'] ?? false) {
 			// Note: Do not i18n.
 			$output->writeln("Only running post-hooks");
 			$runpre = false;
@@ -150,11 +151,12 @@ class Start extends Command {
 				}
 			}
 		}
+		return 0;
 	}
 
 	private function asteriskProcess() {
 		$pid = `/usr/bin/env pidof asterisk`;
-		return trim($pid);
+		return trim($pid ?? '');
 	}
 
 	private function asteriskUptime() {
@@ -162,16 +164,15 @@ class Start extends Command {
 		if (!preg_match('/System uptime:(.+)/', $uptime, $out)) {
 			return "ERROR";
 		}
-		return trim($out[1]);
+		return trim($out[1] ?? '');
 	}
 
 	private function startAsterisk($output){
 		$output->writeln(_('Starting Asterisk...'));
 		$astbin = '/usr/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
-
-		$process = new Process($astbin);
+		$process = Process::fromShellCommandline($astbin);
 		$env = $this->getDefaultEnv();
-		if(empty($env['TERM'])) {
+		if(empty($env['TERM'] ?? '')) {
 			$env['TERM'] = 'xterm-256color';
 		}
 		$process->setEnv($env);
