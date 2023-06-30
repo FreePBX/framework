@@ -55,14 +55,14 @@ class Validate extends Command {
 			exit(-1);
 		}
 
-		$process = new Process("gzip -fd /tmp/validate.phar.gz");
+		$process = new Process(['gzip', '-fd', '/tmp/validate.phar.gz']);
 		$process->mustRun();
 		chmod("/tmp/validate.phar",0775);
 
 		if($input->getOption('clean')) {
-			$process = new Process("/tmp/validate.phar --clean");
+			$process = new Process(["/tmp/validate.phar", "--clean"]);
 		} else {
-			$process = new Process("/tmp/validate.phar");
+			$process = new Process(["/tmp/validate.phar"]);
 		}
 		// By default, processes have a timeout of 60 seconds changing it to 3 mins
 		$process->setTimeout(180);

@@ -65,7 +65,7 @@ class Util extends Command {
 				\module_functions::create()->getAllSignatures(false,true);
 			break;
 			case 'tablefix':
-				$cmd = 'mysqlcheck -u'.$amp_conf['AMPDBUSER'].' -p'.$amp_conf['AMPDBPASS'].' --repair --all-databases';
+				$cmd = ['mysqlcheck', '-u'.$amp_conf['AMPDBUSER'], '-p'.$amp_conf['AMPDBPASS'], '--repair', '--all-databases'];
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to repair MySQL Tables (this may take some time)"));
@@ -74,7 +74,7 @@ class Util extends Command {
 				} catch (ProcessFailedException $e) {
 					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 				}
-				$cmd = 'mysqlcheck -u'.$amp_conf['AMPDBUSER'].' -p'.$amp_conf['AMPDBPASS'].' --optimize --all-databases';
+				$cmd = ['mysqlcheck', '-u'.$amp_conf['AMPDBUSER'], '-p'.$amp_conf['AMPDBPASS'], '--optimize', '--all-databases'];
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to optimize MySQL Tables (this may take some time)"));

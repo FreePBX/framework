@@ -873,7 +873,7 @@ class Reload extends Command {
 	private function runPreReloadScript() {
 		$setting_pre_reload = $this->freepbx->Config->get('PRE_RELOAD');
 		if ($setting_pre_reload)  {
-			$process = new Process($setting_pre_reload);
+			$process = Process::fromShellCommandline($setting_pre_reload);
 			$process->run();
 
 			if (!$process->isSuccessful()) {

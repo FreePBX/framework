@@ -172,7 +172,7 @@ class Localization extends Command {
 				continue;
 			}
 			file_put_contents($filename, $filedata->body);
-			$process = new Process('msgfmt '.$filename.' -o '.dirname($filename).'/'.$mo.'.mo');
+			$process = new Process(['msgfmt', $filename, '-o', dirname($filename).'/'.$mo.'.mo']);
 			$process->mustRun();
 		}
 		$output->writeln("Finished Processing $module");
