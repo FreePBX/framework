@@ -72,5 +72,6 @@ class FWHelpCommand extends HelpCommand {
 			'raw' => $input->getOption('raw'),
 		));
 		$this->command = null;
+		return 0;
 	}
 }
