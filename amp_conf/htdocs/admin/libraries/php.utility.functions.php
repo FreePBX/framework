@@ -17,3 +17,12 @@ function freepbx_trim($str)
 {
     return trim($str ?? '');
 }
+
+function freepbx_str_replace($w, $r, $s)
+{
+    if($s) {
+        return str_replace($w, $r, $s);
+    } else {
+        return $s;
+    }
+}

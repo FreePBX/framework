@@ -938,8 +938,8 @@ class View {
 		$usage_list = \FreePBX::Destinations()->getAllInUseDestinations($dest);
 		$usage = array();
 		$usage_item = '';
+		$usage_count = 0;
 		if (!empty($usage_list)) {
-			$usage_count = 0;
 			foreach ($usage_list as $mod_list) {
 				foreach ($mod_list as $details) {
 					$usage_count++;
