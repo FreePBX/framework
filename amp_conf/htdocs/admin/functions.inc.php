@@ -29,6 +29,8 @@ if (!isset($bootstrap_settings['include_utility_functions']) || $bootstrap_setti
 	require_once($dirname . '/libraries/utility.functions.php');
 }
 
+//php 8.1 upgrade utility functions
+require_once($dirname . '/libraries/php.utility.functions.php');
 //----------include function files----------
 
 //module state manipulation functions
