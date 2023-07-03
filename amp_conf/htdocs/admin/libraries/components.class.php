@@ -96,7 +96,7 @@ class component {
 		if(!isset($this->tabtranslations[$category])) {
 			$this->tabtranslations[$category] = $category;
 		}
-		$category = strtolower(_trim($category));
+		$category = strtolower(freepbx_trim ($category));
 		// Note that placement is only used in 'middle', eg, a named module
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addguielem()');
@@ -126,7 +126,7 @@ class component {
 	}
 
 	public function delguielem($section, $elemname, $category="other") {
-		$category = strtolower(_trim($category));
+		$category = strtolower(freepbx_trim ($category));
 		switch ($section) {
 			case '_top':
 				foreach ($this->guielems_top as $index1 => $elements) {
@@ -739,9 +739,9 @@ class gui_textbox extends guiinput {
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled':'';
 		if($inputgroup) {
-			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . _htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . freepbx_htmlspecialchars($this->currentvalue) . "\">";
 		} else {
-			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . _htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . freepbx_htmlspecialchars($this->currentvalue) . "\">";
 		}
 		$this->type = "textbox";
 	}
@@ -1052,7 +1052,7 @@ class gui_drawselects extends guiinput {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if(_trim($index) == '') {
+		if(freepbx_trim ($index) == '') {
 			trigger_error('$index can not be blank');
 			return;
 		}
