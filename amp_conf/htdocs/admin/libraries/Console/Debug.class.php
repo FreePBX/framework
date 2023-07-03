@@ -63,7 +63,7 @@ class Debug extends Command {
 		}
 		$files = implode(' ', $files);
 		//passthru('tail -f ' . $files);
-		$process = Process::fromShellCommandline('tail -f ' . $files);
+		$process = \freepbx_get_process_obj('tail -f ' . $files);
 		//Timeout for the above process. Not sure if there is a no limit but 42 Years seems long enough.
 		$process->setTimeout(1325390892);
 		$process->run(function ($type, $buffer) {

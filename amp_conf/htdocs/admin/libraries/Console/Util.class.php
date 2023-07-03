@@ -66,7 +66,7 @@ class Util extends Command {
 			break;
 			case 'tablefix':
 				$cmd = ['mysqlcheck', '-u'.$amp_conf['AMPDBUSER'], '-p'.$amp_conf['AMPDBPASS'], '--repair', '--all-databases'];
-				$process = new Process($cmd);
+				$process = \freepbx_get_process_obj($cmd);
 				try {
 					$output->writeln(_("Attempting to repair MySQL Tables (this may take some time)"));
 					$process->mustRun();
@@ -75,7 +75,7 @@ class Util extends Command {
 					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 				}
 				$cmd = ['mysqlcheck', '-u'.$amp_conf['AMPDBUSER'], '-p'.$amp_conf['AMPDBPASS'], '--optimize', '--all-databases'];
-				$process = new Process($cmd);
+				$process = \freepbx_get_process_obj($cmd);
 				try {
 					$output->writeln(_("Attempting to optimize MySQL Tables (this may take some time)"));
 					$process->mustRun();

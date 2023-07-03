@@ -125,7 +125,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 				'raw' => []
 			];
 		}
-		$process = \Symfony\Component\Process\Process::fromShellCommandline($AMPSBIN . '/fwconsole reload --json');
+		$process = \freepbx_get_process_obj($AMPSBIN . '/fwconsole reload --json');
 		$process->setTimeout(1800);
 		$process->run();
 		$output = $process->getOutput();

@@ -1032,7 +1032,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 	 * @return void
 	 */
 	private function executeSystemCommand($command,$timeout =180) {
-		$process = new Process(explode(' ',$command));
+		$process = \freepbx_get_process_obj(explode(' ',$command));
 		$process->setTimeout($timeout);
 		if($this->isTtySupported()) {
 			$process->setTty(true);

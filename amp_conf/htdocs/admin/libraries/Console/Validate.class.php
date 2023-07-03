@@ -55,14 +55,14 @@ class Validate extends Command {
 			exit(-1);
 		}
 
-		$process = new Process(['gzip', '-fd', '/tmp/validate.phar.gz']);
+		$process = \freepbx_get_process_obj(['gzip', '-fd', '/tmp/validate.phar.gz']);
 		$process->mustRun();
 		chmod("/tmp/validate.phar",0775);
 
 		if($input->getOption('clean')) {
-			$process = new Process(["/tmp/validate.phar", "--clean"]);
+			$process = \freepbx_get_process_obj(["/tmp/validate.phar", "--clean"]);
 		} else {
-			$process = new Process(["/tmp/validate.phar"]);
+			$process = \freepbx_get_process_obj(["/tmp/validate.phar"]);
 		}
 		// By default, processes have a timeout of 60 seconds changing it to 3 mins
 		$process->setTimeout(180);

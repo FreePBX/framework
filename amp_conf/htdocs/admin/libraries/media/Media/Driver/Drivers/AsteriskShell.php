@@ -33,7 +33,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 */
 	public static function installed() {
 		$loc = fpbx_which("asterisk");
-		$process = Process::fromShellCommandline($loc.' -V');
+		$process = \freepbx_get_process_obj($loc.' -V');
 		$process->run();
 
 		// executes after the command finishes
@@ -141,7 +141,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @return string The version
 	 */
 	public function getVersion() {
-		$process = Process::fromShellCommandline($this->binary.' -V');
+		$process = \freepbx_get_process_obj($this->binary.' -V');
 		$process->run();
 
 		// executes after the command finishes
@@ -163,7 +163,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @param  string $mime        Mime type
 	 */
 	public function convert($newFilename,$extension,$mime) {
-		$process = Process::fromShellCommandline($this->binary." -rx ".escapeshellarg(escapeshellcmd('file convert "'.$this->track.'" "'.$newFilename.'"')));
+		$process = \freepbx_get_process_obj($this->binary." -rx ".escapeshellarg(escapeshellcmd('file convert "'.$this->track.'" "'.$newFilename.'"')));
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {

@@ -159,7 +159,7 @@ class Job extends Command {
 			try {
 				switch($config['type']) {
 					case 'command':
-						$process = new Process($config['command']);
+						$process = \freepbx_get_process_obj($config['command']);
 						$config['max_runtime'] = ($config['max_runtime'] == 0) ? null : $config['max_runtime'];
 						$process->setTimeout($config['max_runtime']);
 						$process->run(function ($type, $buffer) {

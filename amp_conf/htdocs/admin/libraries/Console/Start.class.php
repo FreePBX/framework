@@ -32,7 +32,6 @@ class Start extends Command {
 			$output->writeln("<error>You need to be root to run this command</error>");
 			exit(1);
 		}
-			$output->writeln("kapil");
 		$options = $input->getOptions();
 		$this->skipChown = ($options['skipchown']?? false) ? true : $this->skipChown;
 		$args = $input->getArgument('args');

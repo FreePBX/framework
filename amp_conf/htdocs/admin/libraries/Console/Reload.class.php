@@ -847,7 +847,7 @@ class Reload extends Command {
 		if(empty($loc)) {
 			throw new \Exception(_("Unable to find the Asterisk binary"));
 		} else {
-			$process = Process::fromShellCommandline($loc . " -rx 'core show version'");
+			$process = \freepbx_get_process_obj($loc . " -rx 'core show version'");
 			$process->mustRun();
 		}
 
@@ -873,7 +873,7 @@ class Reload extends Command {
 	private function runPreReloadScript() {
 		$setting_pre_reload = $this->freepbx->Config->get('PRE_RELOAD');
 		if ($setting_pre_reload)  {
-			$process = Process::fromShellCommandline($setting_pre_reload);
+			$process = \freepbx_get_process_obj($setting_pre_reload);
 			$process->run();
 
 			if (!$process->isSuccessful()) {

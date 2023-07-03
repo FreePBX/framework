@@ -39,7 +39,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 
 	public static function installed() {
 		$loc = fpbx_which("mpg123");
-		$process = Process::fromShellCommandline($loc.' --version');
+		$process = \freepbx_get_process_obj($loc.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -63,7 +63,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = Process::fromShellCommandline($this->binary.' --version');
+		$process = \freepbx_get_process_obj($this->binary.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -81,7 +81,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "wav":
-				$process = Process::fromShellCommandline($this->binary.' -r '.escapeshellarg($this->options['samplerate']).' -m -w '.escapeshellarg($newFilename).' '.escapeshellarg($this->track));
+				$process = \freepbx_get_process_obj($this->binary.' -r '.escapeshellarg($this->options['samplerate']).' -m -w '.escapeshellarg($newFilename).' '.escapeshellarg($this->track));
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to MPG123");

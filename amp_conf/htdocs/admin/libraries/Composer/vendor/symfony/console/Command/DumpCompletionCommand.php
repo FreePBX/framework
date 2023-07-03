@@ -132,7 +132,7 @@ EOH
         if (!file_exists($debugFile)) {
             touch($debugFile);
         }
-        $process = new Process(['tail', '-f', $debugFile], null, null, null, 0);
+        $process = \freepbx_get_process_obj(['tail', '-f', $debugFile], null, null, null, 0);
         $process->run(function (string $type, string $line) use ($output): void {
             $output->write($line);
         });
