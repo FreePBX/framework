@@ -303,7 +303,7 @@ function dbug(){
 }
 
 //http://php.net/manual/en/function.set-error-handler.php
-function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext) {
+function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext = null) {
 	global $amp_conf;
 
 	//for pre 5.2
