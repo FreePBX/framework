@@ -46,7 +46,7 @@ class ProcessBuilder implements ProcessBuilderInterface
      */
     public function getProcess()
     {
-        $process =  \freepbx_get_process_obj($this->command, $this->cwd);
+        $process =  new Process($this->command, $this->cwd);
         $process->setTimeout(null);
 
         return $process;

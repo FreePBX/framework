@@ -86,9 +86,14 @@ function checkShellFeatures($command)
  * @param string $command The shell command string to split.
  * @return array An array of individual components of the shell command.
  */
-function splitShellCommand($command) 
+function splitShellCommand($command)
 {
-    $pattern = '/\s+(?=(?:(?:[^\'"]*[\'"]){2})*[^\'"]*$)/'; 
+    $pattern = '/\s+(?=(?:(?:[^\'"]*[\'"]){2})*[^\'"]*$)/';
     $parts = preg_split($pattern, $command);
-    return $parts;
+    // Remove quotes from values
+    $parts = array_map(function ($part) {
+            return str_replace(['"', "'"], '', $part);
+    }, $parts);
+
+    return array_filter($parts);
 }
