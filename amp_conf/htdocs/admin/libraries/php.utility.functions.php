@@ -20,7 +20,7 @@ function freepbx_trim($str)
 
 function freepbx_str_replace($w, $r, $s)
 {
-    if($s) {
+    if($s && $w && $r) {
         return str_replace($w, $r, $s);
     } else {
         return $s;
