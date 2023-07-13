@@ -922,19 +922,19 @@ class Moduleadmin extends Command {
 				fatal($rawname._(' not found'));
 			}
 	
-			if (!in_array($modules[$rawname]['name'], $modulesProcessed['name'])) {
+			if ((isset($modules[$rawname]['name']) && isset($modulesProcessed['name'])) && (!in_array($modules[$rawname]['name'], $modulesProcessed['name']))) {
 				$modulesProcessed['name'][] = $modules[$rawname]['name'];
 				if (isset($modules[$rawname]['name'])) {
 					echo "# name:\n_(\"".$modules[$rawname]['name']."\");\n";
 				}
 			}
-			if (!in_array($modules[$rawname]['category'], $modulesProcessed['category'])) {
+			if ((isset($modules[$rawname]['category']) && isset($modulesProcessed['category'])) && (!in_array($modules[$rawname]['category'], $modulesProcessed['category']))) {
 				$modulesProcessed['category'][] = $modules[$rawname]['category'];
 				if (isset($modules[$rawname]['category'])) {
 					echo "# category:\n_(\"".str_replace("\n","",$modules[$rawname]['category'])."\");\n";
 				}
 			}
-			if (!in_array($modules[$rawname]['description'], $modulesProcessed['description'])) {
+			if ((isset($modules[$rawname]['description']) && isset($modulesProcessed['description'])) && (!in_array($modules[$rawname]['description'], $modulesProcessed['description']))) {
 				$moduleProcessed['description'][] = $modules[$rawname]['description'];
 				if (isset($modules[$rawname]['description'])) {
 					echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$rawname]['description']))."\");\n";
@@ -960,7 +960,9 @@ class Moduleadmin extends Command {
 		);
 		foreach ($conf as $keyword => $settings) {
 			//we don't need hidden settings as the user never sees them
-			if ($settings['hidden'] != true && ($rawname == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
+			if ($settings['hidden'] != true && 
+				($rawname == 'framework' && isset($settings['module']) && $settings['module'] == '') || 
+				(isset($settings['module']) && $settings['module'] == $modulename)) {
 				if (!in_array($settings['name'], $settingsProcessed['name'])) {
 					$settingsProcessed['name'][] = $settings['name'];
 					echo "# Setting name - $keyword:\n_(\"".$settings['name']."\");\n";
