@@ -900,6 +900,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function showi18n($modulename) {
+		$modules =  array();
 		//special case core so that we have everything we need for localizations
 		switch($modulename) {
 			case 'core':
@@ -920,7 +921,7 @@ class Moduleadmin extends Command {
 			if (!isset($modules[$rawname])) {
 				fatal($rawname._(' not found'));
 			}
-
+	
 			if (!in_array($modules[$rawname]['name'], $modulesProcessed['name'])) {
 				$modulesProcessed['name'][] = $modules[$rawname]['name'];
 				if (isset($modules[$rawname]['name'])) {
