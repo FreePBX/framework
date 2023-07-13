@@ -9,14 +9,14 @@
 namespace FreePBX;
 use Carbon\Carbon;
 class View {
-	private $queryString = "";
-	private $replaceState = false;
-	private $lang = array();
-	private $tz = '';
+	private string $queryString = "";
+	private bool $replaceState = false;
+	private array $lang = [];
+	private string $tz = '';
 	private $dateformat = '';
 	private $timeformat = '';
 	private $datetimeformat = '';
-	private $drawselect_destinations = [];
+	private array $drawselect_destinations = [];
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -27,48 +27,7 @@ class View {
 	}
 
 	public function getScripts() {
-		$files = array(
-			"moment-with-locales-2.20.1.min.js",
-			"script.legacy.js",
-			"Sortable-1.15.0.min.js",
-			"autosize-5.0.1.min.js",
-			"bootstrap-4.6.1.bundle.min.js",
-			"bootstrap-multiselect-1.1.1.js",
-			"bootstrap-select-1.13.14.min.js",
-			"bootstrap-table-dev.min.js",
-			"bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
-			"bootstrap-table-extensions-dev/bootstrap-table-export.min.js",
-			"bootstrap-table-extensions-dev/bootstrap-table-mobile.min.js",
-			"bootstrap-table-extensions-dev/bootstrap-table-reorder-rows.min.js",
-			"bootstrap-table-extensions-dev/bootstrap-table-toolbar.min.js",
-			"browser-locale-1.0.0.min.js",
-			"browser-support.js",
-			"chosen.jquery-1.8.7.min.js",
-			"jquery-migrate-3.0.0.js",
-			"jquery-ui-1.13.2.min.js",
-			"jquery.fileupload-10.32.0.js",
-			"jquery.fileupload-process-10.32.0.js",
-			"jquery.form-4.3.0.min.js",
-			"jquery.hotkeys-0.2.0.js",
-			"jquery.iframe-transport-10.32.0.js",
-			"jquery.jplayer-2.9.2.min.js",
-			"jquery.numeric-1.4.1.min.js",
-			"jquery.smartWizard-3.3.1.js",
-			"jquery.tablednd-0.9.1.min.js",
-			"js.cookie-3.0.1.min.js",
-			"modernizr-3.3.1.min.js",
-			"moment-timezone-with-data-1970-2030-0.5.41.min.js",
-			"moment-duration-format-2.2.1.js",
-			"notie-3.9.4.min.js",
-			"recorder.js",
-			"recorderWorker.js",
-			"search.js",
-			"tableexport-1.26.0.js",
-			"timeutils.js",
-			"typeahead.bundle-0.10.5.min.js",
-			 "common.js",
-			"text-editor-1.2.1.js"
-		);
+		$files = ["moment-with-locales-2.20.1.min.js", "script.legacy.js", "Sortable-1.15.0.min.js", "autosize-5.0.1.min.js", "bootstrap-4.6.1.bundle.min.js", "bootstrap-multiselect-1.1.1.js", "bootstrap-select-1.13.14.min.js", "bootstrap-table-dev.min.js", "bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js", "bootstrap-table-extensions-dev/bootstrap-table-export.min.js", "bootstrap-table-extensions-dev/bootstrap-table-mobile.min.js", "bootstrap-table-extensions-dev/bootstrap-table-reorder-rows.min.js", "bootstrap-table-extensions-dev/bootstrap-table-toolbar.min.js", "browser-locale-1.0.0.min.js", "browser-support.js", "chosen.jquery-1.8.7.min.js", "jquery-migrate-3.0.0.js", "jquery-ui-1.13.2.min.js", "jquery.fileupload-10.32.0.js", "jquery.fileupload-process-10.32.0.js", "jquery.form-4.3.0.min.js", "jquery.hotkeys-0.2.0.js", "jquery.iframe-transport-10.32.0.js", "jquery.jplayer-2.9.2.min.js", "jquery.numeric-1.4.1.min.js", "jquery.smartWizard-3.3.1.js", "jquery.tablednd-0.9.1.min.js", "js.cookie-3.0.1.min.js", "modernizr-3.3.1.min.js", "moment-timezone-with-data-1970-2030-0.5.41.min.js", "moment-duration-format-2.2.1.js", "notie-3.9.4.min.js", "recorder.js", "recorderWorker.js", "search.js", "tableexport-1.26.0.js", "timeutils.js", "typeahead.bundle-0.10.5.min.js", "common.js", "text-editor-1.2.1.js"];
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
 
@@ -103,7 +62,7 @@ class View {
 				//JIC for legacy for now
 				file_put_contents($jspath."/pbxlib.js",$minifiedCode);
 			}
-			return array(basename($pbxlibFilename));
+			return [basename($pbxlibFilename)];
 		} else {
 			return $files;
 		}
@@ -125,7 +84,7 @@ class View {
 		if(empty($args)) {
 			return false;
 		}
-		parse_str($_SERVER['QUERY_STRING'], $params);
+		parse_str((string) $_SERVER['QUERY_STRING'], $params);
 		$vars = array_keys($params);
 		foreach($args as $arg) {
 			if((!in_array($arg,$vars) && isset($_REQUEST[$arg])) || (in_array($arg,$vars) && isset($_REQUEST[$arg]) && $_REQUEST[$arg] != $params[$arg])) {
@@ -136,7 +95,7 @@ class View {
 		if(!$replace) {
 			return false;
 		}
-		$base = basename($_SERVER['PHP_SELF']);
+		$base = basename((string) $_SERVER['PHP_SELF']);
 		$this->queryString = $base."?".http_build_query($params);
 		$this->replaceState = true;
 		return true;
@@ -226,7 +185,7 @@ class View {
 		date_default_timezone_set('UTC');
 		$freepbxtimezone = $this->freepbx->Config->get('PHPTIMEZONE');
 		$phptimezone = !empty($timezone) ? $timezone : $freepbxtimezone;
-		$phptimezone = (trim($phptimezone) != "/") ? trim($phptimezone) : '';
+		$phptimezone = (trim((string) $phptimezone) != "/") ? trim((string) $phptimezone) : '';
 		$invalidtimezone = false;
 		if(!empty($phptimezone)) {
 			$tzi = \DateTimeZone::listIdentifiers();
@@ -270,7 +229,7 @@ class View {
 			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->dateformat)) ? $_SESSION['AMP_user']->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
 			$format = !empty($this->dateformat) ? $this->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
-		} catch(\Exception $e) {
+		} catch(\Exception) {
 			$format = "l";
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
@@ -291,7 +250,7 @@ class View {
 			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->timeformat)) ? $_SESSION['AMP_user']->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
 			$format = !empty($this->timeformat) ? $this->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
-		} catch(\Exception $e) {
+		} catch(\Exception) {
 			$format = "LT";
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
@@ -312,7 +271,7 @@ class View {
 			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->datetimeformat)) ? $_SESSION['AMP_user']->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
 			$format = !empty($this->datetimeformat) ? $this->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
-		} catch(\Exception $e) {
+		} catch(\Exception) {
 			$format = "llll";
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
@@ -356,22 +315,19 @@ class View {
 		$lang = !empty($language) ? $language : $UIDEFAULTLANG;
 		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-zA-Z1-9\-]*))?(?:@([a-z1-9]*))?$/';
 		$default = "en_US";
-		$defaultParts = array(
-			'en_US',
-			'en_US'
-		);
+		$defaultParts = ['en_US', 'en_US'];
 
 		$nt = $this->freepbx->Notifications;
 		if (!extension_loaded('gettext')) {
-			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+			$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 			//$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
 			return $details ? $this->lang : $this->lang['name'];
 		}
 		$nt->delete('core', 'GETTEXT');
 
 		//Break Locales apart for processing
-		if(!preg_match($expression, $lang, $langParts)) {
-			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+		if(!preg_match($expression, (string) $lang, $langParts)) {
+			$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 			//$nt->add_warning('framework', 'LANG_INVALID1', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
@@ -382,17 +338,17 @@ class View {
 		//Get locale list
 		exec('locale -a',$locales, $out);
 		if($out != 0) { //could not execute locale -a
-			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+			$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 			//$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
 			return $details ? $this->lang : $this->lang['name'];
 		} else {
 			//$nt->delete('framework', 'LANG_MISSING');
 		}
-		$locales = is_array($locales) ? $locales : array();
+		$locales = is_array($locales) ? $locales : [];
 
 		if(php_sapi_name() !== 'cli') {
 			//Adjust for RTL languages
-			$rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN' );
+			$rtl_locales = ['ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN'];
 			$_SESSION['langdirection'] = in_array($langParts[1],$rtl_locales) ? 'rtl' : 'ltr';
 		}
 
@@ -424,14 +380,14 @@ class View {
 				$elang = $lang;
 				$lang = $default;
 				$langParts = $defaultParts;
-				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+				$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 				//$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$elang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
 			} elseif($lang == $default) {
-				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+				$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 				//$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"),$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
 				return $details ? $this->lang : $this->lang['name'];
 			} else {
-				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+				$this->lang = ["full" => $default, "name" => $default, "charmap" => "", "modifiers" => ""];
 				//$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"),$lang,$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
 				return $details ? $this->lang : $this->lang['name'];
 			}
@@ -450,7 +406,7 @@ class View {
 
 		//Set Carbon Locale
 		if(!Carbon::setLocale($lang)) {
-			$ps = explode("_",$lang);
+			$ps = explode("_",(string) $lang);
 			if(!Carbon::setLocale($ps[0])) {
 				Carbon::setLocale('en');
 			}
@@ -461,7 +417,7 @@ class View {
 		$baseLocale = $this->getBaseLocale($lang);
 		try {
 			\Moment\Moment::setLocale($baseLocale);
-		} catch(\Exception $e) {
+		} catch(\Exception) {
 			//invalid locale. Not all locales are supported though
 			\Moment\Moment::setLocale('en_US');
 		}
@@ -470,7 +426,7 @@ class View {
 		bind_textdomain_codeset('amp', 'utf8');
 		textdomain('amp');
 
-		$this->lang = array("full" => $lang, "name" => (isset($langParts[1]) ? $langParts[1] : ''), "charmap" => (isset($langParts[2]) ? $langParts[2] : ''), "modifiers" => (isset($langParts[3]) ? $langParts[3] : ''));
+		$this->lang = ["full" => $lang, "name" => ($langParts[1] ?? ''), "charmap" => ($langParts[2] ?? ''), "modifiers" => ($langParts[3] ?? '')];
 
 		return $details ? $this->lang : $this->lang['name'];
 	}
@@ -490,7 +446,7 @@ class View {
 		}
 		$lang = $this->setLanguage($lang);
 		if(php_sapi_name() !== 'cli') {
-			setcookie("lang", $lang);
+			setcookie("lang", (string) $lang);
 			$_COOKIE['lang'] = $lang;
 		}
 		$language = $lang;
@@ -515,7 +471,7 @@ class View {
 			$this->setDateFormat($_SESSION['AMP_user']->dateformat);
 		}
 
-		return array("timezone" => $timezone, "language" => $language, "datetimeformat" => "", "timeformat" => "", "dateformat" => "");
+		return ["timezone" => $timezone, "language" => $language, "datetimeformat" => "", "timeformat" => "", "dateformat" => ""];
 	}
 
 	/**
@@ -535,7 +491,7 @@ class View {
 
 		$hooks = $this->freepbx->Hooks->returnHooks();
 		$selected = false;
-		$hooks = is_array($hooks) ? $hooks : array();
+		$hooks = is_array($hooks) ? $hooks : [];
 		$optionshtml .= '<option value="">'._('None').'</option>';
 		foreach($hooks as $hook) {
 			$mod = $hook['module'];
@@ -548,7 +504,7 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option value="'.htmlentities($item['value']).'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities($item['name']).'</option>';
+				$optionshtml .= '<option value="'.htmlentities((string) $item['value']).'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities((string) $item['name']).'</option>';
 			}
 		}
 		if(trim($value) != "" && !$selected) {
@@ -627,7 +583,7 @@ class View {
 
 	function timezoneDrawSelect($id, $value='',$nonelabel=''){
 		$nonelabel = !empty($nonelabel)?$nonelabel:_("Select a Timezone");
-		$tzlist = array();
+		$tzlist = [];
 		$timezones = \DateTimeZone::listIdentifiers();
 		foreach($timezones as $tz){
 		  $parts = explode('/', $tz,2);
@@ -666,10 +622,10 @@ class View {
 
 	function languageDrawSelect($id, $value='',$nonelabel=''){
 		$nonelabel = !empty($nonelabel)?$nonelabel:_("Select a Language");
-		$langlist = array();
+		$langlist = [];
 		$langlist['en_US'] = function_exists('locale_get_display_name') ? locale_get_display_name('en_US', $this->getLocale()) : 'en_US';
 		foreach(glob($this->freepbx->Config->get("AMPWEBROOT")."/admin/i18n/*",GLOB_ONLYDIR) as $langDir) {
-			$lang = basename($langDir);
+			$lang = basename((string) $langDir);
 			$langlist[$lang] = function_exists('locale_get_display_name') ? locale_get_display_name($lang, $this->getLocale()) : $lang;
 		}
 
@@ -719,7 +675,7 @@ class View {
 		}
 
 		//php session last_dest
-		$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
+		$fw_popover ??= FALSE;
 		$disabled = ($disable) ? "disabled" : "";
 
 		$html=$destmod=$errorclass=$errorstyle='';
@@ -765,7 +721,7 @@ class View {
 				$destmod = $flattened[$goto];
 			}
 			//Set 'data-last' values for popover return to last saved values
-			$data_last_cat = str_replace(' ', '_', $destmod);
+			$data_last_cat = str_replace(' ', '_', (string) $destmod);
 		} else {
 			//Set 'data-last' values for popover return to nothing because this is a new 'route'
 			$data_last_cat = '';
@@ -783,7 +739,7 @@ class View {
 						'mod' => $mod,
 						'cat' => $cat,
 						'raw' => $data['raw'],
-						'name_tag' => str_replace(' ', '_', $data['raw']) . $i,
+						'name_tag' => str_replace(' ', '_', (string) $data['raw']) . $i,
 						'destinations' => $data['destinations']
 					];
 				} else {
@@ -794,7 +750,7 @@ class View {
 				if(!empty($data['popover'])) {
 					$tmp['popover'] = $data['popover'];
 					$data['popover']['args']['display'] = $cat;
-					$data['popover']['args']['view'] = isset($data['popover']['args']['view'])? $data['popover']['args']['view']:'form';
+					$data['popover']['args']['view'] ??= 'form';
 					$tmp['data_url'] = 'data-url="config.php?'.http_build_query($data['popover']['args']).'"';
 				}
 
@@ -819,10 +775,10 @@ class View {
 
 			ksort($cat_options);
 			foreach($cat_options as $name => $data) {
-				$cat_html.='<option value="'.str_replace(' ','_',$data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
+				$cat_html.='<option value="'.str_replace(' ','_',(string) $data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
 
 				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'd-none':'');
-				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . (isset($data['data_url']) ? $data['data_url'] : '') . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
+				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . ($data['data_url'] ?? '') . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
 					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
 				foreach($data['destinations'] as $dest) {
 					$selected=($goto==$dest['destination'])?'SELECTED ':' ';
@@ -879,7 +835,7 @@ class View {
 	 * @return [type]              [description]
 	 */
 	public function drawClock($time = null, $tz = null, $id = null, $label = null, $errormsg = null){
-		$thisid = !empty($id)?$id:'clock'.mt_rand();
+		$thisid = !empty($id)?$id:'clock'.random_int(0, mt_getrandmax());
 		$label = !empty($label)?$label:_("Server time:");
 		$errormsg = !empty($errormsg)?$errormsg:_("Not received");
 		$time = !empty($time)?$time:time();
@@ -931,19 +887,20 @@ class View {
 	 * @param  boolean          $module_hash a hash of module names to search for callbacks, otherwise global $active_modules is used
 	 * @return string                        The finalized HTML
 	 */
-	public function destinationUsage($dest) {
-		if (!is_array($dest)) {
-			$dest = array($dest);
+	public function destinationUsage(mixed $dest) {
+		$usage_items = null;
+  if (!is_array($dest)) {
+			$dest = [$dest];
 		}
 		$usage_list = \FreePBX::Destinations()->getAllInUseDestinations($dest);
-		$usage = array();
+		$usage = [];
 		$usage_item = '';
 		$usage_count = 0;
 		if (!empty($usage_list)) {
 			foreach ($usage_list as $mod_list) {
 				foreach ($mod_list as $details) {
 					$usage_count++;
-					$usage_items .= !empty($details['edit_url']) ? sprintf('<a href="%s">%s</a><br/>', htmlspecialchars($details['edit_url']), htmlspecialchars($details['description'])) : sprintf('%s<br/>', htmlspecialchars($details['description']));
+					$usage_items .= !empty($details['edit_url']) ? sprintf('<a href="%s">%s</a><br/>', htmlspecialchars((string) $details['edit_url']), htmlspecialchars((string) $details['description'])) : sprintf('%s<br/>', htmlspecialchars((string) $details['description']));
 				}
 			}
 		}
@@ -982,8 +939,9 @@ HTML;
 	 *                  them or further interogate. The resulting URLs are returned in an array either formatted for immediate
 	 *                  display or split into a description and the raw URL to provide more fine grained control (or use with guielements).
 	 */
-	public function displayExtensionUsageAlert($usage_arr=array(),$split=false,$alert=true) {
-		$url = array();
+	public function displayExtensionUsageAlert($usage_arr=[],$split=false,$alert=true) {
+		$str = null;
+  $url = [];
 		if (!empty($usage_arr)) {
 			$conflicts=0;
 			foreach($usage_arr as $rawmodule => $properties) {
@@ -992,25 +950,21 @@ HTML;
 					if ($conflicts == 1) {
 						switch ($details['status']) {
 							case 'INUSE':
-								$str = "Extension $exten not available, it is currently used by ".htmlspecialchars($details['description']).".";
+								$str = "Extension $exten not available, it is currently used by ".htmlspecialchars((string) $details['description']).".";
 								if ($split) {
-									$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
-									                 'url'  =>  $details['edit_url'],
-									               );
+									$url[] =  ['label' => "Edit: ".htmlspecialchars((string) $details['description']), 'url'  =>  $details['edit_url']];
 								} else {
-									$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+									$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars((string) $details['description'])."</a>";
 								}
 								break;
 							default:
-							$str = "This extension is not available: ".htmlspecialchars($details['description']).".";
+							$str = "This extension is not available: ".htmlspecialchars((string) $details['description']).".";
 						}
 					} else {
 						if ($split) {
-							$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
-							                 'url'  =>  $details['edit_url'],
-														 );
+							$url[] =  ['label' => "Edit: ".htmlspecialchars((string) $details['description']), 'url'  =>  $details['edit_url']];
 						} else {
-							$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+							$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars((string) $details['description'])."</a>";
 						}
 					}
 				}
