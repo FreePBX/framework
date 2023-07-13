@@ -197,6 +197,12 @@ class module_functions {
 				$data4sql = $db->escapeSimple(json_encode($previous));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('previous',".time().",'".$data4sql."')");
 			}
+			if (!empty($allxml['xml']['expired'])) {
+				$expired = $allxml['xml']['expired'];
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple(json_encode($expired));
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('expired'," . time() . ",'" . $data4sql . "')");
+			}
 		}
 
 		if (empty($modules)) {
@@ -3128,6 +3134,9 @@ class module_functions {
 			if ($deploymentid !== false) {
 				$options['deploymentid'] = $deploymentid;
 			}
+
+			// New param to get expired module list from mirror server
+			$options['enableExpiredModuleList'] = 1;
 
 			$engver=engine_getinfo();
 			if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
