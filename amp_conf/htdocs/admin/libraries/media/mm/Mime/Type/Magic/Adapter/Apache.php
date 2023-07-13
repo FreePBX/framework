@@ -51,7 +51,7 @@ class Apache extends \mm\Mime\Type\Magic\Adapter {
 		while (!feof($handle)) {
 			$line = trim(fgets($handle));
 
-			if (empty($line) || $line{0} === '#') {
+			if (empty($line) || $line[0] === '#') {
 				continue;
 			}
 
