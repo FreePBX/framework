@@ -23,7 +23,7 @@ include __DIR__. '/libraries/moduleAdminFunctions.php';
 $modulef = module_functions::create();
 
 $REQUEST = freepbxGetSanitizedRequest();
-$action = isset($REQUEST['action'])?$REQUEST['action']:'';
+$action = $REQUEST['action'] ?? '';
 $FreePBX = FreePBX::Create();
 global $active_repos;
 $loc_domain = 'amp';
@@ -36,8 +36,8 @@ $active_repos = $modulef->get_active_repos();
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 
-$trackaction = isset($REQUEST['trackaction'])?$REQUEST['trackaction']:false;
-$moduleaction = isset($REQUEST['moduleaction'])?$REQUEST['moduleaction']:false;
+$trackaction = $REQUEST['trackaction'] ?? false;
+$moduleaction = $REQUEST['moduleaction'] ?? false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
 
@@ -50,9 +50,9 @@ $moduleaction = isset($REQUEST['moduleaction'])?$REQUEST['moduleaction']:false;
  */
 
 $freepbx_version = get_framework_version();
-$freepbx_version = $freepbx_version ? $freepbx_version : getversion();
-$freepbx_help_url = "https://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
-$displayvars = array();
+$freepbx_version = $freepbx_version ?: getversion();
+$freepbx_help_url = "https://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode((string) $freepbx_version);
+$displayvars = [];
 
 $displayvars['freepbx_help_url'] = $freepbx_help_url;
 $displayvars['online'] = $online;
@@ -92,9 +92,9 @@ if ($quietmode) {
 $modules_local = $modulef->getinfo(false,false,true);
 
 if ($online) {
-	$security_issues_to_report = array();
+	$security_issues_to_report = [];
 	$modules_online = $modulef->getonlinexml();
-	$security_array = !empty($modulef->security_array) ? $modulef->security_array : array();
+	$security_array = !empty($modulef->security_array) ? $modulef->security_array : [];
 
 	// $module_getonlinexml_error is a global set by module_getonlinexml()
 	if ($module_getonlinexml_error) {
@@ -111,9 +111,9 @@ if ($online) {
 			if ($name === "builtin" || empty($modules_local[$name]['updateurl'])) {
 				continue;
 			}
-			if (parse_url($modules_local[$name]['updateurl'], PHP_URL_SCHEME) === 'https') {
+			if (parse_url((string) $modules_local[$name]['updateurl'], PHP_URL_SCHEME) === 'https') {
 				$module_update_json = $modulef->url_get_contents($modules_local[$name]['updateurl'], "");
-				if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+				if ($module_update_json && $module_update_data = json_decode((string) $module_update_json, true, 512, JSON_THROW_ON_ERROR)) {
 					$modules_online[$name] = $module_update_data;
 				}
 			}
@@ -129,7 +129,7 @@ if ($online) {
 				// explicitly override these values with the _local ones
 				// - should never come from _online anyways, but this is just to be sure
 				$modules[$name]['status'] = $modules_local[$name]['status'];
-				$modules[$name]['dbversion'] = isset($modules_local[$name]['dbversion'])?$modules_local[$name]['dbversion']:'';
+				$modules[$name]['dbversion'] = $modules_local[$name]['dbversion'] ?? '';
 			} else {
 				// not local, so it's not installed
 				$modules[$name]['status'] = MODULE_STATUS_NOTINSTALLED;
@@ -164,12 +164,12 @@ if($sam){
 }
 switch ($action) {
 		case 'setrepo':
-			$repo = str_replace("_repo","",$REQUEST['id']);
+			$repo = str_replace("_repo","",(string) $REQUEST['id']);
 			$o = $modulef->set_active_repo($repo,$REQUEST['selected']);
 			if($o) {
-				echo json_encode(array("status" => true));
+				echo json_encode(["status" => true]);
 			} else {
-				echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
+				echo json_encode(["status" => false, "message" => "Unable to set ".$repo." as active repo"], JSON_THROW_ON_ERROR);
 			}
 		break;
 		case 'restarthttpd':
@@ -179,7 +179,7 @@ switch ($action) {
 			break;
 		case 'process':
 			touch('/var/spool/asterisk/tmp/GuiUpdate.flag');
-			$moduleactions = !empty($REQUEST['modules']) ? $REQUEST['modules'] : array();
+			$moduleactions = !empty($REQUEST['modules']) ? $REQUEST['modules'] : [];
 			echo "<div id=\"moduleBoxContents\">";
 			echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 			echo "<div id=\"moduleprogress\">";
@@ -187,7 +187,7 @@ switch ($action) {
 			// stop output buffering, and send output
 			@ ob_flush();
 			flush();
-			$change_tracks = array();
+			$change_tracks = [];
 			foreach ($moduleactions as $modulename => $setting) {
 				$didsomething = true; // set to false in default clause of switch() below..
 				switch ($setting['action']) {
@@ -195,7 +195,7 @@ switch ($action) {
 					case 'trackupgrade':
 						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 							$track = !empty($setting['track']) ? $setting['track'] : 'stable';
-							$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+							$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : []);
 							echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$trackinfo['version'],$track)."</span><br/>";
 							echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
 							if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
@@ -246,7 +246,7 @@ switch ($action) {
 					case 'trackupgrade':
 						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 							$track = !empty($setting['track']) ? $setting['track'] : 'stable';
-							$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+							$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : []);
 							echo '<span class="success">' . sprintf(_("Upgrading %s to %s from track %s"), $modulename, $trackinfo['version'], $track) . "</span><br/>";
 							echo sprintf(_('Downloading %s'), $modulename) . ' <span id="downloadprogress_' . $modulename . '"></span><br/><span id="downloadstatus_' . $modulename . '"></span><br/>';
 							if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
@@ -274,7 +274,7 @@ switch ($action) {
 				case 'upgradeignoreconflicts':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						$track = $setting['track'];
-						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : []);
 						echo '<span class="success">'.sprintf(_("Downloading and Installing %s"),$modulename)."</span><br/>";
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
 						$errors = $modulef->download($trackinfo, false, 'download_progress', ($action == 'upgradeignoreconflicts'));
@@ -391,7 +391,7 @@ switch ($action) {
 		echo _("Updating Hooks...");
 		try {
 			$FreePBX->Hooks->updateBMOHooks();
-		}catch(\Exception $e) {}
+		}catch(\Exception) {}
 			echo _("Done")."<br />";
 		echo "</div>";
 		echo "<hr /><br />";
@@ -424,11 +424,11 @@ switch ($action) {
 		echo "<input type=\"hidden\" name=\"online\" value=\"".$online."\" />";
 		echo "<input type=\"hidden\" name=\"action\" value=\"process\" />";
 
-		$actionstext = array();
-		$force_actionstext = array();
-		$errorstext = array();
-		$moduleActions = array();
-		$moduleaction = is_array($moduleaction) ? $moduleaction : array();
+		$actionstext = [];
+		$force_actionstext = [];
+		$errorstext = [];
+		$moduleActions = [];
+		$moduleaction = is_array($moduleaction) ? $moduleaction : [];
 		foreach ($moduleaction as $module => $action) {
 			$text = false;
 			$skipaction = false;
@@ -484,7 +484,7 @@ switch ($action) {
 					if(empty($modules_online)) {
 						$modules_online = $modulef->getonlinexml();
 					}
-					$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+					$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : []);
 					if(!empty($modules_online) && $trackaction[$module] != $modules[$module]['track']) {
 						$action = 'trackupgrade';
 						if(empty($trackinfo)) {
@@ -546,7 +546,7 @@ switch ($action) {
 					$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
 					if($track != $modules[$module]['track']) {
 						$action = 'trackinstall';
-						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
+						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : []);
 					}
 
 					if(!empty($trackinfo)){
@@ -700,7 +700,7 @@ switch ($action) {
 				}
 			}
 		}
-		echo "\t<script type=\"text/javascript\"> var moduleActions = ".json_encode($moduleActions).";</script>\n";
+		echo "\t<script type=\"text/javascript\"> var moduleActions = ".json_encode($moduleActions, JSON_THROW_ON_ERROR).";</script>\n";
 
 		// Write out the errors, if there are additional actions that can be accomplished list those next with the choice to
 		// process which will ignore the ones with errors but process the rest.
@@ -746,7 +746,7 @@ switch ($action) {
 		break;
 	case 'upload':
 		// display links
-		$displayvars = array();
+		$displayvars = [];
 		if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 			$disp_buttons[] = 'local';
 			if (isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
@@ -755,7 +755,7 @@ switch ($action) {
 			}
 			$displayvars['repo_select'] = displayRepoSelect($disp_buttons);
 		} else {
-			$displayvars['repo_select'] = array();
+			$displayvars['repo_select'] = [];
 			echo "<a href='config.php?display=modules&amp;type=$type'>"._("Manage local modules")."</a>\n";
 		}
 
@@ -784,14 +784,14 @@ switch ($action) {
 				if (!isset($a['name']) || !isset($b['name'])) {
 					return 0;
 				} else {
-					return strcmp($a['name'], $b['name']);
+					return strcmp((string) $a['name'], (string) $b['name']);
 				}
 			}
 			// sort by category..
-			$catcomp = strcmp($a['category'], $b['category']);
+			$catcomp = strcmp((string) $a['category'], (string) $b['category']);
 			if ($catcomp == 0) {
 				// .. then by name
-				return strcmp($a['name'], $b['name']);
+				return strcmp((string) $a['name'], (string) $b['name']);
 			} elseif ($a['category'] == 'Basic') {
 				return -1;
 			} elseif ($b['category'] == 'Basic') {
@@ -801,12 +801,12 @@ switch ($action) {
 			}
 		});
 
-		$local_repo_list = array();
-		$remote_repo_list = array();
-		$broken_module_list = array();
-		$repo_exclude = array('local','broken');
+		$local_repo_list = [];
+		$remote_repo_list = [];
+		$broken_module_list = [];
+		$repo_exclude = ['local', 'broken'];
 		foreach($modules as $mod => &$module) {
-			if(in_array($module['repo'],array('broken'))) {
+			if(in_array($module['repo'],['broken'])) {
 				$rpo = $module['repo'];
 				$broken_module_list[$rpo][] = $mod;
 				continue;
@@ -823,11 +823,11 @@ switch ($action) {
 			}
 		}
 
-		$repo_list = array_unique(array_merge($local_repo_list, $remote_repo_list));
+		$repo_list = array_unique([...$local_repo_list, ...$remote_repo_list]);
 
 		//Stupidness when people captialize repos.
 		foreach($repo_list as &$r) {
-			$r = strtolower($r);
+			$r = strtolower((string) $r);
 		}
 		//cheaty hack to move standard to the front :-)
 		//and it works because we do array_unique later
@@ -846,12 +846,12 @@ switch ($action) {
 			$displayvars['announcements'] = $modulef->get_annoucements();
 
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$displayvars['repo_select'] = displayRepoSelect(array(),false,array_unique($repo_list));
+				$displayvars['repo_select'] = displayRepoSelect([],false,array_unique($repo_list));
 			}
 		} else {
 			$repo_list = array_merge($repo_list,$modulef->get_remote_repos($online));
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$displayvars['repo_select'] = displayRepoSelect(array('upload'),true,array_unique($repo_list));
+				$displayvars['repo_select'] = displayRepoSelect(['upload'],true,array_unique($repo_list));
 			}
 		}
 
@@ -862,20 +862,20 @@ switch ($action) {
 		} else {
 			$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
 		}
-		$module_filter = array();
-		$module_filter_new = array();
+		$module_filter = [];
+		$module_filter_new = [];
 		if (file_exists($fd)) {
 			$module_filter = @parse_ini_file($fd,true);
-			if(count($module_filter) == 1 && !empty($module_filter['general'])) {
+			if((is_countable($module_filter) ? count($module_filter) : 0) == 1 && !empty($module_filter['general'])) {
 				$module_filter = $module_filter['general'];
-			} elseif(count($module_filter) > 1) {
+			} elseif((is_countable($module_filter) ? count($module_filter) : 0) > 1) {
 				$module_filter_new = $module_filter;
-				$module_filter = array();
+				$module_filter = [];
 			} else {
-				$module_filter = array();
+				$module_filter = [];
 			}
 		}
-		$module_display = array();
+		$module_display = [];
 		$category = null;
 		$sysadmininfo = $modulef->getinfo('sysadmin');
 		foreach (array_keys($modules) as $name) {
@@ -883,12 +883,12 @@ switch ($action) {
 				$modules[$name]['category'] = _("Broken");
 				$modules[$name]['name'] = $name;
 			}
-			if (isset($module_filter[$name]) && strtolower(trim($module_filter[$name])) == 'hidden') {
+			if (isset($module_filter[$name]) && strtolower(trim((string) $module_filter[$name])) == 'hidden') {
 				continue;
 			}
 
 			if (isset($module_filter_new[$name])) {
-				if(isset($module_filter_new[$name]['hidden']) && strtolower($module_filter_new[$name]['hidden']) == "yes") {
+				if(isset($module_filter_new[$name]['hidden']) && strtolower((string) $module_filter_new[$name]['hidden']) == "yes") {
 					continue;
 				}
 				if(isset($module_filter_new[$name]['category'])) {
@@ -936,23 +936,13 @@ switch ($action) {
 				$modules[$name]['commercial']['licensed'] = false;
 				$modules[$name]['blocked']['status'] = ($name != 'sysadmin') ? true : false;
 				if(!empty($sysadmininfo['sysadmin']['status'])) {
-					switch($sysadmininfo['sysadmin']['status']) {
-					case MODULE_STATUS_DISABLED:
-						$sysstatus = _('is disabled');
-						break;
-					case MODULE_STATUS_BROKEN:
-						$sysstatus = _('is broken');
-						break;
-					case MODULE_STATUS_NEEDUPGRADE:
-						$sysstatus = _('needs to be upgraded');
-						break;
-					case MODULE_STATUS_CONFLICT:
-						$sysstatus = _('has one or more conflicts');
-						break;
-					default:
-						$sysstatus = _('is unknown');
-						break;
-					}
+					$sysstatus = match ($sysadmininfo['sysadmin']['status']) {
+         MODULE_STATUS_DISABLED => _('is disabled'),
+         MODULE_STATUS_BROKEN => _('is broken'),
+         MODULE_STATUS_NEEDUPGRADE => _('needs to be upgraded'),
+         MODULE_STATUS_CONFLICT => _('has one or more conflicts'),
+         default => _('is unknown'),
+     };
 				} else {
 					$sysstatus = _('is not installed');
 				}
@@ -1044,11 +1034,11 @@ switch ($action) {
 					$security_issues_to_report[$vul] = true;
 				}
 			} else {
-				$module_display[$category]['data'][$name]['vulnerabilities'] = array();
+				$module_display[$category]['data'][$name]['vulnerabilities'] = [];
 			}
 
-			$module_display[$category]['data'][$name]['raw']['online'] = !empty($modules_online[$name]) ? $modules_online[$name] : array();
-			$module_display[$category]['data'][$name]['raw']['local'] = !empty($modules_local[$name]) ? $modules_local[$name] : array();
+			$module_display[$category]['data'][$name]['raw']['online'] = !empty($modules_online[$name]) ? $modules_online[$name] : [];
+			$module_display[$category]['data'][$name]['raw']['local'] = !empty($modules_local[$name]) ? $modules_local[$name] : [];
 			$module_display[$category]['data'][$name]['name'] = $name;
 			$module_display[$category]['data'][$name]['pretty_name'] = !empty($name_text) ? $name_text  : $name;
 			$module_display[$category]['data'][$name]['repo'] = $modules[$name]['repo'];
@@ -1057,7 +1047,7 @@ switch ($action) {
 			$module_display[$category]['data'][$name]['salert'] = $salert;
 
 			if (!empty($modules_online[$name]['attention'])) {
-				$module_display[$category]['data'][$name]['attention'] = nl2br(modgettext::_($modules[$name]['attention'], $loc_domain));
+				$module_display[$category]['data'][$name]['attention'] = nl2br((string) modgettext::_($modules[$name]['attention'], $loc_domain));
 			}
 
 			if (!empty($modules_online[$name]['changelog'])) {
@@ -1070,7 +1060,7 @@ switch ($action) {
 				if(is_array($module_display[$category]['data'][$name]['description'])) {
 					$module_display[$category]['data'][$name]['description'] = _('The description tag of the module is duplicated in module.xml. Please have the maintainer correct it');
 				} else {
-					$module_display[$category]['data'][$name]['description'] = trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description']));
+					$module_display[$category]['data'][$name]['description'] = trim(preg_replace('/\s+/', ' ', (string) $module_display[$category]['data'][$name]['description']));
 				}
 			} else {
 				$module_display[$category]['data'][$name]['description'] = _('No Description');
@@ -1078,7 +1068,7 @@ switch ($action) {
 
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
 				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
-					if(preg_match("/".$release['version']."[\s|:|\*](.*)/m",$release['changelog'],$matches)) {
+					if(isset($release['changelog']) && preg_match("/".$release['version']."[\s|:|\*](.*)/m",(string) $release['changelog'],$matches)) {
 						$release['pretty_change'] = !empty($matches[1]) ? format_changelog($matches[1]) : _('No Change Log');
 					}
 				}
@@ -1103,8 +1093,8 @@ switch ($action) {
 		}
 
 
-		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? (count($modules_online) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
-		$displayvars['finalmods'] = array();
+		$displayvars['end_msg'] = (isset($modules_online) && empty($numdisplayed)) ? ((is_countable($modules_online) ? count($modules_online) : 0) > 0 ? _("All available modules are up-to-date and installed.") : _("No modules to display.") ) : '';
+		$displayvars['finalmods'] = [];
 		foreach($module_display as $cat) {
 			foreach($cat['data'] as $mod => $info) {
 				$displayvars['finalmods'][$mod] = $info;
@@ -1119,11 +1109,7 @@ switch ($action) {
 		// System Updates are only usable on FreePBX Distro style machines
 		$su = new \FreePBX\Builtin\SystemUpdates();
 
-		$summary = array(
-			"edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1),
-			"totalmodules" => count($modules),
-			"pbxversion" => $su->getDistroVersion(),
-		);
+		$summary = ["edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1), "totalmodules" => is_countable($modules) ? count($modules) : 0, "pbxversion" => $su->getDistroVersion()];
 
 		// If we're not compatible with SU, don't try to do anything.
 		if (!$su->canDoSystemUpdates()) {
@@ -1135,7 +1121,7 @@ switch ($action) {
 			$summary['candosystemupdates'] = true;
 			$summary['systemupdates'] = $su->getPendingUpdates();
 			$summary['systemupdateavail'] = $summary['systemupdates']['pbxupdateavail'];
-			$summary['pendingupgradessystem'] = count($summary['systemupdates']['rpms']);
+			$summary['pendingupgradessystem'] = is_countable($summary['systemupdates']['rpms']) ? count($summary['systemupdates']['rpms']) : 0;
 		}
 
 		// Which tab should be active?
@@ -1151,10 +1137,10 @@ switch ($action) {
 		$activemodules = $modulef->getinfo(false, \MODULE_STATUS_ENABLED);
 		//Because we do it to total
 		unset($activemodules['builtin']);
-		$summary["activemodules"] = count($activemodules);
-		$summary["disabledmodules"] = count($modulef->getinfo(false, MODULE_STATUS_DISABLED));
-		$summary["brokenmodules"] = count($modulef->getinfo(false, MODULE_STATUS_BROKEN));
-		$summary["needsupgrademodules"] = count($modulef->getinfo(false, MODULE_STATUS_BROKEN));
+		$summary["activemodules"] = is_countable($activemodules) ? count($activemodules) : 0;
+		$summary["disabledmodules"] = is_countable($modulef->getinfo(false, MODULE_STATUS_DISABLED)) ? count($modulef->getinfo(false, MODULE_STATUS_DISABLED)) : 0;
+		$summary["brokenmodules"] = is_countable($modulef->getinfo(false, MODULE_STATUS_BROKEN)) ? count($modulef->getinfo(false, MODULE_STATUS_BROKEN)) : 0;
+		$summary["needsupgrademodules"] = is_countable($modulef->getinfo(false, MODULE_STATUS_BROKEN)) ? count($modulef->getinfo(false, MODULE_STATUS_BROKEN)) : 0;
 		$cachedonline = $FreePBX->Modules->getCachedOnlineData();
 		$summary["availupdates"] = $FreePBX->Modules->getUpgradeableModules($cachedonline['modules']);
 		$summary["lastonlinecheck"] = $cachedonline['timestamp'];
@@ -1182,11 +1168,11 @@ switch ($action) {
 		break;
 	}
 if (!$quietmode) {
-	$displayvars = array("security_issues" => array());
+	$displayvars = ["security_issues" => []];
 	if (!empty($security_issues_to_report)) {
 		foreach (array_keys($security_issues_to_report) as $id) {
 			if (!is_array($security_array[$id]['related_urls']['url'])) {
-				$security_array[$id]['related_urls']['url'] = array($security_array[$id]['related_urls']['url']);
+				$security_array[$id]['related_urls']['url'] = [$security_array[$id]['related_urls']['url']];
 			}
 			$tickets = format_ticket($security_array[$id]['tickets']);
 			$displayvars['security_issues'][$id] = $security_array[$id];
