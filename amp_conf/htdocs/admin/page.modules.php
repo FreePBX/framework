@@ -509,8 +509,8 @@ switch ($action) {
 						}
 					} else {
 						$checkdone = false;
-						$dependerrors = $modulef->checkdepends($trackinfo);
-						$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
+						$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
+						$conflicterrors = (isset($trackinfo)) ? $FreePBX->Modules->checkConflicts($trackinfo) : [];
 						$errorflag = false;
 						if (is_array($dependerrors)) {
 							$errorflag = true;
@@ -550,8 +550,8 @@ switch ($action) {
 					}
 
 					if(!empty($trackinfo)){
-						$dependerrors = $modulef->checkdepends($trackinfo);
-						$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
+						$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
+						$conflicterrors = (isset($trackinfo)) ? $FreePBX->Modules->checkConflicts($trackinfo) : [];
 					}
 					if(empty($trackinfo)) {
 						$dependerrors = false;
@@ -580,7 +580,7 @@ switch ($action) {
 				break;
 			case 'installignoreconflicts':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					$dependerrors = $modulef->checkdepends($trackinfo);
+					$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
 					$issues = false;
 					if (is_array($dependerrors)) {
 						$skipaction = true;
@@ -603,8 +603,8 @@ switch ($action) {
 				break;
 			case 'install':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					$dependerrors = $modulef->checkdepends($trackinfo);
-					$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
+					$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
+					$conflicterrors = (isset($trackinfo)) ? $FreePBX->Modules->checkConflicts($trackinfo) : [];
 					$issues = false;
 					if (is_array($dependerrors)) {
 						$skipaction = true;
@@ -612,7 +612,7 @@ switch ($action) {
 						$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if (isset($conflicterrors['breaking']) && $conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 						$skipaction = true;
 						$issues = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),

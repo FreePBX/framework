@@ -316,7 +316,7 @@ if($online) {
 																	continue;
 																}
 															?>
-																<input id="id="version_<?php echo prep_id($module['name'])?>"" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
+																<input id="id="version_<?php echo prep_id($module['name'])?>"" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version'] ?? '';?>"/>
 																<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 																<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 															<?php } ?>
@@ -327,7 +327,7 @@ if($online) {
 													<tr>
 														<td colspan="2">
 															<input id="track_stable_<?php echo prep_id($module['name'])?>" type="hidden" name="trackaction[<?php echo prep_id($module['name'])?>]" value="stable"/>
-															<input id="track_version_<?php echo prep_id($module['name'])?>" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
+															<input id="track_version_<?php echo prep_id($module['name'])?>" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version'] ?? '';?>"/>
 														</td>
 													</tr>
 												<?php } ?>
