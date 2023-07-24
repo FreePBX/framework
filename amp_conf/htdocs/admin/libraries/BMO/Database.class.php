@@ -269,7 +269,7 @@ class Database extends \PDO {
 	 * @param mixed|null $fetchModeArgs Column number, class name or object.
 	 * @return Statement
 	 */
-	public function query(?string $query = null, ?int $fetchMode = null, mixed ...$fetchModeArgs){
+	public function query(?string $query = null, ?int $fetchMode = null, mixed ...$fetchModeArgs) : \PDOStatement|false{
 		$args = func_get_args();
 		if(defined('LOGPREPARES')) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
