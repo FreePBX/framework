@@ -27,11 +27,11 @@ class Mail {
 	public function __get($var) {
 		switch($var) {
 			case 'mailer':
-				$this->mailer = Swift_Mailer::newInstance(Swift_SmtpTransport::newInstance('localhost', 25));
+				$this->mailer = new Swift_Mailer(new Swift_SmtpTransport('localhost', 25));
 				return $this->mailer;
 			break;
 			case 'message':
-				$this->message = Swift_Message::newInstance();
+				$this->message = new Swift_Message();
 				$this->resetMessage();
 				return $this->message;
 			break;
