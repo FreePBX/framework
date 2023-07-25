@@ -48,28 +48,28 @@ class Job extends Command {
 
 		if($input->getOption('enable')) {
 			$this->enableJob($input->getOption('enable'), true);
-			return;
+			return 0;
 		}
 
 		if($input->getOption('disable')) {
 			$this->enableJob($input->getOption('disable'), false);
-			return;
+			return 0;
 		}
 
 		if($input->getOption('disable')) {
 			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
-			return;
+			return 0;
 		}
 
 		if($input->hasParameterOption('--run') && is_null($input->getOption('run'))) {
 			//run all
 			$this->runJobs($this->registerTasks($this->findAllJobs()));
-			return;
+			return 0;
 		}
 
 		if($input->getOption('run')) {
 			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
-			return;
+			return 0;
 		}
 
 		if($input->getOption('list')) {
@@ -89,7 +89,7 @@ class Job extends Command {
 			}
 			$table->setRows($rows);
 			$table->render();
-			return;
+			return 0;
 		}
 
 		$this->outputHelp($input,$output);
