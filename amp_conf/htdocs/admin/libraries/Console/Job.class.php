@@ -93,6 +93,7 @@ class Job extends Command {
 		}
 
 		$this->outputHelp($input,$output);
+		return 0;
 	}
 
 	/**
