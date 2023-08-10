@@ -386,6 +386,7 @@ class DB {
 				return false;
 			}
 			$final = array();
+			$res = isset($result[0])? $result[0]:[];
 			switch($fetch) {
 				case \PDO::FETCH_NUM:
 				if(!$force_array) {
@@ -402,7 +403,7 @@ class DB {
 							return false;
 						}
 					}
-				} elseif($force_array && count($result[0]) == 2) {
+				} elseif($force_array && count($res) == 2) {
 					foreach($result as $data) {
 						$k = array_shift($data);
 						$v = array_values($data);
