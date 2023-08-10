@@ -78,7 +78,7 @@ class Reload extends Command {
 				$whoops->unregister();
 			}
 			$this->getApplication()->setCatchExceptions(false);
-			$errorHandler = \Symfony\Component\Debug\ErrorHandler::register(null, false);
+			$errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register(null, false);
 			$errorHandler->throwAt(E_ALL, true);
 			$errorHandler->setExceptionHandler(function ($e) {
 				$this->removeLock();
