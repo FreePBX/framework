@@ -544,7 +544,7 @@ switch ($action) {
 			case 'downloadinstall':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 					$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
-					if($track != $modules[$module]['track']) {
+					if(!isset($modules[$module]['track']) || $track != $modules[$module]['track']) {
 						$action = 'trackinstall';
 						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : []);
 					}
@@ -566,13 +566,13 @@ switch ($action) {
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if(isset($conflicterrors['breaking']) && $conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 						$skipaction = true;
 						$di = true;
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the conflicts have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues'][$modules[$module]['name']]).'</li></ul></strong>');
 					}
-					if(!empty($trackinfo) && !$di){
+					if(!empty($trackinfo) && (!isset($di) || !$di)){
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 					}
 
