@@ -276,7 +276,7 @@ class Database extends \PDO {
 			$logger = $logger->withName(posix_getpid());
 			$logger->debug($args[0]);
 		}
-		return call_user_func_array('parent::query',$args);
+		return call_user_func_array(parent::class.'::query',$args);
 	}
 
 	public function migrate($table) {

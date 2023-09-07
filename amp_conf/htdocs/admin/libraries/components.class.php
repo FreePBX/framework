@@ -4,6 +4,7 @@
 $_guielement_tabindex = 1;
 $_guielement_formfields = 0;
 
+#[\AllowDynamicProperties]
 class component {
 	protected $compname; // Component name (e.g. users, devices, etc.)
 

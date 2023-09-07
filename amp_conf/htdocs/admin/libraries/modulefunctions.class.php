@@ -40,6 +40,7 @@ class module_functions {
 	private $cacheDriver;
 
 	private $getInfoCache = array();
+	private $module_tracks = null;
 
 	public static function create() {
 		static $obj;

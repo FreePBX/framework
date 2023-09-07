@@ -9,11 +9,13 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+#[\AllowDynamicProperties]
 class Self_Helper extends DB_Helper {
 
 	private $moduleNamespace = '\\FreePBX\\Modules\\';
 	private $freepbxNamespace = '\\FreePBX\\';
-
+	private $Cache = null;
+	private $Modulelist = null;
 	public function __construct($freepbx = null) {
 		if (!is_object($freepbx)) {
 			throw new \Exception("Need to be instantiated with a FreePBX Object",500);

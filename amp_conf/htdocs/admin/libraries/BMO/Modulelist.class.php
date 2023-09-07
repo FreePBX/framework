@@ -9,7 +9,7 @@
 namespace FreePBX;
 class Modulelist {
 	private $modules = array();
-
+	private $FreePBX = null;
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new \Exception("Need to be instantiated with a FreePBX Object");

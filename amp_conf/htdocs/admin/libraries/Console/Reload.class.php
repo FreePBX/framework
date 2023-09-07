@@ -12,6 +12,7 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Command\LockableTrait;
 
+#[\AllowDynamicProperties]
 class Reload extends Command {
 	use LockableTrait;
 

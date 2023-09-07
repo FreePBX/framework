@@ -8,6 +8,7 @@ namespace FreePBX;
 use Media\Media as MM;
 use Sinergi\BrowserDetector\Browser;
 use Sinergi\BrowserDetector\Os;
+#[\AllowDynamicProperties]
 class Media extends DB_Helper{
 	private $file;
 	private $path;

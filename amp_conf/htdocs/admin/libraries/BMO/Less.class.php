@@ -12,7 +12,7 @@ namespace FreePBX;
 if(!class_exists('Less_Parser', false)) {
 	include dirname(dirname(__FILE__)).'/less/Less.php';
 }
-
+#[\AllowDynamicProperties]
 class Less extends \Less_Parser {
 	public function __construct($freepbx = null, $env = null) {
 		if ($freepbx == null) {
