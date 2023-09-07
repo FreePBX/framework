@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Unlock extends Command {
+	private $FreePBXConf = null;
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('unlock')

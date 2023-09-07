@@ -21,7 +21,7 @@ define("NOTIFICATION_TYPE_NOTICE",   600);
 class Notifications {
 	private $not_loaded = true;
 	private $notification_table = array();
-
+	private $freepbx = null;
 	const TYPE_CRITICAL = 100;
 	const TYPE_SECURITY = 200;
 	const TYPE_SIGNATURE_UNSIGNED = 250;

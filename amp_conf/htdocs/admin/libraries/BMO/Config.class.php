@@ -186,6 +186,9 @@ class Config {
 		/* "DYNAMICHINTS" => 0 */
 	);
 
+	private $freepbx =null;
+	private $db =null;
+	
 	/**
 	 * freepbx_conf constructor
 	 * The class when initialized is filled populated from the SQL store

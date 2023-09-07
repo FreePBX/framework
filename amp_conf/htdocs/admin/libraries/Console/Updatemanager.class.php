@@ -16,6 +16,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\HelpCommand;
 
 class UpdateManager extends Command {
+	private $FreePBXConf = null;
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('updatemanager')

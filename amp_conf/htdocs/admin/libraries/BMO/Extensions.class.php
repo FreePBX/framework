@@ -2,6 +2,8 @@
 namespace FreePBX;
 use modgettext;
 use fwmsg;
+
+#[\AllowDynamicProperties]
 class Extensions {
 	private $extmap = [];
 

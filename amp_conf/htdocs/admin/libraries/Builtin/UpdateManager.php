@@ -1,7 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\Builtin;
-
+#[\AllowDynamicProperties]
 class UpdateManager {
 
 	public function __construct() {
@@ -209,7 +209,7 @@ class UpdateManager {
 
 		// Get the day
 		if (!isset($daymaps[$settings['update_every']])) {
-			throw new \Exception("Unknown day '${settings['update_every']}'");
+			throw new \Exception("Unknown day '{${settings['update_every']}}'");
 		}
 		$day = $daymaps[$settings['update_every']];
 

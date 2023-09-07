@@ -11,6 +11,7 @@ class ampuser {
 	private $sections;
 	private $mode = "database";
 	private $opmode;
+	private $deptname;
 
 	public function __construct($username, $mode="database") {
 		$this->username = $username;

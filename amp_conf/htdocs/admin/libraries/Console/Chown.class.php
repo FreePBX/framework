@@ -18,6 +18,7 @@ class Chown extends Command {
 	private $infos = array();
 	private $blacklist = array('files' => array(), 'dirs' => array());
 	public $moduleName = '';
+	private $fs = null;
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))

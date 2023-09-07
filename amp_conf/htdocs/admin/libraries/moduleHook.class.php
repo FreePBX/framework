@@ -11,7 +11,8 @@ class moduleHook {
 	public $arrHooks = array();
 
 	private static $obj;
-
+	private $our_hooks = null;
+	
 	public static function create() {
 		if (!is_object(self::$obj)) {
 			self::$obj = new moduleHook(true);
