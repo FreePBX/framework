@@ -19,6 +19,7 @@ define("CONF_TYPE_SELECT", 'select');
 define("CONF_TYPE_FSELECT",'fselect');
 define("CONF_TYPE_CSELECT", 'cselect'); //custom entry select
 
+#[\AllowDynamicProperties]
 class Config {
 
 	const CONF_TYPE_BOOL = 'bool';

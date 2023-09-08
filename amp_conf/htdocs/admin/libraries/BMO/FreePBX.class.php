@@ -28,6 +28,7 @@ class_alias('Ramsey\Uuid\Exception\UuidExceptionInterface', 'Rhumsaa\Uuid\Except
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+#[\AllowDynamicProperties]
 class FreePBX extends FreePBX\FreePBX_Helpers {
 
 	// Static Object used for self-referencing.

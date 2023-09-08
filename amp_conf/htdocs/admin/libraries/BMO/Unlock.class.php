@@ -9,6 +9,8 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+
+#[\AllowDynamicProperties]
 class Unlock extends FreePBX_Helpers {
 
 	public function __construct($freepbx = null, $var = null) {

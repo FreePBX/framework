@@ -10,6 +10,8 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+
+#[\AllowDynamicProperties]
 class Request_Helper extends Self_Helper {
 
 	private $overrides = array();

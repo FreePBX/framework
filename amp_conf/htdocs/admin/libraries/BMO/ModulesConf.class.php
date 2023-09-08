@@ -7,6 +7,8 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+
+#[\AllowDynamicProperties]
 class ModulesConf {
 
 	private $conf;

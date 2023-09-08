@@ -13,7 +13,7 @@
 */
 namespace FreePBX;
 
-
+#[\AllowDynamicProperties]
 class Freepbx_conf {
 	public $freepbx_conf;
 	public function __construct() {

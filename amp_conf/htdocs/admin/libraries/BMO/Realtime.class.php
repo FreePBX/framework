@@ -14,6 +14,7 @@ namespace FreePBX;
  * the only thing that FreePBX tries to modify is the queue log,
  * but this may expand in the future.
  */
+#[\AllowDynamicProperties]
 class Realtime extends FreePBX_Helpers {
 
 	public function enableQueueLog($driver = 'odbc', $dbname = 'asteriskcdrdb', $table = 'queuelog') {

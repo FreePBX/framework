@@ -1,6 +1,8 @@
 <?php
 namespace FreePBX;
 use modgettext;
+
+#[\AllowDynamicProperties]
 class Destinations {
 	private $dest_cache = [];
 	public function __construct($freepbx = null) {

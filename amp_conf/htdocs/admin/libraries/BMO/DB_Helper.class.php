@@ -13,6 +13,7 @@
 namespace FreePBX;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+#[\AllowDynamicProperties]
 class DB_Helper {
 
 	private static $cache = [];

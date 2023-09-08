@@ -7,6 +7,8 @@
  * Copyright 2006-2018 Schmooze Com Inc.
  */
 namespace FreePBX;
+
+#[\AllowDynamicProperties]
 class Modulelist {
 	private $modules = array();
 	private $FreePBX = null;

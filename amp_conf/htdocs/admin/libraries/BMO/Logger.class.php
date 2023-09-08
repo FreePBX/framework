@@ -1,6 +1,8 @@
 <?php
 namespace FreePBX;
 use Monolog as Mono;
+
+#[\AllowDynamicProperties]
 class Logger {
 	private $logDrivers = array();
 	private $systemID;

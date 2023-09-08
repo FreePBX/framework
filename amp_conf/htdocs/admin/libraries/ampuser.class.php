@@ -2,6 +2,7 @@
 /**
  * Login functionality and user session management for FreePBX
  */
+#[\AllowDynamicProperties]
 class ampuser {
 	public $username;
 	public $id;

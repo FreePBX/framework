@@ -6,6 +6,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2015 Sangoma Technologies
  */
+#[\AllowDynamicProperties]
 class OOBE extends FreePBX_Helpers {
 
 	// Is the out of box experience complete?

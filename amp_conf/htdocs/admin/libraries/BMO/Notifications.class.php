@@ -18,6 +18,7 @@ define("NOTIFICATION_TYPE_ERROR",    400);
 define("NOTIFICATION_TYPE_WARNING" , 500);
 define("NOTIFICATION_TYPE_NOTICE",   600);
 
+#[\AllowDynamicProperties]
 class Notifications {
 	private $not_loaded = true;
 	private $notification_table = array();

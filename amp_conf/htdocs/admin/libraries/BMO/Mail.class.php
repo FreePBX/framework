@@ -13,6 +13,8 @@ namespace FreePBX;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
+
+#[\AllowDynamicProperties]
 class Mail {
 	private $toset = false;
 	private $bodyset = false;

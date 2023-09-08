@@ -8,6 +8,8 @@
 */
 namespace FreePBX;
 use Carbon\Carbon;
+
+#[\AllowDynamicProperties]
 class View {
 	private string $queryString = "";
 	private bool $replaceState = false;
