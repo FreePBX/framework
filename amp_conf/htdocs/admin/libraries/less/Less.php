@@ -9,6 +9,7 @@ require_once( dirname(__FILE__).'/Cache.php');
  * @subpackage parser
  *
  */
+#[\AllowDynamicProperties]
 class Less_Parser{
 
 
@@ -5065,6 +5066,7 @@ class Less_Tree_DetachedRuleset extends Less_Tree{
  * @package Less
  * @subpackage tree
  */
+#[\AllowDynamicProperties]
 class Less_Tree_Dimension extends Less_Tree{
 
 	public $value;
@@ -6207,6 +6209,7 @@ class Less_Tree_NameValue extends Less_Tree{
  * @package Less
  * @subpackage tree
  */
+#[\AllowDynamicProperties]
 class Less_Tree_Negative extends Less_Tree{
 
 	public $value;
@@ -7715,6 +7718,7 @@ class Less_Tree_Value extends Less_Tree{
  * @package Less
  * @subpackage tree
  */
+#[\AllowDynamicProperties]
 class Less_Tree_Variable extends Less_Tree{
 
 	public $name;
