@@ -25,7 +25,7 @@ namespace FreePBX\libraries;
 * @actionButton::getHTML()
 * 	Returns button output based on the set parameters.
 */
-
+#[\AllowDynamicProperties]
 class actionButton{
 	public function	__construct(){
 		$this->name = '';
