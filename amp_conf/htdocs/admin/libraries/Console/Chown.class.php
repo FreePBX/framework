@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
-
+#[\AllowDynamicProperties]
 class Chown extends Command {
 	//private $requireroot = true;  //commented out: http://issues.freepbx.org/browse/FREEPBX-13793
 	private $errors = array();
