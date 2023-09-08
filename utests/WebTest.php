@@ -20,10 +20,8 @@ class WebTest extends PHPUnit_Framework_TestCase {
 		// configured by sysadmin.  If the ports are not discoverable,
 		// it will return false.
 		$conffile = false;
-		if (file_exists("/etc/apache2/conf-enabled/schmoozecom.conf")) {
-			$conffile = "/etc/apache2/conf-enabled/schmoozecom.conf";
-		} elseif (file_exists("/etc/apache2/conf-enabled/sangoma.conf")) {
-			$conffile = "/etc/apache2/conf-enabled/sangoma.conf";
+		if (file_exists("/etc/apache2/sites-enabled/sangoma.conf")) {
+			$conffile = "/etc/apache2/sites-enabled/sangoma.conf";
 		} else {
 			// Unable to detect, return false.
 			return false;
