@@ -209,7 +209,7 @@ class UpdateManager {
 
 		// Get the day
 		if (!isset($daymaps[$settings['update_every']])) {
-			throw new \Exception("Unknown day '{${settings['update_every']}}'");
+			throw new \Exception("Unknown day '{$settings['update_every']}'");
 		}
 		$day = $daymaps[$settings['update_every']];
 

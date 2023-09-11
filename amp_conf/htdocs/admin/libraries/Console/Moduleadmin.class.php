@@ -483,7 +483,7 @@ class Moduleadmin extends Command {
 		if (isset($this->tag)) {
 			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
 			if (empty($xml)) {
-				$this->writeln("Unable to update module {${modulename}} - ".$this->tag.", it does not exist:", "error", false);
+				$this->writeln("Unable to update module {$modulename} - ".$this->tag.", it does not exist:", "error", false);
 				return false;
 			} else {
 				$data = $this->checkConflicts($xml);
@@ -1865,7 +1865,7 @@ class Moduleadmin extends Command {
 	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
 		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
 		if (empty($xml)) {
-			$this->writeln("Unable to update module {${modulename}} - {${moduleversion}}:", "error", false);
+			$this->writeln("Unable to update module {$modulename} - {$moduleversion}:", "error", false);
 			return false;
 		}
 
@@ -1887,7 +1887,7 @@ class Moduleadmin extends Command {
 	}
 
 	public function handleErrors($errors, $modulename){
-		$this->writeln("Unable to install module {${modulename}}:", "error", false);
+		$this->writeln("Unable to install module {$modulename}:", "error", false);
 		$this->writeln(' - ' . implode("\n - ", $errors), "error", false);
 		$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
 		return false;

@@ -881,7 +881,7 @@ class GPG {
 
 	private function getKeyFromFs($key) {
 		// Try in the BMO directory first
-		$longkey = __DIR__."/{${key}}.key";
+		$longkey = __DIR__."/{$key}.key";
 		if (file_exists($longkey)) {
 			$out = $this->runGPG("--import $longkey");
 			$this->checkPermissions();
@@ -902,7 +902,7 @@ class GPG {
 			return true;
 		}
 		//  OK, now look in the proper directory
-		$longkey = $this->keydir."/{${key}}.key";
+		$longkey = $this->keydir."/{$key}.key";
 		if (file_exists($longkey)) {
 			$out = $this->runGPG("--import $longkey");
 			$this->checkPermissions();
