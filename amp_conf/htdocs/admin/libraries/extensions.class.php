@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class extensions {
 	/** The config
 	 * array(section=>array(extension=>array( array('basetag'=>basetag,'tag'=>tag,'addpri'=>addpri,'cmd'=>cmd) )))
@@ -536,6 +536,7 @@ class ext_bridge extends extension {
 	}
 }
 
+#[\AllowDynamicProperties]
 class ext_gosubif extends extension {
 	var $true_priority;
 	var $false_priority;
@@ -1008,6 +1009,7 @@ class ext_playback extends extension {
 	}
 }
 
+#[\AllowDynamicProperties]
 class ext_queue {
 	var $var;
 	var $value;
@@ -1043,6 +1045,7 @@ class ext_queue {
 	}
 }
 
+#[\AllowDynamicProperties]
 class ext_queuelog extends extension {
 
 	function __construct($queue, $uniqueid, $agent, $event, $additionalinfo = ''){

@@ -13,6 +13,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use FreePBX;
+#[\AllowDynamicProperties]
 class Mysql extends Command {
 	protected function configure(){
 		$this->setName('mysql')
