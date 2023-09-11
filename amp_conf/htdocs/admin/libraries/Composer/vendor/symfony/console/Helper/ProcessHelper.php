@@ -49,7 +49,7 @@ class ProcessHelper extends Helper
         }
 
         if (\is_string($cmd[0] ?? null)) {
-            $process = \freepbx_get_process_obj($cmd);
+            $process = new Process($cmd);
             $cmd = [];
         } elseif (($cmd[0] ?? null) instanceof Process) {
             $process = $cmd[0];

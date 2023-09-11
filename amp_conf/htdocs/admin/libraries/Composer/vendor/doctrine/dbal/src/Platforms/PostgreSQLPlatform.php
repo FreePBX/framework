@@ -10,6 +10,7 @@ use Doctrine\DBAL\Schema\Identifier;
 use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\BlobType;
@@ -127,7 +128,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getDateArithmeticIntervalExpression($date, $operator, $interval, $unit)
     {
@@ -169,7 +170,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @deprecated
      */
@@ -194,7 +195,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
@@ -204,7 +205,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @deprecated
      */
@@ -221,7 +222,7 @@ class PostgreSQLPlatform extends AbstractPlatform
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @deprecated
      */
@@ -728,7 +729,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRenameIndexSQL($oldIndexName, Index $index, $tableName)
     {
@@ -741,7 +742,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
@@ -807,6 +808,36 @@ SQL
     public function getDropForeignKeySQL($foreignKey, $table)
     {
         return $this->getDropConstraintSQL($foreignKey, $table);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDropIndexSQL($index, $table = null)
+    {
+        if ($index instanceof Index && $index->isPrimary() && $table !== null) {
+            $constraintName = $index->getName() === 'primary' ? $this->tableName($table) . '_pkey' : $index->getName();
+
+            return $this->getDropConstraintSQL($constraintName, $table);
+        }
+
+        if ($index === '"primary"' && $table !== null) {
+            $constraintName = $this->tableName($table) . '_pkey';
+
+            return $this->getDropConstraintSQL($constraintName, $table);
+        }
+
+        return parent::getDropIndexSQL($index, $table);
+    }
+
+    /**
+     * @param Table|string|null $table
+     *
+     * @return string
+     */
+    private function tableName($table)
+    {
+        return $table instanceof Table ? $table->getName() : (string) $table;
     }
 
     /**
@@ -1092,7 +1123,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getBinaryTypeDeclarationSQLSnippet($length, $fixed)
     {
@@ -1227,7 +1258,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBinaryMaxLength()
     {
@@ -1241,7 +1272,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @deprecated
      */
@@ -1257,7 +1288,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @deprecated
      */
@@ -1299,7 +1330,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
@@ -1313,7 +1344,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @internal The method should be only used from within the {@see AbstractPlatform} class hierarchy.
      */
@@ -1323,7 +1354,7 @@ SQL
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getJsonTypeDeclarationSQL(array $column)
     {

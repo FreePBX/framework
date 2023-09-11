@@ -25,30 +25,50 @@ class FrozenParameterBag extends ParameterBag
      * all keys are already lowercased.
      *
      * This is always the case when used internally.
-     *
-     * @param array $parameters An array of parameters
      */
-    public function __construct(array $parameters = [])
-    {
+    public function __construct(
+        array $parameters = [],
+        protected array $deprecatedParameters = [],
+    ) {
         $this->parameters = $parameters;
         $this->resolved = true;
     }
 
+    /**
+     * @return never
+     */
     public function clear()
     {
         throw new LogicException('Impossible to call clear() on a frozen ParameterBag.');
     }
 
+    /**
+     * @return never
+     */
     public function add(array $parameters)
     {
         throw new LogicException('Impossible to call add() on a frozen ParameterBag.');
     }
 
+    /**
+     * @return never
+     */
     public function set(string $name, array|bool|string|int|float|\UnitEnum|null $value)
     {
         throw new LogicException('Impossible to call set() on a frozen ParameterBag.');
     }
 
+    /**
+     * @return never
+     */
+    public function deprecate(string $name, string $package, string $version, string $message = 'The parameter "%s" is deprecated.')
+    {
+        throw new LogicException('Impossible to call deprecate() on a frozen ParameterBag.');
+    }
+
+    /**
+     * @return never
+     */
     public function remove(string $name)
     {
         throw new LogicException('Impossible to call remove() on a frozen ParameterBag.');

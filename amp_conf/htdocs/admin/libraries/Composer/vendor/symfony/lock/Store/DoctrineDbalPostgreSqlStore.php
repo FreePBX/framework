@@ -11,9 +11,12 @@
 
 namespace Symfony\Component\Lock\Store;
 
+use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
+use Doctrine\DBAL\Tools\DsnParser;
 use Symfony\Component\Lock\BlockingSharedLockStoreInterface;
 use Symfony\Component\Lock\BlockingStoreInterface;
 use Symfony\Component\Lock\Exception\InvalidArgumentException;
@@ -49,7 +52,28 @@ class DoctrineDbalPostgreSqlStore implements BlockingSharedLockStoreInterface, B
             if (!class_exists(DriverManager::class)) {
                 throw new InvalidArgumentException(sprintf('Failed to parse the DSN "%s". Try running "composer require doctrine/dbal".', $connOrUrl));
             }
-            $this->conn = DriverManager::getConnection(['url' => $this->filterDsn($connOrUrl)]);
+            if (class_exists(DsnParser::class)) {
+                $params = (new DsnParser([
+                    'db2' => 'ibm_db2',
+                    'mssql' => 'pdo_sqlsrv',
+                    'mysql' => 'pdo_mysql',
+                    'mysql2' => 'pdo_mysql',
+                    'postgres' => 'pdo_pgsql',
+                    'postgresql' => 'pdo_pgsql',
+                    'pgsql' => 'pdo_pgsql',
+                    'sqlite' => 'pdo_sqlite',
+                    'sqlite3' => 'pdo_sqlite',
+                ]))->parse($this->filterDsn($connOrUrl));
+            } else {
+                $params = ['url' => $this->filterDsn($connOrUrl)];
+            }
+
+            $config = new Configuration();
+            if (class_exists(DefaultSchemaManagerFactory::class)) {
+                $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+            }
+
+            $this->conn = DriverManager::getConnection($params, $config);
         }
     }
 
@@ -246,7 +270,7 @@ class DoctrineDbalPostgreSqlStore implements BlockingSharedLockStoreInterface, B
     private function filterDsn(string $dsn): string
     {
         if (!str_contains($dsn, '://')) {
-            throw new InvalidArgumentException(sprintf('String "%" is not a valid DSN for Doctrine DBAL.', $dsn));
+            throw new InvalidArgumentException(sprintf('String "%s" is not a valid DSN for Doctrine DBAL.', $dsn));
         }
 
         [$scheme, $rest] = explode(':', $dsn, 2);

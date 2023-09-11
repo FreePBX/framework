@@ -89,27 +89,23 @@ class LazyObjectRegistry
 
     public static function getClassAccessors($class)
     {
-        return \Closure::bind(static function () {
-            return [
-                'get' => static function &($instance, $name, $readonly) {
-                    if (!$readonly) {
-                        return $instance->$name;
-                    }
-                    $value = $instance->$name;
+        return \Closure::bind(static fn () => [
+            'get' => static function &($instance, $name, $readonly) {
+                if (!$readonly) {
+                    return $instance->$name;
+                }
+                $value = $instance->$name;
 
-                    return $value;
-                },
-                'set' => static function ($instance, $name, $value) {
-                    $instance->$name = $value;
-                },
-                'isset' => static function ($instance, $name) {
-                    return isset($instance->$name);
-                },
-                'unset' => static function ($instance, $name) {
-                    unset($instance->$name);
-                },
-            ];
-        }, null, \Closure::class === $class ? null : $class)();
+                return $value;
+            },
+            'set' => static function ($instance, $name, $value) {
+                $instance->$name = $value;
+            },
+            'isset' => static fn ($instance, $name) => isset($instance->$name),
+            'unset' => static function ($instance, $name) {
+                unset($instance->$name);
+            },
+        ], null, \Closure::class === $class ? null : $class)();
     }
 
     public static function getParentMethods($class)
@@ -141,7 +137,7 @@ class LazyObjectRegistry
         if (\ReflectionProperty::class === $scope = $frame['class'] ?? \Closure::class) {
             $scope = $frame['object']->class;
         }
-        if (null === $readonlyScope && '*' === $k[1] && ($class === $scope || is_subclass_of($class, $scope))) {
+        if (null === $readonlyScope && '*' === $k[1] && ($class === $scope || (is_subclass_of($class, $scope) && !isset($propertyScopes["\0$scope\0$property"])))) {
             return null;
         }
 

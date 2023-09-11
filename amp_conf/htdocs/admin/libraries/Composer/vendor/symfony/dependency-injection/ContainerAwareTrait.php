@@ -19,10 +19,13 @@ namespace Symfony\Component\DependencyInjection;
 trait ContainerAwareTrait
 {
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     protected $container;
 
+    /**
+     * @return void
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         if (1 > \func_num_args()) {

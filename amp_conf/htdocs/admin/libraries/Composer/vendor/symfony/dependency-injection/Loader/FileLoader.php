@@ -17,12 +17,16 @@ use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Loader\FileLoader as BaseFileLoader;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Resource\GlobResource;
+use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Attribute\AsAlias;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\DependencyInjection\Attribute\When;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\RegisterAutoconfigureAttributesPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 /**
  * FileLoader is the abstract class used by all built-in loaders that are file based.
@@ -38,6 +42,8 @@ abstract class FileLoader extends BaseFileLoader
     protected $instanceof = [];
     protected $interfaces = [];
     protected $singlyImplemented = [];
+    /** @var array<string, Alias> */
+    protected $aliases = [];
     protected $autoRegisterAliasesForSinglyImplementedInterfaces = true;
 
     public function __construct(ContainerBuilder $container, FileLocatorInterface $locator, string $env = null)
@@ -89,6 +95,8 @@ abstract class FileLoader extends BaseFileLoader
      * @param string               $resource  The directory to look for classes, glob-patterns allowed
      * @param string|string[]|null $exclude   A globbed path of files to exclude or an array of globbed paths of files to exclude
      * @param string|null          $source    The path to the file that defines the auto-discovery rule
+     *
+     * @return void
      */
     public function registerClasses(Definition $prototype, string $namespace, string $resource, string|array $exclude = null/* , string $source = null */)
     {
@@ -115,17 +123,24 @@ abstract class FileLoader extends BaseFileLoader
         $serializedPrototype = serialize($prototype);
 
         foreach ($classes as $class => $errorMessage) {
-            if (null === $errorMessage && $autoconfigureAttributes && $this->env) {
+            if (null === $errorMessage && $autoconfigureAttributes) {
                 $r = $this->container->getReflectionClass($class);
-                $attribute = null;
-                foreach ($r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
-                    if ($this->env === $attribute->newInstance()->env) {
-                        $attribute = null;
-                        break;
-                    }
-                }
-                if (null !== $attribute) {
+                if ($r->getAttributes(Exclude::class)[0] ?? null) {
+                    $this->addContainerExcludedTag($class, $source);
                     continue;
+                }
+                if ($this->env) {
+                    $attribute = null;
+                    foreach ($r->getAttributes(When::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+                        if ($this->env === $attribute->newInstance()->env) {
+                            $attribute = null;
+                            break;
+                        }
+                    }
+                    if (null !== $attribute) {
+                        $this->addContainerExcludedTag($class, $source);
+                        continue;
+                    }
                 }
             }
 
@@ -139,10 +154,36 @@ abstract class FileLoader extends BaseFileLoader
                     continue;
                 }
                 $definition->setClass($class);
+
+                $interfaces = [];
                 foreach (class_implements($class, false) as $interface) {
                     $this->singlyImplemented[$interface] = ($this->singlyImplemented[$interface] ?? $class) !== $class ? false : $class;
+                    $interfaces[] = $interface;
+                }
+
+                if (!$autoconfigureAttributes) {
+                    continue;
+                }
+                $r = $this->container->getReflectionClass($class);
+                $defaultAlias = 1 === \count($interfaces) ? $interfaces[0] : null;
+                foreach ($r->getAttributes(AsAlias::class) as $attr) {
+                    /** @var AsAlias $attribute */
+                    $attribute = $attr->newInstance();
+                    $alias = $attribute->id ?? $defaultAlias;
+                    $public = $attribute->public;
+                    if (null === $alias) {
+                        throw new LogicException(sprintf('Alias cannot be automatically determined for class "%s". If you have used the #[AsAlias] attribute with a class implementing multiple interfaces, add the interface you want to alias to the first parameter of #[AsAlias].', $class));
+                    }
+                    if (isset($this->aliases[$alias])) {
+                        throw new LogicException(sprintf('The "%s" alias has already been defined with the #[AsAlias] attribute in "%s".', $alias, $this->aliases[$alias]));
+                    }
+                    $this->aliases[$alias] = new Alias($class, $public);
                 }
             }
+        }
+
+        foreach ($this->aliases as $alias => $aliasDefinition) {
+            $this->container->setAlias($alias, $aliasDefinition);
         }
 
         if ($this->autoRegisterAliasesForSinglyImplementedInterfaces) {
@@ -150,23 +191,34 @@ abstract class FileLoader extends BaseFileLoader
         }
     }
 
+    /**
+     * @return void
+     */
     public function registerAliasesForSinglyImplementedInterfaces()
     {
         foreach ($this->interfaces as $interface) {
-            if (!empty($this->singlyImplemented[$interface]) && !$this->container->has($interface)) {
+            if (!empty($this->singlyImplemented[$interface]) && !isset($this->aliases[$interface]) && !$this->container->has($interface)) {
                 $this->container->setAlias($interface, $this->singlyImplemented[$interface]);
             }
         }
 
-        $this->interfaces = $this->singlyImplemented = [];
+        $this->interfaces = $this->singlyImplemented = $this->aliases = [];
     }
 
     /**
      * Registers a definition in the container with its instanceof-conditionals.
+     *
+     * @return void
      */
     protected function setDefinition(string $id, Definition $definition)
     {
         $this->container->removeBindings($id);
+
+        foreach ($definition->getTag('container.error') as $error) {
+            if (isset($error['message'])) {
+                $definition->addError($error['message']);
+            }
+        }
 
         if ($this->isLoadingInstanceof) {
             if (!$definition instanceof ChildDefinition) {
@@ -210,7 +262,7 @@ abstract class FileLoader extends BaseFileLoader
                 continue;
             }
 
-            if (!str_ends_with($path, '.php') || !$info->isReadable()) {
+            if (!str_ends_with($path, '.php')) {
                 continue;
             }
             $class = $namespace.ltrim(str_replace('/', '\\', substr($path, $prefixLen, -4)), '\\');
@@ -249,18 +301,29 @@ abstract class FileLoader extends BaseFileLoader
         }
 
         if (null !== $prefixLen) {
-            $attributes = null !== $source ? ['source' => sprintf('in "%s/%s"', basename(\dirname($source)), basename($source))] : [];
-
             foreach ($excludePaths as $path => $_) {
                 $class = $namespace.ltrim(str_replace('/', '\\', substr($path, $prefixLen, str_ends_with($path, '.php') ? -4 : null)), '\\');
-                if (!$this->container->has($class)) {
-                    $this->container->register($class, $class)
-                        ->setAbstract(true)
-                        ->addTag('container.excluded', $attributes);
-                }
+                $this->addContainerExcludedTag($class, $source);
             }
         }
 
         return $classes;
+    }
+
+    private function addContainerExcludedTag(string $class, ?string $source): void
+    {
+        if ($this->container->has($class)) {
+            return;
+        }
+
+        static $attributes = [];
+
+        if (null !== $source && !isset($attributes[$source])) {
+            $attributes[$source] = ['source' => sprintf('in "%s/%s"', basename(\dirname($source)), basename($source))];
+        }
+
+        $this->container->register($class, $class)
+            ->setAbstract(true)
+            ->addTag('container.excluded', null !== $source ? $attributes[$source] : []);
     }
 }
