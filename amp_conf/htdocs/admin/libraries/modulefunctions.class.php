@@ -2912,7 +2912,7 @@ class module_functions {
 			return $brand;
 		}
 
-		$brandfile = "/etc/schmooze/pbx-brand";
+		$brandfile = "/etc/sangoma/pbxid";
 		// TODO: log error if file is un-readable or blank?
 		if (file_exists($brandfile)) {
 			return strtolower(trim(file_get_contents($brandfile)));
