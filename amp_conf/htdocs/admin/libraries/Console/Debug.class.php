@@ -13,7 +13,7 @@ use Symfony\Component\Console\Helper\Table;
 //Kill output buffering
 @ini_set('output_buffering',0);
 @ini_set('implicit_flush',1);
-
+#[\AllowDynamicProperties]
 class Debug extends Command {
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
