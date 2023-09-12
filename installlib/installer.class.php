@@ -4,6 +4,7 @@ namespace FreePBX\Install;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[\AllowDynamicProperties]
 class Installer {
 	function __construct(InputInterface $input = NULL, OutputInterface $output = NULL) {
 		$this->input = $input;
