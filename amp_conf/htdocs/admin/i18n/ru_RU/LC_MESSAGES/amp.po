@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 06:31+0000\n"
+"POT-Creation-Date: 2023-09-12 07:35+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3290
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3179
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [не задействовано]"
@@ -1277,7 +1277,7 @@ msgid ""
 "following notation: ^{MY_VAR}"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -2711,7 +2711,7 @@ msgstr "Создать подписанный запрос для %s"
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3297
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3186
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -4540,7 +4540,7 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
@@ -6495,17 +6495,17 @@ msgstr "Модуль"
 msgid "Module "
 msgstr "Модуль "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3166
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Неверный статус сигнатуры модуля %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3299
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3188
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Модуль \"%s\" не подписан и должен быть снова загружен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3292
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3181
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Модуль \"%s\" подписан недействительным ключом"
@@ -6705,14 +6705,14 @@ msgstr ""
 "Модуль загружен успешно, Необходимо задействовать его используя %s чтобы "
 "сделать его доступным."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3313
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3202
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr "Модуль: \"%s\" сигнатура была отозвана. Модуль автоматически отключен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3307
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3196
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Модуль: \"%s\", Файл: \"%s\""
@@ -6727,7 +6727,7 @@ msgstr ""
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3305
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3194
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -10773,7 +10773,7 @@ msgstr "Невозможно доверять ключу FreePBX -- %s"
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Невозможно обработать GPG файл, сообщение: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid "Unauthorized user"
 msgstr ""
 
@@ -11871,7 +11871,7 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "Вы не можете установить значение по умолчанию в значение по умолчанию"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3349
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3238
 #, php-format
 msgid "You have %s %s modules"
 msgstr "У Вас  %s %s модулей"
@@ -11886,13 +11886,13 @@ msgstr "У вас %s повреждённых модуля"
 msgid "You have %s disabled modules"
 msgstr "У вас отключено %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3346
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3235
 #, php-format
 msgid "You have %s tampered files"
 msgstr "У Вас  %s  повреждённых файла"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3337
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3340
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3226
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "У Вас %s неподписанных модуля"
@@ -12202,7 +12202,7 @@ msgid "already there"
 msgstr "уже имеется"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3148
 msgid "altered"
 msgstr "изменён"
 
@@ -12808,7 +12808,7 @@ msgid ""
 "to do"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3324
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3213
 msgid "revoked"
 msgstr "отозван"
 
@@ -12858,7 +12858,7 @@ msgstr ""
 msgid "status of automatic updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3322
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3211
 msgid "tampered"
 msgstr "повреждённый"
 
@@ -12893,7 +12893,7 @@ msgstr ""
 "попытаемся указать ключевое значение [%s] в [%s] при неинициализированных "
 "установках"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3323
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3212
 msgid "unknown"
 msgstr "неизвестный"
 
@@ -12908,11 +12908,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "неизвестное правило:%s отклоняется"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:194
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3321
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3210
 msgid "unsigned"
 msgstr "неподписанный"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3320
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3209
 msgid "untrusted"
 msgstr "недоверенный"
 

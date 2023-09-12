@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 06:31+0000\n"
+"POT-Creation-Date: 2023-09-12 07:35+0000\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -247,7 +247,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3290
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3179
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1223,7 +1223,7 @@ msgid ""
 "following notation: ^{MY_VAR}"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -2581,7 +2581,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3297
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3186
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -4348,7 +4348,7 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
@@ -6224,17 +6224,17 @@ msgstr "Модул"
 msgid "Module "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3166
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3299
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3188
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3292
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3181
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -6434,14 +6434,14 @@ msgstr ""
 "Модула е добавен успешно. Трябва да разрешите модула като използвате %s за "
 "да го направите достъпен."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3313
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3202
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3307
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3196
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
@@ -6456,7 +6456,7 @@ msgstr ""
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3305
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3194
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -10303,7 +10303,7 @@ msgstr ""
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid "Unauthorized user"
 msgstr ""
 
@@ -11295,7 +11295,7 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3349
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3238
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
@@ -11310,13 +11310,13 @@ msgstr "Вие имате %s повредени модула"
 msgid "You have %s disabled modules"
 msgstr "Вие имате %s забранени модули"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3346
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3235
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3337
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3340
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3226
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
@@ -11600,7 +11600,7 @@ msgid "already there"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3148
 msgid "altered"
 msgstr ""
 
@@ -12176,7 +12176,7 @@ msgid ""
 "to do"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3324
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3213
 msgid "revoked"
 msgstr ""
 
@@ -12224,7 +12224,7 @@ msgstr ""
 msgid "status of automatic updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3322
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3211
 msgid "tampered"
 msgstr ""
 
@@ -12257,7 +12257,7 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3323
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3212
 msgid "unknown"
 msgstr ""
 
@@ -12272,11 +12272,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:194
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3321
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3210
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3320
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3209
 msgid "untrusted"
 msgstr ""
 

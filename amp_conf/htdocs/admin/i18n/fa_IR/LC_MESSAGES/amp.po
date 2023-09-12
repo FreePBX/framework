@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 06:31+0000\n"
+"POT-Creation-Date: 2023-09-12 07:35+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr "%s به روزرسانی در دسترس است (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3290
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3179
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [فعال نشده]"
@@ -1262,7 +1262,7 @@ msgid ""
 "following notation: ^{MY_VAR}"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -2689,7 +2689,7 @@ msgstr "ایجاد درخواست امضا شده برای %s"
 msgid "Critical"
 msgstr "بحرانی"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3297
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3186
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "ماژول اساسی \"%s\" تایید نشده، فورا دانلود مجدد کنید"
@@ -4510,7 +4510,7 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
@@ -6440,17 +6440,17 @@ msgstr "ماژول"
 msgid "Module "
 msgstr "ماژول "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3166
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "ماژول \"%s\" وضعیت تایید خود را از دست داده است."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3299
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3188
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "ماژول \"%s\" تایید نشده باید مجدد دانلود شود"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3292
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3181
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "ماژول \"%s\" با کلید نادرستی تایید شده."
@@ -6648,7 +6648,7 @@ msgid ""
 "it available."
 msgstr "ماژول با موفقیت به روزشد. برای اطمینان باید ماژول %s را فعال کنید."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3313
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3202
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -6657,7 +6657,7 @@ msgstr ""
 "Module: \"%s\"'s signature  has been revoked. Module has been automatically "
 "disabled"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3307
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3196
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "ماژول: \"%s\", فایل: \"%s\""
@@ -6672,7 +6672,7 @@ msgstr ""
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3305
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3194
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -10729,7 +10729,7 @@ msgstr "Unable to  trust the FreePBX Key! -- %s"
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Unable to work  with GPG file, message was: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3162
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3051
 msgid "Unauthorized user"
 msgstr ""
 
@@ -11819,7 +11819,7 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "You can't set the default  to the default"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3349
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3238
 #, php-format
 msgid "You have %s %s modules"
 msgstr "You  have %s %s modules"
@@ -11834,13 +11834,13 @@ msgstr "You  have %s broken modules"
 msgid "You have %s disabled modules"
 msgstr "شما %s ماژول غیرفعال دارید"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3346
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3235
 #, php-format
 msgid "You have %s tampered files"
 msgstr "You  have %s tampered files"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3337
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3340
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3226
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3229
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "You  have %s unsigned modules"
@@ -12147,7 +12147,7 @@ msgid "already there"
 msgstr "وجود دارد"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3148
 msgid "altered"
 msgstr "تغییر داده شد"
 
@@ -12739,7 +12739,7 @@ msgid ""
 "to do"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3324
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3213
 msgid "revoked"
 msgstr "لغو شده"
 
@@ -12790,7 +12790,7 @@ msgstr ""
 msgid "status of automatic updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3322
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3211
 msgid "tampered"
 msgstr "دستکاری"
 
@@ -12823,7 +12823,7 @@ msgstr "trying to  move res_odbc.conf to res_odbc_custom.conf"
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3323
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3212
 msgid "unknown"
 msgstr "ناشناخته"
 
@@ -12838,11 +12838,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "unrecognized  rule: %s discarding"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:194
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3321
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3210
 msgid "unsigned"
 msgstr "بدون امضا"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3320
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3209
 msgid "untrusted"
 msgstr "غیر قابل اطمینان"
 
