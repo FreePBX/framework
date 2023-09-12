@@ -11,6 +11,8 @@ use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Command\HelpCommand;
+
+#[\AllowDynamicProperties]
 class Job extends Command {
 	private $output;
 	private $input;

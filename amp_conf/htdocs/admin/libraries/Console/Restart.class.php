@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 //progress bar
 use Symfony\Component\Console\Helper\ProgressBar;
 
+#[\AllowDynamicProperties]
 class Restart extends Command {
 	protected function configure(){
 		$this->setName('restart')

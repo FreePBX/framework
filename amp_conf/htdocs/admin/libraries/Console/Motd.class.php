@@ -11,6 +11,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Povils\Figlet\Figlet;
 
+#[\AllowDynamicProperties]
 class Motd extends Command {
 	private $errors = array();
 	private $banner = array(

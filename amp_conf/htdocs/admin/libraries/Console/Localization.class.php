@@ -20,6 +20,8 @@ use Sepia\PoParser\SourceHandler\FileSystem as POFS;
 use Sepia\PoParser\Parser as POP;
 
 use Carbon\Carbon;
+
+#[\AllowDynamicProperties]
 class Localization extends Command {
 
 	const PROJECT_LIST = ['freepbx','fpbxc'];

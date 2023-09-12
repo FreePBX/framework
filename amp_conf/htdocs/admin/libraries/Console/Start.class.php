@@ -13,6 +13,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 //Process
 use Symfony\Component\Process\Process;
 
+#[\AllowDynamicProperties]
 class Start extends Command {
 	private $booted = false;
 	public $skipChown = false;

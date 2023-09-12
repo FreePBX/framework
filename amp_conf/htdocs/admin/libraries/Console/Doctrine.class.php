@@ -9,6 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
 use Doctrine\DBAL\Schema\Schema;
+
+#[\AllowDynamicProperties]
 class Doctrine extends Command {
 	private $format = 'php';
 	private $database = '';

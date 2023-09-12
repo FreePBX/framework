@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 //Process
 use Symfony\Component\Process\Process;
+
+#[\AllowDynamicProperties]
 class Util extends Command {
 	protected function configure(){
 		$this->setName('util')
