@@ -128,7 +128,7 @@ class System extends Command {
 						} else {
 							$rows[] = [$rpmname, $rpm['currentversion'], $rpm['newvers'], $rpm['repo']];
 						}
-						$this->addToEmail("${rpmname} ${rpm['newvers']} (current: ${rpm['currentversion']})");
+						$this->addToEmail("{$rpmname} {$rpm['newvers']} (current: {$rpm['currentversion']})");
 					}
 					$table = new Table($output);
 					$table
