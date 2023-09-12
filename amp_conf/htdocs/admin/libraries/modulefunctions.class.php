@@ -2903,7 +2903,7 @@ class module_functions {
 	* by setting it first, used primarily to modify current brand
 	* to get a specific version that may exist online
 	*/
-	function _brandid($brand_override=false) {
+	function _brandid($brand_override = false) {
 		static $brand;
 		if ($brand_override) {
 			$brand = strtolower(trim($brand_override));
@@ -2912,13 +2912,13 @@ class module_functions {
 			return $brand;
 		}
 
-		$brandfile = "/etc/sangoma/pbxid";
+		$brandfile = "/etc/sangoma/pbx-brand";
 		// TODO: log error if file is un-readable or blank?
 		if (file_exists($brandfile)) {
 			return strtolower(trim(file_get_contents($brandfile)));
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	/* Get the deploymentid from zend.
