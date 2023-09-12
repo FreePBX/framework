@@ -5,6 +5,7 @@ namespace FreePBX\Builtin;
 /**
  * Abstraction layer for sending emails
  */
+#[\AllowDynamicProperties]
 class Email {
 
 	private $toarray = [];

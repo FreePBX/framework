@@ -4,6 +4,7 @@ namespace FreePBX\Builtin;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 
+#[\AllowDynamicProperties]
 class SystemUpdates {
 	private $lock;
 	// See framework/hooks/yum-* commands where these files are defined
