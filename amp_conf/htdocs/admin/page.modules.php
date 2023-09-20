@@ -463,7 +463,7 @@ switch ($action) {
 						$rollbackerrors = true;
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$rollbackconflicts).'</li></ul></strong>');
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$rollbackconflicts ?? '').'</li></ul></strong>');
 					}
 					if (is_array($dependerrors)) {
 						$rollbackerrors = true;
@@ -471,7 +471,7 @@ switch ($action) {
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if(!$rollbackconflicts){
+					if(!isset($rollbackconflicts) || !$rollbackconflicts){
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 					}
 				}
@@ -693,7 +693,7 @@ switch ($action) {
 			//
 			if (!$skipaction && $action != "0") { //TODO
 				$moduleActions[$module]['action'] = $action;
-				$moduleActions[$module]['track'] = $trackaction[$module];
+				$moduleActions[$module]['track'] = (is_array($trackaction) && isset($trackaction[$module])) ? $trackaction[$module] : '';
 				$moduleActions[$module]['version'] = $modules[$module]['version'];
 				if($action== 'rollback') {
 					$moduleActions[$module]['rollback'] = $REQUEST['version'];
