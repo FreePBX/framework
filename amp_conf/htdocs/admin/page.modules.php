@@ -1161,8 +1161,8 @@ switch ($action) {
 		} else {
 			show_view(__DIR__.'/views/module_admin/unable-to-sysupdate.php');
 		}
-		if($sam && method_exists($sa, 'getCommercialLicensesHtmlContent')){
-			echo $sa->getCommercialLicensesHtmlContent('body');
+		if($sam && method_exists($sa, 'CommercialLicense') && method_exists($sa->CommercialLicense(), 'getCommercialLicensesHtmlContent')){
+			echo $sa->CommercialLicense()->getCommercialLicensesHtmlContent('body');
 		}
 		show_view(__DIR__ . '/views/module_admin/tabfooter.php');
 		break;
