@@ -72,15 +72,19 @@ if (!function_exists('get_instance')) {
 	function get_instance(){return new ci_def();}
 }
 if (!class_exists('ci_def')) {
+	#[\AllowDynamicProperties]
 	class ci_def {function __construct(){$this->lang = new ci_lan_def(); $this->config = new ci_config(); $this->uri = new ci_uri_string();}}
 }
 if (!class_exists('ci_lan_def')) {
+	#[\AllowDynamicProperties]
 	class ci_lan_def {function load(){return false;} function line(){return false;}}
 }
 if (!class_exists('ci_config')) {
+	#[\AllowDynamicProperties]
 	class ci_config {function __construct(){return false;} function site_url($v){return $v;} function item(){return false;}}
 }
 if (!class_exists('ci_uri_string')) {
+	#[\AllowDynamicProperties]
 	class ci_uri_string {function  uri_string(){return false;}}
 }
 if (!function_exists('config_item')) {
