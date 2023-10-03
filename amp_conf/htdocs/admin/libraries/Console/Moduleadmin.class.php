@@ -1189,7 +1189,7 @@ class Moduleadmin extends Command {
 		$this->mf->getAllSignatures(!$online, $online);
 		$rows = array();
 		foreach (array_keys($modules) as $name) {
-			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
+			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:0;
 			// Don't include modules not in our repo unless they are locally installed already
 			if ((!isset($this->activeRepos[$modules[$name]['repo']]) || !$this->activeRepos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
 				continue;
