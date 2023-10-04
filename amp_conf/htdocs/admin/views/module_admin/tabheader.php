@@ -20,8 +20,8 @@ if ($activetab == "modules") {
     <?php
     if (\FreePBX::Modules()->checkStatus('sysadmin')) {
       $sysadmin = \FreePBX::Sysadmin();
-      if (method_exists($sysadmin, 'getCommercialLicensesHtmlContent')) {
-        echo $sysadmin->getCommercialLicensesHtmlContent('header');
+		  if($sysadmin && method_exists($sysadmin, 'CommercialLicense') && method_exists($sysadmin->CommercialLicense(), 'getCommercialLicensesHtmlContent')){
+        echo $sysadmin->CommercialLicense()->getCommercialLicensesHtmlContent('header');
       }
     }
     ?>
