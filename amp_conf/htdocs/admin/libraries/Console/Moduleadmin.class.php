@@ -658,7 +658,8 @@ class Moduleadmin extends Command {
 			if($ret != 0) {
 				$errorvuls[$rawname] = $info;
 			}
-
+			$notification_body = '';
+			$email_body = '';
 			if(!empty($errorvuls)) {
 				// There were issues upgrading some modules.
 				$this->writeln("Failed!");

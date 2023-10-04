@@ -1124,7 +1124,7 @@ class ext_macroexit extends extension {
 
 class ext_hangup extends extension {
 	function output() {
-		return "Hangup";
+		return "Hangup(".$this->data.")";
 	}
 }
 
