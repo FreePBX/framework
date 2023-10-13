@@ -243,8 +243,10 @@ class Chown extends Command {
 				}
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
 				$group = isset($file['group'])?$file['group']:$ampgroup;
-				$owner = \ForceUTF8\Encoding::toLatin1($owner);
-				$group = \ForceUTF8\Encoding::toLatin1($group);
+				// $owner = \ForceUTF8\Encoding::toLatin1($owner);
+				$owner = mb_convert_encoding((string) $owner, 'UTF-8', mb_detect_encoding((string) $owner));
+				// $group = \ForceUTF8\Encoding::toLatin1($group);
+				$group = mb_convert_encoding((string) $group, 'UTF-8', mb_detect_encoding((string) $group));
 				switch($file['type']){
 					case 'file':
 					case 'dir':
