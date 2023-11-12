@@ -91,9 +91,7 @@ if(isset($module_name) && !empty($module_name)) {
 $html .= '<script type="text/javascript" src="assets/js/FreePBX.js' . $version_tag . '"></script>';
 
 $html .= '<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<link rel="apple-touch-icon" href="assets/images/badge.png" />
-<link rel="apple-touch-icon-precomposed" href="assets/images/badge.png" />';
+<meta name="apple-mobile-web-app-capable" content="yes" />';
 
 $html .= '</head>';
 
