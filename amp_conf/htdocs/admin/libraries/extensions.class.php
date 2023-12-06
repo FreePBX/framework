@@ -1961,6 +1961,7 @@ class ext_stopmusiconhold extends extension {
 	}
 }
 
+#[\AllowDynamicProperties]
 class ext_PauseQueueMember extends extension {
 
 	function __construct($queue, $agent, $event = '', $additionalinfo = ''){
@@ -1981,6 +1982,7 @@ class ext_PauseQueueMember extends extension {
 	}
 }
 
+#[\AllowDynamicProperties]
 class ext_UnpauseQueueMember extends extension {
 
 	function __construct($queue, $agent, $event, $additionalinfo = ''){
