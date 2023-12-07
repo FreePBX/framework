@@ -1924,7 +1924,7 @@ class module_functions {
 
 		// Fix default ownership, in case this was run as root. (We don't care if this
 		// errors)
-		exec("chown -R ".$amp_conf['AMPASTERISKWEBUSER'].".".$amp_conf['AMPASTERISKWEBGROUP']." $dest");
+		exec("chown -R ".$amp_conf['AMPASTERISKWEBUSER'].":".$amp_conf['AMPASTERISKWEBGROUP']." $dest");
 
 		// These are known 'binary' directories. If they exist, always set them and their
 		// contents to be executable.
