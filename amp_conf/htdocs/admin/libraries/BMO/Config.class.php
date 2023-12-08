@@ -448,7 +448,7 @@ class Config {
 		if(isset($this->depreciatedSettings[$keyword])) {
 			return $this->depreciatedSettings[$keyword];
 		}
-		if($keyword == "FPBXOPMODE" && is_object($_SESSION['AMP_user']) && method_exists($_SESSION['AMP_user'], "getOpMode")) {
+		if($keyword == "FPBXOPMODE" && isset($_SESSION) && is_object($_SESSION['AMP_user']) && method_exists($_SESSION['AMP_user'], "getOpMode")) {
 			switch($_SESSION['AMP_user']->getOpMode()) {
 				case "basic":
 					return "basic";
