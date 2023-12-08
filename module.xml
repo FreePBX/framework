@@ -105,7 +105,7 @@
 		</table>
 		<table name="notifications">
 			<field name="module" type="string" length="50" default="" primarykey="true"/>
-			<field name="id" type="string" length="24" default="" primarykey="true"/>
+			<field name="id" type="string" length="50" default="" primarykey="true"/>
 			<field name="level" type="integer" default="0"/>
 			<field name="display_text" type="string" length="255" default=""/>
 			<field name="extended_text" type="blob"/>
