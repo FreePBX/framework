@@ -380,7 +380,7 @@ function do_reload($passthru=false) {
 
 // draw list for users and devices with paging
 // $skip has been deprecated, used to be used to page-enate
-function drawListMenu($results, $skip=null, $type=null, $dispnum, $extdisplay, $description=false) {
+function drawListMenu($results, $skip=null, $type=null, $dispnum='', $extdisplay='', $description=false) {
 
 	$index = 0;
 	echo "<ul>\n";
