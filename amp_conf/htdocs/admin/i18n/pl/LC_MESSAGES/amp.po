@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-05 02:01+0000\n"
-"PO-Revision-Date: 2023-12-11 12:00+0000\n"
+"PO-Revision-Date: 2023-12-14 22:01+0000\n"
 "Last-Translator: Szymon Wysokinski <szymon.wysokinski@sqspolska.pl>\n"
 "Language-Team: Polish <http://weblate.freepbx.org/projects/freepbx/framework/"
 "pl/>\n"
@@ -715,7 +715,7 @@ msgstr "Trasa dla tego DID/CID już istnieje!"
 #: ../core/functions.inc.php:4724
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
-msgstr "Trasa z takim DID/CID: %s/%s już istnieje!"
+msgstr "Trasa z takim DID/CID: %s/%s już istnieje"
 
 #: ../core/views/dahdichandids/didForm.php:71
 msgid "A useful description describing this channel"
@@ -1991,82 +1991,97 @@ msgid ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 msgstr ""
+"Priorytet zasad nagrywania połączeń w stosunku do innych numerów "
+"wewnętrznych, gdy istnieje konflikt między numerem wewnętrznym, który chce "
+"nagrywać, a drugim, który tego nie chce. Wyższy z priorytetów określa "
+"politykę, w przypadku remisu polityka globalna (osoba dzwoniąca lub "
+"wywoływana) określa politykę."
 
 #: ../core/views/routing/form.php:573
 msgid "Call successful"
-msgstr ""
+msgstr "Połączenie pomyślne"
 
 #: ../core/Core.class.php:3507
 msgid "Caller ID"
-msgstr ""
+msgstr "ID dzwoniącego"
 
 #: ../core/Core.class.php:3508
 msgid "Caller ID Number"
-msgstr ""
+msgstr "Numer dzwoniącego"
 
 #: ../core/views/quickCreate.php:104
 msgid "Caller Name"
-msgstr ""
+msgstr "Nazwa dzwoniącego"
 
 #: ../core/views/routing/form.php:102
 #: ../core/views/trunks/trunk_header.php:102
 #: ../core/views/trunks/trunkgrid.php:33
 msgid "CallerID"
-msgstr ""
+msgstr "ID dzwoniącego"
 
 #: ../core/views/did/advanced_form.php:136
 #: ../core/views/did/basic_form.php:68
 msgid "CallerID Number"
-msgstr ""
+msgstr "Numer CallerID"
 
 #: ../core/views/routing/form.php:91
 msgid "CallerID:"
-msgstr ""
+msgstr "ID dzwoniącego"
 
 #: ../core/functions.inc/drivers/Sip.class.php:482
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2'."
 msgstr ""
+"Grupy wywoławcze, do których należy to urządzenie, mogą składać się z jednej "
+"lub większej liczby alfanumerycznych grup wywoławczych, np.: "
+"'1,3000-3005,sprzedaż,sprzedaż2'."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:146
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 msgstr ""
+"Grupy wywoławcze, do których należy to urządzenie, mogą składać się z jednej "
+"lub większej liczby alfanumerycznych grup wywoławczych, np.: "
+"'1,3000-3005,sprzedaż,sprzedaż2.'"
 
 #: ../core/functions.inc.php:2149
 #, php-format
 msgid "Calling Out Route: %s"
-msgstr ""
+msgstr "Trasa wywołania zewnętrznego: %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:28
 msgid "Can Not Connect to Asterisk"
-msgstr ""
+msgstr "Nie można połączyć z Asteriskiem"
 
 #: ../core/functions.inc/drivers/Sip.class.php:328
 msgid "Can Reinvite"
-msgstr ""
+msgstr "Czy może zrobić Reinvite"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:137
 #, php-format
 msgid "Can not create cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
+"Nie można utworzyć folderu pamięci podręcznej w %s/cache. Proszę uruchomić ("
+"z CLI): %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:176
 #, php-format
 msgid ""
 "Can not create the LESS cache folder at %s. Please run (from the CLI): %s"
 msgstr ""
+"Nie można utworzyć folderu pamięci podręcznej LESS w %s. Proszę uruchomić (z "
+"CLI): %s"
 
 #: upgrades/2.8.0alpha2/tables.php:54
 msgid "Can not create trunk_dialpatterns table"
-msgstr ""
+msgstr "Nie można utworzyć tabeli trunk_dialpatterns"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:184
 #, php-format
 msgid "Can not read from the LESS folder at %s. Please run (from the CLI): %s"
-msgstr ""
+msgstr "Nie można odczytać z folderu LESS w %s. Proszę uruchomić (z CLI): %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1372
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1399
@@ -2077,73 +2092,78 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1603
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
+"Nie można uruchomić tego polecenia, gdy włączony jest „Tryb programisty”."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:60
 #, php-format
 msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
+"Nie można zapisać w folderze pamięci podręcznej w %s/cache. Proszę uruchomić "
+"(z CLI): %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:187
 #, php-format
 msgid ""
 "Can not write to the LESS cache folder at %s. Please run (from the CLI): %s"
 msgstr ""
+"Nie można zapisać w folderze pamięci podręcznej LESS w %s. Proszę uruchomić ("
+"z CLI): %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:313
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:321
 #, php-format
 msgid "Can't create key, no idea why. %s"
-msgstr ""
+msgstr "Nie można utworzyć klucza, nie mam pojęcia dlaczego. %S"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:295
 msgid "Can't generate unnamed key"
-msgstr ""
+msgstr "Nie można wygenerować klucza bez nazwy"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:343
 msgid "Can't sign unnamed key"
-msgstr ""
+msgstr "Nie można podpisać klucza bez nazwy"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:389
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:396
 #: amp_conf/htdocs/admin/page.modules.php:622
 #: amp_conf/htdocs/admin/views/footer.php:107
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
-msgstr ""
+msgstr "Nie można połączyć się z Asterisk Managerem za pomocą "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2301
 #, php-format
 msgid "Cannot delete directory %s"
-msgstr ""
+msgstr "Nie można usunąć katalogu %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2110
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2199
 msgid "Cannot disable: The following modules depend on this one: "
-msgstr ""
+msgstr "Nie można wyłączyć: Od tego zależą następujące moduły: "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1948
 msgid "Cannot find module"
-msgstr ""
+msgstr "Nie można znaleźć modułu"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:373
 msgid "Cannot revoke null key!"
-msgstr ""
+msgstr "Nie można unieważnić klucza null!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:385
 msgid "Cannot trust null key!"
-msgstr ""
+msgstr "Nie można ufać kluczowi null!"
 
 #: install.php:272
 msgid "Cant Find Framework XML"
-msgstr ""
+msgstr "Nie można znaleźć XML Framework"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1182
 msgid "Cant Reach Online Server"
-msgstr ""
+msgstr "Nie można połączyć się z serwerem online"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1531
 #, php-format
@@ -2151,6 +2171,8 @@ msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "%s)"
 msgstr ""
+"Nie można zweryfikować pobranego modułu %s. Nie można zaufać kluczowi GPG - "
+"przerywam (Przyczyna: %s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1528
 #, php-format
@@ -2158,124 +2180,132 @@ msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "No Cause Given)"
 msgstr ""
+"Nie można zweryfikować pobranego modułu %s. Nie można zaufać kluczowi GPG – "
+"przerwam (Przyczyna: nie podano przyczyny)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:23
 msgid "Centralized job management"
-msgstr ""
+msgstr "Scentralizowane zarządzanie zadaniami"
 
 #: amp.i18n.php:440
 msgid "Certificate File Location"
-msgstr ""
+msgstr "Lokalizacja pliku certyfikatu"
 
 #: ../core/install.php:10
 msgid "ChanSpy"
-msgstr ""
+msgstr "Chan Spy"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:426
 msgid "Change Log for version"
-msgstr ""
+msgstr "Zmień dziennik wersji"
 
 #: ../core/functions.inc/drivers/Sip.class.php:299
 msgid "Change SIP Driver"
-msgstr ""
+msgstr "Zmień sterownik SIP"
 
 #: ../core/functions.inc/drivers/Sip.class.php:296
 #, php-format
 msgid "Change To %s Driver"
-msgstr ""
+msgstr "Zmień sterownik na %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:23
 msgid "Change ownership of files"
-msgstr ""
+msgstr "Zmień własność plików"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:165
 msgid "Changelog"
-msgstr ""
+msgstr "Zmiany w tej wersji"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:170
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:168
 #, php-format
 msgid "Changing \"%s\" from [%s] to [%s]"
-msgstr ""
+msgstr "Zmiana „%s” z [%s] na [%s]"
 
 #: ../core/functions.inc/drivers/Sip.class.php:302
 msgid "Changing SIP Driver unavailable"
-msgstr ""
+msgstr "Zmiana sterownika SIP jest niedostępna"
 
 #: ../core/views/dahdichandids/changrid.php:36
 #: ../core/views/dahdichandids/didForm.php:35
 #: ../core/views/quickCreate.php:69
 msgid "Channel"
-msgstr ""
+msgstr "Kanał"
 
 #: ../core/page.trunks.php:361
 #, php-format
 msgid "Channel %s"
-msgstr ""
+msgstr "Kanał %s"
 
 #: ../core/Console/Trunks.class.php:55
 #: ../core/Console/Trunks.class.php:62
 msgid "Channel ID"
-msgstr ""
+msgstr "ID kanału"
 
 #: ../core/Core.class.php:147
 msgid "Channel can not be blank!"
-msgstr ""
+msgstr "Kanał nie może być pusty!"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:612
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
-msgstr ""
+msgstr "Sprawdź online"
 
 #: amp.i18n.php:482
 msgid "Check Server Referrer"
-msgstr ""
+msgstr "Sprawdź stronę odsyłającą serwera"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
 #: amp_conf/htdocs/admin/views/oobe.php:204
 msgid "Check for Updates every"
-msgstr ""
+msgstr "Sprawdzaj aktualizacje co"
 
 #: ../core/views/trunks/pjsip.php:1227
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
+"Sprawdź żądane kodeki, wszystkie inne zostaną wyłączone. Przeciągnij, aby "
+"zmienić kolejność."
 
 #: ../core/views/trunks/trunk_header.php:440
 msgid "Check this to disable this trunk in all routes where it is used."
 msgstr ""
+"Zaznacz tę opcję, aby wyłączyć ten trunk na wszystkich trasach, na których "
+"jest używany."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1191
 #, php-format
 msgid "Checking %s..."
-msgstr ""
+msgstr "Sprawdzanie %s..."
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:39
 msgid "Checking Online, Please Wait..."
-msgstr ""
+msgstr "Sprawdzam online. Proszę czekać..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1187
 msgid "Checking Signatures of Modules..."
-msgstr ""
+msgstr "Sprawdzanie podpisów modułów..."
 
 #: upgrades/2.9.0alpha1/tables.php:40
 #: upgrades/2.9.0alpha1/tables.php:56
 #, php-format
 msgid "Checking for %s field.."
-msgstr ""
+msgstr "Sprawdzam pole %s.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:19
 msgid "Checking for freepbx_settings table.."
-msgstr ""
+msgstr "Sprawdzanie tabeli freepbx_settings.."
 
 #: ../core/install.php:479
 msgid "Checking for possibly invalid emergency caller id fields.."
 msgstr ""
+"Sprawdzanie ewentualnych nieprawidłowych pól identyfikatora rozmówcy "
+"alarmowego."
 
 #: upgrades/2.9.0alpha1/tables.php:37
 msgid "Checking for schema changes for core's users table."
-msgstr ""
+msgstr "Sprawdzanie zmian schematu dla tabeli użytkowników rdzenia."
 
 #: amp_conf/htdocs/admin/page.modules.php:1212
 #, php-format
@@ -2285,41 +2315,50 @@ msgid ""
 "proper update information and track version usage to focus development and "
 "maintenance efforts. No private information is transmitted."
 msgstr ""
+"Sprawdzanie dostępności aktualizacji spowoduje przesłanie numeru wersji %s, "
+"dystrybucji, Asteriska i PHP wraz z unikalnym, ale losowym identyfikatorem. "
+"Służy to do zapewnienia odpowiednich informacji o aktualizacjach i śledzenia "
+"użycia wersji, co pozwala skoncentrować wysiłki na rozwoju i konserwacji. "
+"Żadne informacje prywatne nie są przesyłane."
 
 #: upgrades/2.6.0beta1/tables.php:278
 msgid "Checking if trunk table migration required.."
-msgstr ""
+msgstr "Sprawdzanie czy migracja tabeli trunków jest konieczna.."
 
 #: upgrades/2.8.0alpha2/tables.php:51
 msgid "Checking if trunk_dialpatterns table exists.."
-msgstr ""
+msgstr "Sprawdzanie, czy tabela trunk_dialpatterns istnieje.."
 
 #: upgrades/2.6.0beta1/tables.php:331
 #: upgrades/2.8.0alpha2/tables.php:167
 msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
+msgstr "Sprawdzanie, czy tabela trunks_dialpatterns istnieje.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:106
 msgid "Checking number of admin users.."
-msgstr ""
+msgstr "Sprawdzanie liczby użytkowników administracyjnych.."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1304
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
+"Sprawdza zależności dla dostarczonych modułów, akceptuje moduły argumentów"
 
 #: amp.i18n.php:818
 msgid ""
 "Checks to make sure modules and their files are validly signed. Will display "
 "a notice on any module page that is not correctly verified."
 msgstr ""
+"Sprawdza, czy moduły i ich pliki są prawidłowo podpisane. Wyświetli "
+"powiadomienie na każdej stronie modułu, która nie została poprawnie "
+"zweryfikowana."
 
 #: ../core/views/routing/form.php:517
 msgid "Choose File"
-msgstr ""
+msgstr "Wybierz plik"
 
 #: ../core/Console/Trunks.class.php:64
 msgid "Choose an ID to enable/disable"
-msgstr ""
+msgstr "Wybierz identyfikator, aby włączyć/wyłączyć"
 
 #: ../core/views/did/advanced_form.php:308
 msgid ""
@@ -2327,6 +2366,9 @@ msgid ""
 "creating the different standard telephony tones such as ringing, busy, "
 "congetstion, etc."
 msgstr ""
+"Wybierz strefę wskazań kraju,  której Asterisk ma używać podczas tworzenia "
+"różnych standardowych tonów telefonicznych, takich jak dzwonienie, zajęty, "
+"wyczerpanie wolnych kanałów itp."
 
 #: amp.i18n.php:292
 msgid ""
@@ -2334,6 +2376,9 @@ msgid ""
 "creating the different standard telephony tones such as ringing, busy, "
 "congetstion, etc."
 msgstr ""
+"Wybierz strefę tonową kraju, której Asterisk ma używać podczas tworzenia "
+"różnych standardowych tonów telefonicznych, takich jak dzwonienie, zajęty, "
+"wyczerpanie wolnych kanałówb itp."
 
 #: amp_conf/htdocs/admin/page.modules.php:1209
 msgid ""
@@ -2343,170 +2388,181 @@ msgid ""
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
 msgstr ""
+"Wybierz repozytoria, które chcesz sprawdzić pod kątem nowych modułów. "
+"Wszelkie aktualizacje dostępne dla modułów, które masz w systemie, zostaną "
+"wykryte, nawet jeśli repozytorium nie zostanie sprawdzone. Jeśli instalujesz "
+"nowy system, możesz zacząć od repozytorium Basic i zaktualizować wszystkie "
+"moduły, a następnie wrócić i przejrzeć pozostałe."
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
 msgid "Class"
-msgstr ""
+msgstr "Klasa"
 
 #: ../core/assets/js/trunks/trunks.js:239
 msgid "Click here to insert a new pattern before this pattern"
-msgstr ""
+msgstr "Kliknij tutaj, aby wstawić nowy wzór przed tym wzorem"
 
 #: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to remove this pattern"
-msgstr ""
+msgstr "Kliknij tutaj, aby usunąć ten wzór"
 
 #: ../core/views/trunks/trunk_header.php:25
 msgid ""
 "Click on <a href='?display=routing'>Outbound Routes</a> to setup routing."
 msgstr ""
+"Kliknij <a href='?display=routing'>Trasy wychodzące</a>, aby skonfigurować "
+"routing."
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:769
 msgid "Click to Expand"
-msgstr ""
+msgstr "Kliknij aby rozszerzyć"
 
 #: ../core/views/trunks/pjsip.php:634
 msgid ""
 "Client SIP URI used when attemping outbound registration. This setting is "
 "automatically generated by the PBX if left blank"
 msgstr ""
+"URI klienta SIP używany podczas próby rejestracji wychodzącej. To ustawienie "
+"jest automatycznie generowane przez centralę PBX, jeśli pozostanie puste"
 
 #: ../core/views/trunks/pjsip.php:621
 msgid "Client URI"
-msgstr ""
+msgstr "URI klienta"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
 #: ../core/views/routing/form.php:780
 #: ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 #: ../core/views/trunks/pjsip.php:43
 msgid "Codecs"
-msgstr ""
+msgstr "Kodeki"
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:334
 #, php-format
 msgid "Coding Error - don't understand '%s' from %s"
-msgstr ""
+msgstr "Błąd kodowania — nie rozumiem „%s” z %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:62
 msgid "Colorize table based list"
-msgstr ""
+msgstr "Koloruj listę opartą na tabeli"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:462
 msgid "Combined"
-msgstr ""
+msgstr "Połączone"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:198
 #, php-format
 msgid "Combining key and crt into %s.pem"
-msgstr ""
+msgstr "Łączenie klucza i crt w %s.pem"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
 msgid "Command"
-msgstr ""
+msgstr "Komenda"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:15
 msgid "Commercial"
-msgstr ""
+msgstr "Komercyjne"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:242
 msgid "Commercial Status"
-msgstr ""
+msgstr "Status komercyjny"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:242
 msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Sangoma Technologies Inc."
 msgstr ""
+"Status komercyjny tego modułu. Moduły komercyjne są utrzymywane i wspierane "
+"przez firmę Sangoma Technologies Inc."
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
-msgstr ""
+msgstr "Wspólne narzędzia"
 
 #: install.php:266
 msgid "Compressing Framework CSS..."
-msgstr ""
+msgstr "Kompresja CSS frameworka..."
 
 #: install.php:257
 msgid "Compressing Web Files"
-msgstr ""
+msgstr "Kompresja plików internetowych"
 
 #: amp.i18n.php:282
 msgid "Conference Room App"
-msgstr ""
+msgstr "Aplikacja pokojów konferencyjnych"
 
 #: amp_conf/htdocs/admin/page.modules.php:616
 msgid "Confirm"
-msgstr ""
+msgstr "Potwierdź"
 
 #: amp_conf/htdocs/admin/views/obe.php:65
 msgid "Confirm Email address"
-msgstr ""
+msgstr "Potwierdź adres email"
 
 #: amp_conf/htdocs/admin/views/obe.php:42
 #: amp_conf/htdocs/admin/views/oobe.php:44
 msgid "Confirm Password"
-msgstr ""
+msgstr "Potwierdź hasło"
 
 #: ../core/functions.inc.php:5707
 msgid "Conflicting Extensions"
-msgstr ""
+msgstr "Konflikt numerów wewnętrznych"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:171
 msgid "Confusing statement. Not sure what you want to do"
-msgstr ""
+msgstr "Mylące stwierdzenie. Nie jestem pewien, co chcesz zrobić"
 
 #: ../core/functions.inc.php:852
 #: ../core/functions.inc.php:4581
 msgid "Congestion"
-msgstr ""
+msgstr "Zajętość"
 
 #: ../core/functions.inc/drivers/Sip.class.php:377
 msgid "Connection Type"
-msgstr ""
+msgstr "Typ połączenia"
 
 #: amp.i18n.php:918
 #: amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "Connectivity"
-msgstr ""
+msgstr "Połączenia"
 
 #: ../core/views/trunks/pjsip.php:551
 msgid "Contact User"
-msgstr ""
+msgstr "Użytkownik kontaktowy"
 
 #: ../core/views/trunks/pjsip.php:563
 msgid "Contact User to use in request."
-msgstr ""
+msgstr "Użytkownik kontaktowy wykorzystywany w tym zapytaniu"
 
 #: ../core/functions.inc/drivers/Sip.class.php:331
 #: ../core/views/trunks/pjsip.php:202
 msgid "Context"
-msgstr ""
+msgstr "Kontekst"
 
 #: ../core/views/trunks/pjsip.php:1218
 msgid "Context to route incoming MESSAGE requests to"
-msgstr ""
+msgstr "Kontekst, do którego będą kierowane przychodzące żądania MESSAGE"
 
 #: ../core/views/trunks/pjsip.php:214
 msgid "Context to send the Inbound Call to."
-msgstr ""
+msgstr "Kontekst, do którego ma zostać wysłane połączenie przychodzące."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:389
 #: amp_conf/htdocs/admin/views/footer.php:106
 msgid "Continue"
-msgstr ""
+msgstr "Kontynuuj"
 
 #: ../core/views/trunks/trunk_header.php:398
 msgid "Continue if Busy"
-msgstr ""
+msgstr "Kontynuuj jeżeli zajęte"
 
 #: upgrades/2.8.0/custom-context.php:86
 #: upgrades/2.8.0rc1/custom-context.php:87
 msgid "Continuing..."
-msgstr ""
+msgstr "Kontynuję..."
 
 #: ../core/views/trunks/trunk_header.php:34
 msgid ""
@@ -2514,6 +2570,9 @@ msgid ""
 "can be used on this trunk. Inbound calls are not counted against the "
 "maximum. Leave blank to specify no maximum."
 msgstr ""
+"Kontroluje maksymalną liczbę kanałów wychodzących (jednoczesnych połączeń), "
+"które mogą być używane na tym łączu. Połączenia przychodzące nie są wliczane "
+"do maksymalnej liczby. Pozostaw puste, aby nie określić wartości maksymalnej."
 
 #: ../core/views/trunks/trunk_header.php:40
 #, php-format
@@ -2525,148 +2584,157 @@ msgid ""
 "calls against this maximum, use the auto-generated context: %s as the "
 "inbound trunk's context. (see extensions_additional.conf)."
 msgstr ""
+"Kontroluje maksymalną liczbę kanałów wychodzących (jednoczesnych połączeń), "
+"które mogą być używane na tym łączu. TYLKO ogranicza połączenia wychodzące. "
+"Połączenia przychodzące będą nadal realizowane niezależnie od tego, czy są "
+"uwzględnione w liczbie równoczesnych kanałów, czy nie. Pozostaw puste, aby "
+"nie określić wartości maksymalnej. Aby zliczyć połączenia przychodzące w "
+"stosunku do tego maksimum, użyj automatycznie wygenerowanego kontekstu: %s "
+"jako kontekstu łącza przychodzącego. (patrz rozszerzenia_additional.conf)."
 
 #: amp.i18n.php:286
 msgid "Convert ZAP Settings to DAHDi"
-msgstr ""
+msgstr "Konwertuj ustawienia ZAP na DAHDi"
 
 #: ../core/Console/Convert2pjsip.class.php:16
 msgid "Convert all extensions to PJSIP"
-msgstr ""
+msgstr "Konwertuj wszystkie numery wewnętrzne na PJSIP"
 
 #: ../core/Console/Convert2pjsip.class.php:14
 msgid "Convert legacy chan_sip extensions to chan_pjsip"
-msgstr ""
+msgstr "Konwertuj starsze numery wewnętrzne chan_sip na chan_pjsip"
 
 #: ../core/Console/Convert2pjsip.class.php:41
 #, php-format
 msgid "Converted extension %s to PJSIP"
-msgstr ""
+msgstr "Przekonwertowano numer wewnętrzny %s na PJSIP"
 
 #: amp.i18n.php:906
 #: ../core/install.php:6
 msgid "Core"
-msgstr ""
+msgstr "Rdzeń"
 
 #: ../core/Core.class.php:4050
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
-msgstr ""
+msgstr "Serwer Core FastAGI działa już z PID %s od %s"
 
 #: ../core/Core.class.php:4123
 msgid "Core FastAGI Server is not running"
-msgstr ""
+msgstr "Serwer Core FastAGI nie działa"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1292
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1640
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1729
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
-msgstr ""
+msgstr "Nie można utworzyć folderu pamięci podręcznej: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:486
 #, php-format
 msgid "Could Not Create the Asterisk Keys Folder: %s"
-msgstr ""
+msgstr "Nie można utworzyć folderu kluczy Asteriska: %s"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:73
 #, php-format
 msgid "Could not delete %s"
-msgstr ""
+msgstr "Nie można usunąć %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1428
 msgid "Could not determine module name"
-msgstr ""
+msgstr "Nie można określić nazwy modułu"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:816
 msgid ""
 "Could not find dependency locally and 'Developer Mode' is enabled so will "
 "not check online"
 msgstr ""
+"Nie można znaleźć zależności lokalnie, a „Tryb programisty” jest włączony, "
+"więc nie będę sprawdzał online"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1549
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1814
 #, php-format
 msgid "Could not find extracted module: %s"
-msgstr ""
+msgstr "Nie można znaleźć wyodrębnionego modułu: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:95
 msgid "Could not find gpg command!"
-msgstr ""
+msgstr "Nie można znaleźć polecenia gpg!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1209
 msgid "Could not find signed module on remote server!"
-msgstr ""
+msgstr "Nie można znaleźć podpisanego modułu na zdalnym serwerze!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:33
 #, php-format
 msgid "Could not load a class for %s"
-msgstr ""
+msgstr "Nie można załadować klasy dla %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1407
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1607
 #, php-format
 msgid "Could not move %s to %s"
-msgstr ""
+msgstr "Nie można przenieść %s do %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1955
 msgid "Could not read module.xml"
-msgstr ""
+msgstr "Nie można odczytać modułu.xml"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1386
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1583
 #, php-format
 msgid "Could not remove %s to install new version"
-msgstr ""
+msgstr "Nie można usunąć %s, aby zainstalować nową wersję"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1403
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1603
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1884
 #, php-format
 msgid "Could not remove old module %s to install new version"
-msgstr ""
+msgstr "Nie można usunąć starego modułu %s, aby zainstalować nową wersję"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
 #, php-format
 msgid "Could not remove temporary location %s"
-msgstr ""
+msgstr "Nie można usunąć tymczasowej lokalizacji %s"
 
 #: amp_conf/htdocs/admin/functions.inc.php:388
 #: amp_conf/htdocs/admin/functions.inc.php:453
 #, php-format
 msgid "Could not run %s script."
-msgstr ""
+msgstr "Nie można uruchomić skryptu %s."
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:76
 msgid "Could not understand DSN for connect"
-msgstr ""
+msgstr "Nie można zrozumieć DSN dla połączenia"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1394
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1588
 #, php-format
 msgid "Could not untar %s to %s"
-msgstr ""
+msgstr "Nie można rozpakować %s do %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:55
 #, php-format
 msgid "Could not write to %s"
-msgstr ""
+msgstr "Nie można napisać do %s"
 
 #: amp.i18n.php:290
 msgid "Country Indication Tones"
-msgstr ""
+msgstr "Dźwięki sygnalizacyjne kraju"
 
 #: ../core/page.ampusers.php:240
 msgid "Create a password for this new user"
-msgstr ""
+msgstr "Utwórz hasło dla tego nowego użytkownika"
 
 #: ../core/page.ampusers.php:219
 msgid "Create a unique username for this user"
-msgstr ""
+msgstr "Utwórz unikalną nazwę użytkownika dla tego użytkownika"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:144
 msgid "Creating CA certificate"
-msgstr ""
+msgstr "Tworzenie certyfikatu CA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:126
 msgid "Creating CA key"
