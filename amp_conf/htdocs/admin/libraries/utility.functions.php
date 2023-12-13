@@ -526,6 +526,7 @@ function edit_crontab($remove = '', $add = '') {
 	if($add) {
 		if (is_array($add)) {
 			if (isset($add['command'])) {
+				if (!is_array($cron_add)) { $cron_add = []; }
 				//see if we have a one word event such as daily, weekly, anually, etc
 				if (isset($add['event'])) {
 					$cron_add['event'] = '@' . trim($add['event'], '@');
