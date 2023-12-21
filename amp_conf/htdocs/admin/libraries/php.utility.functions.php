@@ -26,6 +26,15 @@ function freepbx_str_replace($w, $r, $s)
         return $s;
     }
 }
+
+function freepbx_strftime($format, $time)
+{
+    if($format) {
+        return date($format, $time);
+    } else {
+        return ($time) ? date('m/d/Y H:i:s', $time) : $time;
+    }
+}
 /***
  * Creates a new Process object based on the given command, taking into account shell features.
  *
