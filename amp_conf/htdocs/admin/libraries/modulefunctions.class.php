@@ -2961,9 +2961,9 @@ class module_functions {
 		} elseif (file_exists('/etc/asterisk/freepbxdistro-version')) {
 			$pbx_type = 'freepbxdistro';
 			$pbx_version = trim(file_get_contents('/etc/asterisk/freepbxdistro-version'));
-		} elseif (file_exists('/etc/schmooze/pbx-version')) {
+		} elseif (file_exists('/etc/sangoma/pbx-version')) {
 			$pbx_type = 'freepbxdistro';
-			$pbx_version = trim(file_get_contents('/etc/schmooze/pbx-version'));
+			$pbx_version = trim(file_get_contents('/etc/sangoma/pbx-version'));
 		} elseif (file_exists('/etc/asterisk/pbx-version')) {
 			$pbx_type = 'freepbxdistro';
 			$pbx_version = trim(file_get_contents('/etc/asterisk/pbx-version'));
