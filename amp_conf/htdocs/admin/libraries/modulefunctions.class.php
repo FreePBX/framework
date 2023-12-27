@@ -2933,30 +2933,141 @@ class module_functions {
 		return false;
 	}
 
+
 	function _distro_id() {
-		static $pbx_type = 'unknown';
-		static $pbx_version = 'unknown';
+		static $pbx_type;
+		static $pbx_version;
 
 		if (isset($pbx_type)) {
 			return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 		}
 
-		// FreePBX Distro
-		if (file_exists('/etc/sangoma/pbx-version')) {
-			$pbx_type = 'freepbxdistro';
-			$pbx_version = trim(file_get_contents('/etc/sangoma/pbx-version'));
-		}
 
-		//Final Check if we are still unknown
-		if ($pbx_type == 'unknown') {
-			exec('uname 2>&1', $kernel, $ret1);
-			exec('uname -r 2>&1', $kernelv, $ret2);
-			if (!$ret1 && !$ret2 && !empty($kernel) && !empty($kernelv)) {
-				$pbx_type = 'unknown-' . $kernel[0];
-				$pbx_version = $kernelv[0];
+		exec('lscpu 2>&1',$out,$ret);
+		$cpu_arch = '';
+		if(!$ret && !empty($out)) {
+			foreach($out as $line) {
+				if(preg_match('/architecture:(.*)/i',$line,$matches)) {
+					$cpu_arch = trim($matches[1]);
+					break;
+				}
 			}
 		}
 
+		// FreePBX Distro
+		if (file_exists('/etc/schmooze/freepbxdistro-version')) {
+			$pbx_type = 'freepbxdistro';
+			$pbx_version = trim(file_get_contents('/etc/schmooze/freepbxdistro-version'));
+		} elseif (file_exists('/etc/asterisk/freepbxdistro-version')) {
+			$pbx_type = 'freepbxdistro';
+			$pbx_version = trim(file_get_contents('/etc/asterisk/freepbxdistro-version'));
+		} elseif (file_exists('/etc/schmooze/pbx-version')) {
+			$pbx_type = 'freepbxdistro';
+			$pbx_version = trim(file_get_contents('/etc/schmooze/pbx-version'));
+		} elseif (file_exists('/etc/asterisk/pbx-version')) {
+			$pbx_type = 'freepbxdistro';
+			$pbx_version = trim(file_get_contents('/etc/asterisk/pbx-version'));
+
+			// Trixbox
+		} elseif (file_exists('/etc/trixbox/trixbox-version')) {
+			$pbx_type = 'trixbox';
+			$pbx_version = trim(file_get_contents('/etc/trixbox/trixbox-version'));
+
+			// AsteriskNOW
+		} elseif (file_exists('/etc/asterisknow-version')) {
+			$pbx_type = 'asterisknow';
+			$pbx_version = trim(file_get_contents('/etc/asterisknow-version'));
+
+			// Elastix
+		} elseif (is_dir('/usr/share/elastix') || file_exists('/usr/share/elastix/pre_elastix_version.info')) {
+			$pbx_type = 'elastix';
+			$pbx_version = '';
+			if (class_exists('PDO') && file_exists('/var/www/db/settings.db')) {
+				$elastix_db = new PDO('sqlite:/var/www/db/settings.db');
+				$result = $elastix_db->query("SELECT value FROM settings WHERE key='elastix_version_release'");
+				if ($result !== false) foreach ($result as $row) {
+					if (isset($row['value'])) {
+						$pbx_version = $row['value'];
+						break;
+					}
+				}
+			}
+			if (!$pbx_version && file_exists('/usr/share/elastix/pre_elastix_version.info')) {
+				$pbx_version = trim(file_get_contents('/usr/share/elastix/pre_elastix_version.info'));
+			}
+			if (!$pbx_version) {
+				$pbx_version = '2.X+';
+			}
+
+			// PIAF
+		} elseif (file_exists('/etc/pbx/.version') || file_exists('/etc/pbx/.color')) {
+			$pbx_type = 'piaf';
+			$pbx_version = '';
+			if (file_exists('/etc/pbx/.version')) {
+				$pbx_version = trim(file_get_contents('/etc/pbx/.version'));
+			}
+			if (file_exists('/etc/pbx/.color')) {
+				$pbx_version .= '.' . trim(file_get_contents('/etc/pbx/.color'));
+			}
+			//this probably wont work correctly for his beaglebone stuff
+			if(preg_match('/arm/i',$cpu_arch)) {
+				$pbx_type = 'piaf-IncrediblePI';
+			}
+			if (!$pbx_version) {
+				if (file_exists('/etc/pbx/ISO-Version')) {
+					$pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
+					$pbx_arr = explode('=',$pbx_ver_raw);
+					$pbx_version = $pbx_arr[count($pbx_arr)-1];
+				} else {
+					$pbx_version = 'unknown';
+				}
+			}
+
+			//raspbx
+		} elseif(file_exists('/etc/raspbx/base_version') || file_exists('/etc/raspbx/installed_version')) {
+			$pbx_type = 'raspbx';
+
+			if (file_exists('/etc/raspbx/base_version')) {
+				$pbx_version = trim(file_get_contents('/etc/raspbx/base_version'));
+			}
+			if (file_exists('/etc/raspbx/installed_version')) {
+				$pbx_version .= '.' . trim(file_get_contents('/etc/raspbx/installed_version'));
+			}
+			if (!$pbx_version) {
+				$pbx_version = 'unknown';
+			}
+
+			// Old PIAF or Fonica
+		} elseif (file_exists('/etc/pbx/version') || file_exists('/etc/pbx/ISO-Version')) {
+			$pbx_type = 'fonica';
+			if (file_exists('/etc/pbx/ISO-Version')) {
+				$pbx_ver_raw = trim(file_get_contents('/etc/pbx/ISO-Version'));
+				$pbx_arr = explode('=',$pbx_ver_raw);
+				$pbx_version = $pbx_arr[count($pbx_arr)-1];
+				if (stristr($pbx_arr[0],'foncordiax') !== false) {
+					$pbx_version .= '.pro';
+				} else {
+					$pbx_version = str_replace(' ','.',$pbx_version);
+					if ($pbx_version != '1.0.standard') {
+						$pbx_type = 'piaf';
+					}
+				}
+			} else {
+				$pbx_version = 'unknown';
+			}
+		} else {
+			$pbx_type = 'unknown';
+			$pbx_version = 'unknown';
+		}
+		//Final Check if we are still unknown
+		if($pbx_type == 'unknown') {
+			exec('uname 2>&1',$kernel,$ret1);
+			exec('uname -r 2>&1',$kernelv,$ret2);
+			if(!$ret1 && !$ret2 && !empty($kernel) && !empty($kernelv)) {
+				$pbx_type = 'unknown-'.$kernel[0];
+				$pbx_version = $kernelv[0];
+			}
+		}
 		return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 	}
 
