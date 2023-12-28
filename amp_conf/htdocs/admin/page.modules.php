@@ -1067,9 +1067,14 @@ switch ($action) {
 			}
 
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
-				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
+				foreach($module_display[$category]['data'][$name]['previous'] as $vkey => &$release) {
 					if(isset($release['changelog']) && preg_match("/".$release['version']."[\s|:|\*](.*)/m",(string) $release['changelog'],$matches)) {
 						$release['pretty_change'] = !empty($matches[1]) ? format_changelog($matches[1]) : _('No Change Log');
+					}
+
+					$mod_rel_ver = (int) substr($release['version'], 0, strpos($release['version'], '.'));
+					if($mod_rel_ver < 17) {
+						unset($module_display[$category]['data'][$name]['previous'][$vkey]);
 					}
 				}
 			}
