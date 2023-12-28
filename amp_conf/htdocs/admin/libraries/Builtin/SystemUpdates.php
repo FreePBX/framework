@@ -54,6 +54,7 @@ class SystemUpdates {
 	 * @return bool
 	 */
 	public function canDoSystemUpdates() {
+		return false; // Disabling System update for 17/Debian based system as of now
 		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
 			return false;
 		}
