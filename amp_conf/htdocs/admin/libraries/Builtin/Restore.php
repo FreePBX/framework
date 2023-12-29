@@ -16,7 +16,7 @@ class Restore Extends Base\RestoreBase{
 		}
 		foreach($configs['settings'] as $keyword => $value) {
 			if ($keyword === 'AMPMGRPASS') {
-				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $this->data['module']));
 				continue;
 			}
 			if($keyword === 'FREEPBX_SYSTEM_IDENT' && $backupinfo['warmspareenabled'] == 'yes'){
@@ -24,7 +24,7 @@ class Restore Extends Base\RestoreBase{
 				continue;
 			}
 			if ($keyword === 'MODULE_REPO') {
-				$this->log(sprintf(_("Ignorning restore of MODULE_REPO Advanced Settings from %s"), $module));
+				$this->log(sprintf(_("Ignorning restore of MODULE_REPO Advanced Settings from %s"), $this->data['module']));
 				continue;
 			}
 			if(in_array($keyword,$skinsettings)){
@@ -70,17 +70,17 @@ class Restore Extends Base\RestoreBase{
 		$sth->execute();
 		$res = $sth->fetchAll(\PDO::FETCH_ASSOC);
 		if(!empty($res)) {
-			$this->log(sprintf(_("Importing Advanced Settings from %s"), $module));
+			$this->log(sprintf(_("Importing Advanced Settings from %s"), $this->data['module']));
 			$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 			$usth = $this->FreePBX->Database->prepare($sql);
 
 			foreach($res as $data) {
 				if ($data['keyword'] === 'AMPMGRPASS') {
-					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $this->data['module']));
 					continue;
 				}
 				if ($data['keyword'] === 'MODULE_REPO') {
-					$this->log(sprintf(_("Ignorning restore of Repo Server URLs %s"), $module));
+					$this->log(sprintf(_("Ignorning restore of Repo Server URLs %s"), $this->data['module']));
 					continue;
 				}
 				if (in_array($data['keyword'], $skipcdrval)) {

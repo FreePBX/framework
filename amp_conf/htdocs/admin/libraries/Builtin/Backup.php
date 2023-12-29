@@ -5,7 +5,7 @@ class Backup Extends Base\BackupBase{
 	public function runBackup($id,$transaction){
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
-		$sth->execute([":name" => $module]);
+		$sth->execute();
 		$this->addConfigs([
 			'settings' => $sth->fetchAll(\PDO::FETCH_KEY_PAIR),
 			'realtime' => [
