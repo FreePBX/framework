@@ -41,7 +41,7 @@ class Debug extends Command {
 		//Another hard coded list...
 		$files = array(
 			$DBUGFILE,
-			'/var/log/httpd/error_log',
+			'/var/log/apache2/error.log',
 			'/var/log/asterisk/freepbx_security.log',
 			);
 		if (!$input->getOption('skipstandard')) {

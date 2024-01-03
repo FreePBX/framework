@@ -39,7 +39,7 @@ status() {
 		else
 		echo -e "MySQL appears to be NOT running\r\n"
 		fi
-		if pgrep -x httpd > /dev/null; then
+		if pgrep -x apache2 > /dev/null; then
 		echo -e "Apache is Running\r\n"
 		else
 		echo -e "Apache appears to be NOT running\r\n"
