@@ -27,10 +27,10 @@ function freepbx_str_replace($w, $r, $s)
     }
 }
 
-function freepbx_strftime($format, $time)
+function freepbx_strftime($format, $time=false)
 {
     if($format) {
-        return date($format, $time);
+        return ($time) ? date($format, $time) : date($format);
     } else {
         return ($time) ? date('m/d/Y H:i:s', $time) : $time;
     }
