@@ -15,8 +15,8 @@ class Restore Extends Base\RestoreBase{
 			$st->execute();
 		}
 		foreach($configs['settings'] as $keyword => $value) {
-			if ($keyword === 'AMPMGRPASS') {
-				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $this->data['module']));
+			if ($keyword === 'AMPMGRPASS'|| $keyword ==='AMPMGRUSER') {
+				$this->log(sprintf(_("Ignorning restore of %s Advanced Settings from %s"), $keyword , $this->data['module']));
 				continue;
 			}
 			if($keyword === 'FREEPBX_SYSTEM_IDENT' && $backupinfo['warmspareenabled'] == 'yes'){
