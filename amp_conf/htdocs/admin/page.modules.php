@@ -550,9 +550,10 @@ switch ($action) {
 					}
 
 					if(!empty($trackinfo)){
-						$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
+						$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : NULL;
 						$conflicterrors = (isset($trackinfo)) ? $FreePBX->Modules->checkConflicts($trackinfo) : [];
 					}
+
 					if(empty($trackinfo)) {
 						$dependerrors = false;
 						$conflicterrors = false;
@@ -603,7 +604,7 @@ switch ($action) {
 				break;
 			case 'install':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : [];
+					$dependerrors = (isset($trackinfo)) ? $modulef->checkdepends($trackinfo) : NULL;
 					$conflicterrors = (isset($trackinfo)) ? $FreePBX->Modules->checkConflicts($trackinfo) : [];
 					$issues = false;
 					if (is_array($dependerrors)) {

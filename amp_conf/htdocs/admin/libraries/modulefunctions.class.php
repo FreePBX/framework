@@ -1687,10 +1687,12 @@ class module_functions {
 		$download_chunk_size = 12*1024;
 
 		// invoke progress callback
+		if (!empty($progress_callback)){
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('getinfo', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('getinfo', array('module'=>$modulename));
+		}
 		}
 
 		$file = basename(parse_url($module_location, PHP_URL_PATH));
@@ -1716,18 +1718,22 @@ class module_functions {
 		$totalread = 0;
 		// invoke progress callback
 		$headers['content-length'] = !empty($headers['content-length']) ? $headers['content-length'] : '0';
+		if (!empty($progress_callback)) {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		}
+		}
 
 		$hooks = new \WpOrg\Requests\Hooks();
 		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
+			if (!empty($progress_callback)) {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
+			}
 			}
 		});
 		$requests = FreePBX::Curl()->requests($module_location);
