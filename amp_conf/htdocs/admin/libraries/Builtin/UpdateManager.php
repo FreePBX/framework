@@ -3,12 +3,13 @@
 namespace FreePBX\Builtin;
 #[\AllowDynamicProperties]
 class UpdateManager {
-
+	private $email_to;
 	public function __construct() {
 		$this->freepbx = \FreePBX::create();
 
 		$this->brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
+		$this->email_to = $settings['notification_emails'] ?? '';
 		$this->machine_id = $settings['system_ident'];
 	}
 
@@ -484,4 +485,3 @@ class UpdateManager {
 		return $warning;
 	}
 }
-
