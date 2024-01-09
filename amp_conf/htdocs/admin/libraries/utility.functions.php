@@ -1419,12 +1419,12 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_C
  * @return array
  */
 function IsAsteriskSupported($version){
-	$min 				= "11";
+	$min 				= "18";
 	$max 				= "22";
 	$result["status"] 	= true;
 	if(version_compare($version, $min, "lt") || version_compare($version, $max, "ge")) {
 		$result["status"] 	= false;
-		$result["message"] 	= _("Supported Asterisk versions:")." 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21.";
+		$result["message"] 	= _("Supported Asterisk versions:")." 18, 19, 20, 21.";
 	}
 	return $result;	
 }
