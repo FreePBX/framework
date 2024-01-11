@@ -41,7 +41,7 @@ class Config {
 		'AMPDBNAME'      => array(CONF_TYPE_TEXT, 'asterisk'),
 		'AMPENGINE'      => array(CONF_TYPE_SELECT, 'asterisk'),
 		'ASTMANAGERPORT' => array(CONF_TYPE_INT, '5038'),
-		'ASTMANAGERHOST' => array(CONF_TYPE_TEXT, 'localhost'),
+		'ASTMANAGERHOST' => array(CONF_TYPE_TEXT, '127.0.0.1'),
 		'AMPDBHOST'      => array(CONF_TYPE_TEXT, '127.0.0.1'),
 		'AMPDBUSER'      => array(CONF_TYPE_TEXT, 'asteriskuser'),
 		'AMPDBPASS'      => array(CONF_TYPE_TEXT, 'amp109'),
