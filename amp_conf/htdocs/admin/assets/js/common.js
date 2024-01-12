@@ -16,23 +16,25 @@ $(document).ready(function () {
         }
     });
 
-
-    // Bootstrap 4 nav tab active check
-    let navTabs = $('.nav-tabs > li > a');
-    let isTabActive = false;
-    for (let tab of navTabs) {
-        if ($(tab).hasClass('active')) {
-            isTabActive = true;
-        }
-    }
-    if (!isTabActive) {
-        // Bootstrap 3 nav tab active check
-        navTabs = $('.nav-tabs > li');
-        for (let tab of navTabs) {
+    let allNavTabs = $('.nav-tabs');
+    allNavTabs.each(function () {
+        // Bootstrap 4 nav tab active check
+        let tabs = $(this).find('li > a');
+        let isTabActive = false;
+        for (let tab of tabs) {
             if ($(tab).hasClass('active')) {
-                $(tab).children('a').addClass('active');
+                isTabActive = true;
             }
         }
-    }
+        if (!isTabActive) {
+            // Bootstrap 3 nav tab active check
+            tabs = $(this).find('li');
+            for (let tab of tabs) {
+                if ($(tab).hasClass('active')) {
+                    $(tab).children('a').addClass('active');
+                }
+            }
+        }
+    });
 
 });
