@@ -128,6 +128,7 @@ class DialplanHooks {
 
 		// Loop through all our modules
 		$hooksDiscovered = array();
+		$funclist = [];
 		$active_modules = is_array($active_modules) ? $active_modules : array();
 		foreach($active_modules as $module => $mod_data) {
 			// Some modules specify they want to run at
