@@ -117,44 +117,45 @@ class DialplanHooks {
 			}
 		}
 	}
-	
-	/**
-	 * Retrieves the old hooks based on the active modules.
-	 *
-	 * @param array $active_modules The list of active modules.
-	 * @throws Exception If $active_modules is not an array.
-	 * @return array The list of discovered hooks.
-	 */
-	private function getOldHooks($active_modules) : array
-	{
-		if (!is_array($active_modules)) {
+
+	private function getOldHooks($active_modules) {
+		// Moved from retrieve_conf
+
+		// Check to make sure we actually were given modules.
+		if(!is_array($active_modules)) {
 			throw new \Exception("I'm unaware what I was given as $active_modules");
 		}
 
-		$funclist = [];
-
-		foreach ($active_modules as $module => $mod_data) {
-			if (isset($mod_data['methods']['get_config'])) {
+		// Loop through all our modules
+		$hooksDiscovered = array();
+		$active_modules = is_array($active_modules) ? $active_modules : array();
+		foreach($active_modules as $module => $mod_data) {
+			// Some modules specify they want to run at
+			// a specific priority, in module.xml.  Let them.
+			if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
 				foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
-					foreach ($methods as $method) {
-						$funclist[$pri][$module][] = ['function' => $method];
+					foreach($methods as $method) {
+						$funclist[$pri][$module][] = array("function" => $method);
+						$hooksDiscovered[$method] = true;
 					}
 				}
 			}
 
-			$getconf = $module . '_get_config';
-			$hookgetconf = $module . '_hookGet_config';
-			if (function_exists($getconf) && !isset($funclist[100][$module])) {
-				$funclist[100][$module][] = ['function' => $getconf];
+			// Historically, Modules have been doing their dialplan hooks using either
+			// modulename_get_config or modulename_hookGet_config.
+			$getconf = $module."_get_config";
+			$hookgetconf = $module."_hookGet_config";
+			if (function_exists($getconf) && !isset($hooksDiscovered[$getconf])) {
+				$funclist[100][$module][] = array("function" => $getconf);
 			}
-			if (function_exists($hookgetconf) && !isset($funclist[600][$module])) {
-				$funclist[600][$module][] = ['function' => $hookgetconf];
+			if (function_exists($hookgetconf) && !isset($hooksDiscovered[$getconf])) {
+				$funclist[600][$module][] = array("function" => $hookgetconf);
 			}
-		}
 
+		}
+		// Return it!
 		return $funclist;
 	}
-	
 
 	public function getBMOHooks() {
 		$allHooks = $this->FreePBX->Hooks->getAllHooks();
