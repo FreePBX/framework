@@ -47,7 +47,4 @@
       COPY
     </button>
   </div>
-	<?php if($GLOBALS['report_error_link']) { ?>
-		<a href="http://issues.freepbx.org/secure/CreateIssueDetails!init.jspa?pid=10300&issuetype=10002&summary=<?php echo urlencode(implode('\\', $name).' '.$message) ?>&description=<?php echo urlencode($plain_exception) ?>" target="_blank" style="color:white">Click Here Report this to the PBX bug tracker</a>
-	<?php } ?>
 </div>
