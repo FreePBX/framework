@@ -1796,7 +1796,7 @@ class Moduleadmin extends Command {
 			case 'h':
 			case '?':
 			default:
-				$this->writeln(sprintf(_('Unknown Command! (%s)'),$$action), "error", false);
+				$this->writeln(sprintf(_('Unknown Command! (%s)'), $action), "error", false);
 				break;
 		}
 	}
