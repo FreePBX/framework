@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-05 02:01+0000\n"
-"PO-Revision-Date: 2023-12-14 22:01+0000\n"
+"PO-Revision-Date: 2024-01-23 16:01+0000\n"
 "Last-Translator: Szymon Wysokinski <szymon.wysokinski@sqspolska.pl>\n"
 "Language-Team: Polish <http://weblate.freepbx.org/projects/freepbx/framework/"
 "pl/>\n"
@@ -1410,31 +1410,31 @@ msgstr "Katalog logów Asteriska"
 
 #: amp.i18n.php:90
 msgid "Asterisk Manager"
-msgstr "Menadżer Asteriska"
+msgstr "Asterisk Manager"
 
 #: amp.i18n.php:88
 msgid "Asterisk Manager Host"
-msgstr "Host menadżera Asteriska"
+msgstr "Host Asterisk Managera"
 
 #: amp.i18n.php:94
 msgid "Asterisk Manager Password"
-msgstr "Hasło menadżera Asteriska"
+msgstr "Hasło Asterisk Managera"
 
 #: amp.i18n.php:98
 msgid "Asterisk Manager Port"
-msgstr "Port menadżera Asteriska"
+msgstr "Port Asterisk Managera"
 
 #: amp.i18n.php:102
 msgid "Asterisk Manager Proxy Port"
-msgstr "Port proxy menadżera Asteriska"
+msgstr "Port proxy Asterisk Managera"
 
 #: amp.i18n.php:106
 msgid "Asterisk Manager User"
-msgstr "Użytkownik menadżera Asteriska"
+msgstr "Użytkownik Asterisk Managera"
 
 #: amp.i18n.php:110
 msgid "Asterisk Manager Write Timeout"
-msgstr "Limit czasu menadżera Asteriska"
+msgstr "Limit czasu zapisu Asterisk Managera"
 
 #: amp.i18n.php:934
 #: ../core/page.astmodules.php:49
@@ -1471,7 +1471,7 @@ msgstr "Maska VMU"
 
 #: amp.i18n.php:412
 msgid "Asterisk bin Dir"
-msgstr "Katalog binariów Asteriska"
+msgstr "Katalog bin Asteriska"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:376
@@ -1495,12 +1495,12 @@ msgid ""
 "blank, the default vmexten setting is automatically configured by the "
 "voicemail module. Only change this on devices that may have special needs."
 msgstr ""
-"Extension dialplanu Asteriska umożliwiające połączenie z pocztą głosową dla "
-"tego urządzenia. Niektóre urządzenia wykorzystują tę opcję do automatycznego "
-"programowania przycisku poczty głosowej na endpoincie. Jeśli pozostawisz to "
-"pole puste, domyślne ustawienie vmexten zostanie automatycznie "
-"skonfigurowane przez moduł poczty głosowej. Zmień to tylko na urządzeniach, "
-"które mogą mieć specjalne możliwości konfiguracyjne."
+"Rozszerzenie dialplanu Asteriska umożliwiające połączenie z pocztą głosową "
+"dla tego urządzenia. Niektóre urządzenia wykorzystują tę opcję do "
+"automatycznego programowania przycisku poczty głosowej na urządzeniu. Jeśli "
+"pozostawisz to pole puste, domyślne ustawienie vmexten zostanie "
+"automatycznie skonfigurowane przez moduł poczty głosowej. Zmień to tylko na "
+"urządzeniach, które mogą mieć specjalne potrzeby konfiguracyjne."
 
 #: amp.i18n.php:416
 msgid "Asterisk etc Dir"
@@ -2738,30 +2738,31 @@ msgstr "Tworzenie certyfikatu CA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:126
 msgid "Creating CA key"
-msgstr ""
+msgstr "Tworzenie klucza CA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:169
 #, php-format
 msgid "Creating certificate for %s"
-msgstr ""
+msgstr "Tworzenie certyfikatu dla %s"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1217
 msgid "Creating database table "
-msgstr ""
+msgstr "Tworzenie tabeli bazodanowej "
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:175
 #, php-format
 msgid "Creating signing request for %s"
-msgstr ""
+msgstr "Tworzenie żądania podpisania dla %s"
 
 #: amp_conf/htdocs/admin/views/welcome.php:10
 msgid "Critical"
-msgstr ""
+msgstr "Krytyczne"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3276
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
+"Krytyczny moduł \"%s\" nie jest podpisany. Natychmiast pobierz go ponownie"
 
 #: amp_conf/htdocs/admin/libraries/extensions.class.php:246
 #: amp_conf/htdocs/admin/libraries/extensions.class.php:247
@@ -2771,14 +2772,17 @@ msgid ""
 "section with a priority greater than 1. This is always a bug in a module. I "
 "was asked to add %s"
 msgstr ""
+"Błąd krytyczny podczas umieszczania w %s. Zadaniem było umieszczenie kodu w "
+"pustej sekcji z priorytetem większym niż 1. To oznacza błąd w module. "
+"Zadaniem było dodanie %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: amp.i18n.php:116
 msgid "Cron JOBS"
-msgstr ""
+msgstr "Zadania Cron"
 
 #: ../core/functions.inc.php:5761
 msgid ""
@@ -2793,67 +2797,69 @@ msgstr "Aktualna konfiguracja sieciowa"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:19
 msgid "Current PBX Version:"
-msgstr ""
+msgstr "Aktualna wersja PBX:"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:559
 msgid "Current System Update Status:"
-msgstr ""
+msgstr "Obecny status uaktualnienia"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:24
 msgid "Current System Version:"
-msgstr ""
+msgstr "Aktualna wersja systemu:"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:356
 msgid "Current Version"
-msgstr ""
+msgstr "Aktualna wersja"
 
 #: amp_conf/htdocs/admin/views/footer_content.php:34
 #, php-format
 msgid "Current module licensed under %s"
-msgstr ""
+msgstr "Bieżący moduł z licencją %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:109
 #, php-format
 msgid "Current setting for %s left in place"
-msgstr ""
+msgstr "Aktualne ustawienie %s zostało bez zmian"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:553
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
-msgstr ""
+msgstr "Własne"
 
 #: amp.i18n.php:618
 msgid "Custom CRM url"
-msgstr ""
+msgstr "Własny url CRM"
 
 #: upgrades/2.8.0/custom-context.php:53
 #: upgrades/2.8.0rc1/custom-context.php:53
 msgid "Custom Context Migration aborted"
-msgstr ""
+msgstr "Migracja niestandardowego kontekstu została przerwana"
 
 #: ../core/functions.inc/drivers/Custom.class.php:11
 msgid "Custom Device"
-msgstr ""
+msgstr "Niestandardowe urządzenia"
 
 #: ../core/views/trunks/custom.php:9
 msgid "Custom Dial String"
-msgstr ""
+msgstr "Niestandardowe ciągi wybierania"
 
 #: amp_conf/htdocs/admin/views/footer.php:121
 msgid ""
 "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
 msgstr ""
+"Własne konteksty Goto muszą zawierać ciąg \"custom-\". Na przykład custom-"
+"app,s,1"
 
 #: ../core/views/dahdichandids/bootnav.php:14
 msgid "DAHDI Channel"
-msgstr ""
+msgstr "Kanał DAHDI"
 
 #: amp.i18n.php:920
 #: ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
-msgstr ""
+msgstr "Numery DDI kanału DAHDI"
 
 #: ../core/views/dahdichandids/general.php:2
 #: ../core/views/dahdichandids/view.php:2
@@ -2870,7 +2876,7 @@ msgstr ""
 
 #: ../core/views/trunks/dahdi.php:9
 msgid "DAHDi Identifier"
-msgstr ""
+msgstr "Identyfikator DAHDI"
 
 #: ../core/views/trunks/dahdi.php:21
 msgid ""
@@ -2899,42 +2905,42 @@ msgstr ""
 #: ../core/views/dahdichandids/didForm.php:83
 #: ../core/views/did/didgrid.php:17
 msgid "DID"
-msgstr ""
+msgstr "DID"
 
 #: ../core/functions.inc.php:5802
 msgid "DID / CID"
-msgstr ""
+msgstr "DID /CID"
 
 #: ../core/functions.inc.php:5792
 msgid "DID Description"
-msgstr ""
+msgstr "Opis DID"
 
 #: ../core/views/did/advanced_form.php:112
 #: ../core/views/did/basic_form.php:44
 msgid "DID Number"
-msgstr ""
+msgstr "Numer DID"
 
 #: ../core/Core.class.php:3649
 msgid "DID already exists"
-msgstr ""
+msgstr "DID już istnieje"
 
 #: ../core/views/did/rnav.php:14
 msgid "DID/CID"
-msgstr ""
+msgstr "DID/CID"
 
 #: ../core/Core.class.php:3449
 msgid "DIDs"
-msgstr ""
+msgstr "DIDy"
 
 #: ../core/Core.class.php:3450
 msgid "DIDs / Inbound Routes"
-msgstr ""
+msgstr "DIDy / Trasy przychodzące"
 
 #: ../core/page.extensions.php:135
 #: ../core/page.extensions.php:163
 #: ../core/page.users.php:60
 msgid "DND"
-msgstr ""
+msgstr "Nie przeszkadzać"
 
 #: amp.i18n.php:602
 msgid ""
@@ -2986,60 +2992,60 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:288
 msgid "DTLS-SRTP (not recommended)"
-msgstr ""
+msgstr "DTLS-SRTP (nie zalecane)"
 
 #: ../core/views/trunks/pjsip.php:253
 msgid "DTMF Mode"
-msgstr ""
+msgstr "Tryb DTMF"
 
 #: ../core/functions.inc/drivers/Sip.class.php:320
 msgid "DTMF Signaling"
-msgstr ""
+msgstr "Sygnalizacja DTMF"
 
 #: ../core/views/trunks/dundi.php:9
 msgid "DUNDi Mapping"
-msgstr ""
+msgstr "Mapowanie DUNDi"
 
 #: amp.i18n.php:564
 msgid "Data Retention"
-msgstr ""
+msgstr "Retencja danych"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:607
 msgid "Database Error detected. Automatic repair started. Please retry"
-msgstr ""
+msgstr "Wykryto błąd bazy danych. Rozpoczęto naprawę. Spróbuj ponownie"
 
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:19
 msgid "Database name"
-msgstr ""
+msgstr "Nazwa bazy danych"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
-msgstr ""
+msgstr "Ustalona data"
 
 #: amp.i18n.php:748
 msgid "Date Format"
-msgstr ""
+msgstr "Format daty"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:18
 msgid "Date Reported"
-msgstr ""
+msgstr "Raportowana data"
 
 #: amp.i18n.php:744
 msgid "Date and Time Format"
-msgstr ""
+msgstr "Format daty i czasu"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:114
 #: amp_conf/htdocs/admin/views/oobe.php:210
 msgid "Day"
-msgstr ""
+msgstr "Dzień"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:171
 msgid "Debug"
-msgstr ""
+msgstr "Debugowanie"
 
 #: amp.i18n.php:134
 msgid "Debug File"
-msgstr ""
+msgstr "Plik debugu"
 
 #: ../core/functions.inc.php:5550
 #: ../core/functions.inc.php:5551
@@ -3047,7 +3053,7 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:145
 #: ../core/views/trunks/pjsip.php:1023
 msgid "Default"
-msgstr ""
+msgstr "Domyślne"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1242
 msgid "Default Asterisk Manager Password Used"
@@ -3056,15 +3062,15 @@ msgstr ""
 #: ../core/functions.inc.php:6042
 #: ../core/functions.inc/drivers/Sip.class.php:337
 msgid "Default User"
-msgstr ""
+msgstr "Domyślny użytkownik"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 msgid "Default Value"
-msgstr ""
+msgstr "Domyślna wartość"
 
 #: amp.i18n.php:812
 msgid "Default language"
-msgstr ""
+msgstr "Domyślny język"
 
 #: amp.i18n.php:336
 msgid ""
@@ -3242,16 +3248,16 @@ msgstr ""
 #: ../core/page.extensions.php:153
 #: ../core/page.users.php:49
 msgid "Delete"
-msgstr ""
+msgstr "Usuń"
 
 #: ../core/functions.inc.php:5986
 #, php-format
 msgid "Delete Device %s"
-msgstr ""
+msgstr "Usuń urządzenie  %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:22
 msgid "Delete notification"
-msgstr ""
+msgstr "Usuń powiadomienie"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1308
 msgid "Deleted module[s], accepts argument module[s]"
@@ -3259,7 +3265,7 @@ msgstr ""
 
 #: ../core/page.astmodules.php:57
 msgid "Deleting the modules.conf file will reset this to defaults."
-msgstr ""
+msgstr "Usunięcie pliku modules.conf spowoduje reset do ustawień domyślnych"
 
 #: ../core/functions.inc/drivers/Sip.class.php:499
 msgid "Deny"
@@ -3268,7 +3274,7 @@ msgstr "Odmów"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:877
 #, php-format
 msgid "Dependency %s has an unknown state of : %s %s"
-msgstr ""
+msgstr "Zależność %s ma stan nieokreślony : %s %s"
 
 #: ../core/views/trunks/trunk_header.php:298
 msgid ""
@@ -3280,7 +3286,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:71
 msgid "Deprecated option"
-msgstr ""
+msgstr "Przestarzała opcja"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
@@ -3298,42 +3304,42 @@ msgstr ""
 #: ../core/views/did/didgrid.php:19
 #: ../core/views/rnav.php:82
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: ../core/views/trunks/trunk_header.php:247
 msgid "Descriptive Name for this Trunk"
-msgstr ""
+msgstr "Opisowa nazwa tego trunka"
 
 #: ../core/Core.class.php:3511
 #: ../core/views/did/didgrid.php:20
 msgid "Destination"
-msgstr ""
+msgstr "Miejsce docelowe"
 
 #: ../core/views/did/advanced_form.php:277
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
-msgstr ""
+msgstr "Miejsce docelowe dla trasy"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:16
 msgid "Destroy Session"
-msgstr ""
+msgstr "Zerwij sesję"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:17
 msgid "Destroy all sessions"
-msgstr ""
+msgstr "Zerwij wszystkie sesje"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:44
 msgid "Destroying "
-msgstr ""
+msgstr "Zrywanie "
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:35
 msgid "Destroying session"
-msgstr ""
+msgstr "Zrywanie sesji"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:789
 #, php-format
 msgid "Detected Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Wykryto brakującą zależność: %s %s"
 
 #: amp.i18n.php:722
 msgid ""
@@ -3414,11 +3420,11 @@ msgstr ""
 
 #: amp.i18n.php:138
 msgid "Developer Mode"
-msgstr ""
+msgstr "Tryb programisty"
 
 #: amp.i18n.php:126
 msgid "Developer and Customization"
-msgstr ""
+msgstr "Programowanie i dostosowania"
 
 #: ../core/Core.class.php:3857
 #: ../core/functions.inc.php:5983
@@ -3426,7 +3432,7 @@ msgstr ""
 #: ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
-msgstr ""
+msgstr "Urządzenie"
 
 #: ../core/install.php:491
 #, php-format
@@ -3440,44 +3446,44 @@ msgstr ""
 
 #: ../core/functions.inc.php:6038
 msgid "Device ID"
-msgstr ""
+msgstr "ID urządzenia"
 
 #: ../core/functions.inc.php:6053
 #: ../core/functions.inc/drivers/Sip.class.php:280
 msgid "Device Options"
-msgstr ""
+msgstr "Opcje urządzenia"
 
 #: amp.i18n.php:196
 msgid "Device Settings"
-msgstr ""
+msgstr "Ustawienia urządzenia"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:314
 msgid "Device State Busy at"
-msgstr ""
+msgstr "Stan urządzenia zajęte"
 
 #: ../core/Core.class.php:3479
 #: ../core/Core.class.php:3480
 msgid "Device Technology"
-msgstr ""
+msgstr "Technologia urządzenia"
 
 #: ../core/functions.inc.php:6041
 #: ../core/page.devices.php:67
 #: ../core/page.devices.php:88
 msgid "Device Type"
-msgstr ""
+msgstr "Typ urządzenia"
 
 #: ../core/Core.class.php:3601
 msgid "Device could not be added."
-msgstr ""
+msgstr "Nie udało się dodanie urządzenia."
 
 #: ../core/Core.class.php:176
 #: ../core/Core.class.php:218
 msgid "Device was not added!"
-msgstr ""
+msgstr "Urządzenie nie zostało dodane!"
 
 #: amp.i18n.php:914
 msgid "Devices"
-msgstr ""
+msgstr "Uządzenia"
 
 #: ../core/functions.inc.php:6041
 msgid ""
@@ -3489,38 +3495,38 @@ msgstr ""
 #: ../core/functions.inc/drivers/Custom.class.php:37
 #: ../core/functions.inc/drivers/Sip.class.php:491
 msgid "Dial"
-msgstr ""
+msgstr "Wybierz"
 
 #: ../core/views/trunks/trunk_header.php:451
 msgid "Dial Number Manipulation Rules"
-msgstr ""
+msgstr "Reguły manipulacji wybierania numeru"
 
 #: ../core/views/routing/form.php:273
 msgid "Dial Patterns"
-msgstr ""
+msgstr "Wzory wybierania"
 
 #: ../core/views/routing/form.php:66
 msgid "Dial Patterns that will use this Route"
-msgstr ""
+msgstr "Wzory wybierania, które wykorzystają tę trasę"
 
 #: ../core/views/routing/form.php:575
 msgid "Dial pattern matched"
-msgstr ""
+msgstr "Wzór wybierania dopasowany"
 
 #: ../core/views/routing/form.php:497
 #: ../core/views/routing/form.php:738
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
-msgstr ""
+msgstr "Konfiguratory wzorów wybierania"
 
 #: ../core/views/trunks/trunk_header.php:217
 msgid "Dialed Number Manipulation Rules"
-msgstr ""
+msgstr "Reguły manipulacji wybranego numeru"
 
 #: amp.i18n.php:254
 msgid "Dialplan and Operational"
-msgstr ""
+msgstr "Dialplan i ustawienia operacyjne"
 
 #: ../core/views/routing/form.php:88
 msgid ""
@@ -3532,11 +3538,11 @@ msgstr ""
 #: ../core/functions.inc/drivers/PJSip.class.php:305
 #: ../core/views/trunks/pjsip.php:1075
 msgid "Direct Media"
-msgstr ""
+msgstr "Bezpośrednie media"
 
 #: ../core/install.php:12
 msgid "Directed Call Pickup"
-msgstr ""
+msgstr "Bezpośrednie odbieranie połączeń"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:819
 #, php-format
@@ -3555,7 +3561,7 @@ msgstr ""
 
 #: amp.i18n.php:408
 msgid "Directory Layout"
-msgstr ""
+msgstr "Rozkład katalogu"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:404
 #: ../core/functions.inc.php:5526
@@ -3563,51 +3569,53 @@ msgstr ""
 #: ../core/functions.inc.php:5535
 #: ../core/functions.inc.php:5539
 msgid "Disable"
-msgstr ""
+msgstr "Wyłącz"
 
 #: amp.i18n.php:298
 msgid "Disable -custom Context Includes"
-msgstr ""
+msgstr "Wyłącz inkludowanie kontekstów -custom"
 
 #: amp.i18n.php:622
 msgid "Disable CRM Logging"
-msgstr ""
+msgstr "Wyłącz dziennik zdarzeń CRM"
 
 #: amp.i18n.php:724
 msgid "Disable FreePBX Log"
-msgstr ""
+msgstr "Wyłącz dziennik zdarzeń FreePBX"
 
 #: amp.i18n.php:142
 msgid "Disable FreePBX dbug Logging"
-msgstr ""
+msgstr "Wyłącz dziennik zdarzeń debugu FreePBX"
 
 #: amp.i18n.php:146
 msgid "Disable Mainstyle CSS Compression"
-msgstr ""
+msgstr "Wyłącz Kompresję CSS głównego stylu"
 
 #: amp.i18n.php:150
 msgid "Disable Module Admin Caching"
-msgstr ""
+msgstr "Wyłącz buforowanie administracji modułów"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:177
 msgid "Disable Module Admin caching already enabled, ignoring option"
 msgstr ""
+"Wyłącznik buforowania administracji modułów jest już aktywny. Ignoruję "
+"ustawienie"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:180
 msgid "Disable Module Admin caching temporarily enabled"
-msgstr ""
+msgstr "Wyłącznik buforowania administracji modułów jest tymczasowo aktywny."
 
 #: ../core/views/trunks/trunk_header.php:425
 msgid "Disable Trunk"
-msgstr ""
+msgstr "Wyłącz trunk"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
 msgid "Disable a specific job"
-msgstr ""
+msgstr "Wyłącz konkretne zadania"
 
 #: ../core/Console/Trunks.class.php:20
 msgid "Disable given trunk"
-msgstr ""
+msgstr "Wyłącz konkretny trunk"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1127
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:94
@@ -3619,29 +3627,29 @@ msgstr ""
 #: ../core/views/routing/timecond.php:20
 #: ../core/views/trunks/trunkgrid.php:44
 msgid "Disabled"
-msgstr ""
+msgstr "Wyłączone"
 
 #: ../core/Console/Trunks.class.php:71
 #, php-format
 msgid "Disabled Trunk %s Run fwconsole reload"
-msgstr ""
+msgstr "Wyłączono trunk %s Uruchom polecenie fwconsole reload"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:45
 msgid "Disabled:"
-msgstr ""
+msgstr "Wyłączono:"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:87
 #, php-format
 msgid "Disabled; Pending %s to %s"
-msgstr ""
+msgstr "Wyłączono; Oczekiwanie %s na %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1131
 msgid "Disabled; Pending upgrade to "
-msgstr ""
+msgstr "Wyłączono; Oczekiwanie na aktualizację do "
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:120
 msgid "Disabled; up to date"
-msgstr ""
+msgstr "Wyłączony; Aktualny"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1305
 msgid "Disables module[s] accepts argument module[s]"
@@ -3654,17 +3662,17 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:286
 #, php-format
 msgid "Disabling %s"
-msgstr ""
+msgstr "Wyłączanie %s"
 
 #: ../core/Console/Trunks.class.php:69
 #, php-format
 msgid "Disabling Trunk %s"
-msgstr ""
+msgstr "Wyłączam trunk %s"
 
 #: ../core/Console/Trunks.class.php:36
 #, php-format
 msgid "Disabling Trunk %s Run fwconsole reload"
-msgstr ""
+msgstr "Wyłączam trunk %s Uruchom komendę fwconsole reload"
 
 #: amp.i18n.php:304
 msgid ""
@@ -3674,11 +3682,11 @@ msgstr ""
 
 #: amp.i18n.php:302
 msgid "Disallow transfer features for inbound callers"
-msgstr ""
+msgstr "Nie zezwalaj na funkcje przełączania rozmów dla dzwoniących z zewnątrz"
 
 #: ../core/functions.inc/drivers/Sip.class.php:487
 msgid "Disallowed Codecs"
-msgstr ""
+msgstr "Niedozwolone kodeki"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:141
 #: ../core/functions.inc/drivers/Sip.class.php:486
@@ -3695,15 +3703,15 @@ msgstr ""
 
 #: amp.i18n.php:306
 msgid "Display CallerID on Calling Phone"
-msgstr ""
+msgstr "Wyświetl Id dzwoniącego na rozdzwanianym telefonie"
 
 #: amp.i18n.php:310
 msgid "Display Dialed Number on Calling Phone"
-msgstr ""
+msgstr "Wyświetl wybierany numer na telefonie"
 
 #: amp.i18n.php:10
 msgid "Display Friendly Name"
-msgstr ""
+msgstr "Wyświetl przyjazną nazwę"
 
 #: amp.i18n.php:154
 msgid "Display Monitor Trunk Failures Option"
@@ -3712,7 +3720,7 @@ msgstr ""
 #: ../core/functions.inc.php:5722
 #: ../core/views/quickCreate.php:85
 msgid "Display Name"
-msgstr ""
+msgstr "Wyświetl nazwę"
 
 #: ../core/Core.class.php:147
 msgid "Display Name can not be blank!"
