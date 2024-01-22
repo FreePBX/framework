@@ -92,6 +92,8 @@ class Database extends \PDO {
 
 		$engine = ($engine == 'mariadb') ? 'mysql' : $engine;
 
+		$dsnarr['port'] = '3306'; // initialize with default port
+
 		// We only want to add port to the DSN if it's actually defined.
 		if (isset($amp_conf['AMPDBPORT'])) {
 			// Make sure this is an int
