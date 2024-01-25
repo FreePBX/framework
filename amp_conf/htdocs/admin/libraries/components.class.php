@@ -782,7 +782,7 @@ class gui_textbox_check extends gui_textbox {
 		}
 
 		$cbid = !empty($cbelemname) ? $cbelemname : $this->_elemname . '_cb';
-		$this->html_input .= "<span class=\"input-group-addon\"><input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" data-disabled=\"$disabled_value\" data-enables=\"{$check_enables}\" class=\"{$cbclass}\" value=\"checked\" {$cb_state} $cb_disable> <label for=\"$cbid\">$cblabel</label></span></div>";
+		$this->html_input .= "<span class=\"input-group-addon\" style=\"width:auto !important;\"><input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" data-disabled=\"$disabled_value\" data-enables=\"{$check_enables}\" class=\"{$cbclass}\" value=\"checked\" {$cb_state} $cb_disable> <label for=\"$cbid\">$cblabel</label></span></div>";
 		$this->html_input .= "<script>$('#{$cbid}').change(function() {
 			var state = ($(this).is(':checked') ? true : false),
 					disable = ({$check_enables} !== state),
