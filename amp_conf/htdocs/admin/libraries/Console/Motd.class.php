@@ -114,7 +114,7 @@ class Motd extends Command {
 			}
 			$MAC = trim(file_get_contents('/sys/class/net/' . $if . '/address'));
 			$MAC = strtoupper($MAC);
-			$ipv6 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet6 \K[\da-f:]+'"));
+			$ipv6 = trim((shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet6 \K[\da-f:]+'"))??" ");
 			$ipv4 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet \K[\d.]+'"));
 			// If this interface has an ipv4 address AND an ipv6 address,
 			// display them both
