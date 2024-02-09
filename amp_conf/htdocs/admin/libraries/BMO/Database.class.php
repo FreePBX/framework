@@ -111,14 +111,7 @@ class Database extends \PDO {
 		}
 
 		// Always utf8.
-		$charset = "utf8";
-		if ($engine == 'mysql') {
-			//we cant learn the server version BEFORE we connect. So we have to figure it out now
-			$output = exec('mysql --version 2>/dev/null');
-			if(preg_match('/Distrib\s*(\d+\.\d+\.\d+)/i',$output,$matches) && version_compare($matches[1],"5.5.3","ge")) {
-				$charset = 'utf8mb4';
-			}
-		}
+		$charset = $engine === 'mysql' ? 'utf8mb4' : 'utf8';
 
 		$dsnarr['charset'] = $dsnarr['charset'] ?? $charset;
 
