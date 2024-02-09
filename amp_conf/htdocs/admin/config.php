@@ -809,7 +809,7 @@ if ($quietmode) {
 	if (!empty($_SERVER['HTTP_REFERER']) && (preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER'])
 		|| preg_match('/config.php\?display=updates&action=upload/', $_SERVER['HTTP_REFERER'])) &&
 		empty($_FILES) && empty($_POST) && $_REQUEST['display'] === 'index' && 
-		$_SERVER['CONTENT_LENGTH'] > 0) 
+		(isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0)) 
 	{
 		$postMaxSize = ini_get('post_max_size');
 		$page_content = 
