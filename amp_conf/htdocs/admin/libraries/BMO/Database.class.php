@@ -298,11 +298,15 @@ class Database extends \PDO {
 				'dbname' => $this->dsnarr['dbname'],
 				'user' => $this->username,
 				'password' => $this->password,
-				'host' => $this->dsnarr['host'],
 				'driver' => self::$driverSchemeAliases[$this->engine],
-				'port' => $this->dsnarr['port'],
 				'charset' => $this->dsnarr['charset'],
 			];
+			$optional = ['host', 'port', 'unix_socket'];
+			foreach ($optional as $el) {
+				if (isset($this->dsnarr[$el])) {
+					$connectionParams[$el] = $this->dsnarr[$el];
+				}
+			}
 			$this->dConn = DriverManager::getConnection($connectionParams);
 		}
 		return $this->dConn;
