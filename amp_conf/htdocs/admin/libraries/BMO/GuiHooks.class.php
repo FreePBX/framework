@@ -74,7 +74,7 @@ class GuiHooks {
 	/**
 	 * Check for hooks for the current GUI function
 	 */
-	public function doGUIHooks($thispage = null, &$currentcomponent) {
+	public function doGUIHooks($thispage, &$currentcomponent) {
 		if (!$thispage)
 			return false;
 
@@ -136,7 +136,7 @@ class GuiHooks {
 				\modgettext::push_textdomain(strtolower($moduleToCall));
 				// Now, does the hook actually exist?
 				if (!method_exists($moduleToCall, "doGuiIntercept"))
-					throw new \Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
+					throw new \Exception("$moduleToCall asked to intercept, but {$moduleToCall}->doGuiIntercept() doesn't exist");
 
 				// Output is being passed as a reference.
 				$mod->doGuiIntercept($filename, $output);

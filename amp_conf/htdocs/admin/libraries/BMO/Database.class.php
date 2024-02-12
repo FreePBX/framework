@@ -74,11 +74,11 @@ class Database extends \PDO {
 
 		// Now go through and put anything in place that was missing
 		if (!isset($dsnarr['host'])) {
-			$dsnarr['host'] = isset($amp_conf['AMPDBHOST'])?$amp_conf['AMPDBHOST']:'localhost';
+			$dsnarr['host'] = $amp_conf['AMPDBHOST'] ?? 'localhost';
 		}
 
 		if (!isset($dsnarr['dbname'])) {
-			$dsnarr['dbname'] = isset($amp_conf['AMPDBNAME'])?$amp_conf['AMPDBNAME']:'asterisk';
+			$dsnarr['dbname'] = $amp_conf['AMPDBNAME'] ?? 'asterisk';
 		}
 
 		// Note the inverse logic. We REMOVE engine from dsnarr if it exists, because that
@@ -87,7 +87,7 @@ class Database extends \PDO {
 			$engine = $dsnarr['engine'];
 			unset ($dsnarr['engine']);
 		} else {
-			$engine = isset($amp_conf['AMPDBENGINE'])?$amp_conf['AMPDBENGINE']:'mysql';
+			$engine = $amp_conf['AMPDBENGINE'] ?? 'mysql';
 		}
 
 		$engine = ($engine == 'mariadb') ? 'mysql' : $engine;
@@ -111,19 +111,12 @@ class Database extends \PDO {
 		}
 
 		// Always utf8.
-		$charset = "utf8";
-		if ($engine == 'mysql') {
-			//we cant learn the server version BEFORE we connect. So we have to figure it out now
-			$output = exec('mysql --version 2>/dev/null');
-			if(preg_match('/Distrib\s*(\d+\.\d+\.\d+)/i',$output,$matches) && version_compare($matches[1],"5.5.3","ge")) {
-				$charset = 'utf8mb4';
-			}
-		}
+		$charset = $engine === 'mysql' ? 'utf8mb4' : 'utf8';
 
-		$dsnarr['charset'] = isset($dsnarr['charset']) ? $dsnarr['charset'] : $charset;
+		$dsnarr['charset'] = $dsnarr['charset'] ?? $charset;
 
 		// Were there any database options?
-		$options = isset($args[3]) ? $args[3] : array();
+		$options = $args[3] ?? [];
 		$dsnarr['driverOptions'] = $options;
 
 		//this id only for PDO
@@ -191,9 +184,9 @@ class Database extends \PDO {
 		global $amp_conf;
 		$host = $amp_conf['AMPDBHOST'];
 		$port = isset($amp_conf['AMPDBPORT'])?$amp_conf['AMPDBPORT']:'';
-		$dbuser = $this->FreePBX->Config->get('AMPDBUSER') ? $this->FreePBX->Config->get('AMPDBUSER'):$amp_conf['AMPDBUSER'];
-		$dbpass = $this->FreePBX->Config->get('AMPDBPASS') ? $this->FreePBX->Config->get('AMPDBPASS'):$amp_conf['AMPDBPASS'];
-		$dbname = $this->FreePBX->Config->get('AMPDBNAME') ? $this->FreePBX->Config->get('AMPDBNAME') : 'asterisk';
+		$dbuser = $this->FreePBX->Config->get('AMPDBUSER') ?: $amp_conf['AMPDBUSER'];
+		$dbpass = $this->FreePBX->Config->get('AMPDBPASS') ?: $amp_conf['AMPDBPASS'];
+		$dbname = $this->FreePBX->Config->get('AMPDBNAME') ?: 'asterisk';
 
 		if ($host =='localhost' || $host == '127.0.0.1') {
 			$hostname = '';
@@ -298,11 +291,15 @@ class Database extends \PDO {
 				'dbname' => $this->dsnarr['dbname'],
 				'user' => $this->username,
 				'password' => $this->password,
-				'host' => $this->dsnarr['host'],
 				'driver' => self::$driverSchemeAliases[$this->engine],
-				'port' => $this->dsnarr['port'],
 				'charset' => $this->dsnarr['charset'],
 			];
+			$optional = ['host', 'port', 'unix_socket'];
+			foreach ($optional as $el) {
+				if (isset($this->dsnarr[$el])) {
+					$connectionParams[$el] = $this->dsnarr[$el];
+				}
+			}
 			$this->dConn = DriverManager::getConnection($connectionParams);
 		}
 		return $this->dConn;
