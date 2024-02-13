@@ -55,7 +55,7 @@ class Migration {
 		$export = array();
 		$expindexes = array();
 		foreach ($columns as $column) {
-			$type = strtolower($column->getType());
+			$type = $column->getType()->getName();
 			$name = $column->getName();
 			switch($type) {
 				case 'string':
