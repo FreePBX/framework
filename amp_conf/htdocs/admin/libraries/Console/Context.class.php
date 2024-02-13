@@ -22,6 +22,7 @@ class Context extends Command {
 		$args = $input->getArgument('args');
 		$FreePBX = \FreePBX::Create();
 		$astMan = $FreePBX->astman;
+		$i = 0;
 		if($astMan->connected()){
 			$astMan->Command('dialplan reload');
 			$res = $astMan->Command('dialplan show ' . $args[0]);
