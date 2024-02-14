@@ -6,6 +6,8 @@
 # you need to manually add these blocks to however you're managing ACLs on your web server
 SetEnv HTACCESS on
 
+DirectoryIndex index.php
+
 # Apache 2.2
 <IfModule !mod_authz_core.c>
 	# Disallow all . files, such as .htaccess or .git
@@ -13,7 +15,7 @@ SetEnv HTACCESS on
 		Deny from all
 	</FilesMatch>
 	# Allow index, config, and ajax.php, as well as all our image types.
-	<FilesMatch "(^$|index\.html|index\.php|config\.php|ajax\.php|\.(map|gif|GIF|jpg|jpeg|png|css|js|swf|txt|ico|ttf|svg|eot|woff|woff2|wav|mp3|aac|ogg|webm|gz)$)">
+	<FilesMatch "(^$|index\.html|index\.php|config\.php|ajax\.php|\.(map|gif|GIF|jpg|jpeg|png|css|js|swf|txt|ico|ttf|svg|eot|woff|woff2|wav|mp3|aac|ogg|webm|gz|map)$)">
 		Allow from all
 	</FilesMatch>
 </IfModule>
@@ -25,7 +27,7 @@ SetEnv HTACCESS on
 		Require all denied
 	</FilesMatch>
 	# Allow index, config, and ajax.php, as well as all our image types.
-	<FilesMatch "(^$|index\.html|index\.php|config\.php|ajax\.php|\.(map|gif|GIF|jpg|jpeg|png|css|js|swf|txt|ico|ttf|svg|eot|woff|woff2|wav|mp3|aac|ogg|webm|gz)$)">
+	<FilesMatch "(^$|index\.html|index\.php|config\.php|ajax\.php|\.(map|gif|GIF|jpg|jpeg|png|css|js|swf|txt|ico|ttf|svg|eot|woff|woff2|wav|mp3|aac|ogg|webm|gz|map)$)">
 		Require all granted
 	</FilesMatch>
 </IfModule>
