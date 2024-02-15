@@ -258,8 +258,7 @@ class Job extends Command {
 				$this->output->writeln("<error>Both class and command are defined</error>");
 				continue;
 			}
-
-			if(!empty($job['class'])) {
+			if(!empty($job['class']) && class_exists($job['class'])) {
 				// Before we include this job in the job list, we need to make sure it implements \Crony\TaskInterface
 				$implementations = class_implements( $job['class'] );
 				if ( in_array( 'FreePBX\Job\TaskInterface', $implementations ) ) {
