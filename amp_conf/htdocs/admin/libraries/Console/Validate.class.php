@@ -72,6 +72,7 @@ class Validate extends Command {
 	}
 
 	private function download($filename,$progress_callback=null) {
+		global $amp_conf;
 		$mf = \module_functions::create();
 		$urls = $mf->generate_remote_urls("/".$filename, true);
 		foreach($urls['mirrors'] as $u) {
