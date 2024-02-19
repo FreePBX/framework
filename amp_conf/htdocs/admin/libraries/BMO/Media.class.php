@@ -80,7 +80,7 @@ class Media extends DB_Helper{
 		$mmm = $this->getConfig('mediamissingmessage');
 		if(!empty($missing) && empty($mmm)) {
 			$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
-			$nt->add_notice("framework", "missing_html5", _("Missing HTML5 format converters"), sprintf(_("You are missing support for the following HTML5 codecs: %s. To fully support HTML5 browser playback you will need to install programs that can not be distributed with %s. If you'd like to install the binaries needed for these conversions click 'Resolve' in the lower left corner of this message. You can also safely ignore this message but browser playback might not work in your browser."),implode(",",$missing),$brand), "http://wiki.freepbx.org/display/FOP/Installing+Media+Conversion+Libraries",true,true);
+			$nt->add_notice("framework", "missing_html5", _("Missing HTML5 format converters"), sprintf(_("You are missing support for the following HTML5 codecs: %s. To fully support HTML5 browser playback you will need to install programs that can not be distributed with %s. If you'd like to install the binaries needed for these conversions click 'Resolve' in the lower left corner of this message. You can also safely ignore this message but browser playback might not work in your browser."),implode(",",$missing),$brand), "https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682566/Installing+Media+Conversion+Libraries",true,true);
 			$this->setConfig('mediamissingmessage',true);
 		} elseif(empty($missing) && !empty($mmm)) {
 			$nt->delete("framework", "missing_html5");
