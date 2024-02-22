@@ -406,17 +406,18 @@ class View {
 		putenv('LANGUAGE='.$lang);
 		setlocale(LC_ALL, $lang);
 
+		// Moment and Carbon do not support UTF8 locale parts, so let's remove that from
+		// the locale string if it exists
+		$baseLocale = $this->getBaseLocale($lang);
+
 		//Set Carbon Locale
-		if(!Carbon::setLocale($lang)) {
-			$ps = explode("_",(string) $lang);
+		if(!Carbon::setLocale($baseLocale)) {
+			$ps = explode("_",(string) $baseLocale);
 			if(!Carbon::setLocale($ps[0])) {
 				Carbon::setLocale('en');
 			}
 		}
 
-		// Moment does not support UTF8 locale parts, so let's remove that from
-		// the locale string if it exists
-		$baseLocale = $this->getBaseLocale($lang);
 		try {
 			\Moment\Moment::setLocale($baseLocale);
 		} catch(\Exception) {
