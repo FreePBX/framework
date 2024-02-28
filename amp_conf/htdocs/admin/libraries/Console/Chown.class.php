@@ -433,6 +433,9 @@ class Chown extends Command {
 			if(!is_null($progress)) {
 				$progress->advance();
 			}
+			if(!file_exists($file)) {
+				continue;
+			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
@@ -467,6 +470,9 @@ class Chown extends Command {
 		foreach ($this->toIterator($files) as $file) {
 			if(!is_null($progress)) {
 				$progress->advance();
+			}
+			if(!file_exists($file)) {
+				continue;
 			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
@@ -504,6 +510,9 @@ class Chown extends Command {
 		foreach ($this->toIterator($files) as $file) {
 			if(!is_null($progress)) {
 				$progress->advance();
+			}
+			if(!file_exists($file)) {
+				continue;
 			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
