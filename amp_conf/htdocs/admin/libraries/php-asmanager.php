@@ -1705,7 +1705,7 @@ class AGI_AsteriskManager {
 		if ($write_through) {
 			$value = freepbx_str_replace('"','\\"',$value);
 			$r = $this->command("database put ".freepbx_str_replace(" ","/",$family)." ".freepbx_str_replace(" ","/",$key)." \"".$value."\"");
-			return (bool)strstr($r["data"], "success");
+			return (bool)strstr($r["data"] ?? '', "success");
 		}
 		return true;
 	}
@@ -1742,7 +1742,7 @@ class AGI_AsteriskManager {
 	 */
 	function database_del($family, $key) {
 		$r = $this->command("database del ".freepbx_str_replace(" ","/",$family)." ".freepbx_str_replace(" ","/",$key));
-		$status = (bool)strstr($r["data"], "removed");
+		$status = (bool)strstr($r["data"] ?? '', "removed");
 		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".freepbx_str_replace(" ","/",$family)."/".freepbx_str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
@@ -1757,7 +1757,7 @@ class AGI_AsteriskManager {
 	 */
 	function database_deltree($family) {
 		$r = $this->command("database deltree ".freepbx_str_replace(" ","/",$family));
-		$status = (bool)strstr($r["data"], "removed");
+		$status = (bool)strstr($r["data"] ?? '', "removed");
 		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".freepbx_str_replace(" ","/",$family);
 			foreach($this->memAstDB as $key => $val) {
