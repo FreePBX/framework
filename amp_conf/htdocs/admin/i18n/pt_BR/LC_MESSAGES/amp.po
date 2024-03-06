@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 03:54-0500\n"
+"POT-Creation-Date: 2024-03-06 01:15-0500\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1032,7 +1032,7 @@ msgstr ""
 msgid "Add Outbound Route"
 msgstr "Adicionar Rota de Saída"
 
-#: ../core/page.routing.php:12
+#: ../core/page.routing.php:13
 msgid "Add Route"
 msgstr "Adicionar Rota"
 
@@ -2096,6 +2096,18 @@ msgstr "Chamada em Espera está desativada"
 #: ../core/page.users.php:81
 msgid "Call Waiting is enabled"
 msgstr "A Chamada em Espera está ativada"
+
+#: ../core/Api/Gql/Users.php:225
+msgid "Call Waiting state for this user's extension"
+msgstr ""
+
+#: ../core/Api/Gql/Users.php:249
+msgid ""
+"Call recording policy priority relative to other extensions when there is a "
+"conflict between an extension wanting recording and the other not wanting "
+"it. The higher of the two determines the policy, on a tie the global policy "
+"(caller or callee) determines the policy"
+msgstr ""
 
 #: ../core/functions.inc.php:4988
 msgid ""
@@ -4425,7 +4437,7 @@ msgstr "Editar Ramal"
 msgid "Edit Fixed User: %s"
 msgstr "Editar usuário fixo %s"
 
-#: ../core/page.routing.php:10
+#: ../core/page.routing.php:11
 msgid "Edit Route"
 msgstr "Editar Rota"
 
@@ -4613,7 +4625,7 @@ msgstr "Habilitar Migração jQuery"
 msgid "Enable module[s], accepts argument module[s]"
 msgstr "Ativar módulo[s], aceita módulo[s] de argumento"
 
-#: ../core/functions.inc.php:4987
+#: ../core/Api/Gql/Users.php:245 ../core/functions.inc.php:4987
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -8825,7 +8837,7 @@ msgstr "Rota de Saída:"
 msgid "Outbound Route: %s"
 msgstr "Rota de Saída: %s"
 
-#: amp.i18n.php:870 ../core/page.routing.php:106
+#: amp.i18n.php:870 ../core/page.routing.php:107
 msgid "Outbound Routes"
 msgstr "Rotas de saída"
 
@@ -9635,17 +9647,33 @@ msgstr "Política de prioridade de gravação"
 msgid "Recording Options"
 msgstr "Opções de Gravação"
 
+#: ../core/Api/Gql/Users.php:241
+msgid "Recording of calls made to other extensions on the system"
+msgstr ""
+
 #: ../core/functions.inc.php:4986
 msgid "Recording of calls made to other extensions on the system."
 msgstr "Gravação de chamadas feitas para outros ramais no sistema."
+
+#: ../core/Api/Gql/Users.php:237
+msgid "Recording of calls received from other extensions on the system"
+msgstr ""
 
 #: ../core/functions.inc.php:4985
 msgid "Recording of calls received from other extensions on the system."
 msgstr "Gravação de chamadas recebidas de outros ramais no sistema."
 
+#: ../core/Api/Gql/Users.php:229
+msgid "Recording of inbound calls from external sources"
+msgstr ""
+
 #: ../core/functions.inc.php:4983
 msgid "Recording of inbound calls from external sources."
 msgstr "Gravação de chamadas recebidas de fontes externas."
+
+#: ../core/Api/Gql/Users.php:233
+msgid "Recording of outbound calls to external sources"
+msgstr ""
 
 #: ../core/functions.inc.php:4984
 msgid "Recording of outbound calls to external sources."
@@ -12532,7 +12560,7 @@ msgstr "Esta página é atualmente BETA"
 msgid "This page is used to manage various system trunks"
 msgstr "Esta página é usada para gerenciar vários troncos do sistema"
 
-#: ../core/page.routing.php:24
+#: ../core/page.routing.php:25
 msgid "This page is used to manage your outbound routing."
 msgstr "Esta página é usada para gerenciar o roteamento de saída."
 

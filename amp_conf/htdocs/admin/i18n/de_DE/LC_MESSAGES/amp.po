@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 03:54-0500\n"
+"POT-Creation-Date: 2024-03-06 01:15-0500\n"
 "PO-Revision-Date: 2018-10-19 20:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
@@ -1035,7 +1035,7 @@ msgstr "Neue %s Amtsleitung hinzufügen"
 msgid "Add Outbound Route"
 msgstr "Ausgehende Route hinzufügen"
 
-#: ../core/page.routing.php:12
+#: ../core/page.routing.php:13
 msgid "Add Route"
 msgstr "Route hinzufügen"
 
@@ -2026,6 +2026,18 @@ msgstr "Anklopfen ist deaktiviert"
 #: ../core/page.users.php:81
 msgid "Call Waiting is enabled"
 msgstr "Anklopfen ist aktiviert"
+
+#: ../core/Api/Gql/Users.php:225
+msgid "Call Waiting state for this user's extension"
+msgstr ""
+
+#: ../core/Api/Gql/Users.php:249
+msgid ""
+"Call recording policy priority relative to other extensions when there is a "
+"conflict between an extension wanting recording and the other not wanting "
+"it. The higher of the two determines the policy, on a tie the global policy "
+"(caller or callee) determines the policy"
+msgstr ""
 
 #: ../core/functions.inc.php:4988
 msgid ""
@@ -4211,7 +4223,7 @@ msgstr "Nebenstelle bearbeiten"
 msgid "Edit Fixed User: %s"
 msgstr "Festen Benutzer bearbeiten: %s"
 
-#: ../core/page.routing.php:10
+#: ../core/page.routing.php:11
 msgid "Edit Route"
 msgstr "Verbindung bearbeiten"
 
@@ -4397,7 +4409,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:4987
+#: ../core/Api/Gql/Users.php:245 ../core/functions.inc.php:4987
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -8258,7 +8270,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr ""
 
-#: amp.i18n.php:870 ../core/page.routing.php:106
+#: amp.i18n.php:870 ../core/page.routing.php:107
 msgid "Outbound Routes"
 msgstr ""
 
@@ -9022,16 +9034,32 @@ msgstr ""
 msgid "Recording Options"
 msgstr ""
 
+#: ../core/Api/Gql/Users.php:241
+msgid "Recording of calls made to other extensions on the system"
+msgstr ""
+
 #: ../core/functions.inc.php:4986
 msgid "Recording of calls made to other extensions on the system."
+msgstr ""
+
+#: ../core/Api/Gql/Users.php:237
+msgid "Recording of calls received from other extensions on the system"
 msgstr ""
 
 #: ../core/functions.inc.php:4985
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
+#: ../core/Api/Gql/Users.php:229
+msgid "Recording of inbound calls from external sources"
+msgstr ""
+
 #: ../core/functions.inc.php:4983
 msgid "Recording of inbound calls from external sources."
+msgstr ""
+
+#: ../core/Api/Gql/Users.php:233
+msgid "Recording of outbound calls to external sources"
 msgstr ""
 
 #: ../core/functions.inc.php:4984
@@ -11605,7 +11633,7 @@ msgstr ""
 msgid "This page is used to manage various system trunks"
 msgstr ""
 
-#: ../core/page.routing.php:24
+#: ../core/page.routing.php:25
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
