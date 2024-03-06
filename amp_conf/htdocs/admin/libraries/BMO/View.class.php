@@ -694,7 +694,7 @@ class View {
 		$flattened = [];
 		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
-				if(is_array($restrict_modules) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
+				if((is_array($restrict_modules) && isset($restrict_modules[$mod])) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
 					continue;
 				}
 				foreach($data['destinations'] as $destination => $info) {
@@ -732,7 +732,7 @@ class View {
 		$cat_options = [];
 		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
-				if(is_array($restrict_modules) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
+				if((is_array($restrict_modules) && isset($restrict_modules[$mod])) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
 					continue;
 				}
 				if(empty($cat_options[$data['name']])) {
