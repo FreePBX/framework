@@ -510,7 +510,7 @@ class Config {
 	public function reset_conf_settings($settings, $commit=false) {
 		$update_arr = array();
 		foreach ($settings as $keyword) {
-			$update_arr[$keyword] = $this->db_conf_store[$keyword]['defaultval'];
+			$update_arr[$keyword] = $this->db_conf_store[$keyword]['defaultval'] ?? '';
 		}
 		return $this->set_conf_values($update_arr,$commit,true);
 	}
