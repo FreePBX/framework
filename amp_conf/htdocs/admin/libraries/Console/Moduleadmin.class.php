@@ -1245,7 +1245,7 @@ class Moduleadmin extends Command {
 				} elseif (file_exists($this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig")) {
 					$sigfile = $this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig";
 					$sig = $this->FreePBX->GPG->checkSig($sigfile);
-					if(in_array($sig['config']['signedwith'], array('B53D215A755231A3','86CE877469D2EAD9'))) {
+					if(isset($sig['config']['signedwith']) && in_array($sig['config']['signedwith'], array('B53D215A755231A3','86CE877469D2EAD9'))) {
 						$module_Signature = 'Sangoma';
 					} else {
 						$module_Signature = 'Unknown';
