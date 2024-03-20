@@ -802,7 +802,7 @@ class module_functions {
 						if(!$devmode && ((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<'))) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
-								out(_("The following error(s) occured:"));
+								out(_("The following error(s) occurred:"));
 								out(' - '.implode("\n - ",$errors));
 								return false;
 							} else {
@@ -812,7 +812,7 @@ class module_functions {
 								}
 								out(sprintf(_("Installing Missing Dependency of: %s %s"),$module,$version));
 								if (is_array($errors = $this->install($module,$force))) {
-									out(_("The following error(s) occured:"));
+									out(_("The following error(s) occurred:"));
 									out(' - '.implode("\n - ",$errors));
 									return false;
 								} else {
@@ -832,7 +832,7 @@ class module_functions {
 							case MODULE_STATUS_NOTINSTALLED:
 								out(sprintf(_("Installing Missing Dependency of: %s %s"),$module,$version));
 								if (is_array($errors = $this->install($module,$force))) {
-									out(_("The following error(s) occured:"));
+									out(_("The following error(s) occurred:"));
 									out(' - '.implode("\n - ",$errors));
 									return false;
 								} else {
@@ -842,7 +842,7 @@ class module_functions {
 							case MODULE_STATUS_DISABLED:
 								out(sprintf(_("Enabling Missing Dependency of: %s %s"),$module,$version));
 								if (is_array($errors = $this->enable($module))) {
-									out(_("The following error(s) occured:"));
+									out(_("The following error(s) occurred:"));
 									out(' - '.implode("\n - ",$errors));
 									return false;
 								}
@@ -851,7 +851,7 @@ class module_functions {
 							case MODULE_STATUS_NEEDUPGRADE:
 								out(sprintf(_("Installing Missing Dependency of: %s %s"),$module,$version));
 								if (is_array($errors = $this->install($module,$force))) {
-									out(_("The following error(s) occured:"));
+									out(_("The following error(s) occurred:"));
 									out(' - '.implode("\n - ",$errors));
 									return false;
 								} else {
@@ -861,7 +861,7 @@ class module_functions {
 							case MODULE_STATUS_BROKEN:
 								out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 								if (is_array($errors = $this->download($module,$force,$callback))) {
-									out(_("The following error(s) occured:"));
+									out(_("The following error(s) occurred:"));
 									out(' - '.implode("\n - ",$errors));
 									return false;
 								} else {
@@ -871,7 +871,7 @@ class module_functions {
 									}
 									out(sprintf(_("Installing Missing Dependency of: %s %s"),$module,$version));
 									if (is_array($errors = $this->install($module,$force))) {
-										out(_("The following error(s) occured:"));
+										out(_("The following error(s) occurred:"));
 										out(' - '.implode("\n - ",$errors));
 										return false;
 									} else {
@@ -890,7 +890,7 @@ class module_functions {
 					} else {
 						out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 						if (is_array($errors = $this->download($module,$force,$callback))) {
-							out(_("The following error(s) occured:"));
+							out(_("The following error(s) occurred:"));
 							out(' - '.implode("\n - ",$errors));
 							return false;
 						} else {
@@ -900,7 +900,7 @@ class module_functions {
 							}
 							out(sprintf(_("Installing Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->install($module,$force))) {
-								out(_("The following error(s) occured:"));
+								out(_("The following error(s) occurred:"));
 								out(' - '.implode("\n - ",$errors));
 								return false;
 							} else {
