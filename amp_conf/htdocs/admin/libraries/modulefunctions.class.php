@@ -1550,7 +1550,7 @@ class module_functions {
 			'hooks' => $hooks,
 			'timeout' => 1800, // Allow up to 1800 seconds (30 minutes) for the download to complete
 		);
-		$response = $requests->post('', array(), $urls['options'], $options);
+		$response = $requests->post('', array(), ($urls['options'] ?? []), $options);
 		file_put_contents($filename,$response->body);
 
 		if (is_readable($filename) !== TRUE ) {
