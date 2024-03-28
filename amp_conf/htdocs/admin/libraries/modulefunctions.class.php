@@ -1497,8 +1497,9 @@ class module_functions {
 				// absolute https URL was provided
 				$url_list = array($modulexml['location']);
 			} else {
-				$urls = $this->generate_remote_urls("/modules/".$modulexml['location'], true);
-				foreach($urls['mirrors'] as $url) {
+				$urls     = $this->generate_remote_urls("/modules/".$modulexml['location'], true);
+				$url_list = [];
+				foreach(($urls['mirrors'] ?? []) as $url) {
 					$url_list[] = $url.$urls['path'];
 				}
 			}
