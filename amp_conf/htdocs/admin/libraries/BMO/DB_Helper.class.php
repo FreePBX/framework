@@ -343,6 +343,7 @@ class DB_Helper {
 			// It'll be reset after the first one.
 			throw new \Exception("Can't override with setMultiConfig");
 		}
+		$p = self::checkDatabase($this);
 
 		self::$db->beginTransaction();
 		foreach ($keyval as $key => $val) {
