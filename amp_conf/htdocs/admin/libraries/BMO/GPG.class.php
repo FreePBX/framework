@@ -196,13 +196,13 @@ class GPG {
 
 		$module = $this->checkSig($file);
 		// Is this a local module?
-		if (isset($module['parsedout']) && $module['parsedout']['config']['version'] > "1" && $module['parsedout']['config']['type'] == "local") {
+		if (isset($module['parsedout']) && (isset($module['parsedout']['config']['version']) && $module['parsedout']['config']['version'] > "1") && (isset($module['parsedout']['config']['type']) && $module['parsedout']['config']['type'] == "local")) {
 			// We need to actually validate the LOCAL SECURE module
 			$module = $this->processLocalSig($modulename, $module['parsedout']);
 		} else {
 			// Check the signature on the module.sig
 			if (isset($module['status'])) {
-				return array("status" => $module['status'], "details" => array(sprintf(_("module.sig check failed! %s"), $module['trustdetails'][0])));
+				return array("status" => $module['status'], "details" => array(sprintf(_("module.sig check failed! %s"), ($module['trustdetails'][0] ?? NULL))));
 			}
 		}
 
@@ -705,7 +705,8 @@ class GPG {
 
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
-			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($status['signedby']));
+			$signedBy = (isset($status['signedby'])) ? escapeshellarg($status['signedby']) : NULL;
+			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$signedBy);
 			$longkeys = array();
 			foreach (array_merge(array($this->freepbxkey),$this->trustkeys) as $currentkey) {
 				$longkeys[] = substr($currentkey, -16);
