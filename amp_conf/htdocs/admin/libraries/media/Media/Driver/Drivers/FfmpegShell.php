@@ -138,7 +138,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 			case "mp4":
 			case "m4a":
 				if(self::hasAAC()) {
-					$process = \freepbx_get_process_obj($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
+					$process = \freepbx_get_process_obj($this->binary.' -i '.escapeshellarg($this->track).' -acodec aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
 				} else {
 					throw new \Exception("MP4 and M4A are not supported by FFMPEG");
 				}
