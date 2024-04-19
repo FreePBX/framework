@@ -94,7 +94,7 @@ class Hooks extends DB_Helper {
 								$hookMod = !empty($namespace) ? $namespace . '\\' . $class : $class;
 								foreach($methods->method as $method) {
 									foreach($method->attributes() as $key => $value) {
-										$hks[$key] = (string)$value;
+										$hks[$key] = trim((string)$value);
 									}
 									$hks['method'] = (string)$method;
 									$hks['static'] = isset($hks['static']) && $hks['static'] === 'true' ? true : false;
