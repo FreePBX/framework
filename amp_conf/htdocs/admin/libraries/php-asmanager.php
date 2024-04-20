@@ -1393,7 +1393,7 @@ class AGI_AsteriskManager {
 			$parameters['ActionID'] = $actionid;
 		}
 		if ($channel) {
-			$parameters['Channel'] = $queue;
+			$parameters['Channel'] = $channel;
 		}
 		$response = $this->send_request('Status', $parameters);
 		if ($response["Response"] == "Success") {
