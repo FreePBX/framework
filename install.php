@@ -237,7 +237,14 @@ $installer->install_upgrades(getversion());
 // without requiring a major version bump
 //
 $installer->freepbx_settings_init(true);
-
+if (version_compare("21.0", $astversion)<=0) {
+	$getSipDriverSettings = \FreePBX::Config()->conf_setting('ASTSIPDRIVER');
+	if (!empty($getSipDriverSettings)) {
+		$getSipDriverSettings['value'] = 'chan_pjsip';
+		$getSipDriverSettings['options'] = array('chan_pjsip');
+		\FreePBX::Config()->define_conf_setting('ASTSIPDRIVER', $getSipDriverSettings, true);
+	}
+}
 // We now delete the files, this makes sure that if someone had an unprotected system where they have not enabled
 // the .htaccess files or otherwise allowed direct access, that these files are not around to possibly cause problems
 //
