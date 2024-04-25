@@ -1366,7 +1366,7 @@ class module_functions {
 		$download_chunk_size = 12*1024;
 
 		// invoke progress callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
+		if (isset($progress_callback) && !is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('getinfo', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('getinfo', array('module'=>$modulename));
@@ -1530,7 +1530,7 @@ class module_functions {
 		$totalread = 0;
 		// invoke progress_callback
 		$headers['content-length'] = !empty($headers['content-length']) ? $headers['content-length'] : '0';
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
+		if (isset($progress_callback) && !is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
@@ -1538,9 +1538,9 @@ class module_functions {
 
 		$hooks = new \WpOrg\Requests\Hooks();
 		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
-			if (!is_array($progress_callback) && function_exists($progress_callback)) {
+			if (isset($progress_callback) && !is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
-			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+			} else if(isset($progress_callback) && is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			}
 		});
@@ -1607,7 +1607,7 @@ class module_functions {
 		}
 
 		// invoke progress callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
+		if (isset($progress_callback) && !is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
@@ -1646,9 +1646,9 @@ class module_functions {
 		}
 
 		// invoke progress_callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
+		if (isset($progress_callback) && !is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('done', array('module'=>$modulename));
-		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+		} else if(isset($progress_callback) && is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->{$progress_callback[1]}('done', array('module'=>$modulename));
 		}
 
