@@ -89,7 +89,9 @@ class Reload extends Command {
 		}
 
 		try {
+			if(method_exists($this->freepbx->Core, "confirmPJSIPAdoption")) {
 			$this->freepbx->Core->confirmPJSIPAdoption();
+			}
 			$this->reload();
 			$this->removeLock();
 		} catch(\Exception $e) {
