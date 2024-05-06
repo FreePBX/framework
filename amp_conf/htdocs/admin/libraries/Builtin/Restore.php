@@ -75,8 +75,8 @@ class Restore Extends Base\RestoreBase{
 			$usth = $this->FreePBX->Database->prepare($sql);
 
 			foreach($res as $data) {
-				if ($data['keyword'] === 'AMPMGRPASS') {
-					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $this->data['module']));
+				if ($keyword === 'AMPMGRPASS'|| $keyword ==='AMPMGRUSER') {
+					$this->log(sprintf(_("Ignorning restore of %s Advanced Settings from %s"),$keyword, $this->data['module']));
 					continue;
 				}
 				if ($data['keyword'] === 'MODULE_REPO') {
