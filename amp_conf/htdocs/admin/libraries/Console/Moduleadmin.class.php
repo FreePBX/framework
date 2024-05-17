@@ -840,7 +840,7 @@ class Moduleadmin extends Command {
 				if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
 					$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
 					if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
-						if (version_compare_freepbx($module['version'], $module_update_data['version'])) {
+						if (version_compare_freepbx($module['version'], $module_update_data['version']) < 0) {
 							$modules_upgradable[$name] = array(
 								'name' => $name,
 								'local_version' => $module['version'],
