@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-13 13:30+0000\n"
+"POT-Creation-Date: 2024-05-27 11:19+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -3303,7 +3303,7 @@ msgstr "Mapeamento DUNDi"
 msgid "Data Retention"
 msgstr "Retenção de Dados"
 
-#: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:615
+#: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:616
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
 "Erro de Banco de Dados detectado. Reparo automático iniciado. Por favor "
@@ -11748,6 +11748,15 @@ msgstr "As seguintes dependências não são atendidas:"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1361
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1372
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1383
+msgid "The following error(s) occured:"
+msgstr "Os seguintes erros ocorreram:"
+
+#: amp_conf/htdocs/admin/views/module_admin/upload.php:7
+#, php-format
+msgid "The following error(s) occurred processing the uploaded file: %s"
+msgstr ""
+"O(s) seguinte(s) erro(s) ocorreu(ram) processando o arquivo enviado: %s"
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:805
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:815
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:835
@@ -11757,14 +11766,8 @@ msgstr "As seguintes dependências não são atendidas:"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:874
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:893
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:903
-msgid "The following error(s) occured:"
-msgstr "Os seguintes erros ocorreram:"
-
-#: amp_conf/htdocs/admin/views/module_admin/upload.php:7
-#, php-format
-msgid "The following error(s) occurred processing the uploaded file: %s"
+msgid "The following error(s) occurred:"
 msgstr ""
-"O(s) seguinte(s) erro(s) ocorreu(ram) processando o arquivo enviado: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2851
 msgid "The following modules are disabled because they are broken:"
