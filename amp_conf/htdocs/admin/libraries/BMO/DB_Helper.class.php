@@ -138,9 +138,10 @@ class DB_Helper {
 	 *
 	 * @param string $var Key to request (not null)
 	 * @param string $id Optional sub-group ID.
+	 * @param boolean $cache Optional get from cache or db
 	 * @return bool|string|array|StdObject Returns what was handed to setConfig, or bool false if it doesn't exist
 	 */
-	public function getConfig($var = null, $id = "noid") {
+	public function getConfig($var = null, $id = "noid", $cache = true) {
 		if ($var === null) {
 			throw new \Exception("Can't getConfig for null");
 		}
@@ -157,7 +158,7 @@ class DB_Helper {
 			$mod = get_class($this);
 		}
 
-		if(isset(self::$cache[$p['tablename']][$id][$var])) {
+		if(isset(self::$cache[$p['tablename']][$id][$var]) && $cache) {
 			if(self::$cache[$p['tablename']][$id][$var]['type'] !== 'blob') {
 				return self::$cache[$p['tablename']][$id][$var]['val'];
 			}
