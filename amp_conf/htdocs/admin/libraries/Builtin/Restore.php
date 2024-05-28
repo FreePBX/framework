@@ -15,7 +15,7 @@ class Restore Extends Base\RestoreBase{
 			$st->execute();
 		}
 		foreach($configs['settings'] as $keyword => $value) {
-			if ($keyword === 'AMPMGRPASS'|| $keyword ==='AMPMGRUSER') {
+			if ($keyword === 'AMPMGRPASS'|| $keyword ==='AMPMGRUSER' || $keyword =='ASTVERSION') {
 				$this->log(sprintf(_("Ignorning restore of %s Advanced Settings from %s"), $keyword , $this->data['module']));
 				continue;
 			}
