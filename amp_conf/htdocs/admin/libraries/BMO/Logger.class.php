@@ -223,11 +223,12 @@ class Logger {
 					throw new \Exception("Unknown AMPSYSLOGLEVEL of $AMPSYSLOGLEVEL");
 			}
 		}
-
-		$dateFormat = "Y-m-d H:i:s";
-		$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
-		$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
-		$stream->setFormatter($formatter);
+		if (isset($stream) && !($stream instanceof Mono\Handler\NullHandler)) {
+			$dateFormat = "Y-m-d H:i:s";
+			$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
+			$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
+			$stream->setFormatter($formatter);
+		}
 
 		$this->logDrivers[$driver] = new Mono\Logger($driver);
 		$this->logDrivers[$driver]->pushHandler($stream);
