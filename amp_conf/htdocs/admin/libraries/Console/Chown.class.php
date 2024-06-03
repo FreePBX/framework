@@ -46,7 +46,7 @@ class Chown extends Command {
 
 		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
 		if(!file_exists($etcdir.'/freepbx_chown.conf')) {
-			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
+			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10289397/FreePBX+Chown+Conf")."</info>");
 		}
 		$output->writeln(_("Setting Permissions")."...");
 		$freepbx_conf = \freepbx_conf::create();
