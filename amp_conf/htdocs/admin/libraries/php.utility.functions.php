@@ -106,3 +106,15 @@ function splitShellCommand($command)
 
     return array_filter($parts);
 }
+
+
+/**
+ * php-utf8-en-decode-deprecated 
+ *
+ * @param input string 
+ * @return converted string 
+ */
+function freepbx_utf8_decode($text)
+{
+    return mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($test));
+}
