@@ -116,5 +116,5 @@ function splitShellCommand($command)
  */
 function freepbx_utf8_decode($text)
 {
-    return mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($test));
+    return mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
 }
