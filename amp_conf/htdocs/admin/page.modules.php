@@ -112,9 +112,13 @@ if ($online) {
 				continue;
 			}
 			if (parse_url((string) $modules_local[$name]['updateurl'], PHP_URL_SCHEME) === 'https') {
-				$module_update_json = $modulef->url_get_contents($modules_local[$name]['updateurl'], "");
-				if ($module_update_json && $module_update_data = json_decode((string) $module_update_json, true, 512, JSON_THROW_ON_ERROR)) {
-					$modules_online[$name] = $module_update_data;
+				try {
+					$module_update_json = $modulef->url_get_contents($modules_local[$name]['updateurl'], "");
+					if ($module_update_json && $module_update_data = json_decode((string) $module_update_json, true, 512, JSON_THROW_ON_ERROR)) {
+						$modules_online[$name] = $module_update_data;
+					}
+				}catch(\Exception $e) {
+					dbug("failed to fetch the contents from the url=".$modules_local[$name]['updateurl']." Error=".$e->getMessage());
 				}
 			}
 		}
