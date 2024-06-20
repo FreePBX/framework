@@ -351,7 +351,8 @@ class GPG {
 				continue;
 			}
 
-			if ($retarr['status'][0] == "[GNUPG:] NODATA 1") {
+			if ((strpos($retarr['status'][0], "[GNUPG:] FAILURE recv-keys") === 0) ||
+				($retarr['status'][0] == "[GNUPG:] NODATA 1")) {
 				// not found on this keyserver. Try the next!
 				continue;
 			}
