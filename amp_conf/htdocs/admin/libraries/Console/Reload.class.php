@@ -897,11 +897,12 @@ class Reload extends Command {
 		} else {
 			$memt = 0;
 		}
-		$brand ='';
+		$brand = $getSwapWarnStatus = '';
 		if ($this->freepbx->Modules->checkStatus("sysadmin")) {
 			$brand = $this->freepbx->Sysadmin->getDeploymentType();
+			$getSwapWarnStatus = $this->freepbx->Sysadmin->getConfig('swapWarning');
 		}
-		if($brand != 'PBXact UCC'){
+		if($brand != 'PBXact UCC' && (empty($getSwapWarnStatus) || $getSwapWarnStatus == 'Enable')){
 			$mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTotal']) : '';
 			if(empty($mems)) {
 				$this->freepbx->Notifications->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"));
@@ -913,8 +914,8 @@ class Reload extends Command {
 				}
 			}
 		}
-		//remove no swap warning for PBXact UCC
-		if($brand == 'PBXact UCC'){
+		//remove no swap warning for PBXact UCC or Toggle Swap Warning set to disbale
+		if($brand == 'PBXact UCC' || (empty($getSwapWarnStatus) || $getSwapWarnStatus == 'Disable')){
 			$this->freepbx->Notifications->delete('core', 'SWAP');
 		}
 
@@ -992,3 +993,4 @@ class Reload extends Command {
 	}
 
 }
+
