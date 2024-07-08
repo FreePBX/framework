@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-20 05:26-0400\n"
+"POT-Creation-Date: 2024-07-08 00:33-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -19,15 +19,15 @@ msgstr ""
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4\n"
 
-#: ../core/Core.class.php:4612
+#: ../core/Core.class.php:4610
 msgid " Convert the chan_sip extension to PJSIP. Please Run: "
 msgstr ""
 
-#: ../core/Core.class.php:4615
+#: ../core/Core.class.php:4613
 msgid " Convert the sip trunks to pjsip. Please Run: "
 msgstr ""
 
-#: ../core/Core.class.php:4618
+#: ../core/Core.class.php:4616
 msgid " In Advance settings set SIP Channel Driver option to chan_pjsip."
 msgstr ""
 
@@ -563,14 +563,14 @@ msgstr "Требуется %s версии %s или выше, в наличии
 msgid "%s will be removed from the hard disk"
 msgstr "%s будет удалён с диска"
 
-#: ../core/Core.class.php:4285
+#: ../core/Core.class.php:4283
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4306
+#: ../core/Core.class.php:4304
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -625,7 +625,7 @@ msgstr ""
 msgid "--Select a Group--"
 msgstr ""
 
-#: ../core/Core.class.php:4621
+#: ../core/Core.class.php:4619
 msgid ". It is recommended not to use chan_sip settings."
 msgstr ""
 
@@ -802,7 +802,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Маршрут для этого DID/CID уже существует!"
 
-#: ../core/Core.class.php:3081 ../core/functions.inc.php:4320
+#: ../core/Core.class.php:3079 ../core/functions.inc.php:4320
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с таким DID/ИД: %s/%s уже существует"
@@ -2139,11 +2139,11 @@ msgstr ""
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3561
+#: ../core/Core.class.php:3559
 msgid "Caller ID"
 msgstr "Идентификационный номер вызывающей стороны(Caller ID)"
 
-#: ../core/Core.class.php:3562
+#: ../core/Core.class.php:3560
 msgid "Caller ID Number"
 msgstr "Номер  Caller ID"
 
@@ -2365,7 +2365,7 @@ msgstr ""
 msgid "ChanSpy"
 msgstr "Шпионский канал"
 
-#: ../core/Core.class.php:4610
+#: ../core/Core.class.php:4608
 msgid "Chan_sip module deprecated in Asterisk V21+"
 msgstr ""
 
@@ -2828,7 +2828,7 @@ msgstr ""
 msgid "Convert legacy chan_sip trunks to chan_pjsip trunks. eg: <all/trunkid>"
 msgstr ""
 
-#: ../core/Core.class.php:4642
+#: ../core/Core.class.php:4640
 msgid "Convert the sip trunks to pjsip (Trunk name : "
 msgstr ""
 
@@ -2845,12 +2845,12 @@ msgstr "База"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:4166
+#: ../core/Core.class.php:4164
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4238
+#: ../core/Core.class.php:4236
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3199,7 +3199,7 @@ msgstr "Описание DID"
 msgid "DID Number"
 msgstr "Номер DID"
 
-#: ../core/Core.class.php:3721
+#: ../core/Core.class.php:3719
 msgid "DID already exists"
 msgstr ""
 
@@ -3207,11 +3207,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3500
+#: ../core/Core.class.php:3498
 msgid "DIDs"
 msgstr "DID-ы"
 
-#: ../core/Core.class.php:3501
+#: ../core/Core.class.php:3499
 msgid "DIDs / Inbound Routes"
 msgstr "DID-ы / Входящие маршруты"
 
@@ -3636,8 +3636,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:237
-#: ../core/Core.class.php:3530 ../core/Core.class.php:3531
-#: ../core/Core.class.php:3553 ../core/Core.class.php:3554
+#: ../core/Core.class.php:3528 ../core/Core.class.php:3529
+#: ../core/Core.class.php:3551 ../core/Core.class.php:3552
 #: ../core/functions.inc.php:5198 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3650,7 +3650,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr "Понятное название для этого транка"
 
-#: ../core/Core.class.php:3565 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3563 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Назначение"
 
@@ -3784,7 +3784,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:3965 ../core/functions.inc.php:5141
+#: ../core/Core.class.php:3963 ../core/functions.inc.php:5141
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3799,7 +3799,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1597 ../core/Core.class.php:1829
+#: ../core/Core.class.php:1595 ../core/Core.class.php:1827
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "Внутренний номер устройства не заполнен или не были указаны настройки."
 
@@ -3820,7 +3820,7 @@ msgstr "Установки устройства"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3534 ../core/Core.class.php:3535
+#: ../core/Core.class.php:3532 ../core/Core.class.php:3533
 msgid "Device Technology"
 msgstr "Технология устройства"
 
@@ -3829,7 +3829,7 @@ msgstr "Технология устройства"
 msgid "Device Type"
 msgstr "Тип устройства"
 
-#: ../core/Core.class.php:3675
+#: ../core/Core.class.php:3673
 msgid "Device could not be added."
 msgstr "Устройство не может быть добавлено."
 
@@ -5059,8 +5059,8 @@ msgid "Extended"
 msgstr "Дополнительный"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:266
-#: ../core/Core.class.php:3521 ../core/Core.class.php:3522
-#: ../core/Core.class.php:3953 ../core/functions.inc.php:4804
+#: ../core/Core.class.php:3519 ../core/Core.class.php:3520
+#: ../core/Core.class.php:3951 ../core/functions.inc.php:4804
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5119,15 +5119,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3602
+#: ../core/Core.class.php:3600
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3605
+#: ../core/Core.class.php:3603
 msgid "Extension is not numeric."
 msgstr "Внутренний номер не из цифр."
 
-#: ../core/Core.class.php:3608
+#: ../core/Core.class.php:3606
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5151,7 +5151,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/Core.class.php:3496 ../core/Core.class.php:3497
+#: amp.i18n.php:858 ../core/Core.class.php:3494 ../core/Core.class.php:3495
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -5302,7 +5302,7 @@ msgstr "Ошибка при выполнении скрипта удаления
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:4217
+#: ../core/Core.class.php:4215
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5343,11 +5343,11 @@ msgstr "Ошибка при записи indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "Приветственная страница при аварийном режиме"
 
-#: ../core/Core.class.php:4299 ../core/Core.class.php:4306
+#: ../core/Core.class.php:4297 ../core/Core.class.php:4304
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4257
+#: ../core/Core.class.php:4255
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -6706,7 +6706,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:4007 ../core/Core.class.php:4016
+#: ../core/Core.class.php:4005 ../core/Core.class.php:4014
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6736,7 +6736,7 @@ msgstr "Включать имя сервера в браузере"
 msgid "Incoming"
 msgstr "Входящий"
 
-#: ../core/Core.class.php:3557 ../core/Core.class.php:3558
+#: ../core/Core.class.php:3555 ../core/Core.class.php:3556
 msgid "Incoming DID"
 msgstr "Входящий DID"
 
@@ -7100,7 +7100,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4299
+#: ../core/Core.class.php:4297
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7228,7 +7228,7 @@ msgid "Long Distance"
 msgstr "Большое расстояние"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:929
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:930
 msgid "Low Memory Limit"
 msgstr "Ниижний лимит памяти"
 
@@ -7409,7 +7409,7 @@ msgid "Media Use Received Transport"
 msgstr "Медиа поток использует полученный траспортный протокол"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:927
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:928
 msgid "Memory Limit Changed"
 msgstr "Лимит памяти изменён"
 
@@ -7992,7 +7992,7 @@ msgstr "Уведомление! У Вас %s уведомлений! Войди�
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:37
-#: ../core/Core.class.php:3526 ../core/Core.class.php:3527
+#: ../core/Core.class.php:3524 ../core/Core.class.php:3525
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -8144,12 +8144,12 @@ msgstr "Без музыки"
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: ../core/Core.class.php:4695
+#: ../core/Core.class.php:4693
 msgid "No SIP trunks found."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:910
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:908
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:911
 msgid "No Swap"
 msgstr ""
 
@@ -8775,7 +8775,7 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:3990
+#: ../core/Core.class.php:3988
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8936,7 +8936,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr "Настройки PJSIP"
 
-#: ../core/Core.class.php:4285
+#: ../core/Core.class.php:4283
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9253,7 +9253,7 @@ msgid ""
 "`from-did-direct,100,1`"
 msgstr ""
 
-#: ../core/Core.class.php:3611
+#: ../core/Core.class.php:3609
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9952,7 +9952,7 @@ msgstr "Тип маршрута"
 msgid "Rules:"
 msgstr "Правила:"
 
-#: ../core/Console/Convert2pjsip.class.php:54 ../core/Core.class.php:4693
+#: ../core/Console/Convert2pjsip.class.php:54 ../core/Core.class.php:4691
 msgid "Run 'fwconsole reload' to reload config"
 msgstr ""
 
@@ -10008,7 +10008,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:3930 ../core/Core.class.php:3931
+#: ../core/Core.class.php:3928 ../core/Core.class.php:3929
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -10911,7 +10911,7 @@ msgstr "Стандартный"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "Запустить Астериск и выполнить другие нужные команды FreePBX"
 
-#: ../core/Core.class.php:4212
+#: ../core/Core.class.php:4210
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10929,7 +10929,7 @@ msgstr "Астериск запускается..."
 msgid "Starting Cache cleanup"
 msgstr "Запускается очистка кэш..."
 
-#: ../core/Core.class.php:4171
+#: ../core/Core.class.php:4169
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10982,7 +10982,7 @@ msgstr "Остановить Астериск и выполнить другие
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4253
+#: ../core/Core.class.php:4251
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10994,7 +10994,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4244
+#: ../core/Core.class.php:4242
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11495,7 +11495,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3566
+#: ../core/Core.class.php:3564
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11935,7 +11935,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:910
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:911
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -12186,8 +12186,8 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
-#: ../core/Api/Gql/Extensions.php:191 ../core/Core.class.php:1604
-#: ../core/Core.class.php:1836
+#: ../core/Api/Gql/Extensions.php:191 ../core/Core.class.php:1602
+#: ../core/Core.class.php:1834
 msgid "This device id is already in use"
 msgstr "Этот номер устройства уже используется"
 
@@ -12459,7 +12459,7 @@ msgstr ""
 "Этот транк  не может быть использован для исходящих вызовов пока "
 "настраивается роут,который использует этот транк"
 
-#: ../core/Core.class.php:3065
+#: ../core/Core.class.php:3063
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Этот пользователь/номер %s уже существует"
@@ -12662,11 +12662,11 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:4692
+#: ../core/Core.class.php:4690
 msgid "Trunk converted successfully!"
 msgstr ""
 
-#: ../core/Core.class.php:3998
+#: ../core/Core.class.php:3996
 msgid "Trunk:"
 msgstr ""
 
@@ -12675,7 +12675,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr "Транк: %s (%s)"
 
-#: amp.i18n.php:872 ../core/Core.class.php:3504
+#: amp.i18n.php:872 ../core/Core.class.php:3502
 #: ../core/views/trunks/bootnav.php:20 ../core/views/trunks/main.php:2
 #: ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
@@ -12764,13 +12764,13 @@ msgstr "опции USER"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1755
+#: ../core/Core.class.php:1753
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1749
+#: ../core/Core.class.php:1747
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -13210,7 +13210,7 @@ msgstr ""
 msgid "Usage"
 msgstr "Использование"
 
-#: ../core/Core.class.php:3505
+#: ../core/Core.class.php:3503
 msgid "Use Bulk Handler to import or export PJSIP trunk configuration."
 msgstr ""
 
@@ -13322,7 +13322,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3977 ../core/functions.inc.php:4806
+#: ../core/Core.class.php:3975 ../core/functions.inc.php:4806
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13384,7 +13384,7 @@ msgstr "Пароль пользователя"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3702
+#: ../core/Core.class.php:3700
 msgid "User could not be added."
 msgstr "Пользователь не может быть добавлен"
 
@@ -14346,7 +14346,7 @@ msgstr "Необходимо указать клиентский URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Чтобы продолжить, необходим корректный файл  freepbx.conf "
 
-#: ../core/Core.class.php:3058
+#: ../core/Core.class.php:3056
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
@@ -14414,7 +14414,7 @@ msgid "Your browser is out-of-date!"
 msgstr "Ваш браузер устарел!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:927
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:928
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -14424,7 +14424,7 @@ msgstr ""
 "%sM, Вы можете изменить этот параметр в файле php.ini"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:929
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:930
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -14440,7 +14440,7 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:908
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
@@ -14789,7 +14789,7 @@ msgstr ""
 msgid "fwconsole command"
 msgstr ""
 
-#: ../core/Core.class.php:4612
+#: ../core/Core.class.php:4610
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
@@ -14798,7 +14798,7 @@ msgstr ""
 msgid "fwconsole is not executable at %s"
 msgstr ""
 
-#: ../core/Core.class.php:4615
+#: ../core/Core.class.php:4613
 msgid "fwconsole trunks --converttopjsip <all/trunkid>."
 msgstr ""
 
@@ -15189,7 +15189,7 @@ msgstr ""
 msgid "setting AMP_ACCESS_DB_CREDS to true"
 msgstr "установка AMP_ACCESS_DB_CREDS в \"истина\""
 
-#: ../core/Core.class.php:3581 ../core/Core.class.php:3582
+#: ../core/Core.class.php:3579 ../core/Core.class.php:3580
 msgid "sip server"
 msgstr ""
 
@@ -15198,7 +15198,7 @@ msgstr ""
 msgid "sip:[username]@[ip]:[port]"
 msgstr "sip:[username]@[ip]:[port]"
 
-#: ../core/Core.class.php:3622
+#: ../core/Core.class.php:3620
 msgid "sip_server is missing."
 msgstr ""
 
@@ -15222,7 +15222,7 @@ msgstr "повреждённый"
 msgid "this file must be done via the Web GUI. This file is IGNORED BY FreePBX"
 msgstr ""
 
-#: ../core/Core.class.php:3577 ../core/Core.class.php:3578
+#: ../core/Core.class.php:3575 ../core/Core.class.php:3576
 msgid "trunk name"
 msgstr ""
 
@@ -15230,7 +15230,7 @@ msgstr ""
 msgid "trunk_name"
 msgstr ""
 
-#: ../core/Core.class.php:3619
+#: ../core/Core.class.php:3617
 msgid "trunk_name is missing."
 msgstr ""
 
