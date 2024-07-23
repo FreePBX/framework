@@ -1,0 +1,37 @@
+#!/usr/bin/php
+<?php
+error_reporting(E_ALL);
+require '/usr/lib/sysadmin/includes.php';
+// Execute the command and get the output
+$output = shell_exec('sudo apt list --upgradable');
+// Check if the output is not empty
+if ($output) {
+    // Initialize an array to store the parsed data
+    $upgradablePackages = [];
+    // Split the output into lines
+    $lines = explode("\n", $output);
+    // Process each line
+    foreach ($lines as $line) {
+        // Use regular expression to parse the line
+        if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+\S+\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
+            $upgradablePackages[] = [
+                'service' => $matches[1],
+                'new_version' => $matches[2],
+                'old_version' => $matches[3],
+            ];
+        }
+    }
+    // Define the file path
+    $filePath = '/var/spool/asterisk/tmp/upgradable_packages.json';
+    // Convert the parsed data to a JSON string
+    $jsonContent = json_encode($upgradablePackages, JSON_PRETTY_PRINT);
+    // Save the JSON content to the file
+    if (file_put_contents($filePath, $jsonContent) !== false) {
+        echo "Data successfully saved to {$filePath}";
+    } else {
+        echo "Failed to save data to {$filePath}";
+    }
+} else {
+    echo "No upgradable packages found or failed to execute the command.";
+}
+
