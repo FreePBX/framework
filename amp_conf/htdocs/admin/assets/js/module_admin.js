@@ -214,6 +214,14 @@ $(document).ready(function(){
 		}
 		reload_system_updates_tab();
 	});
+
+	$(".showsystemupdatestab").on('click', function(event) {
+		event.preventDefault();
+		$('#summarytab').removeClass('active');
+		$('#systemupdatestab').addClass('active');
+		$('a[href="#summarytab"]').removeClass('active');
+		$('a[href="#systemupdatestab"]').addClass('active');
+	});
 })
 
 function check_upgrade_all() {
