@@ -11,11 +11,11 @@
 ?>
 <div role="tabpanel" class="tab-pane" id="systemupdatestab">
   <div class='container-fluid' style='padding-top: .75em'>
-    <div class='panel panel-danger'>
-      <div class='panel-body'>
+    <div class='panel panel-default panel-help'>
+      <div class='panel-heading'>
         <?php
         echo "<p>"._("Currently, upgrading the operating system through the UI is not available. 
-        Therefore, please proceed with the system upgrade using the Linux command line interface with the following commands: `apt clean && apt upgrade`.")."</p>\n";
+        Therefore, please proceed with the system upgrade using the Linux command line interface with the following commands: `apt update && apt upgrade`.")."</p>\n";
         ?>
       </div>
     </div>

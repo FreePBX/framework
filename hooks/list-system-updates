@@ -14,11 +14,13 @@ if ($output) {
     foreach ($lines as $line) {
         // Use regular expression to parse the line
         if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+\S+\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
-            $upgradablePackages[] = [
-                'service' => $matches[1],
-                'new_version' => $matches[2],
-                'old_version' => $matches[3],
-            ];
+            if (strpos($matches[1], 'freepbx17') === false) {
+                $upgradablePackages[] = [
+                    'service' => $matches[1],
+                    'new_version' => $matches[2],
+                    'old_version' => $matches[3],
+                ];
+            }
         }
     }
     // Define the file path
