@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-27 11:19+0000\n"
+"POT-Creation-Date: 2024-07-31 11:27+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -2101,6 +2101,18 @@ msgstr "Chamada em Espera está desativada"
 #: ../core/page.users.php:81
 msgid "Call Waiting is enabled"
 msgstr "A Chamada em Espera está ativada"
+
+#: ../core/Api/Gql/Users.php:225
+msgid "Call Waiting state for this user's extension"
+msgstr ""
+
+#: ../core/Api/Gql/Users.php:249
+msgid ""
+"Call recording policy priority relative to other extensions when there is a "
+"conflict between an extension wanting recording and the other not wanting "
+"it. The higher of the two determines the policy, on a tie the global policy "
+"(caller or callee) determines the policy"
+msgstr ""
 
 #: ../core/functions.inc.php:4933
 msgid ""
@@ -4620,7 +4632,7 @@ msgstr "Habilitar Migração jQuery"
 msgid "Enable module[s], accepts argument module[s]"
 msgstr "Ativar módulo[s], aceita módulo[s] de argumento"
 
-#: ../core/functions.inc.php:4932
+#: ../core/Api/Gql/Users.php:245 ../core/functions.inc.php:4932
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -9651,17 +9663,33 @@ msgstr "Política de prioridade de gravação"
 msgid "Recording Options"
 msgstr "Opções de Gravação"
 
+#: ../core/Api/Gql/Users.php:241
+msgid "Recording of calls made to other extensions on the system"
+msgstr ""
+
 #: ../core/functions.inc.php:4931
 msgid "Recording of calls made to other extensions on the system."
 msgstr "Gravação de chamadas feitas para outros ramais no sistema."
+
+#: ../core/Api/Gql/Users.php:237
+msgid "Recording of calls received from other extensions on the system"
+msgstr ""
 
 #: ../core/functions.inc.php:4930
 msgid "Recording of calls received from other extensions on the system."
 msgstr "Gravação de chamadas recebidas de outros ramais no sistema."
 
+#: ../core/Api/Gql/Users.php:229
+msgid "Recording of inbound calls from external sources"
+msgstr ""
+
 #: ../core/functions.inc.php:4928
 msgid "Recording of inbound calls from external sources."
 msgstr "Gravação de chamadas recebidas de fontes externas."
+
+#: ../core/Api/Gql/Users.php:233
+msgid "Recording of outbound calls to external sources"
+msgstr ""
 
 #: ../core/functions.inc.php:4929
 msgid "Recording of outbound calls to external sources."
