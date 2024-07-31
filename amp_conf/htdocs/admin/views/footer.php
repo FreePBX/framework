@@ -196,7 +196,7 @@ if ($amp_conf['BROWSER_STATS']) {
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			ga('create', 'UA-1862516-7', 'auto');
+			ga('create', 'G-Z5YXFPYHZ8', 'auto');
 
 
 			ga('set', 'dimension1', fpbx.conf.dist.pbx_type);
