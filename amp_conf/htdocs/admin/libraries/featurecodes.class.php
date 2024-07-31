@@ -57,19 +57,23 @@ class featurecode {
 				die_freepbx('FeatureCode: init already called!');
 		}
 
-		$s = "SELECT description, defaultcode, customcode, enabled, providedest ";
-		$s .= "FROM featurecodes ";
-		$s .= "WHERE modulename = ".sql_formattext($this->_modulename)." AND featurename = ".sql_formattext($this->_featurename)." ";
+		$query = "SELECT description, defaultcode, customcode, enabled, providedest ";
+		$query .= "FROM featurecodes ";
+		$query .= "WHERE modulename = ? AND featurename = ? ";
+		$db = FreePBX::Database();
+		$sth = $db->prepare($query);
+		$sth->execute(array($this->_modulename,$this->_featurename));
+		$resultSet= $sth->fetchAll(\PDO::FETCH_NUM);
+		$res = isset($resultSet[0]) ? $resultSet[0] : '';
 
-		$res = sql($s, "getRow");
 		if (is_array($res)) { // found something, read it
 			$this->_description = $res[0];
 			if (isset($this->_overridecodes[$this->_modulename][$this->_featurename]) && trim($this->_overridecodes[$this->_modulename][$this->_featurename]) != '') {
 				$this->_defaultcode = $this->_overridecodes[$this->_modulename][$this->_featurename];
 				if ($this->_defaultcode != $res[1]) {
-					$sql = 'UPDATE featurecodes SET defaultcode = '.sql_formattext($this->_defaultcode).
-						'WHERE modulename = '.sql_formattext($this->_modulename). ' AND featurename = '.sql_formattext($this->_featurename);
-					sql($sql, 'query');
+					$query = 'UPDATE featurecodes SET defaultcode = ? WHERE modulename = ? AND featurename = ?';
+					$sth = $db->prepare($query);
+					$sth->execute(array($this->_defaultcode, $this->_modulename, $this->_featurename));
 				}
 			} else {
 				$this->_defaultcode = $res[1];
