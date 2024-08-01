@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 07:29-0400\n"
+"POT-Creation-Date: 2024-08-01 06:07-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -238,7 +238,7 @@ msgstr "%s Онлайн %s обновление доступно (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s Онлайн обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -645,7 +645,7 @@ msgstr "0 администраторов"
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:640
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -2417,8 +2417,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:655
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:682
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:680
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:707
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Проверить он-лайн"
@@ -3063,7 +3063,7 @@ msgstr "Текущая конфигурация сети "
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:602
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:627
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3085,11 +3085,11 @@ msgstr "Текущий модуль предоставлен по лицензи
 msgid "Current setting for %s left in place"
 msgstr "Текущая настройка для %s предосставлена"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:35
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:24
 msgid "Current using Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:17
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:6
 msgid ""
 "Currently, upgrading the operating system through the UI is not available. \n"
 "        Therefore, please proceed with the system upgrade using the Linux "
@@ -6300,7 +6300,7 @@ msgstr ""
 "точками. Отделите IP-адрес от маски подсети символом косой черты  ('/'). "
 "Если оставлено пустым ,то  FreePBX  создаёт автоматически"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:593
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:618
 msgid "Idle"
 msgstr ""
 
@@ -6811,7 +6811,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Установлены ошибочные зависимости:%s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:663
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
 msgid "Installed Version"
 msgstr ""
 
@@ -6855,7 +6855,7 @@ msgstr "Установка всех модулей,не принимающие �
 msgid "Installs module[s], accepts argument module[s]"
 msgstr "Установка всех модулей,принимающие аргументы"
 
-#: amp_conf/htdocs/admin/page.modules.php:1129
+#: amp_conf/htdocs/admin/page.modules.php:1132
 msgid "Integrated System Updates not available on this platform"
 msgstr ""
 
@@ -7080,11 +7080,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:607
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:632
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:611
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:636
 msgid "Last System Update:"
 msgstr ""
 
@@ -8020,7 +8020,7 @@ msgstr "Необходимо создание экземпляра объект�
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:608
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:633
 #: ../core/functions.inc.php:4707
 msgid "Never"
 msgstr "Никогда"
@@ -8030,13 +8030,13 @@ msgstr "Никогда"
 msgid "Never - (%s)"
 msgstr "Никогда - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:666
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:691
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:663
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:34
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
 msgid "New Version"
 msgstr ""
 
@@ -8204,11 +8204,11 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "Не указан статус для checkStatus"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:636
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
 msgid "No updates currently required!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:53
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:38
 msgid "No upgradable packages found or failed to read JSON file."
 msgstr ""
 
@@ -9473,11 +9473,11 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr "RFC 4733"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:663
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
 msgid "RPM Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:461
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:486
 #, php-format
 msgid ""
 "RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code "
@@ -9624,7 +9624,7 @@ msgstr "Резервирование"
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:604
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:629
 msgid "Refresh page"
 msgstr ""
 
@@ -9661,11 +9661,11 @@ msgstr "Отвергать обратную тарификацию"
 msgid "Related Tickets"
 msgstr "Связанный тикет"
 
-#: amp_conf/htdocs/admin/page.modules.php:1190
+#: amp_conf/htdocs/admin/page.modules.php:1194
 msgid "Related URL"
 msgstr "Связанный URL"
 
-#: amp_conf/htdocs/admin/page.modules.php:1190
+#: amp_conf/htdocs/admin/page.modules.php:1194
 msgid "Related URLs"
 msgstr "Связанные URL-ы"
 
@@ -10327,7 +10327,7 @@ msgstr "URI сервера"
 msgid "Server time:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:33
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:22
 msgid "Service Name"
 msgstr ""
 
@@ -11147,7 +11147,7 @@ msgstr ""
 msgid "System Setup"
 msgstr "Системные установки"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:587
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:612
 msgid "System Update Details"
 msgstr ""
 
@@ -11257,7 +11257,7 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:599
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
 msgid "Test Repos Enabled"
 msgstr ""
 
@@ -12445,7 +12445,7 @@ msgid ""
 "</br> For more information visit %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:599
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
 msgid "This system has test repos enabled."
 msgstr ""
 
@@ -12853,7 +12853,7 @@ msgstr "Невозможно удалить tmp.cfg"
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:634
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:659
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12938,7 +12938,7 @@ msgstr "Деинсталлируюется модуль(-ли), принимая
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:616
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -13052,7 +13052,7 @@ msgstr "Предупреждения об обновлении"
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:681
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:706
 msgid "Update System"
 msgstr ""
 
@@ -13072,7 +13072,7 @@ msgstr ""
 msgid "Update an inbound route on the system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:459
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:484
 #, php-format
 msgid "Update error: Tried to run '%s', exit code %s"
 msgstr ""
@@ -13101,7 +13101,7 @@ msgstr ""
 msgid "Updates Advance Settings Field"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:646
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:671
 msgid "Updates Available:"
 msgstr ""
 
@@ -13996,7 +13996,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:596
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:621
 msgid "Working"
 msgstr ""
 
