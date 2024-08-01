@@ -1124,9 +1124,13 @@ switch ($action) {
 		// If we're not compatible with SU, don't try to do anything.
 		if (!$su->canDoSystemUpdates()) {
 			$summary['candosystemupdates'] = false;
-			$summary['sustemupdates'] = [];
+			$summary['systemupdates'] = $su->getPendingUpdate();
 			$summary['systemupdateavail'] = false;
-			$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
+			if (is_array($summary['systemupdates'])) {
+				$summary['pendingupgradessystem'] = count($summary['systemupdates']);
+			} else {
+				$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
+			}
 		} else {
 			$summary['candosystemupdates'] = true;
 			$summary['systemupdates'] = $su->getPendingUpdates();
@@ -1169,7 +1173,7 @@ switch ($action) {
 			$summary['sysupdatepage'] = $su->getSystemUpdatesPage($summary['systemupdates']);
 			show_view(__DIR__.'/views/module_admin/tab-systemupdates.php', $summary);
 		} else {
-			show_view(__DIR__.'/views/module_admin/unable-to-sysupdate.php');
+			show_view(__DIR__.'/views/module_admin/unable-to-sysupdate.php', $summary);
 		}
 		if($sam && method_exists($sa, 'CommercialLicense') && method_exists($sa->CommercialLicense(), 'getCommercialLicensesHtmlContent')){
 			echo $sa->CommercialLicense()->getCommercialLicensesHtmlContent('body');

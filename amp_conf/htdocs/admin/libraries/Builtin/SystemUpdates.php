@@ -355,6 +355,31 @@ class SystemUpdates {
 		return $retarr;
 	}
 
+	public function getPendingUpdate() {
+		try {
+			$upgradablePackages=false;
+			if (is_dir("/var/spool/asterisk/incron")) {
+				if (file_exists("/var/spool/asterisk/incron/framework.list-system-updates")) {
+					unlink("/var/spool/asterisk/incron/framework.list-system-updates");
+				}
+				touch("/var/spool/asterisk/incron/framework.list-system-updates");
+				sleep(2);
+			} else {
+				dbug('Incron not configured, unable to manage system updates');
+			}
+
+			$jsonFilePath = '/var/spool/asterisk/tmp/upgradable_packages.json';
+            if (file_exists($jsonFilePath)) {
+                $jsonContent = file_get_contents($jsonFilePath);
+                $upgradablePackages = json_decode($jsonContent, true);
+			}
+		} catch (\Exception $e) {
+			dbug('Exception occurred: ' . $e->getMessage());
+			$upgradablePackages = false;
+		} finally {
+			return $upgradablePackages;
+		}
+	}
 	/**
 	 * Parse the output of yum-check-updates
 	 *
