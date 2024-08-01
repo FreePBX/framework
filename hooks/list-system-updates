@@ -14,7 +14,13 @@ if ($output) {
     foreach ($lines as $line) {
         // Use regular expression to parse the line
         if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+\S+\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
-            if (strpos($matches[1], 'freepbx17') === false) {
+            $packageName = $matches[1] ?? '';
+            if (
+                strpos($packageName, 'freepbx17') === false &&
+                strpos($packageName, 'sangoma-pbx17') === false &&
+                $packageName !== 'nodejs' &&
+                strpos($packageName, 'node-') !== 0 
+            ) {
                 $upgradablePackages[] = [
                     'service' => $matches[1],
                     'new_version' => $matches[2],

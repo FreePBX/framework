@@ -1,14 +1,3 @@
-<?php
-  if (is_dir("/var/spool/asterisk/incron")) {
-    if (file_exists("/var/spool/asterisk/incron/framework.list-system-updates")) {
-      unlink("/var/spool/asterisk/incron/framework.list-system-updates");
-    }
-    touch("/var/spool/asterisk/incron/framework.list-system-updates");
-    sleep(2);
-  } else {
-    dbug('Incron not configured, unable to manage system updates');
-  }
-?>
 <div role="tabpanel" class="tab-pane" id="systemupdatestab">
   <div class='container-fluid' style='padding-top: .75em'>
     <div class='panel panel-default panel-help'>
@@ -37,12 +26,8 @@
         </thead>
         <tbody>
             <?php
-              $jsonFilePath = '/var/spool/asterisk/tmp/upgradable_packages.json';
-              if (file_exists($jsonFilePath)) {
-                $jsonContent = file_get_contents($jsonFilePath);
-                $upgradablePackages = json_decode($jsonContent, true);
-                if (is_array($upgradablePackages)) {
-                    foreach ($upgradablePackages as $package) {
+              if (isset($systemupdates) && is_array($systemupdates) && count($systemupdates) >0) {
+                    foreach ($systemupdates as $package) {
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($package['service']) . "</td>";
                         echo "<td>" . htmlspecialchars($package['new_version']) . "</td>";
@@ -52,7 +37,6 @@
                 } else {
                     echo "<tr><td colspan='3'>"._("No upgradable packages found or failed to read JSON file.")."</td></tr>";
                 }
-              }
             ?>
         </tbody>
     </table>
