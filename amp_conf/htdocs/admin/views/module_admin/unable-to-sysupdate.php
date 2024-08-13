@@ -35,7 +35,7 @@
                         echo "</tr>";
                     }
                 } else {
-                    echo "<tr><td colspan='3'>"._("No upgradable packages found or failed to read JSON file.")."</td></tr>";
+                    echo "<tr><td colspan='3'>"._("No upgradable packages found.")."</td></tr>";
                 }
             ?>
         </tbody>
