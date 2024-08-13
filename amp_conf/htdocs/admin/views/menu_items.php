@@ -89,7 +89,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		$catname = ($catname != ucwords($t)) ? $catname : modgettext::_(ucwords($t),$cat[0]['module']['rawname']);
 		$mods[$t] = '<li class="nav-item dropdown">
 			<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">' . $catname . '</a>
-			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+			<ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin:0">';
 
 		$cat = is_array($cat) ? $cat : array();
 		$items = array();
