@@ -34,6 +34,7 @@ $html .= '<link href="assets/css/bootstrap-4.6.1.min.css'.$version_tag.'" rel="s
 $html .= '<link href="assets/css/font-awesome.min-4.7.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/bootstrap-table-dev.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/bootstrap-table-reorder-rows.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-select-1.13.14.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/jquery-ui-1.13.2.custom.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/typehead.js-bootstrap3-0.2.3.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/notie.css'.$version_tag.'" rel="stylesheet" type="text/css">';
