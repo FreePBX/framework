@@ -634,6 +634,11 @@ if ( ! function_exists('form_prep'))
 			return '';
 		}
 
+		if ($str === NULL)
+		{
+			return '';
+		}
+
 		// we've already prepped a field with this name
 		// @todo need to figure out a way to namespace this so
 		// that we know the *exact* field and not just one with
