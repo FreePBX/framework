@@ -1564,7 +1564,7 @@ class ext_mysql_query extends extension {
 class ext_mysql_fetch extends extension {
 	var $fetchid;
 	var $resultid;
-	var $fars;
+	var $vars;
 
 	function __construct($fetchid, $resultid, $vars) {
 		$this->fetchid = $fetchid;
