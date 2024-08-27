@@ -18,7 +18,7 @@ class Extip extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$extipsrc = 'http://mirror.freepbx.org/whatismyip.php';
+		$extipsrc = 'https://mirror.freepbx.org/whatismyip.php';
 		$extip = file_get_contents($extipsrc);
 		$xml = simplexml_load_string($extip);
 		if($xml){
