@@ -61,6 +61,7 @@ class GPG {
 
 	// List of well-known keyservers.
 	private $keyservers = array(
+		"hkps://keys.openpgp.org",
 		"hkp://keys.openpgp.org",
 		"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
 		"pgp.mit.edu", // Other random keyservers
