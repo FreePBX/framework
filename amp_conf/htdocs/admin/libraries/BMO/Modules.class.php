@@ -522,10 +522,13 @@ class Modules extends DB_Helper{
 				}
 				$type = $value['type'];
 				$conflictModInfo = $this->modclass->getinfo($value['rawname']);
-				if(!isset($conflictModInfo[$value['rawname']])) {
-					//I mean this should never happen but you never know
-					return;
+
+				// Module Not Installed in the system so no need to check for conflicts, if retun false crash the recolection of the data
+				if(!isset($conflictModInfo[$value['rawname']]))
+				{
+					continue;
 				}
+
 				//reassign
 				$conflictModInfo = $conflictModInfo[$value['rawname']];
 				//only deal with one state
