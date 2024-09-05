@@ -34,7 +34,7 @@
 			<span class="login_item_text" style="display: block;width: 160px;text-align: center;">
 				<?php echo _('User Control Panel')?>
 			</span>
-	<	/div>
+		</div>
 	<?php } ?>
 	<?php if($panel) {?>
 		<div class="login_item_title">
