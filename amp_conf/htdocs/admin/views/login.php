@@ -28,12 +28,14 @@
 			<?php echo _('FreePBX Administration')?>
 		</span>
 	</div>
-	<div class="login_item_title">
-		<a href="/ucp" class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp;</a>
-		<span class="login_item_text" style="display: block;width: 160px;text-align: center;">
-			<?php echo _('User Control Panel')?>
-		</span>
-	</div>
+	<?php if (\FreePBX::Modules()->checkStatus('ucp')) { ?>
+		<div class="login_item_title">
+			<a href="/ucp" class="login_item" id="login_ari" style="background-image: url(assets/images/user-control.png);"/>&nbsp;</a>
+			<span class="login_item_text" style="display: block;width: 160px;text-align: center;">
+				<?php echo _('User Control Panel')?>
+			</span>
+	<	/div>
+	<?php } ?>
 	<?php if($panel) {?>
 		<div class="login_item_title">
 			<a href="<?php echo $panel?>" class="login_item" id="login_fop" style="background-image: url(assets/images/operator-panel.png);"/>&nbsp;</a>
