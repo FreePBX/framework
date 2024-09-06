@@ -30,11 +30,12 @@ global $_item_sort;
 						<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
 						<ul id="fpbx_lang" class="dropdown-menu" role="menu">
 							<?php foreach ($language as $langKey => $lang) {
-									$class = '';
+									$class = $pointer='';
 									if ($langKey === $_COOKIE['lang']) {
-										$class = 'class="disabled"';
+										$class = 'class="dropdown-item disabled text-muted"';
+										$pointer='style="cursor: not-allowed"';
 									} ?>
-								<li <?php echo $class; ?> data-lang="<?php echo $langKey; ?>"><a href="#"><?php echo $lang; ?></a></li>
+								<li <?php echo $pointer; ?> data-lang="<?php echo $langKey; ?>"><a href="#" <?php echo $class; ?>><?php echo $lang; ?></a></li>
 							<?php } ?>
 						</ul>
 					</li>
