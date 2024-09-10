@@ -40,6 +40,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			case 'sysupdate':
 			case 'reload':
 			case 'navbarToogle':
+			case 'check-and-set-language':
 			return true;
 		}
 		return false;
@@ -79,6 +80,9 @@ class Framework extends FreePBX_Helpers implements BMO {
 			return $s->ajax($_REQUEST);
 		case 'reload':
 			return $this->doReload();
+		case 'check-and-set-language':
+			$lang = $_REQUEST['lang'] ?? '';
+			return $this->setCheckLanguage($lang);
 		case 'navbarToogle':
 			$current = $this->getConfig("navbarToogle");
 			if(empty($current)){
@@ -103,6 +107,29 @@ class Framework extends FreePBX_Helpers implements BMO {
 		return false;
 	}
 
+	public function setCheckLanguage($lang) {
+		$output = [];
+		exec('locale -a', $output);
+		$baseLocales = array_map(fn($locale) => explode('.', $locale)[0], $output);
+		$languageExist= in_array($lang, $baseLocales);
+		if(!$languageExist) { 
+			if (is_dir("/var/spool/asterisk/incron")) {
+				if (file_exists("/var/spool/asterisk/incron/framework.update-language")) {
+					unlink("/var/spool/asterisk/incron/framework.update-language");
+				}
+				$params='.'.$lang;
+				touch("/var/spool/asterisk/incron/framework.update-language{$params}");
+				sleep(5);
+			} else {
+				dbug('Incron not configured, unable to manage system updates');
+			}
+		}
+		return [
+			'success' => true,
+			'languageExist' => $languageExist
+		];
+	}
+	
 	public function doReload($passthru=false) {
 		$AMPSBIN = $this->freepbx->Config->get('AMPSBIN');
 		if(!file_exists($AMPSBIN.'/fwconsole')) {

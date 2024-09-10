@@ -1569,7 +1569,23 @@ $(document).ready(function() {
 	//set language on click
 	$("#fpbx_lang > li").click(function() {
 		Cookies.set("lang", $(this).data("lang"), { path: '' });
-		window.location.reload();
+		$.ajax({
+			type: "POST",
+			url: 'ajax.php?command=check-and-set-language&lang='+$(this).data("lang"),
+			dataType: "json",
+			success: function(data) {
+				if (data.success && data.languageExist) {
+					window.location.reload();
+				} else {
+					setTimeout(function() {
+						window.location.reload();
+					}, 1000);
+				}
+			},
+			error: function(reqObj, status) {
+				console.log('error',status);
+			}
+		});
 	});
 
 	//show reload button if neede
