@@ -1,0 +1,10 @@
+#!/usr/bin/php
+<?php
+error_reporting(E_ALL);
+require '/usr/lib/sysadmin/includes.php';
+
+$lang  = $argv[1] ?? '';
+if($lang) {
+    $command = escapeshellcmd("sudo localedef -i $lang -f UTF-8 $lang.UTF-8");
+    exec($command, $outputr, $return_var);
+}
