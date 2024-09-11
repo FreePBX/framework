@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 02:18-0400\n"
+"POT-Creation-Date: 2024-09-11 06:15-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -834,9 +834,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "ВСЕ СЕКЦИИ"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:184
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:197
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:211
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:224
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:248
 #, php-format
 msgid "AMI failure details:"
 msgstr "Ошибка AMI детальней:"
@@ -3365,7 +3365,7 @@ msgstr "Файл отладки"
 msgid "Default"
 msgstr "По умолчанию"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "Default Asterisk Manager Password Used"
 msgstr "Используется дефолтный пароль для AMI"
@@ -5199,19 +5199,19 @@ msgstr "АЬАЬ"
 msgid "FOP Web Root Dir"
 msgstr "Корневая директория вэб для FOP"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:195
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:222
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 "Не удалось изменить пароль AMI для [%s], детали внутренней ошибки ниже:"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:209
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 "Не удалось изменить пользователя AMI для [%s], детали внутренней ошибки ниже:"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:219
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:246
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -5283,7 +5283,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr "Ошибка чтения файла менеджера для добавления таймаута записи"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:263
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -11045,7 +11045,7 @@ msgstr ""
 "Благополучно перезагружено, не невозможно завершить процесс ввиду ошибки "
 "базы данных: "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:150
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:177
 msgid "Successfully reloaded"
 msgstr "Благополучно перезагружено"
 
@@ -12808,7 +12808,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:113
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:140
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -12959,8 +12959,8 @@ msgstr "Неизвестная команда (%s)"
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:137
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:142
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:169
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -14138,7 +14138,7 @@ msgid "You are urged to backup before making any changes."
 msgstr ""
 "Настоятельно рекомендуется сделать резервную копию перед внесением изменений."
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -14798,7 +14798,7 @@ msgstr ""
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:125
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:152
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""

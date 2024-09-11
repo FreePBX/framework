@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 02:18-0400\n"
+"POT-Creation-Date: 2024-09-11 06:15-0400\n"
 "PO-Revision-Date: 2018-10-19 20:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
@@ -849,9 +849,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "ALLE AUSWÄHLEN"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:184
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:197
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:211
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:224
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:248
 #, php-format
 msgid "AMI failure details:"
 msgstr "AMI-Fehlerdetails:"
@@ -3245,7 +3245,7 @@ msgstr ""
 msgid "Default"
 msgstr "Standard"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "Default Asterisk Manager Password Used"
 msgstr "Standardpasswort für die Asterisk-Benutzerverwaltung verwendet"
@@ -5011,17 +5011,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:195
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:222
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:209
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:219
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:246
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -5086,7 +5086,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:263
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -10459,7 +10459,7 @@ msgstr ""
 "Erfolgreich neu geladen, allerdings kann das \"reload flag\" auf Grund eines "
 "Datenbankfehlers nicht zur&uuml;ck gesetzt werden "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:150
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:177
 msgid "Successfully reloaded"
 msgstr "Erfolgreich neu geladen"
 
@@ -12062,7 +12062,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:113
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:140
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -12213,8 +12213,8 @@ msgstr ""
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:137
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:142
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:169
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -13270,7 +13270,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -13861,7 +13861,7 @@ msgstr ""
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:125
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:152
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""

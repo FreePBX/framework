@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-06 02:18-0400\n"
+"POT-Creation-Date: 2024-09-11 06:15-0400\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -807,9 +807,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "所有区域"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:184
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:197
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:211
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:224
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:248
 #, php-format
 msgid "AMI failure details:"
 msgstr "AMI失败信息："
@@ -3185,7 +3185,7 @@ msgstr "Debug 文件"
 msgid "Default"
 msgstr "默认"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
@@ -4947,17 +4947,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:195
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:222
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:209
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:219
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:246
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -5024,7 +5024,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:263
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -10427,7 +10427,7 @@ msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr "重启成功，但是由于数据库发生错误，无法清除重启标志："
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:150
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:177
 msgid "Successfully reloaded"
 msgstr "重启成功"
 
@@ -12049,7 +12049,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:113
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:140
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -12200,8 +12200,8 @@ msgstr ""
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:137
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:142
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:169
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -13257,7 +13257,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:205
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:232
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -13860,7 +13860,7 @@ msgstr ""
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:125
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:152
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""
