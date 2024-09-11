@@ -351,10 +351,14 @@ function close_module_actions(goback) {
 
 function toggleScreenDoor() {
 	var h = $( document ).height();
+	h = h+'px';
 	$('.screendoor').css('height', h);
-	$('.screendoor').css('display', 'flex');
+	// $('.screendoor').css('display', 'block');
 	$('.screendoor').css('justifiy-content', 'center');
-	$('.screendoor').fadeToggle('fast');
+	let starTime = performance.now();
+	$('.screendoor').fadeToggle('fast',function(){
+		let endTime = performance.now();
+	});
 }
 
 String.prototype.capitalize = function() {
