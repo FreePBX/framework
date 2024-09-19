@@ -85,6 +85,9 @@ class Framework extends FreePBX_Helpers implements BMO {
 			return $this->setCheckLanguage($lang);
 		case 'navbarToogle':
 			$current = $this->getConfig("navbarToogle");
+			if($current == false || $current == 'false' ){
+				$this->setConfig("navbarToogle", "no");
+			}
 			if(empty($current)){
 				$this->setConfig("navbarToogle", "no");
 				$current = $this->getConfig("navbarToogle");
