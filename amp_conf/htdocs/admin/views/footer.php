@@ -194,7 +194,7 @@ if ($amp_conf['BROWSER_STATS']) {
 	window.dataLayer = window.dataLayer || [];
 	function gtag(){dataLayer.push(arguments);}
 	gtag('js', new Date());
-	gtag('config', 'G-Z5YXFPYHZ8');
+	gtag('config', 'G-D02TQL8VZ9');
 	if (fpbx && fpbx.conf && fpbx.conf.dist && fpbx.conf.dist.pbx_version) {
 		gtag('event', 'pbx_version', {
 			'pbx_version': fpbx.conf.dist.pbx_version
