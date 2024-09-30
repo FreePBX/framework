@@ -90,7 +90,7 @@ foreach ($clean as $var) {
 }
 
 $modulef = module_functions::create();
-
+$fpbx['conf']['phpversion']			= phpversion();
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
 									? 'rtl' : 'ltr';
 $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "installid"', 'getOne');
@@ -190,25 +190,48 @@ if (isset($module_name) && $module_name != '') {
 
 if ($amp_conf['BROWSER_STATS']) {
 	$ga = "<script>
-
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			ga('create', 'G-Z5YXFPYHZ8', 'auto');
-
-
-			ga('set', 'dimension1', fpbx.conf.dist.pbx_type);
-			ga('set', 'dimension2', fpbx.conf.dist.pbx_version);
-			ga('set', 'dimension3', fpbx.conf.ASTVERSION);
-			ga('set', 'dimension4', fpbx.conf.ver);
-			ga('set', 'dimension5', $.urlParam('display'));
-			ga('set', 'dimension6', fpbx.conf.uniqueid);
-			ga('send', 'pageview');
-
-		</script>";
-
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-Z5YXFPYHZ8');
+	if (fpbx && fpbx.conf && fpbx.conf.dist && fpbx.conf.dist.pbx_version) {
+		gtag('event', 'pbx_version', {
+			'pbx_version': fpbx.conf.dist.pbx_version
+		});
+	}
+	if (fpbx && fpbx.conf && fpbx.conf.modules && fpbx.conf.modules.sysadmin && fpbx.conf.modules.sysadmin.deployment_id) {
+		gtag('event', 'deployment_id', {
+			'deployment_id': fpbx.conf.modules.sysadmin.deployment_id
+		});
+	}
+	if (fpbx && fpbx.conf && fpbx.conf.ASTVERSION) {
+		gtag('event', 'ast_version', {
+			'ast_version': fpbx.conf.ASTVERSION
+		});
+	}
+	if (fpbx && fpbx.conf && fpbx.conf.ver) {
+		gtag('event', 'pbx_ver', {
+			'pbx_ver': fpbx.conf.ver
+		});
+	}
+	if (fpbx && fpbx.conf && fpbx.conf.phpversion) {
+		gtag('event', 'php_version', {
+			'php_version': fpbx.conf.phpversion
+		});
+	}
+	if (fpbx && fpbx.conf && fpbx.conf.modules && fpbx.conf.modules.sysadmin && fpbx.conf.modules.sysadmin.deployment_id) {
+		gtag('event', 'page_view', {
+			'pbx_type': fpbx.conf.dist.pbx_type,
+			'pbx_version': fpbx.conf.dist.pbx_version,
+			'ast_version': fpbx.conf.ASTVERSION,
+			'pbx_ver': fpbx.conf.ver,
+			'display': $.urlParam('display'),
+			'unique_id': fpbx.conf.uniqueid,
+			'departmentid':fpbx.conf.modules.sysadmin.deployment_id,
+			'php_version': fpbx.conf.phpversion,
+		});
+	}
+	</script>";
 	$html .= str_replace(array("\t", "\n"), '', $ga);
 }
 
