@@ -61,6 +61,7 @@ class DB {
 	private $db = null;
 	private static $error = null;
 	private $res = null;
+	public $last_query = '';
 	private $defaultFetch = DB_FETCHMODE_ORDERED;
 	public function __construct($dbh=null) {
 		$this->db = !empty($dbh) ? $dbh : FreePBX::create()->Database;
@@ -519,6 +520,7 @@ class DB {
 		if(empty($params)) {
 			try {
 				$sth = $this->db->query($sql);
+				$this->last_query = $sql;
 			} catch(\Exception $e) {
 				return new DB_Error($e);
 			}
@@ -529,6 +531,7 @@ class DB {
 					$params = array($params);
 				}
 				$sth->execute($params);
+				$this->last_query = $sth->queryString;
 			} catch(\Exception $e) {
 				return new DB_Error($e);
 			}
