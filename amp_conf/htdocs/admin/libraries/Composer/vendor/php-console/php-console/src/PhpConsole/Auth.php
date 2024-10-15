@@ -103,7 +103,7 @@ class Auth {
 	 * Get expected valid client authorization token
 	 * @return string
 	 */
-	private final function getToken() {
+	private function getToken() {
 		return $this->hash($this->passwordHash . $this->getPublicKey());
 	}
 }
