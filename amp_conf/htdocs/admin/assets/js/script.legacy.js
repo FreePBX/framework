@@ -1820,7 +1820,7 @@ $(document).ready(function() {
 		$("#settings-cog").prop("title",_("Ajax Error, check the console for more information"));
 	});
 
-	$("#login_admin").click(function() {
+	$("#login_admin").click(function () {
 		var form = $("#login_form").html();
 		$("<div></div>")
 			.html(form)
@@ -1829,7 +1829,7 @@ $(document).ready(function() {
 				resizable: false,
 				width: 400,
 				modal: true,
-				close: function(e) {
+				close: function (e) {
 					$(e.target).dialog("destroy").remove();
 				},
 				buttons: [
@@ -1840,11 +1840,11 @@ $(document).ready(function() {
 								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
 									resetAdminPassswordWithToken(this).then(value => {
 										handleMFAFunc(value, this);
-									})
+									});
 								} else {
 									checkPasswordReminder(this).then(value => {
 										handleMFAFunc(value, this);
-									})
+									});
 								}
 							} else {
 								handleMFAFunc(true, this);
@@ -1853,13 +1853,29 @@ $(document).ready(function() {
 					},
 					{
 						text: fpbx.msg.framework.cancel,
-						click: function() {
+						click: function () {
 							$(this).dialog("destroy").remove();
 						}
 					}
 				],
-				focus: function() {
-					$(":input", this).keyup(function(event) {
+				create: function () {
+					if(saml) {
+						// Add a horizontal line and the SAML Login button
+						var $buttonPane = $(this).parent().find(".ui-dialog-buttonpane");
+						$buttonPane.append(
+							`<div id="samldiv" style="width: 100%; margin-top: 50px; border-top: 1px solid #ccc; padding-top: 10px; text-align: center;">
+								<div> Or </div>
+								<button id="samlLoginButton" class="ui-button ui-widget ui-corner-all">${_("SAML Login")}</button>
+							</div>`
+						);
+						// Bind click event for the SAML Login button
+						$("#samlLoginButton").click(function () {
+							handleSAMLFunc();
+						});
+					}
+				},
+				focus: function () {
+					$(":input", this).keyup(function (event) {
 						if (event.keyCode == 13) {
 							$(".ui-dialog-buttonpane button:first").click();
 						}
@@ -1876,6 +1892,10 @@ $(document).ready(function() {
 				$(thisPointer).find("form").trigger("submit");
 			}
 		}
+	}
+
+	function handleSAMLFunc() {
+		window.location.href = "/admin/ajax.php?module=pbxsaml&command=checkSAMLenabled&loginpanel=admin";
 	}
 
 	/**

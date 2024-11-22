@@ -143,6 +143,7 @@ var PHPTIMEZONE = '<?php echo FreePBX::Config()->get('PHPTIMEZONE')?>';
 var datetimeformat = '<?php echo FreePBX::View()->getDateTimeFormat() ?>';
 var dateformat = '<?php echo FreePBX::View()->getDateFormat() ?>';
 var timeformat = '<?php echo FreePBX::View()->getTimeFormat() ?>';
+var saml = '<?php echo (FreePBX::Modules()->checkStatus('pbxsaml') && FreePBX::Config()->get('ADMIN_SAML')) ?>';
 </script>
 <?php
 
