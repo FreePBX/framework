@@ -247,7 +247,7 @@ class Installer {
 	$category = 'Cron JOBS';
 	$settings[$category]['FWJOBS_LOGS'] = array(
 		'description' => _('Enable / disable framework cron jobs logs. If enabled logs will save to ASTLOGDIR/fwjobs.log file'),
-		'name' => _('Enable fwconsloe cron jobs execution logs'),
+		'name' => _('Enable fwconsole cron jobs execution logs'),
 		'value' => false,
 		'readonly' => 0,
 		'hidden' => 0,
