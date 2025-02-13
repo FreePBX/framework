@@ -372,7 +372,7 @@ class component {
 		}
 		$this->generated = true;
 
-		$htmlout = '';
+		$active = $htmlout = '';
 		$formname = "frm_$this->compname";
 		$hasoutput = false;
 
