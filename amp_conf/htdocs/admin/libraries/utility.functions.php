@@ -1409,6 +1409,11 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_C
 			break;
 		}
 	}
+	array_walk($request,function(&$value,$key){
+		if(!is_array($value)){
+		  $value =  html_entity_decode($value);
+		}
+	});
 	return $request;
 }
 
