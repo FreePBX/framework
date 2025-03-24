@@ -229,7 +229,7 @@ if (!$quietmode) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
 			$nt->add_security('framework', 'htaccess', _('.htaccess files are disabled on this webserver. Please enable them'),
-				sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides");
+				sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides">https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides</a>'),"https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides");
 		}
 	} elseif(!preg_match("/apache/i", $_SERVER['SERVER_SOFTWARE'])) {
 		$sql = "SELECT value FROM admin WHERE variable = 'htaccess'";
@@ -242,7 +242,7 @@ if (!$quietmode) {
 				$nt->delete('framework', 'htaccess');
 			}
 			$nt->add_warning('framework', 'htaccess', _('.htaccess files are not supported on this webserver.'),
-				sprintf(_("htaccess files help protect the integrity of your server. Please make sure file paths and directories are locked down properly. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides",true,true);
+				sprintf(_("htaccess files help protect the integrity of your server. Please make sure file paths and directories are locked down properly. For more information see: %s"), '<a href="https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides">https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides</a>'),"https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26673359/PBX+GUI+-+Webserver+Overrides",true,true);
 			$sql = "REPLACE INTO admin (`value`, `variable`) VALUES (1, 'htaccess')";
 			$sth = FreePBX::Database()->prepare($sql);
 			$sth->execute();
@@ -627,10 +627,10 @@ switch($display) {
 							}
 						}
 						if(!empty($danger)) {
-							echo generate_message_banner(_('Security Warning'), 'danger',$danger,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+							echo generate_message_banner(_('Security Warning'), 'danger',$danger,'https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26477136/PBX+GUI+-+Module+Signing',true);
 						}
 						if(!empty($warning)) {
-							echo generate_message_banner(_('Unsigned Module(s)'), 'warning',$warning,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+							echo generate_message_banner(_('Unsigned Module(s)'), 'warning',$warning,'https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26477136/PBX+GUI+-+Module+Signing',true);
 						}
 						if($amp_conf['PHP_CONSOLE']) {
 							$connector = PhpConsole\Connector::getInstance();

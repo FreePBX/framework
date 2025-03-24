@@ -224,7 +224,7 @@ if($online) {
 													<?php if(!empty($module['signature']['message'])) {?>
 														<tr>
 															<td><?php echo ("Signature Status")?>:</td>
-															<td><?php echo $module['signature']['message']?> <a class="alert-link" href="http://wiki.freepbx.org/display/FPG/Module+Signing" target="_blank"><?php echo _('(What Does this Mean?)') ?></a></td>
+															<td><?php echo $module['signature']['message']?> <a class="alert-link" href="https://sangomakb.atlassian.net/wiki/spaces/PG/pages/26477136/PBX+GUI+-+Module+Signing" target="_blank"><?php echo _('(What Does this Mean?)') ?></a></td>
 														</tr>
 														<?php } ?>
 													<?php if(!empty($module['salert'])) {?>

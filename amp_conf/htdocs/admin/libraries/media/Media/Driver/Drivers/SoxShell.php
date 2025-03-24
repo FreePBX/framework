@@ -78,7 +78,7 @@ class SoxShell extends \Media\Driver\Driver {
 		// executes after the command finishes
 		$nt = \notifications::create();
 		if (!$process->isSuccessful()) {
-			$nt->add_warning("FRAMEWORK", "MISSING_SOX", _("System is missing SOX"), _("To perform the minimal amount of file conversions for HTML5 support and conversion support you need to at least install SOX"),"http://wiki.freepbx.org/display/FOP/Installing+Media+Conversion+Libraries");
+			$nt->add_warning("FRAMEWORK", "MISSING_SOX", _("System is missing SOX"), _("To perform the minimal amount of file conversions for HTML5 support and conversion support you need to at least install SOX"),"https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10682566/Installing+Media+Conversion+Libraries");
 			return false;
 		} else {
 			$nt->delete("FRAMEWORK", "MISSING_SOX");

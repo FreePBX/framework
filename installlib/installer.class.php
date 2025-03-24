@@ -1023,7 +1023,7 @@ class Installer {
 	'value' => false,
 	'options' => '',
 	'name' => 'Set Module Admin to Edge mode',
-	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details',
+	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no. See https://sangomakb.atlassian.net/wiki/spaces/PG/pages/20318723/PBX+GUI+-+Edge+vs+Stable for more details',
 	'type' => CONF_TYPE_BOOL,
 	);
 
@@ -1082,7 +1082,7 @@ class Installer {
 	'value' => false,
 	'options' => '',
 	'name' => 'Use freepbx_menu.conf Configuration',
-	'description' => 'When set to true, the system will check for a freepbx_menu.conf file amongst the normal configuraiton files and if found, it will be used to define and remap the menu tabs and contents. See http://wiki.freepbx.org/x/6YDGAg for more details',
+	'description' => 'When set to true, the system will check for a freepbx_menu.conf file amongst the normal configuraiton files and if found, it will be used to define and remap the menu tabs and contents. See https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10650321/FreePBX+Menu+Conf for more details',
 	'type' => CONF_TYPE_BOOL,
 	);
 
