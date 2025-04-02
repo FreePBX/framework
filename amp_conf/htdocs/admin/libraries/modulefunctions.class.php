@@ -2303,7 +2303,7 @@ class module_functions {
 
 		try {
 			$mn = \FreePBX::Modules()->cleanModuleName($modulename);
-			$bmofile = "$moduledir/$mn.class.php";
+			$bmofile = "$dir/$mn.class.php";
 			$moduleObject = \FreePBX::create()->$mn;
 			if (file_exists($dir) && is_subclass_of($moduleObject,'FreePBX\DB_Helper')) {
 				$moduleObject->deleteAll();
