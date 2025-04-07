@@ -85,7 +85,7 @@ class Cache {
 	 *              Deleting a non-existing entry is considered successful.
 	 */
 	public function delete($id) {
-		return $this->init()->delete($id);
+		return !$this->init()->contains($id) || $this->init()->delete($id);
 	}
 
 	/**
