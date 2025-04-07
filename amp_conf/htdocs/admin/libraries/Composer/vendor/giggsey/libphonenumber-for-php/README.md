@@ -16,7 +16,7 @@ A PHP library for parsing, formatting, storing and validating international phon
    - [Quick Examples](#quick-examples)
      - [Geocoder](#geocoder)
      - [ShortNumberInfo](#shortnumberinfo)
-     - [Mapping Phone Numbers to carrier](#mapping-phone-numbers-to-carrier)
+     - [Mapping Phone Numbers to Carrier](#mapping-phone-numbers-to-carrier)
      - [Mapping Phone Numbers to TimeZones](#mapping-phone-numbers-to-timezones)
  - [FAQ](#faq)
    - [Problems with Invalid Numbers?](#problems-with-invalid-numbers)
@@ -26,19 +26,23 @@ A PHP library for parsing, formatting, storing and validating international phon
 
 ## Installation
 
-PHP versions 5.3 up to PHP 8.0 are currently supported.
+PHP versions 7.4 to PHP 8.4 are currently supported.
 
 The PECL [mbstring](http://php.net/mbstring) extension is required.
 
 It is recommended to use [composer](https://getcomposer.org) to install the library.
 
 ```bash
-$ composer require giggsey/libphonenumber-for-php
+composer require giggsey/libphonenumber-for-php
 ```
 
 You can also use any other [PSR-4](http://www.php-fig.org/psr/psr-4/) compliant autoloader.
 
 If you do not use composer, ensure that you also load any dependencies that this project has, such as [giggsey/locale](https://github.com/giggsey/Locale).
+
+## giggsey/libphonenumber-for-php-lite
+
+If you only want to make use of the core PhoneNumber Util functionality, you can use [giggsey/libphonenumber-for-php-lite](https://github.com/giggsey/libphonenumber-for-php-lite), which offers a much smaller package size.
 
 ## Documentation
 
@@ -237,7 +241,7 @@ Generating the data is not normally needed, as this repository will generally al
 If you do need to generate the data, the commands are provided by [Phing](https://www.phing.info). Ensure you have all the dev composer dependencies installed, then run
 
 ```bash
-$ vendor/bin/phing compile
+vendor/bin/phing compile
 ```
 
 This compile process clones the [libphonenumber](https://github.com/google/libphonenumber) project at the version specified in [METADATA-VERSION.txt](METADATA-VERSION.txt).

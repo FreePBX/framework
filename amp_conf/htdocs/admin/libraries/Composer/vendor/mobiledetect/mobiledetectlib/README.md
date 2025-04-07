@@ -2,12 +2,11 @@
 
 > Motto: "Every business should have a detection script to detect mobile readers."
 
-[![Build Status](https://travis-ci.org/serbanghita/Mobile-Detect.svg?branch=devel)](https://travis-ci.org/serbanghita/Mobile-Detect) 
-[![Latest Stable Version](https://poser.pugx.org/mobiledetect/mobiledetectlib/v/stable.svg)](https://packagist.org/packages/mobiledetect/mobiledetectlib) 
-[![Total Downloads](https://poser.pugx.org/mobiledetect/mobiledetectlib/downloads.svg)](https://packagist.org/packages/mobiledetect/mobiledetectlib) 
-[![Daily Downloads](https://poser.pugx.org/mobiledetect/mobiledetectlib/d/daily.png)](https://packagist.org/packages/mobiledetect/mobiledetectlib) 
-[![License](https://poser.pugx.org/mobiledetect/mobiledetectlib/license.svg)](https://packagist.org/packages/mobiledetect/mobiledetectlib)
-[![Chat on Slack](https://img.shields.io/badge/Slack%20%23general-join-orange.svg)](https://join.slack.com/t/mobiledetect/shared_invite/enQtMjg1NDY0OTg5NzgzLTcwMzEzMWJjZjRlOWFkY2ZiNzE1ZmRmNzEwM2VhOGY5OGVkYWMxNjdkZDU5YjQ5MmM5MGUxYjhlZDQwOGVjZjE)
+![Workflow status](https://img.shields.io/github/actions/workflow/status/serbanghita/Mobile-Detect/2.8.x-test.yml?style=flat-square)
+![Latest tag](https://img.shields.io/github/v/tag/serbanghita/Mobile-Detect?filter=2.8.*&style=flat-square)
+![Monthly Downloads](https://img.shields.io/packagist/dm/mobiledetect/mobiledetectlib?style=flat-square&label=installs)
+![Total Downloads](https://img.shields.io/packagist/dt/mobiledetect/mobiledetectlib?style=flat-square&label=installs)
+![MIT License](https://img.shields.io/packagist/l/mobiledetect/mobiledetectlib?style=flat-square)
 
 #### About
 
@@ -30,21 +29,24 @@ each release we're running [unit tests](./tests) and research and update the det
 
 See [the history](./docs/HISTORY.md) of the project.
 
-#### Announcements
+#### Version guidance
 
-* **JetBrains** is sponsoring the project by providing licenses for [PHPStorm](https://www.jetbrains.com/phpstorm/) and 
+| Version | Tests                                                                                                                                                                                                 | Namespace | Code                                                             | PHP Version | Status               |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|------------------------------------------------------------------|-------------|----------------------|
+| 2.8.x   | [![5x](https://img.shields.io/github/actions/workflow/status/serbanghita/Mobile-Detect/2.8.x-test.yml?style=flat-square)](https://github.com/serbanghita/Mobile-Detect/actions/workflows/test.yml)  | `\Mobile_Detect`       | [2.8](https://github.com/serbanghita/Mobile-Detect/tree/2.8.x)   | \>=5.6,<7.0 | Deprecated           |
+| 3.74.x  | [![7x](https://img.shields.io/github/actions/workflow/status/serbanghita/Mobile-Detect/3.74.x-test.yml?style=flat-square)](https://github.com/serbanghita/Mobile-Detect/actions/workflows/test.yml) | `Detection\MobileDetect`        | [3.74](https://github.com/serbanghita/Mobile-Detect/tree/3.74.x) | \>=7.4,<8.0 | LTS                  |
+| 4.8.x   | [![7x](https://img.shields.io/github/actions/workflow/status/serbanghita/Mobile-Detect/4.8.x-test.yml?style=flat-square)](https://github.com/serbanghita/Mobile-Detect/actions/workflows/test.yml)  | `Detection\MobileDetect`        | [4.8](https://github.com/serbanghita/Mobile-Detect/tree/4.8.x)   | \>=8.0      | Current, **Recommended** |
+
+
+**JetBrains** is sponsoring the project by providing licenses for [PHPStorm](https://www.jetbrains.com/phpstorm/) and 
 [DataGrip](https://www.jetbrains.com/datagrip/).
-* **Mobile_Detect `2.x.x`** is only integrating new regexes, User-Agents and tests. We are focusing on **new tablets only**. 
-The rest of the PRs about TVs, bots or optimizations will be closed and analyzed after `3.0.0-beta` is released.
-* **Mobile_Detect `3.x.x`** is experimental and WIP.
-
 
 #### Install
 
 **Download and include manually**
 > Use this to quickly test the demo.
 
-* [Download latest release](../../tags)
+* [Download the latest release](../../tags)
 * [Mobile_Detect.php](./Mobile_Detect.php)
 
 ```php
@@ -214,6 +216,8 @@ Appropriate view helper and controller plugin also have different conceptions.
 Made by [Nikola Posa](https://github.com/nikolaposa).
 
 **Symfony**
+
+* [Symfony3 MobileDetectBundle](https://github.com/tattali/MobileDetectBundle) is a Symfony bundle to detect mobile devices, manage mobile view and redirect to the mobile and tablet version. Made by [Théo Attali](https://github.com/tattali).
 
 * [Symfony2 Mobile Detect Bundle](https://github.com/suncat2000/MobileDetectBundle) is a bundle for detecting mobile devices, 
 manage mobile view and redirect to the mobile and tablet version.
