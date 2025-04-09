@@ -167,11 +167,7 @@ class RequestMatcher implements RequestMatcherInterface
         }
 
         foreach ($this->attributes as $key => $pattern) {
-            $requestAttribute = $request->attributes->get($key);
-            if (!\is_string($requestAttribute)) {
-                return false;
-            }
-            if (!preg_match('{'.$pattern.'}', $requestAttribute)) {
+            if (!preg_match('{'.$pattern.'}', $request->attributes->get($key))) {
                 return false;
             }
         }

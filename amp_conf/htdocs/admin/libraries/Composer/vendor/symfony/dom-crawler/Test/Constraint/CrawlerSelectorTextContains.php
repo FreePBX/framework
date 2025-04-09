@@ -18,8 +18,6 @@ final class CrawlerSelectorTextContains extends Constraint
 {
     private $selector;
     private $expectedText;
-    private $hasNode = false;
-    private $nodeText;
 
     public function __construct(string $selector, string $expectedText)
     {
@@ -32,11 +30,7 @@ final class CrawlerSelectorTextContains extends Constraint
      */
     public function toString(): string
     {
-        if ($this->hasNode) {
-            return sprintf('the text "%s" of the node matching selector "%s" contains "%s"', $this->nodeText, $this->selector, $this->expectedText);
-        }
-
-        return sprintf('the Crawler has a node matching selector "%s"', $this->selector);
+        return sprintf('has a node matching selector "%s" with content containing "%s"', $this->selector, $this->expectedText);
     }
 
     /**
@@ -48,15 +42,10 @@ final class CrawlerSelectorTextContains extends Constraint
     {
         $crawler = $crawler->filter($this->selector);
         if (!\count($crawler)) {
-            $this->hasNode = false;
-
             return false;
         }
 
-        $this->hasNode = true;
-        $this->nodeText = $crawler->text(null, true);
-
-        return false !== mb_strpos($this->nodeText, $this->expectedText);
+        return false !== mb_strpos($crawler->text(null, true), $this->expectedText);
     }
 
     /**
@@ -66,6 +55,6 @@ final class CrawlerSelectorTextContains extends Constraint
      */
     protected function failureDescription($crawler): string
     {
-        return $this->toString();
+        return 'the Crawler '.$this->toString();
     }
 }

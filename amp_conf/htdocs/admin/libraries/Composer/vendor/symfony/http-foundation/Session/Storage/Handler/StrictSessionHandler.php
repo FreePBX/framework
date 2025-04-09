@@ -31,19 +31,8 @@ class StrictSessionHandler extends AbstractSessionHandler
     }
 
     /**
-     * Returns true if this handler wraps an internal PHP session save handler using \SessionHandler.
-     *
-     * @internal
-     */
-    public function isWrapper(): bool
-    {
-        return $this->handler instanceof \SessionHandler;
-    }
-
-    /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function open($savePath, $sessionName)
     {
         parent::open($savePath, $sessionName);
@@ -62,7 +51,6 @@ class StrictSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function updateTimestamp($sessionId, $data)
     {
         return $this->write($sessionId, $data);
@@ -79,7 +67,6 @@ class StrictSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function destroy($sessionId)
     {
         $this->doDestroy = true;
@@ -101,16 +88,14 @@ class StrictSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function close()
     {
         return $this->handler->close();
     }
 
     /**
-     * @return int|false
+     * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
         return $this->handler->gc($maxlifetime);

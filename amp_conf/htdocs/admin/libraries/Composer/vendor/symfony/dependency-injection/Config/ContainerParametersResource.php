@@ -32,6 +32,9 @@ class ContainerParametersResource implements ResourceInterface
         $this->parameters = $parameters;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return 'container_parameters_'.md5(serialize($this->parameters));

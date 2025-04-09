@@ -1152,12 +1152,7 @@ class SimplePie_Enclosure
 		// If we encounter an unsupported mime-type, check the file extension and guess intelligently.
 		if (!in_array($type, array_merge($types_flash, $types_fmedia, $types_quicktime, $types_wmedia, $types_mp3)))
 		{
-			$extension = $this->get_extension();
-			if ($extension === null) {
-				return null;
-			}
-
-			switch (strtolower($extension))
+			switch (strtolower($this->get_extension()))
 			{
 				// Audio mime-types
 				case 'aac':

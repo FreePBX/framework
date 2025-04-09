@@ -29,12 +29,12 @@ class NumberFormat
     /**
      * @var array
      */
-    protected $leadingDigitsPattern = [];
+    protected $leadingDigitsPattern = array();
 
     /**
      * @var string
      */
-    protected $nationalPrefixFormattingRule = '';
+    protected $nationalPrefixFormattingRule;
 
     /**
      * @var bool
@@ -53,7 +53,7 @@ class NumberFormat
     /**
      * @var string
      */
-    protected $domesticCarrierCodeFormattingRule = '';
+    protected $domesticCarrierCodeFormattingRule;
 
     /**
      * @var bool
@@ -76,16 +76,16 @@ class NumberFormat
         $this->hasFormat = false;
         $this->format = null;
 
-        $this->leadingDigitsPattern = [];
+        $this->leadingDigitsPattern = array();
 
         $this->hasNationalPrefixFormattingRule = false;
-        $this->nationalPrefixFormattingRule = '';
+        $this->nationalPrefixFormattingRule = null;
 
         $this->hasNationalPrefixOptionalWhenFormatting = false;
         $this->nationalPrefixOptionalWhenFormatting = false;
 
         $this->hasDomesticCarrierCodeFormattingRule = false;
-        $this->domesticCarrierCodeFormattingRule = '';
+        $this->domesticCarrierCodeFormattingRule = null;
 
         return $this;
     }
@@ -230,7 +230,7 @@ class NumberFormat
     public function setNationalPrefixFormattingRule($value)
     {
         $this->hasNationalPrefixFormattingRule = true;
-        $this->nationalPrefixFormattingRule = (string) $value;
+        $this->nationalPrefixFormattingRule = $value;
 
         return $this;
     }
@@ -240,7 +240,7 @@ class NumberFormat
      */
     public function clearNationalPrefixFormattingRule()
     {
-        $this->nationalPrefixFormattingRule = '';
+        $this->nationalPrefixFormattingRule = null;
 
         return $this;
     }
@@ -268,12 +268,13 @@ class NumberFormat
     public function setDomesticCarrierCodeFormattingRule($value)
     {
         $this->hasDomesticCarrierCodeFormattingRule = true;
-        $this->domesticCarrierCodeFormattingRule = (string) $value;
+        $this->domesticCarrierCodeFormattingRule = $value;
 
         return $this;
     }
 
     /**
+     * @param NumberFormat $other
      * @return NumberFormat
      */
     public function mergeFrom(NumberFormat $other)
@@ -306,7 +307,7 @@ class NumberFormat
      */
     public function toArray()
     {
-        $output = [];
+        $output = array();
         $output['pattern'] = $this->getPattern();
         $output['format'] = $this->getFormat();
 
@@ -328,6 +329,7 @@ class NumberFormat
     }
 
     /**
+     * @param array $input
      */
     public function fromArray(array $input)
     {

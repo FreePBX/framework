@@ -35,7 +35,7 @@ trait TranslatorTrait
      */
     public function getLocale()
     {
-        return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
+        return $this->locale ?: \Locale::getDefault();
     }
 
     /**
@@ -136,11 +136,9 @@ EOF;
      * which is subject to the new BSD license (http://framework.zend.com/license/new-bsd).
      * Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
      */
-    private function getPluralizationRule(float $number, string $locale): int
+    private function getPluralizationRule(int $number, string $locale): int
     {
-        $number = abs($number);
-
-        switch ('pt_BR' !== $locale && 'en_US_POSIX' !== $locale && \strlen($locale) > 3 ? substr($locale, 0, strrpos($locale, '_')) : $locale) {
+        switch ('pt_BR' !== $locale && \strlen($locale) > 3 ? substr($locale, 0, strrpos($locale, '_')) : $locale) {
             case 'af':
             case 'bn':
             case 'bg':
@@ -149,7 +147,6 @@ EOF;
             case 'de':
             case 'el':
             case 'en':
-            case 'en_US_POSIX':
             case 'eo':
             case 'es':
             case 'et':
@@ -208,7 +205,7 @@ EOF;
             case 'pt_BR':
             case 'ti':
             case 'wa':
-                return ($number < 2) ? 0 : 1;
+                return ((0 == $number) || (1 == $number)) ? 0 : 1;
 
             case 'be':
             case 'bs':

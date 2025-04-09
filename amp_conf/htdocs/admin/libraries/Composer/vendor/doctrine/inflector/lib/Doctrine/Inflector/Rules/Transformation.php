@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Doctrine\Inflector\Rules;
 
 use Doctrine\Inflector\WordInflector;
-
 use function preg_replace;
 
 final class Transformation implements WordInflector
@@ -22,17 +21,17 @@ final class Transformation implements WordInflector
         $this->replacement = $replacement;
     }
 
-    public function getPattern(): Pattern
+    public function getPattern() : Pattern
     {
         return $this->pattern;
     }
 
-    public function getReplacement(): string
+    public function getReplacement() : string
     {
         return $this->replacement;
     }
 
-    public function inflect(string $word): string
+    public function inflect(string $word) : string
     {
         return (string) preg_replace($this->pattern->getRegex(), $this->replacement, $word);
     }

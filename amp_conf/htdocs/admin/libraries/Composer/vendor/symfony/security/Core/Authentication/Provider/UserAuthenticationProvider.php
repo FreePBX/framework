@@ -13,7 +13,6 @@ namespace Symfony\Component\Security\Core\Authentication\Provider;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Exception\AccountStatusException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\AuthenticationServiceException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
@@ -84,8 +83,8 @@ abstract class UserAuthenticationProvider implements AuthenticationProviderInter
             $this->userChecker->checkPreAuth($user);
             $this->checkAuthentication($user, $token);
             $this->userChecker->checkPostAuth($user);
-        } catch (AuthenticationException $e) {
-            if ($this->hideUserNotFoundExceptions && ($e instanceof AccountStatusException || $e instanceof BadCredentialsException)) {
+        } catch (BadCredentialsException $e) {
+            if ($this->hideUserNotFoundExceptions) {
                 throw new BadCredentialsException('Bad credentials.', 0, $e);
             }
 

@@ -109,11 +109,6 @@ abstract class AbstractHeader implements HeaderInterface
                 }
                 $phraseStr = $this->encodeWords($header, $string, $usedLength);
             }
-        } elseif (str_contains($phraseStr, '(')) {
-            foreach (['\\', '"'] as $char) {
-                $phraseStr = str_replace($char, '\\'.$char, $phraseStr);
-            }
-            $phraseStr = '"'.$phraseStr.'"';
         }
 
         return $phraseStr;
@@ -169,29 +164,15 @@ abstract class AbstractHeader implements HeaderInterface
             if ($this->tokenNeedsEncoding($token)) {
                 $encodedToken .= $token;
             } else {
-                if ('' !== $encodedToken) {
+                if (\strlen($encodedToken) > 0) {
                     $tokens[] = $encodedToken;
                     $encodedToken = '';
                 }
                 $tokens[] = $token;
             }
         }
-        if ('' !== $encodedToken) {
+        if (\strlen($encodedToken)) {
             $tokens[] = $encodedToken;
-        }
-
-        foreach ($tokens as $i => $token) {
-            // whitespace(s) between 2 encoded tokens
-            if (
-                0 < $i
-                && isset($tokens[$i + 1])
-                && preg_match('~^[\t ]+$~', $token)
-                && $this->tokenNeedsEncoding($tokens[$i - 1])
-                && $this->tokenNeedsEncoding($tokens[$i + 1])
-            ) {
-                $tokens[$i - 1] .= $token.$tokens[$i + 1];
-                array_splice($tokens, $i, 2);
-            }
         }
 
         return $tokens;
@@ -214,7 +195,7 @@ abstract class AbstractHeader implements HeaderInterface
         $encodingWrapperLength = \strlen('=?'.$charsetDecl.'?'.self::$encoder->getName().'??=');
 
         if ($firstLineOffset >= 75) {
-            // Does this logic need to be here?
+            //Does this logic need to be here?
             $firstLineOffset = 0;
         }
 
@@ -245,7 +226,7 @@ abstract class AbstractHeader implements HeaderInterface
     /**
      * Generate a list of all tokens in the final header.
      */
-    protected function toTokens(?string $string = null): array
+    protected function toTokens(string $string = null): array
     {
         if (null === $string) {
             $string = $this->getBodyAsString();
@@ -281,7 +262,7 @@ abstract class AbstractHeader implements HeaderInterface
             // Line longer than specified maximum or token was just a new line
             if (("\r\n" === $token) ||
                 ($i > 0 && \strlen($currentLine.$token) > $this->lineLength)
-                && '' !== $currentLine) {
+                && 0 < \strlen($currentLine)) {
                 $headerLines[] = '';
                 $currentLine = &$headerLines[$lineCount++];
             }

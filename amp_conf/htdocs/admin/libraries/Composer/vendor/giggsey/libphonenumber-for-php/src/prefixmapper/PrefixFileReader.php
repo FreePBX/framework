@@ -9,7 +9,6 @@ use libphonenumber\PhoneNumberUtil;
  * A helper class doing file handling and lookup of phone number prefix mappings.
  *
  * @package libphonenumber\prefixmapper
- * @internal
  */
 class PrefixFileReader
 {
@@ -25,7 +24,7 @@ class PrefixFileReader
      * loaded.
      * @var array
      */
-    protected $availablePhonePrefixMaps = [];
+    protected $availablePhonePrefixMaps = array();
 
     public function __construct($phonePrefixDataDirectory)
     {
@@ -47,6 +46,10 @@ class PrefixFileReader
 
 
     /**
+     * @param $prefixMapKey
+     * @param $language
+     * @param $script
+     * @param $region
      * @return PhonePrefixMap|null
      */
     public function getPhonePrefixDescriptions($prefixMapKey, $language, $script, $region)

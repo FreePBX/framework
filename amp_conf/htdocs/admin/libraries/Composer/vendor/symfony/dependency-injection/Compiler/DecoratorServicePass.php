@@ -14,7 +14,6 @@ namespace Symfony\Component\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -40,10 +39,6 @@ class DecoratorServicePass implements CompilerPassInterface
         }
         $decoratingDefinitions = [];
 
-        $tagsToKeep = $container->hasParameter('container.behavior_describing_tags')
-            ? $container->getParameter('container.behavior_describing_tags')
-            : ['container.do_not_inline', 'container.service_locator', 'container.service_subscriber', 'container.service_subscriber.locator'];
-
         foreach ($definitions as [$id, $definition]) {
             $decoratedService = $definition->getDecoratedService();
             [$inner, $renamedId] = $decoratedService;
@@ -64,7 +59,6 @@ class DecoratorServicePass implements CompilerPassInterface
                 $public = $alias->isPublic();
                 $private = $alias->isPrivate();
                 $container->setAlias($renamedId, new Alias((string) $alias, false));
-                $decoratedDefinition = $container->findDefinition($alias);
             } elseif ($container->hasDefinition($inner)) {
                 $decoratedDefinition = $container->getDefinition($inner);
                 $public = $decoratedDefinition->isPublic();
@@ -78,13 +72,8 @@ class DecoratorServicePass implements CompilerPassInterface
             } elseif (ContainerInterface::NULL_ON_INVALID_REFERENCE === $invalidBehavior) {
                 $public = $definition->isPublic();
                 $private = $definition->isPrivate();
-                $decoratedDefinition = null;
             } else {
                 throw new ServiceNotFoundException($inner, $id);
-            }
-
-            if ($decoratedDefinition && $decoratedDefinition->isSynthetic()) {
-                throw new InvalidArgumentException(sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
             }
 
             if (isset($decoratingDefinitions[$inner])) {
@@ -93,12 +82,10 @@ class DecoratorServicePass implements CompilerPassInterface
                 $decoratingTags = $decoratingDefinition->getTags();
                 $resetTags = [];
 
-                // Behavior-describing tags must not be transferred out to decorators
-                foreach ($tagsToKeep as $containerTag) {
-                    if (isset($decoratingTags[$containerTag])) {
-                        $resetTags[$containerTag] = $decoratingTags[$containerTag];
-                        unset($decoratingTags[$containerTag]);
-                    }
+                if (isset($decoratingTags['container.service_locator'])) {
+                    // container.service_locator has special logic and it must not be transferred out to decorators
+                    $resetTags = ['container.service_locator' => $decoratingTags['container.service_locator']];
+                    unset($decoratingTags['container.service_locator']);
                 }
 
                 $definition->setTags(array_merge($decoratingTags, $definition->getTags()));

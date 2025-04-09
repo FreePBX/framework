@@ -21,29 +21,20 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
  */
 class Crawler implements \Countable, \IteratorAggregate
 {
-    /**
-     * @var string|null
-     */
     protected $uri;
 
     /**
-     * The default namespace prefix to be used with XPath and CSS expressions.
-     *
-     * @var string
+     * @var string The default namespace prefix to be used with XPath and CSS expressions
      */
     private $defaultNamespacePrefix = 'default';
 
     /**
-     * A map of manually registered namespaces.
-     *
-     * @var array<string, string>
+     * @var array A map of manually registered namespaces
      */
     private $namespaces = [];
 
     /**
-     * The base href value.
-     *
-     * @var string|null
+     * @var string The base href value
      */
     private $baseHref;
 
@@ -84,7 +75,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns the current URI.
      *
-     * @return string|null
+     * @return string
      */
     public function getUri()
     {
@@ -94,7 +85,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns base href.
      *
-     * @return string|null
+     * @return string
      */
     public function getBaseHref()
     {
@@ -148,7 +139,7 @@ class Crawler implements \Countable, \IteratorAggregate
     public function addContent($content, $type = null)
     {
         if (empty($type)) {
-            $type = str_starts_with($content, '<?xml') ? 'application/xml' : 'text/html';
+            $type = 0 === strpos($content, '<?xml') ? 'application/xml' : 'text/html';
         }
 
         // DOM only for HTML/XML content
@@ -156,17 +147,24 @@ class Crawler implements \Countable, \IteratorAggregate
             return;
         }
 
-        $charset = preg_match('//u', $content) ? 'UTF-8' : 'ISO-8859-1';
+        $charset = null;
+        if (false !== $pos = stripos($type, 'charset=')) {
+            $charset = substr($type, $pos + 8);
+            if (false !== $pos = strpos($charset, ';')) {
+                $charset = substr($charset, 0, $pos);
+            }
+        }
 
         // http://www.w3.org/TR/encoding/#encodings
         // http://www.w3.org/TR/REC-xml/#NT-EncName
-        $content = preg_replace_callback('/(charset *= *["\']?)([a-zA-Z\-0-9_:.]+)/i', function ($m) use (&$charset) {
-            if ('charset=' === $this->convertToHtmlEntities('charset=', $m[2])) {
-                $charset = $m[2];
-            }
+        if (null === $charset &&
+            preg_match('/\<meta[^\>]+charset *= *["\']?([a-zA-Z\-0-9_:.]+)/i', $content, $matches)) {
+            $charset = $matches[1];
+        }
 
-            return $m[1].$charset;
-        }, $content, 1);
+        if (null === $charset) {
+            $charset = preg_match('//u', $content) ? 'UTF-8' : 'ISO-8859-1';
+        }
 
         if ('x' === $xmlMatches[1]) {
             $this->addXmlContent($content, $charset);
@@ -620,7 +618,7 @@ class Crawler implements \Countable, \IteratorAggregate
         $text = $this->getNode(0)->nodeValue;
 
         if (\func_num_args() <= 1) {
-            if (trim(preg_replace("/(?:[ \n\r\t\x0C]{2,}+|[\n\r\t\x0C])/", ' ', $text), " \n\r\t\x0C") !== $text) {
+            if (trim(preg_replace('/(?:\s{2,}+|[^\S ])/', ' ', $text)) !== $text) {
                 @trigger_error(sprintf('"%s()" will normalize whitespaces by default in Symfony 5.0, set the second "$normalizeWhitespace" argument to false to retrieve the non-normalized version of the text.', __METHOD__), \E_USER_DEPRECATED);
             }
 
@@ -628,7 +626,7 @@ class Crawler implements \Countable, \IteratorAggregate
         }
 
         if (\func_num_args() > 1 && func_get_arg(1)) {
-            return trim(preg_replace("/(?:[ \n\r\t\x0C]{2,}+|[\n\r\t\x0C])/", ' ', $text), " \n\r\t\x0C");
+            return trim(preg_replace('/(?:\s{2,}+|[^\S ])/', ' ', $text));
         }
 
         return $text;
@@ -994,11 +992,11 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public static function xpathLiteral($s)
     {
-        if (!str_contains($s, "'")) {
+        if (false === strpos($s, "'")) {
             return sprintf("'%s'", $s);
         }
 
-        if (!str_contains($s, '"')) {
+        if (false === strpos($s, '"')) {
             return sprintf('"%s"', $s);
         }
 
@@ -1091,29 +1089,29 @@ class Crawler implements \Countable, \IteratorAggregate
             }
             $expression = rtrim(substr($xpath, $startPosition, $i - $startPosition));
 
-            if (str_starts_with($expression, 'self::*/')) {
+            if (0 === strpos($expression, 'self::*/')) {
                 $expression = './'.substr($expression, 8);
             }
 
             // add prefix before absolute element selector
             if ('' === $expression) {
                 $expression = $nonMatchingExpression;
-            } elseif (str_starts_with($expression, '//')) {
+            } elseif (0 === strpos($expression, '//')) {
                 $expression = 'descendant-or-self::'.substr($expression, 2);
-            } elseif (str_starts_with($expression, './/')) {
+            } elseif (0 === strpos($expression, './/')) {
                 $expression = 'descendant-or-self::'.substr($expression, 3);
-            } elseif (str_starts_with($expression, './')) {
+            } elseif (0 === strpos($expression, './')) {
                 $expression = 'self::'.substr($expression, 2);
-            } elseif (str_starts_with($expression, 'child::')) {
+            } elseif (0 === strpos($expression, 'child::')) {
                 $expression = 'self::'.substr($expression, 7);
-            } elseif ('/' === $expression[0] || '.' === $expression[0] || str_starts_with($expression, 'self::')) {
+            } elseif ('/' === $expression[0] || '.' === $expression[0] || 0 === strpos($expression, 'self::')) {
                 $expression = $nonMatchingExpression;
-            } elseif (str_starts_with($expression, 'descendant::')) {
+            } elseif (0 === strpos($expression, 'descendant::')) {
                 $expression = 'descendant-or-self::'.substr($expression, 12);
             } elseif (preg_match('/^(ancestor|ancestor-or-self|attribute|following|following-sibling|namespace|parent|preceding|preceding-sibling)::/', $expression)) {
                 // the fake root has no parent, preceding or following nodes and also no attributes (even no namespace attributes)
                 $expression = $nonMatchingExpression;
-            } elseif (!str_starts_with($expression, 'descendant-or-self::')) {
+            } elseif (0 !== strpos($expression, 'descendant-or-self::')) {
                 $expression = 'self::'.$expression;
             }
             $expressions[] = $parenthesis.$expression;
@@ -1142,7 +1140,6 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->nodes);
@@ -1151,7 +1148,6 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * @return \ArrayIterator|\DOMNode[]
      */
-    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->nodes);
@@ -1179,7 +1175,7 @@ class Crawler implements \Countable, \IteratorAggregate
 
     private function parseHtml5(string $htmlContent, string $charset = 'UTF-8'): \DOMDocument
     {
-        return $this->html5Parser->parse($this->convertToHtmlEntities($htmlContent, $charset));
+        return $this->html5Parser->parse($this->convertToHtmlEntities($htmlContent, $charset), [], $charset);
     }
 
     private function parseXhtml(string $htmlContent, string $charset = 'UTF-8'): \DOMDocument
@@ -1214,12 +1210,12 @@ class Crawler implements \Countable, \IteratorAggregate
         set_error_handler(function () { throw new \Exception(); });
 
         try {
-            return mb_encode_numericentity($htmlContent, [0x80, 0x10FFFF, 0, 0x1FFFFF], $charset);
-        } catch (\Exception|\ValueError $e) {
+            return mb_convert_encoding($htmlContent, 'HTML-ENTITIES', $charset);
+        } catch (\Exception | \ValueError $e) {
             try {
                 $htmlContent = iconv($charset, 'UTF-8', $htmlContent);
-                $htmlContent = mb_encode_numericentity($htmlContent, [0x80, 0x10FFFF, 0, 0x1FFFFF], 'UTF-8');
-            } catch (\Exception|\ValueError $e) {
+                $htmlContent = mb_convert_encoding($htmlContent, 'HTML-ENTITIES', 'UTF-8');
+            } catch (\Exception | \ValueError $e) {
             }
 
             return $htmlContent;

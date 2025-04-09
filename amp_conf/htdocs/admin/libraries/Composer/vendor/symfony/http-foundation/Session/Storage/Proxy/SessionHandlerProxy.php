@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler;
-
 /**
  * @author Drak <drak@zikula.org>
  */
@@ -23,8 +21,8 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     public function __construct(\SessionHandlerInterface $handler)
     {
         $this->handler = $handler;
-        $this->wrapper = $handler instanceof \SessionHandler;
-        $this->saveHandlerName = $this->wrapper || ($handler instanceof StrictSessionHandler && $handler->isWrapper()) ? \ini_get('session.save_handler') : 'user';
+        $this->wrapper = ($handler instanceof \SessionHandler);
+        $this->saveHandlerName = $this->wrapper ? ini_get('session.save_handler') : 'user';
     }
 
     /**
@@ -40,61 +38,54 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function open($savePath, $sessionName)
     {
-        return $this->handler->open($savePath, $sessionName);
+        return (bool) $this->handler->open($savePath, $sessionName);
     }
 
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function close()
     {
-        return $this->handler->close();
+        return (bool) $this->handler->close();
     }
 
     /**
-     * @return string|false
+     * @return string
      */
-    #[\ReturnTypeWillChange]
     public function read($sessionId)
     {
-        return $this->handler->read($sessionId);
+        return (string) $this->handler->read($sessionId);
     }
 
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function write($sessionId, $data)
     {
-        return $this->handler->write($sessionId, $data);
+        return (bool) $this->handler->write($sessionId, $data);
     }
 
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function destroy($sessionId)
     {
-        return $this->handler->destroy($sessionId);
-    }
-
-    /**
-     * @return int|false
-     */
-    #[\ReturnTypeWillChange]
-    public function gc($maxlifetime)
-    {
-        return $this->handler->gc($maxlifetime);
+        return (bool) $this->handler->destroy($sessionId);
     }
 
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    public function gc($maxlifetime)
+    {
+        return (bool) $this->handler->gc($maxlifetime);
+    }
+
+    /**
+     * @return bool
+     */
     public function validateId($sessionId)
     {
         return !$this->handler instanceof \SessionUpdateTimestampHandlerInterface || $this->handler->validateId($sessionId);
@@ -103,7 +94,6 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     /**
      * @return bool
      */
-    #[\ReturnTypeWillChange]
     public function updateTimestamp($sessionId, $data)
     {
         return $this->handler instanceof \SessionUpdateTimestampHandlerInterface ? $this->handler->updateTimestamp($sessionId, $data) : $this->write($sessionId, $data);

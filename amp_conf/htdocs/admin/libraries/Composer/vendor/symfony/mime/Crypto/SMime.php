@@ -83,7 +83,7 @@ abstract class SMime
             }
 
             // Handle headers that span multiple lines
-            if (!str_contains($headerLine, ':')) {
+            if (false === strpos($headerLine, ':')) {
                 $headers[$currentHeaderName] .= ' '.trim($headerLine);
                 continue;
             }

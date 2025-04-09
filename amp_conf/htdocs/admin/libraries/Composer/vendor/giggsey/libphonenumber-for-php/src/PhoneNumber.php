@@ -512,18 +512,24 @@ class PhoneNumber implements \Serializable
      */
     public function equals(PhoneNumber $other)
     {
-        if ($this === $other) {
-            return true;
-        }
-
-        return $this->countryCode === $other->countryCode
-            && $this->nationalNumber === $other->nationalNumber
-            && $this->extension === $other->extension
-            && $this->italianLeadingZero === $other->italianLeadingZero
-            && $this->numberOfLeadingZeros === $other->numberOfLeadingZeros
-            && $this->rawInput === $other->rawInput
-            && $this->countryCodeSource === $other->countryCodeSource
-            && $this->preferredDomesticCarrierCode === $other->preferredDomesticCarrierCode;
+        $sameType = get_class($other) == get_class($this);
+        $sameCountry = $this->hasCountryCode() == $other->hasCountryCode() &&
+            (!$this->hasCountryCode() || $this->getCountryCode() == $other->getCountryCode());
+        $sameNational = $this->hasNationalNumber() == $other->hasNationalNumber() &&
+            (!$this->hasNationalNumber() || $this->getNationalNumber() == $other->getNationalNumber());
+        $sameExt = $this->hasExtension() == $other->hasExtension() &&
+            (!$this->hasExtension() || $this->getExtension() == $other->getExtension());
+        $sameLead = $this->hasItalianLeadingZero() == $other->hasItalianLeadingZero() &&
+            (!$this->hasItalianLeadingZero() || $this->isItalianLeadingZero() == $other->isItalianLeadingZero());
+        $sameZeros = $this->getNumberOfLeadingZeros() == $other->getNumberOfLeadingZeros();
+        $sameRaw = $this->hasRawInput() == $other->hasRawInput() &&
+            (!$this->hasRawInput() || $this->getRawInput() == $other->getRawInput());
+        $sameCountrySource = $this->hasCountryCodeSource() == $other->hasCountryCodeSource() &&
+            (!$this->hasCountryCodeSource() || $this->getCountryCodeSource() == $other->getCountryCodeSource());
+        $samePrefCar = $this->hasPreferredDomesticCarrierCode() == $other->hasPreferredDomesticCarrierCode() &&
+            (!$this->hasPreferredDomesticCarrierCode() || $this->getPreferredDomesticCarrierCode(
+                ) == $other->getPreferredDomesticCarrierCode());
+        return $sameType && $sameCountry && $sameNational && $sameExt && $sameLead && $sameZeros && $sameRaw && $sameCountrySource && $samePrefCar;
     }
 
     /**
@@ -555,38 +561,32 @@ class PhoneNumber implements \Serializable
     }
 
     /**
-     *
+     * @inheritDoc
      */
     public function serialize()
     {
-        return serialize($this->__serialize());
-    }
-
-    public function __serialize()
-    {
-        return [
-            $this->countryCode,
-            $this->nationalNumber,
-            $this->extension,
-            $this->italianLeadingZero,
-            $this->numberOfLeadingZeros,
-            $this->rawInput,
-            $this->countryCodeSource,
-            $this->preferredDomesticCarrierCode,
-        ];
+        return serialize(
+            array(
+                $this->countryCode,
+                $this->nationalNumber,
+                $this->extension,
+                $this->italianLeadingZero,
+                $this->numberOfLeadingZeros,
+                $this->rawInput,
+                $this->countryCodeSource,
+                $this->preferredDomesticCarrierCode
+            )
+        );
     }
 
     /**
-     *
+     * @inheritDoc
      */
     public function unserialize($serialized)
     {
-        $this->__unserialize(unserialize($serialized));
-    }
+        $data = unserialize($serialized);
 
-    public function __unserialize(array $data)
-    {
-        [
+        list(
             $this->countryCode,
             $this->nationalNumber,
             $this->extension,
@@ -595,7 +595,7 @@ class PhoneNumber implements \Serializable
             $this->rawInput,
             $this->countryCodeSource,
             $this->preferredDomesticCarrierCode
-        ] = $data;
+        ) = $data;
 
         if ($this->numberOfLeadingZeros > 1) {
             $this->hasNumberOfLeadingZeros = true;

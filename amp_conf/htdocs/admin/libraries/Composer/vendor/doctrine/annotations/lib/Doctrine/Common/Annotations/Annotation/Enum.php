@@ -34,9 +34,9 @@ final class Enum
     public $literal;
 
     /**
-     * @phpstan-param array{literal?: mixed[], value: list<scalar>} $values
-     *
      * @throws InvalidArgumentException
+     *
+     * @phpstan-param array{literal?: mixed[], value: list<scalar>} $values
      */
     public function __construct(array $values)
     {

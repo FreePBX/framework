@@ -7,6 +7,8 @@ namespace Doctrine\Common\Collections\Expr;
  */
 interface Expression
 {
-    /** @return mixed */
+    /**
+     * @return mixed
+     */
     public function visit(ExpressionVisitor $visitor);
 }

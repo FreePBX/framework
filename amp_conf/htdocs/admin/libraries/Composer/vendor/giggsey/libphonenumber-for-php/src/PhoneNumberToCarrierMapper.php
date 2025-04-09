@@ -1,6 +1,7 @@
 <?php
-
 /**
+ *
+ *
  * @author giggsey
  * @created: 02/10/13 16:52
  * @project libphonenumber-for-php
@@ -16,7 +17,9 @@ class PhoneNumberToCarrierMapper
     /**
      * @var PhoneNumberToCarrierMapper[]
      */
-    protected static $instance = [];
+    protected static $instance = array();
+
+    const MAPPING_DATA_DIRECTORY = '/carrier/data/';
 
     /**
      * @var PhoneNumberUtil
@@ -27,16 +30,9 @@ class PhoneNumberToCarrierMapper
      */
     protected $prefixFileReader;
 
-    /**
-     * @param string|null $phonePrefixDataDirectory
-     */
     protected function __construct($phonePrefixDataDirectory)
     {
-        if ($phonePrefixDataDirectory === null) {
-            $phonePrefixDataDirectory = __DIR__ . '/carrier/data/';
-        }
-
-        $this->prefixFileReader = new PrefixFileReader($phonePrefixDataDirectory);
+        $this->prefixFileReader = new PrefixFileReader(__DIR__ . DIRECTORY_SEPARATOR . $phonePrefixDataDirectory);
         $this->phoneUtil = PhoneNumberUtil::getInstance();
     }
 
@@ -46,10 +42,10 @@ class PhoneNumberToCarrierMapper
      * <p> The {@link PhoneNumberToCarrierMapper} is implemented as a singleton. Therefore, calling
      * this method multiple times will only result in one instance being created.
      *
-     * @param string|null $mappingDir
+     * @param string $mappingDir
      * @return PhoneNumberToCarrierMapper
      */
-    public static function getInstance($mappingDir = null)
+    public static function getInstance($mappingDir = self::MAPPING_DATA_DIRECTORY)
     {
         if (!array_key_exists($mappingDir, static::$instance)) {
             static::$instance[$mappingDir] = new static($mappingDir);

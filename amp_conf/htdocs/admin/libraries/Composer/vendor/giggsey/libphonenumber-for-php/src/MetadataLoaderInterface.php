@@ -2,9 +2,6 @@
 
 namespace libphonenumber;
 
-/**
- * @internal
- */
 interface MetadataLoaderInterface
 {
     /**

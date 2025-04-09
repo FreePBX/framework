@@ -15,8 +15,6 @@ use function substr;
 
 /**
  * Simple lexer for docblock annotations.
- *
- * @template-extends AbstractLexer<DocLexer::T_*, string>
  */
 final class DocLexer extends AbstractLexer
 {
@@ -41,7 +39,7 @@ final class DocLexer extends AbstractLexer
     public const T_COLON               = 112;
     public const T_MINUS               = 113;
 
-    /** @var array<string, self::T*> */
+    /** @var array<string, int> */
     protected $noCase = [
         '@'  => self::T_AT,
         ','  => self::T_COMMA,
@@ -55,7 +53,7 @@ final class DocLexer extends AbstractLexer
         '\\' => self::T_NAMESPACE_SEPARATOR,
     ];
 
-    /** @var array<string, self::T*> */
+    /** @var array<string, int> */
     protected $withCase = [
         'true'  => self::T_TRUE,
         'false' => self::T_FALSE,
@@ -74,7 +72,7 @@ final class DocLexer extends AbstractLexer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getCatchablePatterns()
     {
@@ -86,7 +84,7 @@ final class DocLexer extends AbstractLexer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getNonCatchablePatterns()
     {
@@ -94,7 +92,7 @@ final class DocLexer extends AbstractLexer
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getType(&$value)
     {
@@ -127,17 +125,5 @@ final class DocLexer extends AbstractLexer
         }
 
         return $type;
-    }
-
-    /** @return array{value: int|string, type:self::T_*|null, position:int} */
-    public function peek(): ?array
-    {
-        $token = parent::peek();
-
-        if ($token === null) {
-            return null;
-        }
-
-        return (array) $token;
     }
 }

@@ -21,9 +21,9 @@ final class IgnoreAnnotation
     public $names;
 
     /**
-     * @phpstan-param array{value: string|list<string>} $values
-     *
      * @throws RuntimeException
+     *
+     * @phpstan-param array{value: string|list<string>} $values
      */
     public function __construct(array $values)
     {

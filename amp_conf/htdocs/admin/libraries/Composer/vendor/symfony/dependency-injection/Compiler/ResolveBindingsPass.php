@@ -44,7 +44,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
             foreach ($this->unusedBindings as [$key, $serviceId, $bindingType, $file]) {
                 $argumentType = $argumentName = $message = null;
 
-                if (str_contains($key, ' ')) {
+                if (false !== strpos($key, ' ')) {
                     [$argumentType, $argumentName] = explode(' ', $key, 2);
                 } elseif ('$' === $key[0]) {
                     $argumentName = $key;
@@ -125,7 +125,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
                 $this->unusedBindings[$bindingId] = [$key, $this->currentId, $bindingType, $file];
             }
 
-            if (preg_match('/^(?:(?:array|bool|float|int|string|iterable|([^ $]++)) )\$/', $key, $m)) {
+            if (preg_match('/^(?:(?:array|bool|float|int|string|([^ $]++)) )\$/', $key, $m)) {
                 $bindingNames[substr($key, \strlen($m[0]))] = $binding;
             }
 
@@ -133,13 +133,8 @@ class ResolveBindingsPass extends AbstractRecursivePass
                 continue;
             }
 
-            if (is_subclass_of($m[1], \UnitEnum::class)) {
-                $bindingNames[substr($key, \strlen($m[0]))] = $binding;
-                continue;
-            }
-
             if (null !== $bindingValue && !$bindingValue instanceof Reference && !$bindingValue instanceof Definition && !$bindingValue instanceof TaggedIteratorArgument && !$bindingValue instanceof ServiceLocatorArgument) {
-                throw new InvalidArgumentException(sprintf('Invalid value for binding key "%s" for service "%s": expected "%s", "%s", "%s", "%s" or null, "%s" given.', $key, $this->currentId, Reference::class, Definition::class, TaggedIteratorArgument::class, ServiceLocatorArgument::class, \gettype($bindingValue)));
+                throw new InvalidArgumentException(sprintf('Invalid value for binding key "%s" for service "%s": expected null, "%s", "%s", "%s" or ServiceLocatorArgument, "%s" given.', $key, $this->currentId, Reference::class, Definition::class, TaggedIteratorArgument::class, \gettype($bindingValue)));
             }
         }
 
@@ -183,7 +178,7 @@ class ResolveBindingsPass extends AbstractRecursivePass
 
                 $typeHint = ProxyHelper::getTypeHint($reflectionMethod, $parameter);
 
-                if ($typeHint && \array_key_exists($k = ltrim($typeHint, '\\').' $'.$parameter->name, $bindings)) {
+                if (\array_key_exists($k = ltrim($typeHint, '\\').' $'.$parameter->name, $bindings)) {
                     $arguments[$key] = $this->getBindingValue($bindings[$k]);
 
                     continue;

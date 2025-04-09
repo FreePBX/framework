@@ -39,10 +39,6 @@ final class ServiceLocatorTagPass extends AbstractRecursivePass
             return self::register($this->container, $value->getValues());
         }
 
-        if ($value instanceof Definition) {
-            $value->setBindings(parent::processValue($value->getBindings()));
-        }
-
         if (!$value instanceof Definition || !$value->hasTag('container.service_locator')) {
             return parent::processValue($value, $isRoot);
         }
