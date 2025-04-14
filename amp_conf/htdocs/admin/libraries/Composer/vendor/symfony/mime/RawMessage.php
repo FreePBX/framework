@@ -18,6 +18,9 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class RawMessage implements \Serializable
 {
+    /**
+     * @var iterable|string
+     */
     private $message;
 
     /**
@@ -33,8 +36,11 @@ class RawMessage implements \Serializable
         if (\is_string($this->message)) {
             return $this->message;
         }
+        if ($this->message instanceof \Traversable) {
+            $this->message = iterator_to_array($this->message, false);
+        }
 
-        return $this->message = implode('', iterator_to_array($this->message, false));
+        return $this->message = implode('', $this->message);
     }
 
     public function toIterable(): iterable

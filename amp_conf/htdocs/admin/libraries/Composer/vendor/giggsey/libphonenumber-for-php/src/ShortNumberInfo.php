@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Methods for getting information about short phone numbers, such as short codes and emergency
  * numbers. Note that most commercial short numbers are not handled here, but by the
@@ -13,7 +14,6 @@ namespace libphonenumber;
 
 class ShortNumberInfo
 {
-    const META_DATA_FILE_PREFIX = 'ShortNumberMetadata';
     /**
      * @var ShortNumberInfo
      */
@@ -23,14 +23,14 @@ class ShortNumberInfo
      */
     protected $matcherAPI;
     protected $currentFilePrefix;
-    protected $regionToMetadataMap = array();
-    protected $countryCallingCodeToRegionCodeMap = array();
-    protected $countryCodeToNonGeographicalMetadataMap = array();
-    protected static $regionsWhereEmergencyNumbersMustBeExact = array(
+    protected $regionToMetadataMap = [];
+    protected $countryCallingCodeToRegionCodeMap = [];
+    protected $countryCodeToNonGeographicalMetadataMap = [];
+    protected static $regionsWhereEmergencyNumbersMustBeExact = [
         'BR',
         'CL',
         'NI',
-    );
+    ];
 
     protected function __construct(MatcherAPIInterface $matcherAPI)
     {
@@ -39,7 +39,7 @@ class ShortNumberInfo
         // TODO: Create ShortNumberInfo for a given map
         $this->countryCallingCodeToRegionCodeMap = CountryCodeToRegionCodeMap::$countryCodeToRegionCodeMap;
 
-        $this->currentFilePrefix = dirname(__FILE__) . '/data/' . static::META_DATA_FILE_PREFIX;
+        $this->currentFilePrefix = __DIR__ . '/data/ShortNumberMetadata';
 
         // Initialise PhoneNumberUtil to make sure regex's are setup correctly
         PhoneNumberUtil::getInstance();
@@ -65,7 +65,7 @@ class ShortNumberInfo
     }
 
     /**
-     * Returns a list with teh region codes that match the specific country calling code. For
+     * Returns a list with the region codes that match the specific country calling code. For
      * non-geographical country calling codes, the region code 001 is returned. Also, in the case
      * of no region code being found, an empty list is returned.
      *
@@ -80,21 +80,24 @@ class ShortNumberInfo
             $regionCodes = $this->countryCallingCodeToRegionCodeMap[$countryCallingCode];
         }
 
-        return ($regionCodes === null) ? array() : $regionCodes;
+        return ($regionCodes === null) ? [] : $regionCodes;
     }
 
     /**
      * Helper method to check that the country calling code of the number matches the region it's
      * being dialed from.
-     * @param PhoneNumber $number
      * @param string $regionDialingFrom
      * @return bool
      */
     protected function regionDialingFromMatchesNumber(PhoneNumber $number, $regionDialingFrom)
     {
+        if ($regionDialingFrom === null || $regionDialingFrom === '') {
+            return false;
+        }
+
         $regionCodes = $this->getRegionCodesForCountryCode($number->getCountryCode());
 
-        return in_array($regionDialingFrom, $regionCodes);
+        return in_array(strtoupper($regionDialingFrom), $regionCodes);
     }
 
     public function getSupportedRegions()
@@ -125,11 +128,12 @@ class ShortNumberInfo
     }
 
     /**
-     * @param $regionCode
      * @return PhoneMetadata|null
      */
     public function getMetadataForRegion($regionCode)
     {
+        $regionCode = strtoupper((string) $regionCode);
+
         if (!in_array($regionCode, ShortNumbersRegionCodeSet::$shortNumbersRegionCodeSet)) {
             return null;
         }
@@ -140,7 +144,7 @@ class ShortNumberInfo
             $this->loadMetadataFromFile($this->currentFilePrefix, $regionCode, 0);
         }
 
-        return isset($this->regionToMetadataMap[$regionCode]) ? $this->regionToMetadataMap[$regionCode] : null;
+        return $this->regionToMetadataMap[$regionCode] ?? null;
     }
 
     protected function loadMetadataFromFile($filePrefix, $regionCode, $countryCallingCode)
@@ -248,7 +252,7 @@ class ShortNumberInfo
 
         $allowPrefixMatchForRegion = (
             $allowPrefixMatch
-            && !in_array($regionCode, static::$regionsWhereEmergencyNumbersMustBeExact)
+            && !in_array(strtoupper($regionCode), static::$regionsWhereEmergencyNumbersMustBeExact)
         );
 
         return $this->matcherAPI->matchNationalNumber($normalizedNumber, $emergencyDesc, $allowPrefixMatchForRegion);
@@ -336,8 +340,6 @@ class ShortNumberInfo
      * codes. If the list contains more than one region, the first region for which the number is
      * valid is returned.
      *
-     * @param PhoneNumber $number
-     * @param $regionCodes
      * @return String|null Region Code (or null if none are found)
      */
     protected function getRegionCodeForShortNumberFromRegionList(PhoneNumber $number, $regionCodes)
@@ -639,7 +641,6 @@ class ShortNumberInfo
      * TODO: Once we have benchmarked ShortnumberInfo, consider if it is worth keeping
      * this performance optimization.
      * @param string $number
-     * @param PhoneNumberDesc $numberDesc
      * @return bool
      */
     protected function matchesPossibleNumberAndNationalNumber($number, PhoneNumberDesc $numberDesc)
