@@ -654,6 +654,6 @@ class Client
 
 class item {
 	public $content = 'Please Upgrade the "dashboard" and "ucp" module';
-	public $url = 'https://wiki.freepbx.org/display/FPG/Upgrading+a+FreePBX+Module+from+the+CLI';
+	public $url = 'https://sangomakb.atlassian.net/wiki/spaces/PG/pages/41812048/PBX+GUI+-+Upgrading+a+FreePBX+Module+from+the+CLI';
 	public $title = 'Please Upgrade the "dashboard" and "ucp" module';
 }

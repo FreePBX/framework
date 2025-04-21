@@ -10,7 +10,7 @@ if ($activetab == "summary") {
 <?php
 if($edgemode) {
 	print "<div class='container-fluid'>";
-	print show_help(sprintf(_("This system has edge mode enabled. This means you will get modules as they are released and may encounter bugs not seen in general availibility modules.</br> For more information visit %s"),'<a href="http://wiki.freepbx.org/x/boi3Aw">http://wiki.freepbx.org/x/boi3Aw</a>'), _('EDGE MODE'), false, false);
+	print show_help(sprintf(_("This system has edge mode enabled. This means you will get modules as they are released and may encounter bugs not seen in general availibility modules.</br> For more information visit %s"),'<a href="https://sangomakb.atlassian.net/wiki/spaces/PG/pages/20318723/PBX+GUI+-+Edge+vs+Stable">https://sangomakb.atlassian.net/wiki/spaces/PG/pages/20318723/PBX+GUI+-+Edge+vs+Stable</a>'), _('EDGE MODE'), false, false);
   	print "</div>";
 }
 ?>

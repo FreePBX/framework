@@ -466,7 +466,7 @@ class UpdateManager {
 			$warning = _("Unsigned module notifications are turned off!")."\n\n";
 			$warning .= _("You will not get alerts about new modules that are installed on your system without a valid signature. It is unusual to turn off this protection. You can turn it back on in 'Updates' by enabling the 'Send security emails for unsigned modules' option.")."\n";
 			$warning .= _("If you want to sign your own modules to protect them from unauthorized tampering, please see the link below for more information:")."\n";
-			$warning .= "    http://wiki.freepbx.org/display/FOP/Signing+your+own+modules\n";
+			$warning .= "    https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10420868/Signing+your+own+modules\n";
 			return $warning;
 		}
 		// Now see if there ARE any unsigned modules to complain about
@@ -477,7 +477,7 @@ class UpdateManager {
 		$warning = _("UNSIGNED MODULES DETECTED:")."\n\n";
 		$warning .= _("Warning: It is unusual to have Unsigned modules on your system!")."\n";
 		$warning .= sprintf(_("There are several ways to protect modules against tampering in %s. Please see the wiki page on module signing for more information:"), $this->brand)."\n";
-		$warning .= "    http://wiki.freepbx.org/display/FOP/Signing+your+own+modules\n\n";
+		$warning .= "    https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10420868/Signing+your+own+modules\n\n";
 		foreach ($unsigned as $item) {
 			$warning .= $item['display_text'].":\n";
 			$warning .= $this->cleanHtml($item['extended_text'])."\n";

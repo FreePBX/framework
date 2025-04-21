@@ -5,7 +5,7 @@
  *
  * This is the Job Handler for the FreePBX Big Module Object.
  *
- * See: https://wiki.freepbx.org/display/FOP/Job
+ * See: https://sangomakb.atlassian.net/wiki/spaces/FP/pages/10650144/Job
  *
  */
 namespace FreePBX;
