@@ -128,7 +128,9 @@ EOF;
 			$this->out(_("CA key already exists, reusing"));
 		} else {
 			$this->out(_("Creating CA key"));
-			@unlink($key);
+			if (file_exists($key)) {
+				unlink($key);
+			}
 			$this->generateKey($base, $passphrase, 4096);
 		}
 
