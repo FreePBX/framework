@@ -976,43 +976,35 @@ if ( ! function_exists('_attributes_to_string'))
 {
 	function _attributes_to_string($attributes, $formtag = FALSE)
 	{
-		if (is_string($attributes) AND strlen($attributes) > 0)
-		{
-			if ($formtag == TRUE AND strpos($attributes, 'method=') === FALSE)
-			{
+		if (is_string($attributes) && strlen($attributes) > 0) {
+			if ($formtag && !str_contains($attributes, 'method=')) {
 				$attributes .= ' method="post"';
 			}
 
-			if ($formtag == TRUE AND strpos($attributes, 'accept-charset=') === FALSE)
-			{
-				$attributes .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+			if ($formtag && !str_contains($attributes, 'accept-charset=') && config_item('charset')) {
+				$attributes .= ' accept-charset="' . htmlspecialchars(strtolower(config_item('charset'))) . '"';
 			}
 
-		return ' '.$attributes;
+			return ' ' . $attributes;
 		}
 
-		if (is_object($attributes) AND count($attributes) > 0)
-		{
+		if (is_object($attributes)) {
 			$attributes = (array)$attributes;
 		}
 
-		if (is_array($attributes) AND count($attributes) > 0)
-		{
+		if (is_array($attributes) && count($attributes) > 0) {
 			$atts = '';
 
-			if ( ! isset($attributes['method']) AND $formtag === TRUE)
-			{
+			if (!isset($attributes['method']) && $formtag) {
 				$atts .= ' method="post"';
 			}
 
-			if ( ! isset($attributes['accept-charset']) AND $formtag === TRUE)
-			{
-				$atts .= ' accept-charset="'.strtolower(config_item('charset')).'"';
+			if (!isset($attributes['accept-charset']) && $formtag && config_item('charset')) {
+				$atts .= ' accept-charset="' . htmlspecialchars(strtolower(config_item('charset'))) . '"';
 			}
 
-			foreach ($attributes as $key => $val)
-			{
-				$atts .= ' '.$key.'="'.$val.'"';
+			foreach ($attributes as $key => $val) {
+				$atts .= ' ' . $key . '="' . htmlspecialchars($val) . '"';
 			}
 
 			return $atts;
