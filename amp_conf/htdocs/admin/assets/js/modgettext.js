@@ -50,7 +50,8 @@ function sprintf() {
 	try {
 		return i18n.sprintf.apply(this, arguments);
 	} catch (err) {
-		return string;
+		console.error("sprintf error:", err);
+        	return arguments.length > 0 ? arguments[0] : "";
 	}
 }
 
