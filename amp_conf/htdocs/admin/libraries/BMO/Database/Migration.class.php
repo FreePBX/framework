@@ -9,9 +9,9 @@
 
 namespace FreePBX\Database;
 
+use Doctrine\DBAL\Schema\SchemaConfig;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\SchemaConfig;
 use Exception;
 use FreePBX\Database\DBAL\SingleDatabaseSynchronizer;
 
@@ -19,14 +19,10 @@ class Migration
 {
     private $conn;
     private $table;
-    private $version;
-    private $driver;
 
-    public function __construct($conn, $version, $driverName)
+    public function __construct($conn)
     {
         $this->conn = $conn;
-        $this->version = $version;
-        $this->driver =  $driverName;
         // http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
         $this->conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
     }
@@ -54,7 +50,6 @@ class Migration
         if (!isset($diff->newTables[$this->table])) {
             throw new Exception('Table does not exist');
         }
-        //$table = $sm->listTableDetails($this->table);
         $columns = $sm->listTableColumns($this->table);
         $foreignKeys = $sm->listTableForeignKeys($this->table);
         $indexes = $sm->listTableIndexes($this->table);
@@ -120,11 +115,6 @@ class Migration
         if (!empty($foreignKeys)) {
             throw new Exception('There are foreign keys here. Cant accurately generate tables');
         }
-        /*
-        foreach ($foreignKeys as $foreignKey) {
-            //echo $foreignKey->getName() . ': ' . $foreignKey->getLocalTableName() .'\n';
-        }
-        */
 
         return ['columns' => $export, 'indexes' => $expindexes];
     }
@@ -140,12 +130,10 @@ class Migration
     {
         $synchronizer = new SingleDatabaseSynchronizer($this->conn);
         $schemaConfig = new SchemaConfig();
-        if ($this->driver === 'pdo_mysql' && version_compare($this->version, '5.5.3', 'ge')) {
-            $schemaConfig->setDefaultTableOptions([
-                'collate' => 'utf8mb4_unicode_ci',
-                'charset' => 'utf8mb4',
-            ]);
-        }
+        $schemaConfig->setDefaultTableOptions([
+            'collate' => 'utf8mb4_unicode_ci',
+            'charset' => 'utf8mb4',
+        ]);
         $schema = new Schema([], [], $schemaConfig);
         foreach ($tables as $tname => $tdata) {
             $table = $schema->createTable($tname);
@@ -153,47 +141,41 @@ class Migration
             foreach ($tdata['columns'] as $name => $options) {
                 $type = $options['type'];
                 unset($options['type']);
-                $pk = $options['primaryKey'] ?? $options['primarykey'] ?? null;
-                if(!is_null($pk)) {
-                    if ($pk) {
-                        $primaryKeys[] = $name;
-                        if (isset($options['primaryKey'])) {
-                            unset($options['primaryKey']);
-                        } elseif (isset($options['primarykey'])) { 
-                            unset($options['primarykey']);
-                        }
-                    }
+                if ($options['primaryKey'] ?? $options['primarykey'] ?? null) {
+                    $primaryKeys[] = $name;
+                    unset($options['primaryKey'], $options['primarykey']);
                 }
                 $table->addColumn($name, $type, $options);
             }
             if (!empty($primaryKeys)) {
                 $table->setPrimaryKey($primaryKeys);
             }
-            if (!empty($tdata['indexes']) && is_array($tdata['indexes'])) {
-                foreach ($tdata['indexes'] as $name => $data) {
-                    $type = $data['type'];
-                    $columns = $data['cols'];
-                    switch ($type) {
-                        case 'unique':
-                            $table->addUniqueIndex($columns, $name);
-                            break;
-                        case 'index':
-                            $table->addIndex($columns, $name);
-                            break;
-                        case 'fulltext':
-                            if($this->driver == 'pdo_mysql' && version_compare($this->version, '5.6', 'le')) {
-                                $table->addOption('engine', 'MyISAM');
-                            }
-                            $table->addIndex($columns,$name,array('fulltext'));
-                            break;
-                        case 'foreign':
-                            $table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
-                            break;
-                    }
+            foreach ($tdata['indexes'] ?? [] as $name => $data) {
+                $type = $data['type'];
+                $columns = $data['cols'];
+                switch ($type) {
+                    case 'unique':
+                        $table->addUniqueIndex($columns, $name);
+                        break;
+                    case 'index':
+                        $table->addIndex($columns, $name);
+                        break;
+                    case 'fulltext':
+                        $table->addIndex($columns, $name, ['fulltext']);
+                        break;
+                    case 'foreign':
+                        $opts = [
+                            'onUpdate' => $data['onUpdate'] ?? $data['onupdate'] ?? null,
+                            'onDelete' => $data['onDelete'] ?? $data['ondelete'] ?? null,
+                        ];
+                        $opts = array_filter($opts);
+                        $foreigncols = array_map('trim', explode(',', $data['foreigncols']));
+                        $table->addForeignKeyConstraint($data['foreigntable'], $columns, $foreigncols, $opts, $name);
+                        break;
                 }
             }
         }
-        //with true to prevent drops
+        // with true to prevent drops
         if ($dryrun) {
             return $synchronizer->getUpdateSchema($schema, true);
         } else {
@@ -209,7 +191,7 @@ class Migration
      * @param  bool   $dryrun  If set to true dont execute just return the sql modification string
      * @return mixed
      */
-    public function modify($columns = [], $indexes = [], $dryrun=false)
+    public function modify($columns = [], $indexes = [], $dryrun = false)
     {
         if (empty($this->table)) {
             throw new Exception('Table not set!');
