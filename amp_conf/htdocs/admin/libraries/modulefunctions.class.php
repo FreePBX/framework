@@ -2282,9 +2282,11 @@ class module_functions {
 				foreach($xml->database->table as $table) {
 					$tname = (string)$table->attributes()->name;
 					outn(sprintf(_("Dropping table %s..."),$tname));
+					FreePBX::Database()->query("SET FOREIGN_KEY_CHECKS=0");
 					$sth = FreePBX::Database()->prepare("DROP TABLE IF EXISTS ".$tname);
-					out(_("Done"));
 					$sth->execute();
+					FreePBX::Database()->query("SET FOREIGN_KEY_CHECKS=1");
+					out(_("Done"));
 				}
 			}
 		}
