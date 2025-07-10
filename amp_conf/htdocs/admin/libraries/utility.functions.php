@@ -492,12 +492,15 @@ function create_sensitive_data_formatter(): LineFormatter
 
 function filter_sensitive_data(array $data, array $sensitive_keys, string $mask): array
 {
-    return array_map(
-        fn($key, $value) => is_sensitive_key((string)$key, $sensitive_keys)
-            ? [$key => $mask]
-            : [$key => is_array($value) ? filter_sensitive_data($value, $sensitive_keys, $mask) : $value],
+    return array_combine(
         array_keys($data),
-        $data
+        array_map(
+            fn($key, $value) => is_sensitive_key((string)$key, $sensitive_keys)
+                ? $mask
+                : (is_array($value) ? filter_sensitive_data($value, $sensitive_keys, $mask) : $value),
+            array_keys($data),
+            $data
+        )
     );
 }
 
