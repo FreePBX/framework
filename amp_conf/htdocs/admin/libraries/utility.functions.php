@@ -456,8 +456,8 @@ class SensitiveDataLineFormatter extends LineFormatter
     public function format(array $record): string
     {
         $record = clone_record($record);
-        $record['context'] = filter_sensitive_data($record['context'], $this->sensitive_keys, $this->mask);
-        $record['extra'] = filter_sensitive_data($record['extra'], $this->sensitive_keys, $this->mask);
+        $record->context = filter_sensitive_data($record->context, $this->sensitive_keys, $this->mask);
+        $record->extra = filter_sensitive_data($record->extra, $this->sensitive_keys, $this->mask);
 
         $format = $this->base_format;
         if (empty($record->context)) {
