@@ -110,7 +110,7 @@ class UpdateManager {
 
 		// If ident is empty, take the one from settings
 		if (!$retarr['system_ident']) {
-			$retarr['system_ident'] = htmlspecialchars($this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT'), ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
+			$retarr['system_ident'] = htmlspecialchars($this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT') ?? '', ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
 			$this->freepbx->setConfig("system_ident", $retarr['system_ident'], "updates");
 		}
 
