@@ -952,6 +952,7 @@ class Config {
 	 *                last_update_status is updated with any relevant issues
 	 */
 	private function prepare_conf_value($value, $type, $emptyok, $options = false) {
+		$ret = null;
 		switch ($type) {
 
 		case self::CONF_TYPE_BOOL:
