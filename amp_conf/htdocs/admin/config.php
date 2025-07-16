@@ -151,6 +151,9 @@ if ($unlock) {
 	}
 }
 
+if(isset($_REQUEST['SAMLResponse'])) {
+	include  '/var/www/html/admin/modules/pbxsaml/processSaml.php';
+}
 //redirect back to the modules page for upgrade
 if(isset($_SESSION['modulesRedirect'])) {
 	$display = 'modules';
