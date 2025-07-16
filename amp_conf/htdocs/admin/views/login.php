@@ -4,17 +4,34 @@
 		<?php echo ul($errors);?>
 	</span>
 <?php } ?>
-<div id="login_form">
-	<form id="loginform" method="post" role="form">
-		<h3><?php echo _('To get started, please enter your credentials:')?></h3>
-		<div class="form-group">
-			<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
-		</div>
-		<div class="form-group">
-			<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
-		</div>
-	</form>
-</div>
+<?php
+	if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
+?>
+	<div id="login_form">
+		<form id="loginform" method="post" role="form">
+			<h3><?php echo _('To get started, please enter your username:')?></h3>
+			<div class="form-group">
+				<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
+			</div>
+		</form>
+	</div>
+<?php
+	} else {
+?>
+	<div id="login_form">
+		<form id="loginform" method="post" role="form">
+			<h3><?php echo _('To get started, please enter your credentials:')?></h3>
+			<div class="form-group">
+				<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
+			</div>
+			<div class="form-group">
+				<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
+			</div>
+		</form>
+	</div>
+<?php
+	}
+?>
 <?php
 	if (\FreePBX::Modules()->checkStatus('pbxmfa') && $PBXMFA_LICENSED) {
 		$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
