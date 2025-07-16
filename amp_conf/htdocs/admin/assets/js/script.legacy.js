@@ -1812,6 +1812,34 @@ $(document).ready(function() {
 				resizable: false,
 				width: 400,
 				modal: true,
+				open: function () {
+					const $dlg = $(this);
+					$dlg.on("focusout", "input[name='username']", function () {
+						const username = $(this).val().trim();
+
+						if (!username) return;
+						console.log("Checking SAML for the user " + username);
+						$.ajax({
+							url: "ajax.php",
+							method: "POST",
+							data: {
+								module: "pbxsaml",
+								command: "checkSAMLenabled",
+								username: username,
+								loginpanel: "admin"
+							}
+						})
+						.done(function (resp) {
+							if(resp.status) {
+								if (confirm("SAML login is enabled for this user. Would you like to log in with SAML instead of using a password?")) {
+									location.replace(resp.url);
+								} else {
+									console.log("SAML login canceled.");
+								}
+							}
+						});
+					});
+				},
 				close: function(e) {
 					$(e.target).dialog("destroy").remove();
 				},
