@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-07 05:34+0000\n"
+"POT-Creation-Date: 2025-07-21 09:30+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -548,14 +548,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:4253
+#: ../core/Core.class.php:4268
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4274
+#: ../core/Core.class.php:4289
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -610,11 +610,11 @@ msgstr ""
 msgid "--Select a Group--"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:231
+#: amp_conf/htdocs/admin/config.php:235
 msgid ".htaccess files are disabled on this webserver. Please enable them"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:244
+#: amp_conf/htdocs/admin/config.php:248
 msgid ".htaccess files are not supported on this webserver."
 msgstr "فایل .htaccess توسط وب سرور پشتیبانی نمیشود."
 
@@ -638,7 +638,7 @@ msgstr "الگوهای ۱۰ رقمی"
 msgid "11 Digit Patterns"
 msgstr "الگوهای ۱۱ رقمی"
 
-#: amp_conf/htdocs/admin/config.php:663
+#: amp_conf/htdocs/admin/config.php:667
 #, php-format
 msgid "404 Not found (%s)"
 msgstr "۴۰۴ یافت نشد (%s)"
@@ -779,7 +779,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:3045 ../core/functions.inc.php:4306
+#: ../core/Core.class.php:3060 ../core/functions.inc.php:4306
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -2124,11 +2124,11 @@ msgstr ""
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3526
+#: ../core/Core.class.php:3541
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3527
+#: ../core/Core.class.php:3542
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2819,12 +2819,12 @@ msgstr "هسته"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:4132
+#: ../core/Core.class.php:4147
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4206
+#: ../core/Core.class.php:4221
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3177,7 +3177,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3686
+#: ../core/Core.class.php:3701
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -3185,11 +3185,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3465
+#: ../core/Core.class.php:3480
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:3466
+#: ../core/Core.class.php:3481
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3614,8 +3614,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:237
-#: ../core/Core.class.php:3495 ../core/Core.class.php:3496
-#: ../core/Core.class.php:3518 ../core/Core.class.php:3519
+#: ../core/Core.class.php:3510 ../core/Core.class.php:3511
+#: ../core/Core.class.php:3533 ../core/Core.class.php:3534
 #: ../core/functions.inc.php:5182 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3628,7 +3628,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3530 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3545 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3760,7 +3760,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3930 ../core/functions.inc.php:5125
+#: ../core/Core.class.php:3945 ../core/functions.inc.php:5125
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3776,7 +3776,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1582 ../core/Core.class.php:1814
+#: ../core/Core.class.php:1597 ../core/Core.class.php:1829
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3797,7 +3797,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3499 ../core/Core.class.php:3500
+#: ../core/Core.class.php:3514 ../core/Core.class.php:3515
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3806,7 +3806,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3640
+#: ../core/Core.class.php:3655
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4735,7 +4735,7 @@ msgstr ""
 msgid "Enforce that RTP must be symmetric. This should almost always be on."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:787
+#: amp_conf/htdocs/admin/config.php:791
 msgid "English"
 msgstr "انگلیسی"
 
@@ -5048,8 +5048,8 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3486 ../core/Core.class.php:3487
-#: ../core/Core.class.php:3918 ../core/functions.inc.php:4789
+#: ../core/Core.class.php:3501 ../core/Core.class.php:3502
+#: ../core/Core.class.php:3933 ../core/functions.inc.php:4789
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5108,15 +5108,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3567
+#: ../core/Core.class.php:3582
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3570
+#: ../core/Core.class.php:3585
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3573
+#: ../core/Core.class.php:3588
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5140,7 +5140,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:870 ../core/Core.class.php:3461 ../core/Core.class.php:3462
+#: amp.i18n.php:870 ../core/Core.class.php:3476 ../core/Core.class.php:3477
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -5280,7 +5280,7 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:4184
+#: ../core/Core.class.php:4199
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5321,11 +5321,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:4267 ../core/Core.class.php:4274
+#: ../core/Core.class.php:4282 ../core/Core.class.php:4289
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4225
+#: ../core/Core.class.php:4240
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5358,7 +5358,7 @@ msgstr ""
 msgid "Fetchs particular core device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:644
+#: amp_conf/htdocs/admin/config.php:648
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr "File %s has a  revoked signature. Can not load"
@@ -5475,7 +5475,7 @@ msgstr ""
 "b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls "
 "simply report as <b>no-answer</b>."
 
-#: amp_conf/htdocs/admin/config.php:821
+#: amp_conf/htdocs/admin/config.php:825
 msgid "For further help, please contact"
 msgstr ""
 
@@ -5677,7 +5677,7 @@ msgstr "Found  what appear to be invalid emergency callerid entries."
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr "تشخیص فریم ورک، تنظیمات نسخه FreePBX به %s"
 
-#: amp_conf/htdocs/admin/views/login.php:28
+#: amp_conf/htdocs/admin/views/login.php:45
 msgid "FreePBX Administration"
 msgstr "مدیریت مرکزتماس رایگان"
 
@@ -5938,7 +5938,7 @@ msgstr "الگوهای عمومی"
 msgid "Get External IP"
 msgstr "دریافت آی پی خارجی"
 
-#: amp_conf/htdocs/admin/views/login.php:48
+#: amp_conf/htdocs/admin/views/login.php:65
 msgid "Get Support"
 msgstr "دریافت پشتیبان"
 
@@ -6000,7 +6000,7 @@ msgid ""
 "authenticate to the system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:825
+#: amp_conf/htdocs/admin/config.php:829
 msgid "Go Back"
 msgstr ""
 
@@ -6684,7 +6684,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3972 ../core/Core.class.php:3981
+#: ../core/Core.class.php:3987 ../core/Core.class.php:3996
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6714,7 +6714,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3522 ../core/Core.class.php:3523
+#: ../core/Core.class.php:3537 ../core/Core.class.php:3538
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6927,7 +6927,7 @@ msgstr ""
 msgid "Invalid Trunk Name entered"
 msgstr "نام ترانک وارد شده نامعتبر"
 
-#: amp_conf/htdocs/admin/config.php:501
+#: amp_conf/htdocs/admin/config.php:505
 msgid "Invalid Username or Password"
 msgstr "نام کاربری یا کلمه عبور نامعتبر است"
 
@@ -7074,7 +7074,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4267
+#: ../core/Core.class.php:4282
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7243,6 +7243,10 @@ msgstr "از درستی آدرس وارد شده مطمئن شوید."
 #: amp_conf/htdocs/admin/views/noaccess.php:37
 msgid "Make sure you have access to this item."
 msgstr "از مجوز دسترسی به این مورد مطمئن شوید."
+
+#: ../core/Core.class.php:1120
+msgid "Malformated csv file"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:13
 msgid "Manage Session"
@@ -7962,7 +7966,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3491 ../core/Core.class.php:3492
+#: ../core/Core.class.php:3506 ../core/Core.class.php:3507
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -8501,7 +8505,7 @@ msgstr ""
 msgid "OpenSSL took too long to run the command '%s'"
 msgstr "OpenSSL  took too long to run the command '%s'"
 
-#: amp_conf/htdocs/admin/views/login.php:41
+#: amp_conf/htdocs/admin/views/login.php:58
 msgid "Operator Panel"
 msgstr "پنل اپراتور"
 
@@ -8735,7 +8739,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3955
+#: ../core/Core.class.php:3970
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8873,7 +8877,7 @@ msgstr ""
 msgid "PHP Console"
 msgstr "کنسول PHP"
 
-#: amp_conf/htdocs/admin/config.php:638
+#: amp_conf/htdocs/admin/config.php:642
 msgid "PHP Console Enabled but not installed"
 msgstr "کنسول PHP فعال است ولی نصب نشده"
 
@@ -8897,7 +8901,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:4253
+#: ../core/Core.class.php:4268
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9196,7 +9200,7 @@ msgstr "لطفا برای این وسیله یک کانال وارد کنید"
 msgid "Please enter valid User Password using numbers only"
 msgstr "لطفا کلمه عبور کاربری عددی وارد کنید"
 
-#: amp_conf/htdocs/admin/config.php:819
+#: amp_conf/htdocs/admin/config.php:823
 msgid ""
 "Please host the file and use the \"Download (From Web) option\", or ssh to "
 "your FreePBX system and use \n"
@@ -9228,7 +9232,7 @@ msgid ""
 "`from-did-direct,100,1`"
 msgstr ""
 
-#: ../core/Core.class.php:3576
+#: ../core/Core.class.php:3591
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9988,7 +9992,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3895 ../core/Core.class.php:3896
+#: ../core/Core.class.php:3910 ../core/Core.class.php:3911
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10097,7 +10101,7 @@ msgstr "لینک مشکوک:"
 msgid "Sangoma CRM"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:822
+#: amp_conf/htdocs/admin/config.php:826
 msgid "Sangoma Support"
 msgstr ""
 
@@ -10190,7 +10194,7 @@ msgstr "امنیت"
 msgid "Security Issue"
 msgstr "موضوع امنیتی"
 
-#: amp_conf/htdocs/admin/config.php:630
+#: amp_conf/htdocs/admin/config.php:634
 msgid "Security Warning"
 msgstr "هشدار امنیت"
 
@@ -10922,7 +10926,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:4179
+#: ../core/Core.class.php:4194
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10940,7 +10944,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:4138
+#: ../core/Core.class.php:4153
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10993,7 +10997,7 @@ msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4221
+#: ../core/Core.class.php:4236
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -11005,7 +11009,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4212
+#: ../core/Core.class.php:4227
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11514,7 +11518,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3531
+#: ../core/Core.class.php:3546
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -12130,7 +12134,7 @@ msgstr ""
 msgid "There was an error converting extension %s to PJSIP:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:818
+#: amp_conf/htdocs/admin/config.php:822
 msgid ""
 "There was an error uploading the module tar ball due to its size being "
 "greater than post_max_size {"
@@ -12207,8 +12211,8 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
-#: ../core/Api/Gql/Extensions.php:180 ../core/Core.class.php:1589
-#: ../core/Core.class.php:1821
+#: ../core/Api/Gql/Extensions.php:180 ../core/Core.class.php:1604
+#: ../core/Core.class.php:1836
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -12482,7 +12486,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:3029
+#: ../core/Core.class.php:3044
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -12610,9 +12614,13 @@ msgstr ""
 "List of value Timezones: <a href='http://php.net/manual/en/timezones."
 "php'>http://php.net/manual/en/timezones.php</a>"
 
-#: amp_conf/htdocs/admin/views/login.php:9
+#: amp_conf/htdocs/admin/views/login.php:23
 msgid "To get started, please enter your credentials:"
 msgstr "برای اجرا, لطفا مجوز خود را وارد کنید："
+
+#: amp_conf/htdocs/admin/views/login.php:12
+msgid "To get started, please enter your username:"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid ""
@@ -12631,7 +12639,7 @@ msgstr ""
 "To play the media  you will need to either update your browser to a recent "
 "version or update your %s"
 
-#: amp_conf/htdocs/admin/config.php:232
+#: amp_conf/htdocs/admin/config.php:236
 #, php-format
 msgid ""
 "To protect the integrity of your server, you must allow overrides in your "
@@ -12690,7 +12698,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3963
+#: ../core/Core.class.php:3978
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -12699,7 +12707,7 @@ msgstr "ترانک:"
 msgid "Trunk: %s (%s)"
 msgstr "ترانک: %s (%s)"
 
-#: amp.i18n.php:884 ../core/Core.class.php:3469
+#: amp.i18n.php:884 ../core/Core.class.php:3484
 #: ../core/views/trunks/bootnav.php:20 ../core/views/trunks/main.php:2
 #: ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
@@ -12788,13 +12796,13 @@ msgstr "جزییات کاربر"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1740
+#: ../core/Core.class.php:1755
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1734
+#: ../core/Core.class.php:1749
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -13032,7 +13040,7 @@ msgstr "بازکردن: %s لغو شده، جلسه نادرست"
 msgid "Unsigned"
 msgstr "تایید نشده"
 
-#: amp_conf/htdocs/admin/config.php:633
+#: amp_conf/htdocs/admin/config.php:637
 msgid "Unsigned Module(s)"
 msgstr "ماژول (های) تایید نشده"
 
@@ -13048,7 +13056,8 @@ msgstr "ناخواسته"
 msgid "Unsupported"
 msgstr "پشتیبانی نشده"
 
-#: ../core/Core.class.php:1073
+#: ../core/Core.class.php:1112 ../core/Core.class.php:1117
+#: ../core/Core.class.php:1126
 msgid "Unsupported Pattern file format"
 msgstr ""
 
@@ -13234,7 +13243,7 @@ msgstr ""
 msgid "Usage"
 msgstr "استفاده"
 
-#: ../core/Core.class.php:3470
+#: ../core/Core.class.php:3485
 msgid "Use Bulk Handler to import or export PJSIP trunk configuration."
 msgstr ""
 
@@ -13345,7 +13354,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3942 ../core/functions.inc.php:4791
+#: ../core/Core.class.php:3957 ../core/functions.inc.php:4791
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13363,7 +13372,7 @@ msgstr ""
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr "متن کاربر خالی است و جزییات کاربر نمیتواند ذخیره شود!"
 
-#: amp_conf/htdocs/admin/views/login.php:34
+#: amp_conf/htdocs/admin/views/login.php:51
 msgid "User Control Panel"
 msgstr "پنل کنترل کاربری"
 
@@ -13405,7 +13414,7 @@ msgstr "کلمه عبور کاربر"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3667
+#: ../core/Core.class.php:3682
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -14285,7 +14294,7 @@ msgstr ""
 msgid "You have a disabled module"
 msgstr "شما ماژول غیر فعال دارید"
 
-#: amp_conf/htdocs/admin/config.php:638
+#: amp_conf/htdocs/admin/config.php:642
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -14394,7 +14403,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:3022
+#: ../core/Core.class.php:3037
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
@@ -14441,7 +14450,7 @@ msgstr ""
 msgid "Your %s version (%s) is incompatible."
 msgstr "Your %s version (%s) is  incompatible."
 
-#: amp_conf/htdocs/admin/config.php:599
+#: amp_conf/htdocs/admin/config.php:603
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
@@ -14852,7 +14861,7 @@ msgstr ""
 msgid "has one or more conflicts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:245
+#: amp_conf/htdocs/admin/config.php:249
 #, php-format
 msgid ""
 "htaccess files help protect the integrity of your server. Please make sure "
@@ -15212,7 +15221,7 @@ msgstr ""
 msgid "setting AMP_ACCESS_DB_CREDS to true"
 msgstr "setting AMP_ACCESS_DB_CREDS to  true"
 
-#: ../core/Core.class.php:3546 ../core/Core.class.php:3547
+#: ../core/Core.class.php:3561 ../core/Core.class.php:3562
 msgid "sip server"
 msgstr ""
 
@@ -15221,7 +15230,7 @@ msgstr ""
 msgid "sip:[username]@[ip]:[port]"
 msgstr "sip :[username]@[ip]:[port]"
 
-#: ../core/Core.class.php:3587
+#: ../core/Core.class.php:3602
 msgid "sip_server is missing."
 msgstr ""
 
@@ -15245,7 +15254,7 @@ msgstr "دستکاری"
 msgid "this file must be done via the Web GUI. This file is IGNORED BY FreePBX"
 msgstr ""
 
-#: ../core/Core.class.php:3542 ../core/Core.class.php:3543
+#: ../core/Core.class.php:3557 ../core/Core.class.php:3558
 msgid "trunk name"
 msgstr ""
 
@@ -15253,7 +15262,7 @@ msgstr ""
 msgid "trunk_name"
 msgstr ""
 
-#: ../core/Core.class.php:3584
+#: ../core/Core.class.php:3599
 msgid "trunk_name is missing."
 msgstr ""
 
