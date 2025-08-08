@@ -1409,6 +1409,16 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_C
 			break;
 		}
 	}
+	foreach ($request as $key => $value) {
+		// Sanitize: reject if contains HTML tags or dangerous content
+		if ($value !== strip_tags($value)) {
+			$request[$key] = '';
+		}
+		// Optionally restrict allowed characters (e.g., letters, numbers, spaces, dashes, underscores)
+		if (!preg_match('/^[a-zA-Z0-9 _-]+$/', $value)) {
+			$request[$key] = '';
+		}
+	}
 	array_walk($request,function(&$value,$key){
 		if(!is_array($value)){
 		  $value =  html_entity_decode($value);
