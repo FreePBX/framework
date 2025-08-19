@@ -1857,18 +1857,18 @@ $(document).ready(function() {
 										loginpanel: "admin"
 									}
 								}).done(function (resp) {
+									console.log("response",resp);
 									if (resp.status) {
 										location.replace(resp.url);
 									} else {
+
+										fpbxToast(resp.message, '', 'error');
 										// Inject password form
 										dialog.find(".ui-dialog-content").html(`
 											<form id="loginform" method="post" role="form">
 												<h3>To get started, please enter your credentials:</h3>
 												<div class="form-group">
-													<input type="text" name="username" class="form-control" value="${username}" placeholder="username" autocomplete="off">
-												</div>
-												<div class="form-group">
-													<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
+													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
 												</div>
 											</form>
 										`);
