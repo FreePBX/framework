@@ -1872,12 +1872,6 @@ $(document).ready(function() {
 												</div>
 											</form>
 										`);
-										// Re-attach Enter key handler to new inputs
-										dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
-											if (event.keyCode === 13) {
-												dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
-											}
-										});
 									}
 								});
 							}
@@ -2281,11 +2275,3 @@ $(document).on('click','.clicktoedit',function(){
 		}
 	}, 130000);
 })();
-
-$(document).on('submit', '#loginform', function(e) {
-	const dialog = $(this).closest(".ui-dialog");
-	const hasPassword = dialog.find("input[type='password']").length > 0;
-    if (!hasPassword) {
-        e.preventDefault();
-    }
-});
