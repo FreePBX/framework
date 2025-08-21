@@ -1803,8 +1803,9 @@ $(document).ready(function() {
 		$("#settings-cog").prop("title",_("Ajax Error, check the console for more information"));
 	});
 
-	$("#login_admin").click(function() {
-		var form = $("#login_form").html();
+	$("#login_admin").click(function () {
+		const form = $("#login_form").html();
+	
 		$("<div></div>")
 			.html(form)
 			.dialog({
@@ -1812,38 +1813,86 @@ $(document).ready(function() {
 				resizable: false,
 				width: 400,
 				modal: true,
-				close: function(e) {
+				close: function (e) {
 					$(e.target).dialog("destroy").remove();
 				},
 				buttons: [
 					{
 						text: fpbx.msg.framework.continuemsg,
 						click: function () {
-							if (typeof checkPasswordReminder === "function") {
-								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
-									resetAdminPassswordWithToken(this).then(value => {
-										handleMFAFunc(value, this);
-									})
+							const dialog = $(this).closest(".ui-dialog");
+							const username = dialog.find("input[name='username']").val();
+							const hasPassword = dialog.find("input[type='password']").length > 0;
+	
+							if (!username) {
+								fpbxToast("Please enter username", '', 'error');
+								return;
+							}
+	
+							// Check if we're in SAML or regular password mode
+							if (hasPassword) {
+								// Normal login flow
+								if (typeof checkPasswordReminder === "function") {
+									if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
+										resetAdminPassswordWithToken(this).then(value => {
+											handleMFAFunc(value, this);
+										})
+									} else {
+										checkPasswordReminder(this).then(value => {
+											handleMFAFunc(value, this);
+										})
+									}
 								} else {
-									checkPasswordReminder(this).then(value => {
-										handleMFAFunc(value, this);
-									})
+									handleMFAFunc(true, this);
 								}
 							} else {
-								handleMFAFunc(true, this);
+								// SAML check
+								$.ajax({
+									url: "ajax.php",
+									method: "POST",
+									data: {
+										module: "pbxsaml",
+										command: "checkSAMLenabled",
+										username: username,
+										loginpanel: "admin"
+									}
+								}).done(function (resp) {
+									console.log("response",resp);
+									if (resp.status) {
+										location.replace(resp.url);
+									} else {
+
+										fpbxToast(resp.message, '', 'error');
+										// Inject password form
+										dialog.find(".ui-dialog-content").html(`
+											<form id="loginform" method="post" role="form">
+												<h3>To get started, please enter your credentials:</h3>
+												<div class="form-group">
+													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
+												</div>
+											</form>
+										`);
+										// Re-attach Enter key handler to new inputs
+										dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
+											if (event.keyCode === 13) {
+												dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
+											}
+										});
+									}
+								});
 							}
 						}
 					},
 					{
 						text: fpbx.msg.framework.cancel,
-						click: function() {
+						click: function () {
 							$(this).dialog("destroy").remove();
 						}
 					}
 				],
-				focus: function() {
-					$(":input", this).keyup(function(event) {
-						if (event.keyCode == 13) {
+				focus: function () {
+					$(":input", this).keyup(function (event) {
+						if (event.keyCode === 13) {
 							$(".ui-dialog-buttonpane button:first").click();
 						}
 					});
@@ -2232,3 +2281,11 @@ $(document).on('click','.clicktoedit',function(){
 		}
 	}, 130000);
 })();
+
+$(document).on('submit', '#loginform', function(e) {
+	const dialog = $(this).closest(".ui-dialog");
+	const hasPassword = dialog.find("input[type='password']").length > 0;
+    if (!hasPassword) {
+        e.preventDefault();
+    }
+});
