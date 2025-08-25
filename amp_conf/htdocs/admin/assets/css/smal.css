@@ -1,0 +1,27 @@
+.loginhead::before {
+    content: '';
+    width:125px;
+    height:1px;
+    display:inline-block;
+    background:gray;
+    vertical-align: middle;
+  }
+  .loginhead::after {
+    content: '';
+    width:125px;
+    height:1px;
+    display:inline-block;
+    background:gray;
+    vertical-align: middle;
+  }
+  .loginsmal{
+      text-decoration:none !important;
+      width:100%;
+      border: 2px solid #cccccc; 
+      border-radius:5px;
+      display:flex;
+      padding:5px 5px;
+      justify-content: center;
+      background: white;
+      align-items:center;
+  }

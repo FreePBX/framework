@@ -1,33 +1,3 @@
-<style>
-.loginhead::before {
-  content: '';
-  width:100px;
-  height:1px;
-  display:inline-block;
-  background:gray;
-  vertical-align: middle;
-}
-.loginhead::after {
-  content: '';
-  width:100px;
-  height:1px;
-  display:inline-block;
-  background:gray;
-  vertical-align: middle;
-}
-.loginsmal{
-	text-decoration:none !important;
-	width:100%;
-	border: 2px solid #cccccc; 
-	border-radius:5px;
-	display:flex;
-	padding:5px 5px;
-	justify-content: center;
-    background: white;
-	align-items:center;
-}
-</style>
-
 <?php if($errors) {?>
 	<span class="obe_error">
 		<?php echo _('Please correct the following errors:')?>
@@ -48,8 +18,8 @@
 			<?php
 	if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
 ?>
-	<h6 style="text-align: center" class="loginhead"> or sigin in with</h6>
-	<div class="samllink">
+	<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
+	<div class="samllink" style="text-align: center;">
 		<a href="javascript:void(0)" class="loginsmal form-group" onclick="navigateToSaml(event)">
 			<img src="https://apps3.sangoma.com/microsoft-logo-with-signs.svg" style="width:110px"></img>
 		</a>
