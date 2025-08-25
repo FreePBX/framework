@@ -1824,11 +1824,6 @@ $(document).ready(function() {
 							const username = dialog.find("input[name='username']").val();
 							const hasPassword = dialog.find("input[type='password']").length > 0;
 	
-							if (!username) {
-								fpbxToast("Please enter username", '', 'error');
-								return;
-							}
-	
 							// Check if we're in SAML or regular password mode
 							if (hasPassword) {
 								// Normal login flow
@@ -1857,7 +1852,6 @@ $(document).ready(function() {
 										loginpanel: "admin"
 									}
 								}).done(function (resp) {
-									console.log("response",resp);
 									if (resp.status) {
 										location.replace(resp.url);
 									} else {
