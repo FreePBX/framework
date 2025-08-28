@@ -1195,7 +1195,7 @@ if (!$quietmode) {
 			$displayvars['security_issues'][$id]['tickets'] = $tickets;
 			if (isset($security_array[$id]) && 
 				isset($security_array[$id]['related_urls']) && 
-				!is_array($security_array[$id]['related_urls']['url'])) {
+				is_array($security_array[$id]['related_urls']['url'])) {
 				$displayvars['security_issues'][$id]['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
 				$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
 			}
