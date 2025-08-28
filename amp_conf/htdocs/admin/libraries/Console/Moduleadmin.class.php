@@ -660,6 +660,7 @@ class Moduleadmin extends Command {
 			}
 			$notification_body = '';
 			$email_body = '';
+			$emailbody = '';
 			if(!empty($errorvuls)) {
 				// There were issues upgrading some modules.
 				$this->writeln("Failed!");

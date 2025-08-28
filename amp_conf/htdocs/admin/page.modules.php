@@ -1185,14 +1185,20 @@ if (!$quietmode) {
 	$displayvars = ["security_issues" => []];
 	if (!empty($security_issues_to_report)) {
 		foreach (array_keys($security_issues_to_report) as $id) {
-			if (!is_array($security_array[$id]['related_urls']['url'])) {
+			if (isset($security_array[$id]) && 
+				isset($security_array[$id]['related_urls']) && 
+				!is_array($security_array[$id]['related_urls']['url'])) {
 				$security_array[$id]['related_urls']['url'] = [$security_array[$id]['related_urls']['url']];
 			}
 			$tickets = format_ticket($security_array[$id]['tickets']);
 			$displayvars['security_issues'][$id] = $security_array[$id];
 			$displayvars['security_issues'][$id]['tickets'] = $tickets;
-			$displayvars['security_issues'][$id]['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
-			$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
+			if (isset($security_array[$id]) && 
+				isset($security_array[$id]['related_urls']) && 
+				!is_array($security_array[$id]['related_urls']['url'])) {
+				$displayvars['security_issues'][$id]['related_urls_text'] = count($security_array[$id]['related_urls']['url']) == 1 ? _("Related URL") : _("Related URLs");
+				$displayvars['security_issues'][$id]['related_urls'] = $security_array[$id]['related_urls']['url'];
+			}
 		}
 	}
 	show_view('views/module_admin/footer.php',$displayvars);
