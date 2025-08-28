@@ -1836,19 +1836,63 @@ $(document).ready(function() {
 					{
 						text: fpbx.msg.framework.continuemsg,
 						click: function () {
-							if (typeof checkPasswordReminder === "function") {
-								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
-									resetAdminPassswordWithToken(this).then(value => {
-										handleMFAFunc(value, this);
-									})
+							const dialog = $(this).closest(".ui-dialog");
+							const username = dialog.find("input[name='username']").val();
+							const hasPassword = dialog.find("input[type='password']").length > 0;
+
+							// Check if we're in SAML or regular password mode
+							if (hasPassword) {
+								// Normal login flow
+								if (typeof checkPasswordReminder === "function") {
+									if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
+										resetAdminPassswordWithToken(this).then(value => {
+											handleMFAFunc(value, this);
+										})
+									} else {
+										checkPasswordReminder(this).then(value => {
+											handleMFAFunc(value, this);
+										})
+									}
 								} else {
-									checkPasswordReminder(this).then(value => {
-										handleMFAFunc(value, this);
-									})
+									handleMFAFunc(true, this);
 								}
+
 							} else {
-								handleMFAFunc(true, this);
+								// SAML check
+								$.ajax({
+									url: "ajax.php",
+									method: "POST",
+									data: {
+										module: "pbxsaml",
+										command: "checkSAMLenabled",
+										username: username,
+										loginpanel: "admin"
+									}
+								}).done(function (resp) {
+									if (resp.status) {
+										location.replace(resp.url);
+									} else {
+
+										fpbxToast(resp.message, '', 'error');
+										// Inject password form
+										dialog.find(".ui-dialog-content").html(`
+											<form id="loginform" method="post" role="form">
+												<h3>To get started, please enter your credentials:</h3>
+												<div class="form-group">
+													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
+												</div>
+											</form>
+										`);
+										// Re-attach Enter key handler to new inputs
+										dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
+											if (event.keyCode === 13) {
+												dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
+											}
+										});
+									}
+								});
 							}
+
 						}
 					},
 					{
