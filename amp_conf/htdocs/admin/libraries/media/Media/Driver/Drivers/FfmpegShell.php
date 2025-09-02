@@ -47,13 +47,15 @@ class FfmpegShell extends \Media\Driver\Driver {
 			$formats["out"]["m4a"] = "m4a";
 			$formats["in"]["mp4"] = "mp4";
 			$formats["out"]["mp4"] = "mp4";
+			$formats["in"]["webm"] = "webm";
+			$formats["out"]["webm"] = "webm";
 		}
 		return $formats;
 	}
 
 	public static function isCodecSupported($codec,$direction) {
 		if (self::hasAAC()) {
-			return in_array($codec, array("m4a", "mp4"));
+			return in_array($codec, array("m4a", "mp4", "webm"));
 		}
 		return false;
 	}
@@ -142,6 +144,9 @@ class FfmpegShell extends \Media\Driver\Driver {
 				} else {
 					throw new \Exception("MP4 and M4A are not supported by FFMPEG");
 				}
+			break;
+			case "webm":
+			    $process = \freepbx_get_process_obj($this->binary.' -i '.escapeshellarg($this->track).' -ar '.escapeshellarg($this->options['samplerate']).' -ac 1 -y '.escapeshellarg($newFilename).'');
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to FFMPEG");
