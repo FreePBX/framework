@@ -39,7 +39,7 @@ $html .= '<link href="assets/css/jquery-ui-1.13.2.custom.css'.$version_tag.'" re
 $html .= '<link href="assets/css/typehead.js-bootstrap3-0.2.3.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/notie.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/text-editor-1.2.1.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-
+$html .= '<link href="assets/css/saml.css" rel="stylesheet" type="text/css">';
 //CSS First THEN JS (http://uxmovement.com/content/why-you-should-place-style-sheets-before-scripts/)
 //less compiled into css
 foreach($compiled_less_files as $file) {
