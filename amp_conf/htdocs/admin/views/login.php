@@ -14,19 +14,24 @@
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
 			</div>
-				
+			<div class="form-group" style="text-align:center">
+				<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn-primary">Continue</button>
+				<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget">Cancel</button>
+			</div>
 			<?php
-	if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
-?>
-	<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
-	<div class="samllink" style="text-align: center;">
-		<a href="javascript:void(0)" class="loginsmal form-group" onclick="navigateToSaml(event)">
-			<img src="https://apps3.sangoma.com/microsoft-logo-with-signs.svg" style="width:110px"></img>
-		</a>
-	</div>
-<?php
-	}
-?>
+			if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
+		?>
+			<div class="samlcheck">
+				<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
+				<div class="samllink" style="text-align: center;">
+					<a href="javascript:void(0)" class="loginsmal form-group" onclick="navigateToSaml(event)">
+						<img src="https://apps3.sangoma.com/microsoft-logo-with-signs.svg" style="width:110px"></img>
+					</a>
+				</div>
+			</div>
+		<?php
+			}
+		?>
 		</form>
 	</div>
 
@@ -79,7 +84,10 @@
 	const $form = $dialog.find('#loginform').length
 		? $dialog.find('#loginform')
 		: $dialog.find('form').first();
-
+	
+		if($(".samlcheck")){
+			$(".samlcheck").css("display","none");
+		}
 		if ($form.length) {
 			$form.empty()
 			$form.append(`

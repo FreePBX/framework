@@ -1805,7 +1805,12 @@ $(document).ready(function() {
 
 	$("#login_admin").click(function() {
 		var form = $("#login_form").html();
-		$("<div></div>")
+		if($(".samlcheck")){
+			$(".samlcheck").css("display","block");
+		}
+		var samlform = $("#saml-login").html();
+		console.log(samlform);
+		var $dialog = $("<div></div>")
 			.html(form)
 			.dialog({
 				title: _("Login"),
@@ -1816,10 +1821,22 @@ $(document).ready(function() {
 					$(e.target).dialog("destroy").remove();
 				},
 				buttons: [
-					{
-						text: fpbx.msg.framework.continuemsg,
-						click: function () {
-							const dialog = $(this).closest(".ui-dialog");
+				],
+				focus: function() {
+					$(":input", this).keyup(function(event) {
+						if (event.keyCode == 13) {
+							$(".ui-dialog-buttonpane button:first").click();
+						}
+					});
+				}
+			});
+			if (samlform && samlform.trim().length > 0) {
+				// $dialog.append(samlform);
+				// $(".ui-dialog-buttonpane").append(samlform);
+			}
+
+			$dialog.on('click','#customContinue',function(){
+				const dialog = $(this).closest(".ui-dialog");
 							const username = dialog.find("input[name='username']").val();
 							const hasPassword = dialog.find("input[type='password']").length > 0;
 	
@@ -1832,7 +1849,9 @@ $(document).ready(function() {
 											handleMFAFunc(value, this);
 										})
 									} else {
+										console.log("heree");
 										checkPasswordReminder(this).then(value => {
+											console.log("MFAAA");
 											handleMFAFunc(value, this);
 										})
 									}
@@ -1876,30 +1895,22 @@ $(document).ready(function() {
 									}
 								});
 							}
-						}
-					},
-					{
-						text: fpbx.msg.framework.cancel,
-						click: function() {
-							$(this).dialog("destroy").remove();
-						}
-					}
-				],
-				focus: function() {
-					$(":input", this).keyup(function(event) {
-						if (event.keyCode == 13) {
-							$(".ui-dialog-buttonpane button:first").click();
-						}
-					});
-				}
-			});
+
+			})	
+			$dialog.on('click','#customCancel',function(){
+				$dialog.dialog('close');
+			})
+
 	});
 
 	function handleMFAFunc(response, thisPointer) {
+		console.log("handleMFAFunc",response);
 		if (response) {
 			if (typeof checkMFAenabled === "function") {
+				console.log("checkMFAenabled");
 				checkMFAenabled(false, false, false, '', thisPointer);
 			} else {
+				console.log("checkMFAenabled elseeee");
 				$(thisPointer).find("form").trigger("submit");
 			}
 		}
