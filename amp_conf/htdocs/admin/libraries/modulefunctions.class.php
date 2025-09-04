@@ -2811,7 +2811,7 @@ class module_functions {
 			break;
 			case 'Linux':
 				$result = shell_exec('cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null | head -n 1 || :');
-				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
+				$result = preg_replace("/\r+|\n+|\s+/i", '', $result ?? '');
 				return strtolower($result);
 			default:
 			break;
