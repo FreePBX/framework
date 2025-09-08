@@ -1808,18 +1808,13 @@ $(document).ready(function() {
 		if($(".samlcheck")){
 			$(".samlcheck").css("display","block");
 		}
-		var samlform = $("#saml-login").html();
-		console.log(samlform);
 		var $dialog = $("<div></div>")
 			.html(form)
 			.dialog({
 				title: _("Login"),
 				resizable: false,
-				width: 400,
+				width: 320,
 				modal: true,
-				close: function(e) {
-					$(e.target).dialog("destroy").remove();
-				},
 				buttons: [
 				],
 				focus: function() {
@@ -1830,10 +1825,6 @@ $(document).ready(function() {
 					});
 				}
 			});
-			if (samlform && samlform.trim().length > 0) {
-				// $dialog.append(samlform);
-				// $(".ui-dialog-buttonpane").append(samlform);
-			}
 
 			$dialog.on('click','#customContinue',function(){
 				const dialog = $(this).closest(".ui-dialog");
@@ -1849,9 +1840,7 @@ $(document).ready(function() {
 											handleMFAFunc(value, this);
 										})
 									} else {
-										console.log("heree");
 										checkPasswordReminder(this).then(value => {
-											console.log("MFAAA");
 											handleMFAFunc(value, this);
 										})
 									}
@@ -1884,6 +1873,9 @@ $(document).ready(function() {
 												<div class="form-group">
 													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
 												</div>
+												<div style="text-align:center;margin-bottom:8px">
+													<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">Continue</button>
+												</div>
 											</form>
 										`);
 										// Re-attach Enter key handler to new inputs
@@ -1900,7 +1892,14 @@ $(document).ready(function() {
 			$dialog.on('click','#customCancel',function(){
 				$dialog.dialog('close');
 			})
-
+			$dialog.dialog({
+				close: function () {
+				  $(this).dialog("destroy").remove();
+				}
+			  });
+			if ($dialog.find(".samlcheck").length) {
+				$dialog.find(".samlcheck").show();
+			}
 	});
 
 	function handleMFAFunc(response, thisPointer) {
