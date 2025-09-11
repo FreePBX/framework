@@ -210,6 +210,12 @@ class Modules extends DB_Helper{
 	 * @param bool $fixcase If true (default), fix the case of the module to be Xyyyy
 	 */
 	public function cleanModuleName($module, $fixcase = true) {
+		// Remove path traversal characters first
+		$module = str_replace(array('\\', '/', '..', "\0"), '', $module);
+		
+		// Remove any other potentially dangerous characters
+		$module = preg_replace('/[^a-zA-Z0-9_-]/', '', $module);
+		
 		$module = str_replace("-","dash",$module);
 		if ($fixcase) {
 			$module = ucfirst(strtolower($module));

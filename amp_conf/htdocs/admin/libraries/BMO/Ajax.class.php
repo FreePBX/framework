@@ -35,6 +35,9 @@ class Ajax extends FreePBX_Helpers {
 			throw new \Exception("Module or Command were null. Check your code.");
 		}
 
+		// Sanitize module name to prevent path traversal attacks
+		$module = $this->sanitizeModuleName($module);
+
 		if (class_exists(ucfirst($module)) && $module != "directory") {
 			throw new \Exception("The class $module already existed. Ajax MUST load it, for security reasons");
 		}
@@ -435,6 +438,33 @@ class Ajax extends FreePBX_Helpers {
 		//If nothing is defined then just default to showing json
 		$this->addHeader('Content-Type', 'application/json');
 		return json_encode($body);
+	}
+
+	/**
+	 * Sanitize module name to prevent path traversal attacks
+	 *
+	 * @param string $module The raw module name
+	 * @return string The sanitized module name
+	 * @throws Exception If the module name contains invalid characters
+	 */
+	private function sanitizeModuleName($module) {
+		// Remove any path traversal characters
+		$module = str_replace(array('\\', '/', '..', "\0"), '', $module);
+		
+		// Remove any other potentially dangerous characters
+		$module = preg_replace('/[^a-zA-Z0-9_-]/', '', $module);
+		
+		// Ensure the module name is not empty after sanitization
+		if (empty($module)) {
+			throw new \Exception("Invalid module name provided");
+		}
+		
+		// Additional check for common attack patterns
+		if (preg_match('/^(\.|\.\.|\.\.\/|\.\.\\\\)/', $module)) {
+			throw new \Exception("Module name contains path traversal characters");
+		}
+		
+		return $module;
 	}
 
 	/**

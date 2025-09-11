@@ -92,6 +92,21 @@ if (!function_exists('config_item')) {
 }
 require_once($dirname . '/helpers/form_helper.php');
 
+/**
+ * Sanitize module path components to prevent path traversal attacks
+ * @param string $component The path component to sanitize
+ * @return string The sanitized component
+ */
+function sanitizeModulePath($component) {
+	// Remove path traversal characters
+	$component = str_replace(array('\\', '/', '..', "\0"), '', $component);
+	
+	// Remove any other potentially dangerous characters
+	$component = preg_replace('/[^a-zA-Z0-9_-]/', '', $component);
+	
+	return $component;
+}
+
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
 	if ($class === true) {
@@ -115,12 +130,36 @@ function fpbx_framework_autoloader($class) {
 			// TODO: Add *real* module autoloader here in FreePBX 15, replacing the BMO __get() autoloader
 			return;
 		}
+		
+		// SECURITY FIX: Sanitize module name and path components to prevent path traversal
+		$module_name = array_shift($modarr);
+		$module_name = sanitizeModulePath($module_name);
+		
+		// Sanitize remaining path components
+		$sanitized_path = array();
+		foreach ($modarr as $component) {
+			$sanitized_component = sanitizeModulePath($component);
+			if (!empty($sanitized_component)) {
+				$sanitized_path[] = $sanitized_component;
+			}
+		}
+		
+		// Only proceed if we have valid components after sanitization
+		if (empty($module_name) || empty($sanitized_path)) {
+			return;
+		}
+		
 		// This is a basic implementation of PSR4 under ..admin/modules/modulename/.. so that
 		// a request for \FreePBX\modules\Ucp\Widgets\Ponies would look for a file
 		// called ..admin/modules/ucp/Widgets/Ponies.php and then load it, if it exists.
-		$moddir = \FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/".strtolower(array_shift($modarr))."/";
-		$filepath = $moddir.join("/", $modarr).".php";
-		if (file_exists($filepath)) {
+		$moddir = \FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/".strtolower($module_name)."/";
+		$filepath = $moddir.join("/", $sanitized_path).".php";
+		
+		// Additional security check: ensure the file is within the expected directory
+		$realpath = realpath($filepath);
+		$expected_dir = realpath(\FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/".strtolower($module_name)."/");
+		
+		if ($realpath && $expected_dir && strpos($realpath, $expected_dir) === 0 && file_exists($filepath)) {
 			include $filepath;
 		}
 		// Always return here, as there's nothing left to try.
