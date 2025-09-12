@@ -11,6 +11,9 @@
 
 if (!isset($_REQUEST['module'])) {
 	$module = "framework";
+} elseif(!preg_match('/^[\w-]{3,99}$/', $_REQUEST['module'])) {
+	header("HTTP/1.1 501 Not Implemented");
+	die();
 } else {
 	$module = $_REQUEST['module'];
 }
