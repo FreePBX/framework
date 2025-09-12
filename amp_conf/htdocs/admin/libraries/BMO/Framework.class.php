@@ -115,7 +115,13 @@ class Framework extends FreePBX_Helpers implements BMO {
 		exec('locale -a', $output);
 		$baseLocales = array_map(fn($locale) => explode('.', $locale)[0], $output);
 		$languageExist= in_array($lang, $baseLocales);
-		if(!$languageExist) { 
+		if(!$languageExist) {
+			if (!preg_match('/^[a-z]{2}_[A-Z]{2}$/', $lang)) {
+				return [
+					'success' => false,
+					'languageExist' => false
+				];
+			} 
 			if (is_dir("/var/spool/asterisk/incron")) {
 				if (file_exists("/var/spool/asterisk/incron/framework.update-language")) {
 					unlink("/var/spool/asterisk/incron/framework.update-language");
@@ -132,7 +138,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			'languageExist' => $languageExist
 		];
 	}
-	
+
 	public function doReload($passthru=false) {
 		$AMPSBIN = $this->freepbx->Config->get('AMPSBIN');
 		if(!file_exists($AMPSBIN.'/fwconsole')) {
