@@ -1284,6 +1284,7 @@ function regExpEscape(literal_string) {
 }
 
 $(document).ready(function() {
+
 	$.ajax({
 		type: "POST",
 		url: 'ajax.php?command=navbarToogle',
@@ -1821,40 +1822,54 @@ $(document).ready(function() {
 	});
 
 	$("#login_admin").click(function() {
+		let continuetext = fpbx.msg.framework.continuemsg;
+		let cancel = fpbx.msg.framework.cancel;
+		$('#customContinue').text(continuetext);
+		$('#customCancel').text(cancel);
 		var form = $("#login_form").html();
-		$("<div></div>")
+		if($(".samlcheck")){
+			$(".samlcheck").css("display","block");
+		}
+		var $dialog = $("<div></div>")
 			.html(form)
 			.dialog({
 				title: _("Login"),
 				resizable: false,
 				width: 400,
 				modal: true,
-				close: function(e) {
-					$(e.target).dialog("destroy").remove();
-				},
 				buttons: [
-					{
-						text: fpbx.msg.framework.continuemsg,
-						click: function () {
-							const dialog = $(this).closest(".ui-dialog");
+				],
+				focus: function() {
+					$(":input", this).keyup(function(event) {
+						if (event.keyCode == 13) {
+							$(".ui-dialog-buttonpane button:first").click();
+						}
+					});
+				}
+			});
+
+			$dialog.on('click','#customContinue',function(){
+				const dialog = $(this).closest(".ui-dialog");
 							const username = dialog.find("input[name='username']").val();
 							const hasPassword = dialog.find("input[type='password']").length > 0;
-
 							// Check if we're in SAML or regular password mode
 							if (hasPassword) {
 								// Normal login flow
+								let currentForm = $(this).closest("form");
 								if (typeof checkPasswordReminder === "function") {
 									if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
-										resetAdminPassswordWithToken(this).then(value => {
-											handleMFAFunc(value, this);
+										resetAdminPassswordWithToken(currentForm).then(value => {
+											handleMFAFunc(value, currentForm);
 										})
 									} else {
-										checkPasswordReminder(this).then(value => {
-											handleMFAFunc(value, this);
+										checkPasswordReminder(currentForm).then(value => {
+											handleMFAFunc(value, currentForm);
 										})
 									}
 								} else {
-									handleMFAFunc(true, this);
+									checkPasswordReminder(currentForm).then(value => {
+										handleMFAFunc(value, currentForm);
+									})
 								}
 
 							} else {
@@ -1881,9 +1896,12 @@ $(document).ready(function() {
 												<div class="form-group">
 													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
 												</div>
+												<div style="text-align:center;margin-bottom:8px">
+													<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">${continuetext}</button>
+												</div>
 											</form>
 										`);
-										// Re-attach Enter key handler to new inputs
+										//Re-attach Enter key handler to new inputs
 										dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
 											if (event.keyCode === 13) {
 												dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
@@ -1893,21 +1911,22 @@ $(document).ready(function() {
 								});
 							}
 
-						}
-					},
-					{
-						text: fpbx.msg.framework.cancel,
-						click: function() {
-							$(this).dialog("destroy").remove();
-						}
-					}
-				],
-				focus: function() {
-					$(":input", this).keyup(function(event) {
-						if (event.keyCode == 13) {
-							$(".ui-dialog-buttonpane button:first").click();
-						}
-					});
+			});
+			$dialog.on('click','#customCancel',function(){
+				$dialog.dialog('close');
+			})
+			$dialog.dialog({
+				close: function () {
+				  $(this).dialog("destroy").remove();
+				}
+			  });
+			if ($dialog.find(".samlcheck").length) {
+				$dialog.find(".samlcheck").show();
+			}
+			$dialog.on('keydown', function (e) {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					$dialog.find('#customContinue').trigger('click');
 				}
 			});
 	});
@@ -1917,7 +1936,9 @@ $(document).ready(function() {
 			if (typeof checkMFAenabled === "function") {
 				checkMFAenabled(false, false, false, '', thisPointer);
 			} else {
-				$(thisPointer).find("form").trigger("submit");
+				// $(thisPointer).find("form").trigger("submit");
+				$(thisPointer).trigger("submit");
+
 			}
 		}
 	}
@@ -2157,6 +2178,12 @@ $(document).ready(function(){
 		});
 	}
 });
+
+function loginBtn(){
+	let continuetext = fpbx.msg.framework.continuemsg;
+	let cancel = fpbx.msg.framework.cancel;
+	return continuetext;
+}
 $(".maxlen").keyup(function(){
 		var curid = $(this).attr('id');
 		var maxl = $(this).attr('maxlength');

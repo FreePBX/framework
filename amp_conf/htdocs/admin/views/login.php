@@ -13,21 +13,52 @@
 		<div class="form-group">
 			<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
 		</div>
+		<div class="" style="text-align:center">
+			<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">Continue</button>
+			<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget btn">Cancel</button>
+		</div>
+			<?php
+				if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
+			?>
+				<div class="samlcheck" style="margin-bottom: 14px;margin-top:14px">
+					<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
+					<div class="samllink" style="text-align: center;">
+						<?php
+							$sql = "SELECT val FROM kvstore_FreePBX_modules_Pbxsaml WHERE `key` = 'samldriver'";
+							$sth = FreePBX::Database()->prepare($sql);
+							$sth->execute();
+							$res = $sth->fetch(\PDO::FETCH_ASSOC);
+							$image = '';
+							$samlDriver = '';
+							$disabled= '';
+							$tooltip = _("SAML driver is not enabled. Please enable it to sign in");
+							if(isset($res['val'])){
+								$samlDriver = $res['val'];
+								$sql = "SELECT val FROM kvstore_FreePBX_modules_Pbxsaml WHERE `key` = 'driver_details'";
+								$sth = FreePBX::Database()->prepare($sql);
+								$sth->execute();
+								$getDetails = $sth->fetch(\PDO::FETCH_ASSOC);
+								if(!empty($getDetails)){
+									$driver = json_decode($getDetails['val'],true);
+									$image = isset($driver['image'])?$driver['image']:'';
+									$tooltip = isset($driver['tooltip'])?$driver['tooltip']:$tooltip;
+								}
+							}
+							if($samlDriver == '' || $samlDriver == false){
+								$disabled = "disabled";
+							}
+						?>
+						<a class="loginsmal form-group" onclick="navigateToSaml(event)" data-toggle="tootip" title="<?php echo $tooltip ?>" style="width:100%;cursor:pointer" >
+							<img src="<?php echo $image?>" style="width:110px" alt="Saml Login"></img>
+						</a>
+					</div>
+				</div>
+			<?php
+				}
+			?>
+		</form>
+	</div>
 
-		<?php
-			if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
-		?>
-			<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
-			<div class="samllink" style="text-align: center;">
-				<a href="javascript:void(0)" class="loginsmal form-group" onclick="navigateToSaml(event)">
-					<img src="https://apps3.sangoma.com/microsoft-logo-with-signs.svg" style="width:110px"></img>
-				</a>
-			</div>
-		<?php
-			}
-		?>
-	</form>
-</div>
 <?php
 	if (\FreePBX::Modules()->checkStatus('pbxmfa') && $PBXMFA_LICENSED) {
 		$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
@@ -79,13 +110,20 @@
 	const $form = $dialog.find('#loginform').length
 		? $dialog.find('#loginform')
 		: $dialog.find('form').first();
-
+	
+		if($(".samlcheck")){
+			$(".samlcheck").css("display","none");
+		}
 		if ($form.length) {
-			$form.empty()
+			$form.empty();
+			let continuetext = loginBtn();
 			$form.append(`
 			<h3><?php echo _('To get started, please enter your username:')?></h3>
 			<div class='form-group'>
 				<input type='text' name='username' class='form-control' value='' placeholder='username' autocomplete='off'>
+			</div>
+			<div style="text-align:center;margin-bottom:8px">
+				<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">${continuetext}</button>
 			</div>
 		`);
 		} 
