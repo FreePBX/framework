@@ -1821,86 +1821,22 @@ $(document).ready(function() {
 	});
 
 	$("#login_admin").click(function() {
+		let continuetext = fpbx.msg.framework.continuemsg;
+		let cancel = fpbx.msg.framework.cancel;
+		$('#customContinue').text(continuetext);
+		$('#customCancel').text(cancel);
 		var form = $("#login_form").html();
-		$("<div></div>")
+		if($(".samlcheck")){
+			$(".samlcheck").css("display","block");
+		}
+		var $dialog = $("<div></div>")
 			.html(form)
 			.dialog({
 				title: _("Login"),
 				resizable: false,
 				width: 400,
 				modal: true,
-				close: function(e) {
-					$(e.target).dialog("destroy").remove();
-				},
 				buttons: [
-					{
-						text: fpbx.msg.framework.continuemsg,
-						click: function () {
-							const dialog = $(this).closest(".ui-dialog");
-							const username = dialog.find("input[name='username']").val();
-							const hasPassword = dialog.find("input[type='password']").length > 0;
-
-							// Check if we're in SAML or regular password mode
-							if (hasPassword) {
-								// Normal login flow
-								if (typeof checkPasswordReminder === "function") {
-									if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
-										resetAdminPassswordWithToken(this).then(value => {
-											handleMFAFunc(value, this);
-										})
-									} else {
-										checkPasswordReminder(this).then(value => {
-											handleMFAFunc(value, this);
-										})
-									}
-								} else {
-									handleMFAFunc(true, this);
-								}
-
-							} else {
-								// SAML check
-								$.ajax({
-									url: "ajax.php",
-									method: "POST",
-									data: {
-										module: "pbxsaml",
-										command: "checkSAMLenabled",
-										username: username,
-										loginpanel: "admin"
-									}
-								}).done(function (resp) {
-									if (resp.status) {
-										location.replace(resp.url);
-									} else {
-
-										fpbxToast(resp.message, '', 'error');
-										// Inject password form
-										dialog.find(".ui-dialog-content").html(`
-											<form id="loginform" method="post" role="form">
-												<h3>To get started, please enter your credentials:</h3>
-												<div class="form-group">
-													<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
-												</div>
-											</form>
-										`);
-										// Re-attach Enter key handler to new inputs
-										dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
-											if (event.keyCode === 13) {
-												dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
-											}
-										});
-									}
-								});
-							}
-
-						}
-					},
-					{
-						text: fpbx.msg.framework.cancel,
-						click: function() {
-							$(this).dialog("destroy").remove();
-						}
-					}
 				],
 				focus: function() {
 					$(":input", this).keyup(function(event) {
@@ -1910,15 +1846,79 @@ $(document).ready(function() {
 					});
 				}
 			});
+
+			$dialog.on('click','#customContinue',function(){
+				const dialog = $(this).closest(".ui-dialog");
+							const username = dialog.find("input[name='username']").val();
+							const hasPassword = dialog.find("input[type='password']").length > 0;
+							// Check if we're in SAML or regular password mode
+							if (hasPassword) {
+								// Normal login flow
+								let currentForm = $(this).closest("form");
+								if (typeof checkPasswordReminder === "function") {
+									if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
+										resetAdminPassswordWithToken(currentForm).then(value => {
+											handleMFAFunc(value, currentForm);
+										})
+									} else {
+										checkPasswordReminder(currentForm).then(value => {
+											handleMFAFunc(value, currentForm);
+										})
+									}
+								} else {
+									checkPasswordReminder(currentForm).then(value => {
+										handleMFAFunc(value, currentForm);
+									})
+								}
+							} else {
+								// SAML check
+								let loginpanel='admin';
+								let currentForm = $(this).closest("form");
+								handleSAMLFunc(username,loginpanel,currentForm);
+								$dialog.find("input").off("keyup.enter").on("keyup.enter", function(event) {
+									if (event.keyCode === 13) {
+										dialog.closest(".ui-dialog").find(".ui-dialog-buttonpane button:first").click();
+									}
+								});
+							}
+
+			});
+			$dialog.on('click','#customCancel',function(){
+				$dialog.dialog('close');
+			})
+			$dialog.dialog({
+				close: function () {
+				  $(this).dialog("destroy").remove();
+				}
+			  });
+			if ($dialog.find(".samlcheck").length) {
+				$dialog.find(".samlcheck").show();
+			}
+			$dialog.on('keydown', function (e) {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					$dialog.find('#customContinue').trigger('click');
+				}
+			});
 	});
+
 
 	function handleMFAFunc(response, thisPointer) {
 		if (response) {
 			if (typeof checkMFAenabled === "function") {
 				checkMFAenabled(false, false, false, '', thisPointer);
 			} else {
-				$(thisPointer).find("form").trigger("submit");
+				// $(thisPointer).find("form").trigger("submit");
+				$(thisPointer).trigger("submit");
 			}
+		}
+	}
+
+	async function handleSAMLFunc(username,loginpanel,thisPointer) {
+		if (typeof checkPbxSAMLenabled === "function") {
+			let response = await checkPbxSAMLenabled(username, loginpanel);
+		} else {
+			$(thisPointer).trigger("submit");
 		}
 	}
 
