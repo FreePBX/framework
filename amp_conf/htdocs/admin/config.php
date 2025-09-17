@@ -519,6 +519,16 @@ switch($display) {
 				$login['PBXMFA_LICENSED'] = $res['val'];
 			}
 
+			if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
+				$sql = "SELECT val FROM kvstore_FreePBX_modules_Pbxsaml WHERE `key` = 'PBXSAML_LICENSED'";
+				$sth = FreePBX::Database()->prepare($sql);
+				$sth->execute();
+				$res = $sth->fetch();
+				$login['PBXSAML_LICENSED'] = isset($res['val'])?$res['val']:0;
+			}
+
+
+
 			$login['amp_conf'] = $amp_conf;
 			echo load_view($amp_conf['VIEW_LOGIN'], $login);
 		}
