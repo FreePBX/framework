@@ -14,19 +14,16 @@
 			<div class="form-group">
 				<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
 			</div>
-				
+			<div class="" style="text-align:center;padding:10px 0">
+				<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">Continue</button>
+				<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget btn">Cancel</button>
+			</div>
 			<?php
-	if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
-?>
-	<h6 style="text-align: center;font-size:14px" class="loginhead">Or sign in with</h6>
-	<div class="samllink" style="text-align: center;">
-		<a href="javascript:void(0)" class="loginsmal form-group" onclick="navigateToSaml(event)">
-			<img src="https://apps3.sangoma.com/microsoft-logo-with-signs.svg" style="width:110px"></img>
-		</a>
-	</div>
-<?php
-	}
-?>
+				if (\FreePBX::Modules()->checkStatus('pbxsaml') && $PBXSAML_LICENSED) {
+					$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
+					include $webrootpath . '/admin/modules/pbxsaml/views/adminlogin.php';
+				}
+			?>
 		</form>
 	</div>
 
@@ -72,26 +69,6 @@
 		<?php echo session_id();?>
 	</div>
 </div>
-<script>
-	function navigateToSaml(e) {
-	e.preventDefault();
-	const $dialog = $(e.target).closest('.ui-dialog, .ui-dialog-content');
-	const $form = $dialog.find('#loginform').length
-		? $dialog.find('#loginform')
-		: $dialog.find('form').first();
-
-		if ($form.length) {
-			$form.empty()
-			$form.append(`
-			<h3><?php echo _('To get started, please enter your username:')?></h3>
-			<div class='form-group'>
-				<input type='text' name='username' class='form-control' value='' placeholder='username' autocomplete='off'>
-			</div>
-		`);
-		} 
-	}
-
-</script>
 <script type="text/javascript" src="assets/js/views/login.js"></script>
 <?php
 	if (\FreePBX::Modules()->checkStatus('userman')) {
