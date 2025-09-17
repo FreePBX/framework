@@ -1124,13 +1124,22 @@ switch ($action) {
 		// If we're not compatible with SU, don't try to do anything.
 		if (!$su->canDoSystemUpdates()) {
 			$summary['candosystemupdates'] = false;
-			$summary['systemupdates'] = $su->getPendingUpdate();
+			// Don't call getPendingUpdate() on page load - it will be called when System Updates tab is clicked
+			// Use cached data if available, otherwise return empty
+			$cachedData = $FreePBX->Framework->getConfig('upgradable_packages_cache');
+			$cachedTimestamp = $FreePBX->Framework->getConfig('upgradable_packages_timestamp');
+			dbug('Page load cache check: data=' . ($cachedData !== false ? 'exists (' . (is_array($cachedData) ? count($cachedData) . ' items' : 'not array') . ')' : 'not found') . ', timestamp=' . ($cachedTimestamp !== false ? $cachedTimestamp : 'not found'));
+			$summary['systemupdates'] = ($cachedData !== false) ? $cachedData : false;
 			$summary['systemupdateavail'] = false;
 			if (is_array($summary['systemupdates'])) {
 				$summary['pendingupgradessystem'] = count($summary['systemupdates']);
 			} else {
 				$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
 			}
+			
+			// Get held packages from cache (will be refreshed when tab is clicked)
+			$heldCachedData = $FreePBX->Framework->getConfig('held_packages_cache');
+			$summary['heldpackages'] = ($heldCachedData !== false && is_array($heldCachedData)) ? $heldCachedData : [];
 		} else {
 			$summary['candosystemupdates'] = true;
 			$summary['systemupdates'] = $su->getPendingUpdates();

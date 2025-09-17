@@ -2,8 +2,29 @@
 <?php
 error_reporting(E_ALL);
 require '/usr/lib/sysadmin/includes.php';
-// Execute the command and get the output
-$output = shell_exec('sudo apt list --upgradable');
+
+// Lock file to prevent concurrent apt commands
+$lockFile = '/var/spool/asterisk/tmp/apt-list-upgradable.lock';
+
+// Check if lock file exists (another process is running)
+if (file_exists($lockFile)) {
+    // Check if lock is stale (older than 5 minutes)
+    $lockAge = time() - filemtime($lockFile);
+    if ($lockAge > 300) {
+        // Lock is stale, remove it
+        @unlink($lockFile);
+    } else {
+        // Another process is running, exit
+        exit(0);
+    }
+}
+
+// Create lock file
+@touch($lockFile);
+
+try {
+    // Execute the command and get the output
+    $output = shell_exec('sudo apt list --upgradable');
 // Check if the output is not empty
 if ($output) {
     // Initialize an array to store the parsed data
@@ -41,5 +62,9 @@ if ($output) {
     }
 } else {
     echo "No upgradable packages found or failed to execute the command.";
+}
+} finally {
+    // Always remove lock file when done
+    @unlink($lockFile);
 }
 

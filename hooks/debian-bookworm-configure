@@ -1,0 +1,106 @@
+#!/bin/bash
+# This script runs as root via incron to configure Debian Bookworm repositories
+# and block Trixie upgrades, saving results to a JSON file for the FreePBX UI.
+
+JSON_FILE="/var/spool/asterisk/tmp/debian_bookworm_configure.json"
+
+# Initialize arrays
+MESSAGES=()
+ERRORS=()
+SUCCESS=false
+
+# Check if we're on Debian
+if [ ! -f "/etc/debian_version" ]; then
+    echo "{\"success\": false, \"messages\": [], \"errors\": [\"Not running on Debian system\"]}" > "$JSON_FILE"
+    chmod 664 "$JSON_FILE"
+    chown asterisk:asterisk "$JSON_FILE"
+    exit 0
+fi
+
+# Get current Debian version
+DEBIAN_VERSION=$(cat /etc/debian_version 2>/dev/null | head -n 1)
+
+# Check if already on Debian 12 (Bookworm)
+if [[ "$DEBIAN_VERSION" == 12.* ]]; then
+    echo "{\"success\": false, \"messages\": [], \"errors\": [\"System is already running Debian 12 (Bookworm)\"]}" > "$JSON_FILE"
+    chmod 664 "$JSON_FILE"
+    chown asterisk:asterisk "$JSON_FILE"
+    exit 0
+fi
+
+# Create backup directory
+BACKUP_DIR="/etc/apt/backup-$(date +%Y%m%d-%H%M%S)"
+mkdir -p "$BACKUP_DIR"
+MESSAGES+=("Created backup directory: $BACKUP_DIR")
+
+# Backup and modify sources.list
+SOURCES_LIST="/etc/apt/sources.list"
+if [ -f "$SOURCES_LIST" ]; then
+    # Backup original file
+    cp "$SOURCES_LIST" "$BACKUP_DIR/sources.list"
+    MESSAGES+=("Backed up $SOURCES_LIST")
+    
+    # Replace stable with bookworm
+    sed -i 's/deb http:\/\/ftp\.debian\.org\/debian stable/deb http:\/\/ftp\.debian\.org\/debian bookworm/g' "$SOURCES_LIST"
+    sed -i 's/deb http:\/\/security\.debian\.org\/debian-security stable-security/deb http:\/\/security\.debian\.org\/debian-security bookworm-security/g' "$SOURCES_LIST"
+    
+    if grep -q "bookworm" "$SOURCES_LIST"; then
+        MESSAGES+=("Updated $SOURCES_LIST to use bookworm repositories")
+    fi
+fi
+
+# Backup and modify sources.list.d files
+for file in /etc/apt/sources.list.d/*.list; do
+    if [ -f "$file" ]; then
+        filename=$(basename "$file")
+        cp "$file" "$BACKUP_DIR/$filename"
+        MESSAGES+=("Backed up $file")
+        
+        # Replace stable with bookworm
+        sed -i 's/deb http:\/\/ftp\.debian\.org\/debian stable/deb http:\/\/ftp\.debian\.org\/debian bookworm/g' "$file"
+        sed -i 's/deb http:\/\/security\.debian\.org\/debian-security stable-security/deb http:\/\/security\.debian\.org\/debian-security bookworm-security/g' "$file"
+        
+        if grep -q "bookworm" "$file"; then
+            MESSAGES+=("Updated $file to use bookworm repositories")
+        fi
+    fi
+done
+
+# Create Trixie blocking preferences file
+TRIXIE_PREF_FILE="/etc/apt/preferences.d/99-block-trixie.pref"
+if [ ! -f "$TRIXIE_PREF_FILE" ]; then
+    cat > "$TRIXIE_PREF_FILE" << 'EOF'
+# Block Debian 13 (Trixie) upgrades
+Package: *
+Pin: release n=trixie
+Pin-Priority: -1
+EOF
+    MESSAGES+=("Created Trixie blocking preferences file: $TRIXIE_PREF_FILE")
+else
+    MESSAGES+=("Trixie blocking preferences file already exists: $TRIXIE_PREF_FILE")
+fi
+
+# Update package lists
+if apt update >/dev/null 2>&1; then
+    MESSAGES+=("Successfully updated package lists")
+    SUCCESS=true
+else
+    ERRORS+=("Failed to update package lists")
+fi
+
+# Convert arrays to JSON format
+JSON_MESSAGES=$(printf '%s\n' "${MESSAGES[@]}" | jq -R . | jq -s .)
+JSON_ERRORS=$(printf '%s\n' "${ERRORS[@]}" | jq -R . | jq -s .)
+
+# Create JSON output
+cat > "$JSON_FILE" << EOF
+{
+    "success": $SUCCESS,
+    "messages": $JSON_MESSAGES,
+    "errors": $JSON_ERRORS
+}
+EOF
+
+chmod 664 "$JSON_FILE"
+chown asterisk:asterisk "$JSON_FILE"
+

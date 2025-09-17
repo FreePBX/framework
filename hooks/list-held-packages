@@ -1,0 +1,109 @@
+#!/usr/bin/php
+<?php
+error_reporting(E_ALL);
+require '/usr/lib/sysadmin/includes.php';
+
+// Lock file to prevent concurrent commands
+$lockFile = '/var/spool/asterisk/tmp/apt-list-held.lock';
+
+// Check if lock file exists (another process is running)
+if (file_exists($lockFile)) {
+    // Check if lock is stale (older than 5 minutes)
+    $lockAge = time() - filemtime($lockFile);
+    if ($lockAge > 300) {
+        // Lock is stale, remove it
+        @unlink($lockFile);
+    } else {
+        // Another process is running, exit
+        exit(0);
+    }
+}
+
+// Create lock file
+@touch($lockFile);
+
+try {
+    $held_packages = [];
+    $nodejs_packages = [];
+    $other_packages = [];
+    
+    // Check if we're on a Debian system
+    if (!file_exists('/etc/debian_version')) {
+        // Not Debian, write empty array
+        $filePath = '/var/spool/asterisk/tmp/held_packages.json';
+        file_put_contents($filePath, json_encode([], JSON_PRETTY_PRINT));
+        exit(0);
+    }
+    
+    // Get held packages using dpkg --get-selections
+    $output = [];
+    $return_var = 0;
+    exec('dpkg --get-selections | grep -E "\s+hold$"', $output, $return_var);
+    
+    if ($return_var === 0 && !empty($output)) {
+        foreach ($output as $line) {
+            $parts = preg_split('/\s+/', trim($line));
+            if (count($parts) >= 2 && $parts[1] === 'hold') {
+                $package_name = $parts[0];
+                
+                // Get package version and description
+                $version = '';
+                $description = '';
+                
+                $version_output = [];
+                exec("dpkg-query -W -f='\${Version}' $package_name 2>/dev/null", $version_output);
+                if (!empty($version_output)) {
+                    $version = $version_output[0];
+                }
+                
+                $desc_output = [];
+                exec("dpkg-query -W -f='\${Description}' $package_name 2>/dev/null", $desc_output);
+                if (!empty($desc_output)) {
+                    $description = $desc_output[0];
+                }
+                
+                $package_info = [
+                    'name' => $package_name,
+                    'version' => $version,
+                    'description' => $description
+                ];
+                
+                // Group Node.js packages together
+                if (strpos($package_name, 'node-') === 0 || $package_name === 'nodejs') {
+                    $nodejs_packages[] = $package_info;
+                } else {
+                    $other_packages[] = $package_info;
+                }
+            }
+        }
+    }
+    
+    // Add grouped Node.js packages
+    if (!empty($nodejs_packages)) {
+        $held_packages[] = [
+            'name' => 'nodejs* (' . count($nodejs_packages) . ' packages)',
+            'version' => 'Various',
+            'description' => 'Node.js related packages',
+            'is_grouped' => true,
+            'packages' => $nodejs_packages
+        ];
+    }
+    
+    // Add other packages
+    $held_packages = array_merge($held_packages, $other_packages);
+    
+    // Define the file path
+    $filePath = '/var/spool/asterisk/tmp/held_packages.json';
+    // Convert the parsed data to a JSON string
+    $jsonContent = json_encode($held_packages, JSON_PRETTY_PRINT);
+    // Save the JSON content to the file
+    if (file_put_contents($filePath, $jsonContent) !== false) {
+        echo "Data successfully saved to {$filePath}";
+    } else {
+        echo "Failed to save data to {$filePath}";
+    }
+} finally {
+    // Always remove lock file when done
+    @unlink($lockFile);
+}
+

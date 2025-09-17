@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Debian Configuration Status Hook
+# This script checks Debian repository configuration and Trixie blocking status
+
+OUTPUT_FILE="/var/spool/asterisk/tmp/debian_config_status.json"
+
+# Initialize the result array
+result='{
+    "is_debian": false,
+    "version": "Unknown",
+    "is_debian_12": false,
+    "is_trixie_blocked": false,
+    "is_using_stable": false
+}'
+
+# Check if this is a Debian system
+if [ -f "/etc/debian_version" ]; then
+    debian_version=$(cat /etc/debian_version)
+    is_debian_12=false
+    
+    # Check if it's Debian 12
+    if [[ "$debian_version" == 12* ]]; then
+        is_debian_12=true
+    fi
+    
+    # Check if Trixie is blocked
+    is_trixie_blocked=false
+    if [ -f "/etc/apt/preferences.d/99-block-trixie.pref" ]; then
+        if grep -q "trixie" /etc/apt/preferences.d/99-block-trixie.pref && grep -q "Pin-Priority: -1" /etc/apt/preferences.d/99-block-trixie.pref; then
+            is_trixie_blocked=true
+        fi
+    fi
+    
+    # Check if using stable repository
+    is_using_stable=false
+    sources_files=("/etc/apt/sources.list")
+    sources_files+=($(ls /etc/apt/sources.list.d/*.list 2>/dev/null))
+    
+    for file in "${sources_files[@]}"; do
+        if [ -f "$file" ]; then
+            if grep -q "deb.*http://ftp.debian.org/debian.*stable" "$file" || grep -q "deb.*http://security.debian.org/debian-security.*stable-security" "$file"; then
+                is_using_stable=true
+                break
+            fi
+        fi
+    done
+    
+    # Build the result JSON
+    result=$(cat <<EOF
+{
+    "is_debian": true,
+    "version": "$debian_version",
+    "is_debian_12": $is_debian_12,
+    "is_trixie_blocked": $is_trixie_blocked,
+    "is_using_stable": $is_using_stable
+}
+EOF
+)
+fi
+
+# Write the result to the output file
+echo "$result" > "$OUTPUT_FILE"
+
+# Clean up the trigger file
+rm -f "/var/spool/asterisk/incron/framework.debian-config-status"
+

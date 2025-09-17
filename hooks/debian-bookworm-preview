@@ -1,0 +1,92 @@
+#!/bin/bash
+# This script runs as root via incron to preview Debian Bookworm configuration changes
+# and save the results to a JSON file for the FreePBX UI.
+
+JSON_FILE="/var/spool/asterisk/tmp/debian_bookworm_preview.json"
+
+# Initialize arrays
+FILES_TO_CHANGE=()
+NEW_FILES=()
+CHANGES=()
+ERRORS=()
+
+# Check if we're on Debian
+if [ ! -f "/etc/debian_version" ]; then
+    echo "{\"error\": \"Not running on Debian system\"}" > "$JSON_FILE"
+    chmod 664 "$JSON_FILE"
+    chown asterisk:asterisk "$JSON_FILE"
+    exit 0
+fi
+
+# Get current Debian version
+DEBIAN_VERSION=$(cat /etc/debian_version 2>/dev/null | head -n 1)
+
+# Check if already on Debian 12 (Bookworm)
+if [[ "$DEBIAN_VERSION" == 12.* ]]; then
+    echo "{\"error\": \"System is already running Debian 12 (Bookworm)\"}" > "$JSON_FILE"
+    chmod 664 "$JSON_FILE"
+    chown asterisk:asterisk "$JSON_FILE"
+    exit 0
+fi
+
+# Check if Trixie blocking is already configured
+TRIXIE_PREF_FILE="/etc/apt/preferences.d/99-block-trixie.pref"
+if [ -f "$TRIXIE_PREF_FILE" ]; then
+    if grep -q "Pin: release n=trixie" "$TRIXIE_PREF_FILE" && grep -q "Pin-Priority: -1" "$TRIXIE_PREF_FILE"; then
+        echo "{\"error\": \"Trixie blocking is already configured\"}" > "$JSON_FILE"
+        chmod 664 "$JSON_FILE"
+        chown asterisk:asterisk "$JSON_FILE"
+        exit 0
+    fi
+fi
+
+# Analyze current sources.list
+SOURCES_LIST="/etc/apt/sources.list"
+if [ -f "$SOURCES_LIST" ]; then
+    # Check for stable repositories that need to be changed
+    if grep -qE "deb\s+http:\/\/ftp\.debian\.org\/debian\s+stable\b" "$SOURCES_LIST"; then
+        FILES_TO_CHANGE+=("$SOURCES_LIST")
+        CHANGES+=("Replace 'stable' with 'bookworm' in $SOURCES_LIST")
+    fi
+    
+    if grep -qE "deb\s+http:\/\/security\.debian\.org\/debian-security\s+stable-security\b" "$SOURCES_LIST"; then
+        FILES_TO_CHANGE+=("$SOURCES_LIST")
+        CHANGES+=("Replace 'stable-security' with 'bookworm-security' in $SOURCES_LIST")
+    fi
+fi
+
+# Analyze sources.list.d files
+for file in /etc/apt/sources.list.d/*.list; do
+    if [ -f "$file" ]; then
+        if grep -qE "deb\s+http:\/\/ftp\.debian\.org\/debian\s+stable\b" "$file" || \
+           grep -qE "deb\s+http:\/\/security\.debian\.org\/debian-security\s+stable-security\b" "$file"; then
+            FILES_TO_CHANGE+=("$file")
+            CHANGES+=("Replace 'stable' with 'bookworm' in $file")
+        fi
+    fi
+done
+
+# Add Trixie blocking file to new files if it doesn't exist
+if [ ! -f "$TRIXIE_PREF_FILE" ]; then
+    NEW_FILES+=("$TRIXIE_PREF_FILE")
+    CHANGES+=("Create Trixie blocking preferences file")
+fi
+
+# Convert arrays to JSON format
+JSON_FILES_TO_CHANGE=$(printf '%s\n' "${FILES_TO_CHANGE[@]}" | jq -R . | jq -s .)
+JSON_NEW_FILES=$(printf '%s\n' "${NEW_FILES[@]}" | jq -R . | jq -s .)
+JSON_CHANGES=$(printf '%s\n' "${CHANGES[@]}" | jq -R . | jq -s .)
+
+# Create JSON output
+cat > "$JSON_FILE" << EOF
+{
+    "files_to_change": $JSON_FILES_TO_CHANGE,
+    "new_files": $JSON_NEW_FILES,
+    "changes": $JSON_CHANGES,
+    "error": null
+}
+EOF
+
+chmod 664 "$JSON_FILE"
+chown asterisk:asterisk "$JSON_FILE"
+

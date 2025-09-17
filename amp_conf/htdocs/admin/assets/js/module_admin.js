@@ -475,17 +475,10 @@ function reload_system_updates_tab() {
 }
 
 // This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
-// Runs the roothook yum-checkonline to see if there's any updates.
+// For Debian systems, use refreshupgradablepackages instead of check-updates
 function run_yum_checkonline() {
-	$("#checkonlinebutton").attr('disabled', true).text(_("Starting..."));
-	$.ajax({
-		url: window.ajaxurl,
-		data: { module: "framework", command: "sysupdate", action: "startcheckupdates" },
-		complete: function() {
-			$("#checkonlinebutton").attr('disabled', false).text(_("Loading..."));
-			window.setTimeout(reload_system_updates_tab, 500);
-		}
-	});
+	// Use the new refreshupgradablepackages action for Debian/APT systems
+	refreshUpgradablePackages();
 }
 
 // This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
@@ -642,7 +635,7 @@ function render_updates_in_modal(dorefresh) {
 }
 
 // This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
-// Request that 'yum update' is run
+// Request that system update is run (legacy function, not used for Debian)
 function update_rpms() {
 	$("#updatesystembutton").text(_("Starting...")).prop("disabled", true);
 	$.ajax({
@@ -659,3 +652,264 @@ function update_rpms() {
 		},
 	});
 }
+
+// Preview Debian Bookworm configuration changes
+function preview_debian_bookworm_config() {
+	// Toggle functionality - if already visible, hide it
+	if ($("#bookworm-preview").is(":visible")) {
+		$("#bookworm-preview").hide();
+		$("#previewbookwormbutton").text("Preview Changes");
+		return;
+	}
+	
+	$("#previewbookwormbutton").text("Loading...").prop("disabled", true);
+	$("#bookworm-preview").show();
+	$("#bookworm-preview").html("<div class='alert alert-info'>Loading preview...</div>");
+	
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "getdebianbookwormpreview" },
+		success: function(data) {
+			var html = "<h5>Files to be modified:</h5>";
+			
+			if (data.files_to_change && data.files_to_change.length > 0) {
+				html += "<ul>";
+				data.files_to_change.forEach(function(file) {
+					html += "<li><code>" + file + "</code></li>";
+				});
+				html += "</ul>";
+			}
+			
+			if (data.new_files && data.new_files.length > 0) {
+				html += "<h5>New files to be created:</h5>";
+				html += "<ul>";
+				data.new_files.forEach(function(file) {
+					html += "<li><code>" + file + "</code></li>";
+				});
+				html += "</ul>";
+			}
+			
+			if (data.changes && data.changes.length > 0) {
+				html += "<h5>Detailed changes:</h5>";
+				data.changes.forEach(function(change) {
+					html += "<div class='panel panel-default' style='margin-top: 10px;'>";
+					html += "<div class='panel-heading'><strong>" + change.file + "</strong> - " + change.description + "</div>";
+					html += "<div class='panel-body'>";
+					if (change.original) {
+						html += "<h6>Original content:</h6>";
+						html += "<pre style='background: #f5f5f5; padding: 10px; border-radius: 3px;'>" + escapeHtml(change.original) + "</pre>";
+					}
+					if (change.new) {
+						html += "<h6>New content:</h6>";
+						html += "<pre style='background: #e8f5e8; padding: 10px; border-radius: 3px;'>" + escapeHtml(change.new) + "</pre>";
+					}
+					html += "</div></div>";
+				});
+			}
+			
+			if (data.files_to_change.length === 0 && data.new_files.length === 0) {
+				html = "<div class='alert alert-success'>No changes needed. System is already configured for Debian Bookworm.</div>";
+			}
+			
+			$("#bookworm-preview").html(html);
+		},
+		error: function(xhr, status, error) {
+			$("#bookworm-preview").html("<div class='alert alert-danger'>Error loading preview: " + error + "</div>");
+		},
+		complete: function() {
+			$("#previewbookwormbutton").text("Preview Changes").prop("disabled", false);
+		}
+	});
+}
+
+// Configure Debian Bookworm repositories
+function configure_debian_bookworm() {
+	if (!confirm("This will modify your APT repository configuration. Are you sure you want to continue?")) {
+		return;
+	}
+	
+	$("#configurebookwormbutton").text("Configuring...").prop("disabled", true);
+	$("#bookworm-results").show();
+	$("#bookworm-results").html("<div class='alert alert-info'>Applying configuration...</div>");
+	
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "configuredebianbookworm" },
+		success: function(data) {
+			var html = "";
+			
+			if (data.success) {
+				html += "<div class='alert alert-success'><strong>Configuration completed successfully!</strong></div>";
+			} else {
+				html += "<div class='alert alert-danger'><strong>Configuration failed!</strong></div>";
+			}
+			
+			if (data.messages && data.messages.length > 0) {
+				html += "<h5>Messages:</h5>";
+				html += "<ul>";
+				data.messages.forEach(function(message) {
+					html += "<li class='text-success'>" + escapeHtml(message) + "</li>";
+				});
+				html += "</ul>";
+			}
+			
+			if (data.errors && data.errors.length > 0) {
+				html += "<h5>Errors:</h5>";
+				html += "<ul>";
+				data.errors.forEach(function(error) {
+					html += "<li class='text-danger'>" + escapeHtml(error) + "</li>";
+				});
+				html += "</ul>";
+			}
+			
+			$("#bookworm-results").html(html);
+		},
+		error: function(xhr, status, error) {
+			$("#bookworm-results").html("<div class='alert alert-danger'>Error applying configuration: " + error + "</div>");
+		},
+		complete: function() {
+			$("#configurebookwormbutton").text("Apply Configuration").prop("disabled", false);
+		}
+	});
+}
+
+// Toggle Node.js packages details
+function toggleNodejsPackages() {
+	var details = document.getElementById('nodejs-details');
+	var button = document.getElementById('nodejs-toggle');
+	
+	if (details.style.display === 'none') {
+		details.style.display = 'table-row';
+		button.textContent = 'Hide Details';
+	} else {
+		details.style.display = 'none';
+		button.textContent = 'Show Details';
+	}
+}
+
+// Refresh Debian configuration status via hook
+function refreshDebianConfigStatus() {
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "getdebianconfigstatus" },
+		success: function(data) {
+			// Update the UI with the fresh data
+			updateDebianConfigUI(data);
+		},
+		error: function(xhr, status, error) {
+			console.log('Error refreshing Debian config status: ' + error);
+		}
+	});
+}
+
+// Refresh upgradable packages via hook
+function refreshUpgradablePackages() {
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "refreshupgradablepackages" },
+		success: function(data) {
+			// Wait for apt command to complete, then reload the page to show fresh data
+			setTimeout(function() {
+				// Reload the entire page to show updated packages
+				window.location.reload();
+			}, 3000); // Increased timeout to allow apt command to complete
+		},
+		error: function(xhr, status, error) {
+			console.log('Error refreshing upgradable packages: ' + error);
+		}
+	});
+}
+
+// Refresh held packages via hook
+function refreshHeldPackages() {
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "refreshheldpackages" },
+		success: function(data) {
+			// Wait for hook to complete, then reload the page to show fresh data
+			setTimeout(function() {
+				// Reload the entire page to show updated packages
+				window.location.reload();
+			}, 3000); // Increased timeout to allow hook to complete
+		},
+		error: function(xhr, status, error) {
+			console.log('Error refreshing held packages: ' + error);
+		}
+	});
+}
+
+// Update Debian configuration UI with fresh data
+function updateDebianConfigUI(configData) {
+	if (!configData || !configData.is_debian) {
+		return;
+	}
+	
+	// Update the red alert visibility based on fresh data
+	var alertDiv = $('.alert-danger').filter(function() {
+		return $(this).text().indexOf('Debian 13 (Trixie) Upgrade Risk') !== -1;
+	});
+	
+	if (configData.is_using_stable && !configData.is_trixie_blocked) {
+		// Show the alert if it doesn't exist
+		if (alertDiv.length === 0) {
+			var alertHtml = '<div class="alert alert-danger" style="margin-top: 20px;">' +
+				'<strong>Warning: Debian 13 (Trixie) Upgrade Risk</strong><br>' +
+				'Your system is using the \'stable\' repository which may automatically upgrade to Debian 13 (Trixie) when it becomes available. ' +
+				'We recommend configuring your system to use \'bookworm\' repositories and block Trixie upgrades to prevent compatibility issues.' +
+				'</div>';
+			$('#systemupdatestab .container-fluid').prepend(alertHtml);
+		}
+	} else {
+		// Hide the alert if conditions are not met
+		alertDiv.remove();
+	}
+	
+	// Update the Debian configuration section status
+	if (configData.is_trixie_blocked) {
+		$('#debian-config-section .panel-body').html(
+			'<div class="alert alert-success">' +
+			'<strong>System is already configured!</strong><br>' +
+			'This system is already blocked from upgrading to Debian 13 (Trixie).' +
+			'</div>'
+		);
+	} else if (configData.is_debian_12) {
+		// Keep the existing configuration section as is
+	} else {
+		$('#debian-config-section .panel-body').html(
+			'<div class="alert alert-info">' +
+			'<strong>Debian ' + configData.version + ' detected</strong><br>' +
+			'This feature is designed for Debian 12 (Bookworm) systems to block upgrades to Debian 13 (Trixie).' +
+			'</div>'
+		);
+	}
+}
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+	var map = {
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		"'": '&#039;'
+	};
+	return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// Initialize tab click handlers when document is ready
+$(document).ready(function() {
+	// Listen for System Updates tab clicks
+	$('a[href="#systemupdatestab"]').on('click', function() {
+		// Trigger hooks to get fresh data
+		refreshDebianConfigStatus();
+		refreshUpgradablePackages();
+		refreshHeldPackages();
+	});
+	
+	// Also trigger when the tab is shown (in case it's activated programmatically)
+	$('#systemupdatestab').on('shown.bs.tab', function() {
+		refreshDebianConfigStatus();
+		refreshUpgradablePackages();
+		refreshHeldPackages();
+	});
+});
