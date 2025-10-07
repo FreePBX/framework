@@ -19,7 +19,7 @@
 			<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget btn">Cancel</button>
 		</div>
 		<?php
-			if (\FreePBX::Modules()->checkStatus('pbxsaml')) {
+			if (\FreePBX::Modules()->checkStatus('pbxsaml') && $PBXSAML_LICENSED) {
 				$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
 				include $webrootpath . '/admin/modules/pbxsaml/views/adminlogin.php';
 			}
