@@ -14,7 +14,7 @@
 			<input type="password" name="password" class="form-control" value="" placeholder="password" autocomplete="off">
 		</div>
 
-		<div class="" style="text-align:center;padding:50px 0">
+		<div class="" style="text-align:center;padding:15px 0">
 			<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">Continue</button>
 			<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget btn">Cancel</button>
 		</div>
