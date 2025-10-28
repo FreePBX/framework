@@ -1918,9 +1918,9 @@ $(document).ready(function() {
 				checkMFAenabled(false, false, false, '', thisPointer);
 			} else {
 				// $(thisPointer).find("form").trigger("submit");
-				if (typeof buildAuthTemplate === "function" ) {
+				if (typeof buildAuthTemplate === "function" && username != "") {
 					let response = await buildAuthTemplate('admincheck',username,thisPointer);
-					if(response == false){
+					if(response == false || response == undefined){
 						$(thisPointer).trigger("submit");
 					}
 				}else{
