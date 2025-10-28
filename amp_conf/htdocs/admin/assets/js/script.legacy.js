@@ -1849,9 +1849,7 @@ $(document).ready(function() {
 										})
 									}
 								} else {
-									checkPasswordReminder(currentForm).then(value => {
-										handleMFAFunc(value, currentForm);
-									})
+									handleMFAFunc(true, currentForm,username);
 								}
 							} else {
 								// SAML check
@@ -1886,13 +1884,20 @@ $(document).ready(function() {
 	});
 
 
-	function handleMFAFunc(response, thisPointer) {
+	async function handleMFAFunc(response, thisPointer,username='') {
 		if (response) {
 			if (typeof checkMFAenabled === "function") {
 				checkMFAenabled(false, false, false, '', thisPointer);
 			} else {
 				// $(thisPointer).find("form").trigger("submit");
-				$(thisPointer).trigger("submit");
+				if (typeof buildAuthTemplate === "function" ) {
+					let response = await buildAuthTemplate('admincheck',username,thisPointer);
+					if(response == false){
+						$(thisPointer).trigger("submit");
+					}
+				}else{
+					$(thisPointer).trigger("submit");
+				}
 			}
 		}
 	}
@@ -2276,3 +2281,11 @@ $(document).on('click','.clicktoedit',function(){
 		}
 	}, 130000);
 })();
+
+$(document).on('submit', '#loginform', function(e) {
+	const dialog = $(this).closest(".ui-dialog");
+	const hasPassword = dialog.find("input[type='password']").length > 0;
+    if (!hasPassword) {
+        e.preventDefault();
+    }
+});
