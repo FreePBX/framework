@@ -1808,10 +1808,21 @@ $(document).ready(function() {
 		let cancel = fpbx.msg.framework.cancel;
 		$('#customContinue').text(continuetext);
 		$('#customCancel').text(cancel);
-		var form = $("#login_form").html();
 		if($(".samlcheck")){
 			$(".samlcheck").css("display","block");
 		}
+		if ($("#loginform").find("#customContinue").length === 0 && $("#loginform").find("#customCancel").length === 0 ) {
+			console.log("No existing #customContinue button, creating one...");
+			let btnhtml = `
+				<div class="" style="text-align:center;padding:10px">
+					<button type="button" id="customContinue" class="ui-button ui-corner-all ui-widget btn">${continuetext}</button>
+					<button type="button" id="customCancel" class="ui-button ui-corner-all ui-widget btn">${cancel}</button>
+				</div>
+			`;
+			$("#loginform").append(btnhtml);
+		}
+		var form = $("#login_form").html();
+
 		var $dialog = $("<div></div>")
 			.html(form)
 			.dialog({
