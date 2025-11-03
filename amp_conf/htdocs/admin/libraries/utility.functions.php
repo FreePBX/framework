@@ -1425,11 +1425,11 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_FULL_SPECIAL_C
  */
 function IsAsteriskSupported($version){
 	$min 				= "18";
-	$max 				= "23";
+	$max 				= "24";
 	$result["status"] 	= true;
 	if(version_compare($version, $min, "lt") || version_compare($version, $max, "ge")) {
 		$result["status"] 	= false;
-		$result["message"] 	= _("Supported Asterisk versions:")." 18, 19, 20, 21, 22.";
+		$result["message"] 	= _("Supported Asterisk versions:")." 18, 19, 20, 21, 22, 23.";
 	}
 	return $result;	
 }
