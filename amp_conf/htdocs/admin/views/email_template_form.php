@@ -72,7 +72,7 @@ foreach ($templateData as $key => $template) {
                     <i class="fa fa-question-circle fpbx-help-icon" data-for="<?= $identifier . 'EmailBody'; ?>"></i>&nbsp;
                 </div>
                 <div class="col-md-9">
-                    <textarea class="form-control" id="<?= $identifier . 'TextEmailBody' ?>" name="<?= $identifier . 'TextEmailBody' ?>" rows="15" cols="80" spellcheck="false" style="<?php echo $emailTypeDefaultValue == 'html' ? 'display:none;' : "" ?>"><?php echo preg_replace('#<br\s*/?>#i', "", $bodyDefaultValue); ?></textarea>
+                    <textarea class="form-control" id="<?= $identifier . 'TextEmailBody' ?>" name="<?= $identifier . 'TextEmailBody' ?>" rows="15" cols="80" spellcheck="false" style="<?php echo $emailTypeDefaultValue == 'html' ? 'display:none;' : "" ?>"><?php echo preg_replace('#<br\s*/?>#i', "\n", $bodyDefaultValue); ?></textarea>
                     <textarea id="<?= $identifier . 'HtmlEmailBody' ?>" style="<?php echo $emailTypeDefaultValue == 'text' ? 'display:none;' : "" ?>"></textarea>
                 </div>
             </div>
@@ -87,18 +87,19 @@ foreach ($templateData as $key => $template) {
 
         <script>
             $(document).ready(function() {
-                let id = `#menuBarDiv_<?= $identifier . 'HtmlEmailBody' ?>`;
-                $(`#<?= $identifier . 'HtmlEmailBody' ?>`).Editor({
+                const identifier = '<?= $identifier ?>';
+                const editorSelector = `#${identifier}HtmlEmailBody`;
+                $(editorSelector).Editor({
                     'insert_table': false,
                     'select_all': false,
                     'togglescreen': false,
                     'insert_img': false
                 });
-                handleEmailType('<?= $identifier ?>')
+                const defaultContent = <?= json_encode(html_entity_decode($bodyDefaultValue, ENT_QUOTES)) ?>;
+                const defaultType = '<?= $emailTypeDefaultValue ? $emailTypeDefaultValue : 'text' ?>';
                 setTimeout(() => {
-                    let content = `<?= html_entity_decode($bodyDefaultValue, ENT_QUOTES); ?>`;
-                    $(id).siblings('.Editor-editor').html(content);
-                }, 2000);
+                    initializeEmailBody(identifier, defaultContent, defaultType);
+                }, 150);
             });
         </script>
     </div>
@@ -109,18 +110,84 @@ foreach ($templateData as $key => $template) {
 ?>
 <script>
     function handleEmailType(identifier) {
-        let id = `#${identifier}TextEmailBody`;
-        let emailType = $(`input[name="${identifier}EmailType"]:checked`).val();
-        let htmlEditorID = `#menuBarDiv_${identifier}HtmlEmailBody`;
-        if (emailType == 'html') {
-            $(id).hide();
-            $(htmlEditorID).parent('.Editor-container').show();
-        } else {
-            $(id).show();
-            var htmlContent = $(id).text();
-            var regex = /<br *\/?>/gi;
-            $(id).html(htmlContent.replace(regex, "\n").replace(/<[^>]*>?/gm, ''));
-            $(htmlEditorID).parent('.Editor-container').hide();
+        const textField = $(`#${identifier}TextEmailBody`);
+        const htmlContainer = $(`#menuBarDiv_${identifier}HtmlEmailBody`).parent('.Editor-container');
+        const editor = htmlContainer.find('.Editor-editor');
+        const emailType = $(`input[name="${identifier}EmailType"]:checked`).val();
+
+        if (!editor.length) {
+            return;
         }
+
+        if (emailType === 'html') {
+            const plainText = textField.val() || '';
+            editor.html(ensureHtmlContent(plainText));
+            textField.hide();
+            htmlContainer.show();
+        } else {
+            const htmlContent = editor.html() || '';
+            textField.val(htmlToPlainText(htmlContent));
+            htmlContainer.hide();
+            textField.show();
+        }
+    }
+
+    function initializeEmailBody(identifier, content, defaultType) {
+        const textField = $(`#${identifier}TextEmailBody`);
+        const htmlContainer = $(`#menuBarDiv_${identifier}HtmlEmailBody`).parent('.Editor-container');
+        const editor = htmlContainer.find('.Editor-editor');
+
+        if (!editor.length) {
+            return;
+        }
+
+        const sanitizedHtml = ensureHtmlContent(content || '');
+        const plainText = htmlToPlainText(sanitizedHtml);
+
+        textField.val(plainText);
+        editor.html(sanitizedHtml);
+
+        if (defaultType === 'html') {
+            textField.hide();
+            htmlContainer.show();
+        } else {
+            htmlContainer.hide();
+            textField.show();
+        }
+    }
+
+    function ensureHtmlContent(content) {
+        if (typeof content !== 'string') {
+            return '';
+        }
+        const trimmed = content.trim();
+        const hasHtmlTags = /<\/?[a-z][\s\S]*>/i.test(trimmed);
+        if (hasHtmlTags) {
+            return trimmed;
+        }
+        return plainTextToHtml(trimmed);
+    }
+
+    function plainTextToHtml(text) {
+        if (typeof text !== 'string') {
+            return '';
+        }
+        const escaped = $('<div/>').text(text).html();
+        return escaped.replace(/(\r\n|\r|\n)/g, '<br />');
+    }
+
+    function htmlToPlainText(html) {
+        if (typeof html !== 'string') {
+            return '';
+        }
+        const wrapper = $('<div/>').html(html);
+        wrapper.find('br').replaceWith('\n');
+        wrapper.find('p,div').each(function() {
+            const $el = $(this);
+            if (!$el.text().match(/\n$/)) {
+                $el.append('\n');
+            }
+        });
+        return wrapper.text().replace(/\u00a0/g, ' ').replace(/\n{3,}/g, '\n\n').trimEnd();
     }
 </script>
