@@ -15,7 +15,7 @@ Tech
 FreePBX uses a number of open source projects to work properly:
 
 #### Backend
-* [Asterisk] - Asterisk is a software implementation of a telephone private branch exchange (PBX) (Supported Versions 11 through 13). License GPL
+* [Asterisk] - Asterisk is a software implementation of a telephone private branch exchange (PBX) (Supported Versions 18 through 22). License GPL
 * [Pear Console::Getopt] - This is a PHP implementation of "getopt" supporting both short and long options. License PHP License
 * [PHP Data Objects] - The PHP Data Objects (PDO) extension defines a lightweight, consistent interface for accessing databases in PHP. License PHP License
 * [dialparties.agi] - Ported to PHP by the FreePBX community, Originally by Zac Sprackett.  License GPL
