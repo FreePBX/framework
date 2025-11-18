@@ -313,7 +313,8 @@ $(document).ready(function(){
 			e.preventDefault();
 			return false;
 		} else {
-			return true;
+      $("#loginform")[0].submit();
+      return false;
 		}
 	 });
 });
