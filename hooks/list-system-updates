@@ -1,45 +1,205 @@
 #!/usr/bin/php
 <?php
+// Set timeout to prevent hanging
+set_time_limit(60);
+ini_set('max_execution_time', 60);
+
 error_reporting(E_ALL);
-require '/usr/lib/sysadmin/includes.php';
-// Execute the command and get the output
-$output = shell_exec('sudo apt list --upgradable');
-// Check if the output is not empty
-if ($output) {
-    // Initialize an array to store the parsed data
-    $upgradablePackages = [];
-    // Split the output into lines
+
+// Try to load sysadmin includes (may not exist on all systems)
+if (file_exists('/usr/lib/sysadmin/includes.php')) {
+    require '/usr/lib/sysadmin/includes.php';
+}
+
+// Load FreePBX config
+if (!file_exists('/etc/freepbx.conf')) {
+    echo "Error: /etc/freepbx.conf not found\n";
+    exit(1);
+}
+
+include_once '/etc/freepbx.conf';
+
+// Get upgradable packages - run apt list only ONCE and parse for both regular and security
+$upgradablePackages = [];
+$securityPackages = [];
+$output = shell_exec('apt list --upgradable 2>/dev/null');
+if ($output && is_string($output)) {
     $lines = explode("\n", $output);
-    // Process each line
     foreach ($lines as $line) {
-        // Use regular expression to parse the line
-        if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+\S+\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
-            $packageName = $matches[1] ?? '';
+        // Skip empty lines and header line
+        if (empty($line) || strpos($line, 'Listing...') !== false) {
+            continue;
+        }
+        // Parse line format: package/arch version repository [upgradable from: old_version]
+        if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+(\S+)\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
+            $packageName = isset($matches[1]) ? $matches[1] : '';
+            $repository = isset($matches[3]) ? $matches[3] : '';
+            
+            // Skip FreePBX/Sangoma packages
             if (
-                strpos($packageName, 'freepbx17') === false &&
-                strpos($packageName, 'sangoma-pbx17') === false &&
-                $packageName !== 'nodejs' &&
-                strpos($packageName, 'node-') !== 0 
+                empty($packageName) ||
+                strpos($packageName, 'freepbx17') !== false ||
+                strpos($packageName, 'sangoma-pbx17') !== false ||
+                $packageName === 'nodejs' ||
+                strpos($packageName, 'node-') === 0 
             ) {
-                $upgradablePackages[] = [
-                    'service' => $matches[1],
-                    'new_version' => $matches[2],
-                    'old_version' => $matches[3],
-                ];
+                continue;
+            }
+            
+            $packageData = [
+                'name' => $matches[1],
+                'new_version' => isset($matches[2]) ? $matches[2] : '',
+                'old_version' => isset($matches[4]) ? $matches[4] : '',
+            ];
+            
+            // Check if it's a security package
+            if (stripos($repository, 'security') !== false || stripos($repository, '-security') !== false) {
+                $packageData['repository'] = $repository;
+                $securityPackages[] = $packageData;
+            }
+            
+            // Add to regular upgradable packages
+            $upgradablePackages[] = $packageData;
+        }
+    }
+}
+
+// Get held packages - optimized to get all versions in one command
+$heldPackages = [];
+$output = shell_exec('apt-mark showhold 2>/dev/null');
+if ($output && is_string($output)) {
+    $lines = explode("\n", $output);
+    $packageNames = [];
+    foreach ($lines as $line) {
+        // Handle null/empty values safely
+        $line = is_string($line) ? trim($line) : '';
+        if (!empty($line)) {
+            $packageNames[] = $line;
+        }
+    }
+    
+    // Get all versions in one dpkg-query command instead of one per package
+    if (!empty($packageNames)) {
+        $escapedNames = array_map('escapeshellarg', $packageNames);
+        $namesList = implode(' ', $escapedNames);
+        $versionOutput = shell_exec("dpkg-query -W -f='\${Package}\t\${Version}\n' $namesList 2>/dev/null");
+        
+        // Parse version output into associative array
+        $versions = [];
+        if ($versionOutput && is_string($versionOutput)) {
+            $versionLines = explode("\n", $versionOutput);
+            foreach ($versionLines as $versionLine) {
+                $parts = explode("\t", trim($versionLine));
+                if (count($parts) === 2) {
+                    $versions[$parts[0]] = $parts[1];
+                }
+            }
+        }
+        
+        // Build held packages array
+        foreach ($packageNames as $pkgName) {
+            $heldPackages[] = [
+                'name' => $pkgName,
+                'version' => isset($versions[$pkgName]) ? $versions[$pkgName] : 'Unknown'
+            ];
+        }
+    }
+}
+
+// Get repository files and check for Debian 13 upgrade risk
+$repoFiles = [];
+$debian13Risk = false;
+$debian13RiskFiles = [];
+$supportedCodenames = ['bookworm', 'bullseye', 'buster', 'stretch', 'jessie', 'wheezy'];
+
+// Function to check if a repository line is risky
+function checkRepoLineRisk($line, $supportedCodenames) {
+    $line = trim($line);
+    // Skip comments and empty lines
+    if (empty($line) || $line[0] === '#') {
+        return false;
+    }
+    // Check if line contains "stable" or "trixie" (Debian 13)
+    if (preg_match('/\b(stable|trixie)\b/i', $line)) {
+        // Check if the same line also contains a supported codename
+        $hasSupportedCodename = false;
+        foreach ($supportedCodenames as $codename) {
+            if (stripos($line, $codename) !== false) {
+                $hasSupportedCodename = true;
+                break;
+            }
+        }
+        // If it has "stable" or "trixie" but no supported codename, it's risky
+        return !$hasSupportedCodename;
+    }
+    return false;
+}
+
+// Main sources.list
+if (file_exists('/etc/apt/sources.list')) {
+    $content = file_get_contents('/etc/apt/sources.list');
+    if ($content !== false) {
+        $repoFiles['/etc/apt/sources.list'] = $content;
+        $lines = explode("\n", $content);
+        foreach ($lines as $line) {
+            if (checkRepoLineRisk($line, $supportedCodenames)) {
+                $debian13Risk = true;
+                if (!in_array('/etc/apt/sources.list', $debian13RiskFiles)) {
+                    $debian13RiskFiles[] = '/etc/apt/sources.list';
+                }
+                break;
             }
         }
     }
-    // Define the file path
-    $filePath = '/var/spool/asterisk/tmp/upgradable_packages.json';
-    // Convert the parsed data to a JSON string
-    $jsonContent = json_encode($upgradablePackages, JSON_PRETTY_PRINT);
-    // Save the JSON content to the file
-    if (file_put_contents($filePath, $jsonContent) !== false) {
-        echo "Data successfully saved to {$filePath}";
-    } else {
-        echo "Failed to save data to {$filePath}";
+}
+// Sources in sources.list.d directory
+if (is_dir('/etc/apt/sources.list.d')) {
+    $files = glob('/etc/apt/sources.list.d/*.list');
+    if ($files) {
+        foreach ($files as $file) {
+            $content = file_get_contents($file);
+            if ($content !== false) {
+                $repoFiles[$file] = $content;
+                $lines = explode("\n", $content);
+                foreach ($lines as $line) {
+                    if (checkRepoLineRisk($line, $supportedCodenames)) {
+                        $debian13Risk = true;
+                        if (!in_array($file, $debian13RiskFiles)) {
+                            $debian13RiskFiles[] = $file;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
     }
-} else {
-    echo "No upgradable packages found or failed to execute the command.";
+}
+
+// Write data to cache
+try {
+    $freepbx = \FreePBX::Create();
+    $framework = $freepbx->Framework;
+    
+    $data = [
+        'upgradable' => $upgradablePackages,
+        'held' => $heldPackages,
+        'security' => $securityPackages,
+        'repositories' => $repoFiles,
+        'debian13_risk' => $debian13Risk,
+        'debian13_risk_files' => $debian13RiskFiles,
+        'timestamp' => time()
+    ];
+    
+    // Store in cache
+    $framework->setConfig('systemupdates', $data);
+    
+    echo "System updates data written to cache successfully\n";
+    exit(0);
+} catch (\Exception $e) {
+    echo "Error writing system updates data: " . $e->getMessage() . "\n";
+    exit(1);
+} catch (\Throwable $e) {
+    echo "Fatal error: " . $e->getMessage() . "\n";
+    exit(1);
 }
 

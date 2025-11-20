@@ -7,17 +7,59 @@ use Symfony\Component\Lock\Store\SemaphoreStore;
 #[\AllowDynamicProperties]
 class SystemUpdates {
 	private $lock;
+	private $freepbx = null;
 	// See framework/hooks/yum-* commands where these files are defined
 	private $lockfile = "/dev/shm/yumwrapper/yum.lock";
 	private $logfile = "/dev/shm/yumwrapper/output.log";
 	//  i18n
 	private $strarr = false; // This is overwritten in __construct
 	private $cli = false;
+	private $hasSysadmin = null; // Cached sysadmin module status
 
 	public function __construct($cli = false) {
 		$this->cli = $cli;
 		// Can't use functions in class definitions
 		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(YUM Error)"), "error" => _("General Error") ];
+	}
+	
+	/**
+	 * Get FreePBX instance (create once, reuse)
+	 *
+	 * @return \FreePBX
+	 */
+	private function getFreePBX() {
+		if ($this->freepbx === null) {
+			$this->freepbx = \FreePBX::Create();
+		}
+		return $this->freepbx;
+	}
+	
+	/**
+	 * Check if sysadmin module is available (cached)
+	 *
+	 * @return bool
+	 */
+	private function hasSysadminModule() {
+		if ($this->hasSysadmin === null) {
+			try {
+				// Get module info to check if it's actually installed
+				$modinfo = \FreePBX::Modules()->getInfo('sysadmin');
+				// MODULE_STATUS_NOTINSTALLED = 0, so check if status is not 0
+				// Also verify the module entry exists and has a valid status
+				if (!empty($modinfo['sysadmin']) && 
+					isset($modinfo['sysadmin']['status']) && 
+					$modinfo['sysadmin']['status'] != 0) {
+					$this->hasSysadmin = true; 
+				} else {
+					$this->hasSysadmin = false; 
+				}
+			} catch (\Exception $e) {
+				// If there's any error getting module info, assume it's not available
+				dbug('Error checking sysadmin module status: ' . $e->getMessage());
+				$this->hasSysadmin = false;
+			}
+		}
+		return $this->hasSysadmin;
 	}
 
 	public function __destruct() {
@@ -42,6 +84,10 @@ class SystemUpdates {
 			return $this->startSystemUpdate();
 		case 'getsysupdatestatus':
 			return $this->getYumUpdateStatus();
+		case 'getsystemupdatesdata':
+			return $this->getSystemUpdatesData();
+		case 'refreshsystemupdatescache':
+			return $this->refreshSystemUpdatesCache();
 		}
 		throw new \Exception("Unknown action");
 	}
@@ -55,7 +101,7 @@ class SystemUpdates {
 	 */
 	public function canDoSystemUpdates() {
 		return false; // Disabling System update for 17/Debian based system as of now
-		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
+		if(!$this->hasSysadminModule()) {
 			return false;
 		}
 		\FreePBX::Modules()->loadFunctionsInc('sysadmin');
@@ -355,29 +401,26 @@ class SystemUpdates {
 		return $retarr;
 	}
 
+	/**
+	 * Get pending system updates
+	 * Uses getSystemUpdatesData() internally to avoid duplicate hook calls
+	 *
+	 * @return array|false Array of upgradable packages or false on error
+	 */
 	public function getPendingUpdate() {
 		try {
-			$upgradablePackages=false;
-			if (is_dir("/var/spool/asterisk/incron")) {
-				if (file_exists("/var/spool/asterisk/incron/framework.list-system-updates")) {
-					unlink("/var/spool/asterisk/incron/framework.list-system-updates");
-				}
-				touch("/var/spool/asterisk/incron/framework.list-system-updates");
-				sleep(2);
-			} else {
-				dbug('Incron not configured, unable to manage system updates');
+			// Use getSystemUpdatesData() to get data (it handles cache and hook triggering)
+			$data = $this->getSystemUpdatesData();
+			
+			if ($data && isset($data['status']) && $data['status'] === true) {
+				// Return just the upgradable packages array
+				return isset($data['upgradable']) ? $data['upgradable'] : false;
 			}
-
-			$jsonFilePath = '/var/spool/asterisk/tmp/upgradable_packages.json';
-            if (file_exists($jsonFilePath)) {
-                $jsonContent = file_get_contents($jsonFilePath);
-                $upgradablePackages = json_decode($jsonContent, true);
-			}
+			
+			return false;
 		} catch (\Exception $e) {
 			dbug('Exception occurred: ' . $e->getMessage());
-			$upgradablePackages = false;
-		} finally {
-			return $upgradablePackages;
+			return false;
 		}
 	}
 	/**
@@ -741,7 +784,7 @@ class SystemUpdates {
 
 	public function checkBrokenRpm()
 	{
-		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
+		if(!$this->hasSysadminModule()) {
 			return false;
 		}
 		// in future add the broken rpm version to this array
@@ -763,6 +806,293 @@ class SystemUpdates {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * Get system updates data from cache
+	 * Returns cached data if available and not expired (1 hour cache)
+	 * If cache is expired, triggers hook to fetch new data
+	 *
+	 * @return array
+	 */
+	public function getSystemUpdatesData() {
+		try {
+			// Check if sysadmin module is available (cached) - do this first to avoid unnecessary work
+			$hasSysadmin = $this->hasSysadminModule();
+			
+			// If sysadmin module is not installed, return empty data with status true (no error)
+			if (!$hasSysadmin) {
+				return [
+					'status' => false,
+					'upgradable' => [],
+					'held' => [],
+					'security' => [],
+					'repositories' => [],
+					'debian13_risk' => false,
+					'debian13_risk_files' => [],
+					'has_sysadmin' => false
+				];
+			}
+			
+			$freepbx = $this->getFreePBX();
+			$framework = $freepbx->Framework;
+		
+		// Try to get cached data
+		$cached = $framework->getConfig('systemupdates');
+		
+		// Check if we have cached repository data and if it's recent enough (5 minutes for repos)
+		$repoCacheValid = false;
+		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+			$age = time() - $cached['timestamp'];
+			// Repository data is valid if cache is less than 5 minutes old (300 seconds)
+			// This ensures we get fresh repo checks more frequently than package data
+			$repoCacheValid = ($age < 300);
+		}
+		
+		// If repository cache is stale or doesn't exist, trigger hook to refresh it (only if sysadmin is installed)
+		if (!$repoCacheValid && $hasSysadmin) {
+			$this->triggerSystemUpdatesHook();
+			
+			// Wait a moment for hook to complete, then check cache again
+			$startTime = time();
+			$maxWait = 5; // Wait up to 5 seconds
+			while ((time() - $startTime) < $maxWait) {
+				$cached = $framework->getConfig('systemupdates');
+				if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+					$age = time() - $cached['timestamp'];
+					if ($age < 10) {
+						// Fresh data from hook
+						break;
+					}
+				}
+				usleep(500000); // Wait 0.5 seconds
+			}
+			// Re-read cache after hook
+			$cached = $framework->getConfig('systemupdates');
+		}
+		
+		// Now check if we have valid cached package data (1 hour cache for packages)
+		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+			$age = time() - $cached['timestamp'];
+			if ($age < 3600) {
+				// Return cached package data with repository data from hook
+				return [
+					'status' => true,
+					'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
+					'held' => isset($cached['held']) ? $cached['held'] : [],
+					'security' => isset($cached['security']) ? $cached['security'] : [],
+					'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
+					'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
+					'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
+					'has_sysadmin' => $hasSysadmin,
+					'cache_age' => $age,
+					'last_update' => $cached['timestamp']
+				];
+			}
+		}
+		
+		// Package cache expired or doesn't exist - trigger hook to fetch all data (only if sysadmin is installed)
+		$hookTriggered = false;
+		if ($hasSysadmin) {
+			$hookTriggered = $this->triggerSystemUpdatesHook();
+		}
+		
+		// After triggering hook, check cache again (hook may have updated it)
+		$cached = $framework->getConfig('systemupdates');
+		
+		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+			// Check if cache was just updated (within last 10 seconds)
+			$age = time() - $cached['timestamp'];
+			if ($age < 10) {
+				// Fresh data from hook
+				return [
+					'status' => true,
+					'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
+					'held' => isset($cached['held']) ? $cached['held'] : [],
+					'security' => isset($cached['security']) ? $cached['security'] : [],
+					'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
+					'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
+					'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
+					'has_sysadmin' => $hasSysadmin,
+					'cache_age' => $age,
+					'last_update' => $cached['timestamp']
+				];
+			}
+			
+			// Return stale cached data while waiting
+			return [
+				'status' => true,
+				'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
+				'held' => isset($cached['held']) ? $cached['held'] : [],
+				'security' => isset($cached['security']) ? $cached['security'] : [],
+				'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
+				'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
+				'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
+				'has_sysadmin' => $hasSysadmin,
+				'message' => $hookTriggered ? _('Fetching new data... Please refresh in a moment.') : _('Cache expired. Unable to trigger update check.')
+			];
+		}
+		
+		return [
+			'status' => false,
+			'upgradable' => [],
+			'held' => [],
+			'security' => [],
+			'repositories' => [],
+			'debian13_risk' => false,
+			'debian13_risk_files' => [],
+			'has_sysadmin' => $hasSysadmin,
+			'message' => $hookTriggered ? _('Fetching system updates data... Please refresh in a moment.') : _('Unable to fetch system updates data.')
+		];
+		} catch (\Exception $e) {
+			// If there's any error, return error response
+			dbug('Error in getSystemUpdatesData: ' . $e->getMessage());
+			return [
+				'status' => false,
+				'upgradable' => [],
+				'held' => [],
+				'security' => [],
+				'repositories' => [],
+				'debian13_risk' => false,
+				'debian13_risk_files' => [],
+				'has_sysadmin' => false,
+				'message' => _('Error loading system updates data: ') . $e->getMessage()
+			];
+		}
+	}
+	
+	/**
+	 * Force refresh the system updates cache
+	 * Clears the cache and triggers hook to fetch fresh data for both repositories and packages
+	 *
+	 * @return array
+	 */
+	public function refreshSystemUpdatesCache() {
+		$freepbx = $this->getFreePBX();
+		$framework = $freepbx->Framework;
+		
+		// Check if sysadmin module is available (cached)
+		$hasSysadmin = $this->hasSysadminModule();
+		
+		if (!$hasSysadmin) {
+			return [
+				'status' => false,
+				'message' => _('Sysadmin module is not installed. Unable to refresh system updates cache.')
+			];
+		}
+		
+		// Clear the cache
+		$framework->delConfig('systemupdates');
+		
+		// Trigger hook to fetch fresh data
+		$hookTriggered = $this->triggerSystemUpdatesHook();
+		
+		if (!$hookTriggered) {
+			return [
+				'status' => false,
+				'message' => _('Unable to trigger system update check. Please try again.')
+			];
+		}
+		
+		// Wait for hook to complete and update cache
+		$startTime = time();
+		$maxWait = 30; // Maximum 30 seconds to wait
+		
+		while ((time() - $startTime) < $maxWait) {
+			$cached = $framework->getConfig('systemupdates');
+			if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+				$age = time() - $cached['timestamp'];
+				if ($age < 10) {
+					// Fresh data from hook
+					return [
+						'status' => true,
+						'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
+						'held' => isset($cached['held']) ? $cached['held'] : [],
+						'security' => isset($cached['security']) ? $cached['security'] : [],
+						'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
+					'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
+					'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
+					'has_sysadmin' => $this->hasSysadminModule(),
+					'message' => _('Cache refreshed successfully.')
+				];
+				}
+			}
+			usleep(500000); // Wait 0.5 seconds before checking again
+		}
+		
+		// Timeout
+		return [
+			'status' => false,
+			'message' => _('Cache refresh timed out. Please try again.')
+		];
+	}
+	
+	/**
+	 * Trigger the system updates hook via incron
+	 * Waits for incron to pick up the file and finish processing
+	 * Similar to how getPendingUpdate() and Hooks::runModuleSystemHook() work
+	 *
+	 * @return bool True if hook was triggered successfully, false otherwise
+	 */
+	private function triggerSystemUpdatesHook() {
+		// Check if sysadmin module is available (cached)
+		if (!$this->hasSysadminModule()) {
+			dbug('Sysadmin module not available, unable to manage system updates');
+			return false;
+		}
+		
+		if (!is_dir("/var/spool/asterisk/incron")) {
+			dbug('Incron not configured, unable to manage system updates');
+			return false;
+		}
+		
+		$hookFile = "/var/spool/asterisk/incron/framework.list-system-updates";
+		
+		// Remove existing hook file if present
+		if (file_exists($hookFile)) {
+			unlink($hookFile);
+		}
+		
+		// Touch the hook file to trigger incron
+		$fh = fopen($hookFile, "w+");
+		if ($fh === false) {
+			dbug("Unable to create hook trigger " . $hookFile);
+			return false;
+		}
+		fclose($fh);
+		
+		// Wait for incron to pick up the file (it will be deleted when processed)
+		// Similar to Hooks::runModuleSystemHook() pattern
+		usleep(500000); // Wait 0.5 seconds
+		
+		if (!file_exists($hookFile)) {
+			// File was picked up by incron, now wait for hook to finish
+			// Check cache timestamp to see if it's been updated
+			$freepbx = $this->getFreePBX();
+			$framework = $freepbx->Framework;
+			
+			$startTime = time();
+			$maxWait = 30; // Maximum 30 seconds to wait
+			
+			while ((time() - $startTime) < $maxWait) {
+				$cached = $framework->getConfig('systemupdates');
+				if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+					$age = time() - $cached['timestamp'];
+					if ($age < 10) {
+						// Cache was just updated
+						return true;
+					}
+				}
+				usleep(500000); // Wait 0.5 seconds before checking again
+			}
+			
+			// Timeout - hook may still be processing
+			return true;
+		}
+		
+		// File wasn't picked up by incron
+		dbug("Hook file '{$hookFile}' was not picked up by Incron. Is it not running?");
 		return false;
 	}
 }
