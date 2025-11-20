@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-07 08:27-0400\n"
+"POT-Creation-Date: 2025-11-20 00:18-0500\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -223,6 +223,11 @@ msgstr ""
 msgid "%s (current: %s)"
 msgstr "%s (現状： %s)"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:35
+#, php-format
+msgid "%s 17 is supported only on Debian 12."
+msgstr ""
+
 #: ../core/page.advancedsettings.php:296
 #, php-format
 msgid "%s Advanced Settings"
@@ -269,7 +274,7 @@ msgstr "%s オンライン %s アップグレードが利用可能（%s）"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s オンラインアップグレード利用可能 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:710
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -619,21 +624,21 @@ msgstr "'cp -rf' 参照元: '%s' から 参照先: '%s'…詳細は次の通り�
 msgid "'fwconsole reload' failed, config not applied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:106
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:152
 msgid ""
 "'sangoma-devel' rpm is installed.\n"
 "yum repo 'sng7-testing' is enabled."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:20
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:22
 msgid "(Complete)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:20
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:22
 msgid "(In Progress)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:20
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:22
 msgid "(Unknown)"
 msgstr ""
 
@@ -641,7 +646,7 @@ msgstr ""
 msgid "(What Does this Mean?)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:20
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:22
 msgid "(YUM Error)"
 msgstr ""
 
@@ -677,7 +682,7 @@ msgstr "0 アドミン"
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:708
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -1111,6 +1116,14 @@ msgstr "詳細情報"
 msgid "Additional Settings"
 msgstr "詳細設定"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:155
+#, php-format
+msgid ""
+"Additionally, nodejs* packages are held to prevent upgrades to newer Node.js "
+"versions that may break %s components that depend on a specific Node.js "
+"runtime."
+msgstr ""
+
 #: amp.i18n.php:44
 msgid "Address to bind to. Default is ::"
 msgstr ""
@@ -1166,6 +1179,10 @@ msgstr "高度な設定"
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
 msgstr "高度な設定の詳細"
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:38
+msgid "Affected files:"
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:310
 msgid "Aggregate MWI"
@@ -1986,8 +2003,20 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr "コールウェイティングがデフォルトで有効"
 
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:933
+msgid "Cache expired. Unable to trigger update check."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:247
 msgid "Cache path is not writable!"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1027
+msgid "Cache refresh timed out. Please try again."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1017
+msgid "Cache refreshed successfully."
 msgstr ""
 
 #: ../core/views/routing/timecond.php:24
@@ -2416,8 +2445,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:680
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:707
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:723
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:750
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "更新確認"
@@ -2581,6 +2610,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:915
 msgid "Click to Expand"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:511
+msgid "Click to expand"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:692
@@ -3043,7 +3076,7 @@ msgstr ""
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:627
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:670
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3052,6 +3085,8 @@ msgid "Current System Version:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:376
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:403
 msgid "Current Version"
 msgstr ""
 
@@ -3063,18 +3098,6 @@ msgstr "現モジュールは 、%s の元にライセンスされています"
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:112
 #, php-format
 msgid "Current setting for %s left in place"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:24
-msgid "Current using Version"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:6
-msgid ""
-"Currently, upgrading the operating system through the UI is not available. \n"
-"        Therefore, please proceed with the system upgrade using the Linux "
-"command line interface with the following commands: `apt update && apt "
-"upgrade`."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:517
@@ -4823,6 +4846,10 @@ msgstr ""
 msgid "Error installing core reason(s): %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:960
+msgid "Error loading system updates data: "
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:107
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:110
 #, php-format
@@ -5346,6 +5373,14 @@ msgstr ""
 msgid "Fetch system status for DB"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:933
+msgid "Fetching new data... Please refresh in a moment."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:946
+msgid "Fetching system updates data... Please refresh in a moment."
+msgstr ""
+
 #: ../core/Api/Gql/Devices.php:125
 msgid "Fetchs all core devices"
 msgstr ""
@@ -5644,8 +5679,8 @@ msgstr ""
 msgid "Found local Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:113
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:164
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:159
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:210
 msgid ""
 "Found some faulty RPM versions please run 'yum update -y' manually to update "
 "to the latest version."
@@ -5857,7 +5892,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:20
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:22
 msgid "General Error"
 msgstr ""
 
@@ -6068,6 +6103,11 @@ msgstr "ハングアップ"
 msgid "Header"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:97
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:146
+msgid "Held Packages"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/menu.php:48
 msgid "Hello, "
 msgstr ""
@@ -6245,7 +6285,7 @@ msgid ""
 "automatically generated by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:618
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
 msgid "Idle"
 msgstr ""
 
@@ -6743,7 +6783,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
 msgid "Installed Version"
 msgstr ""
 
@@ -7002,11 +7042,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:632
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:675
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:636
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:679
 msgid "Last System Update:"
 msgstr ""
 
@@ -7115,6 +7155,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:481
 msgid "List up moduels setup wizard is run for"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:48
+msgid "Loading system updates data..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1355
@@ -7929,7 +7973,7 @@ msgstr ""
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:633
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:676
 #: ../core/functions.inc.php:4711
 msgid "Never"
 msgstr "ブロック"
@@ -7939,13 +7983,14 @@ msgstr "ブロック"
 msgid "Never - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:691
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:734
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:376
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:403
 msgid "New Version"
 msgstr ""
 
@@ -8090,6 +8135,11 @@ msgstr ""
 msgid "No file was uploaded"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:158
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:424
+msgid "No held packages found."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:76
 msgid "No interfaces found"
 msgstr ""
@@ -8110,15 +8160,26 @@ msgstr ""
 msgid "No pending module updates."
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:65
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:349
+msgid "No repository files found."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:117
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:371
+msgid "No security upgradable packages found."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:739
 msgid "No status was given to checkStatus"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:704
 msgid "No updates currently required!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:38
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:135
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:398
 msgid "No upgradable packages found."
 msgstr ""
 
@@ -8846,6 +8907,13 @@ msgstr "POST_RELOAD スクリプト"
 msgid "PRE_RELOAD Script"
 msgstr "PRE_RELOAD スクリプト"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:376
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:403
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:487
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:519
+msgid "Package Name"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:214
 msgid "Packaged (Released)"
 msgstr ""
@@ -9116,6 +9184,10 @@ msgstr "このデバイスのチャネルを入力してください"
 msgid "Please enter valid User Password using numbers only"
 msgstr "数字のみで有効なユーザーパスワードを入力してください"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:43
+msgid "Please execute"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:829
 msgid ""
 "Please host the file and use the \"Download (From Web) option\", or ssh to "
@@ -9168,6 +9240,12 @@ msgstr ""
 
 #: ../core/views/quickCreate.php:39
 msgid "Please select the type of device you want to create"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:40
+msgid ""
+"Please update your repository configuration to use 'bookworm' instead of "
+"'stable' to prevent unsupported upgrades."
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:188
@@ -9357,11 +9435,11 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:688
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
 msgid "RPM Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:486
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:529
 #, php-format
 msgid ""
 "RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code "
@@ -9505,7 +9583,16 @@ msgstr ""
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:629
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:77
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:264
+msgid "Refresh Cache"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:76
+msgid "Refresh cache to get latest data"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:672
 msgid "Refresh page"
 msgstr ""
 
@@ -9516,6 +9603,10 @@ msgstr ""
 
 #: install.php:342
 msgid "Refreshing GPG Keys..."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:239
+msgid "Refreshing..."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:371
@@ -9675,7 +9766,12 @@ msgid "Repositories"
 msgstr "リポジトリ"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:208
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:376
 msgid "Repository"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:58
+msgid "Repository Configuration Files"
 msgstr ""
 
 #: amp.i18n.php:502
@@ -10089,6 +10185,14 @@ msgstr "セキュリティ"
 msgid "Security Issue"
 msgstr "セキュリティ問題"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:91
+msgid "Security Updates"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:110
+msgid "Security Upgradable Packages"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:640
 msgid "Security Warning"
 msgstr ""
@@ -10200,10 +10304,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:842
 msgid "Server time:"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:22
-msgid "Service Name"
 msgstr ""
 
 #: amp.i18n.php:76
@@ -10973,8 +11073,17 @@ msgstr ""
 msgid "Syntax error in your freepbx_menu.conf file"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:28
+msgid "Sysadmin Module Notice"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:128
 msgid "Sysadmin module in not installed. Unable to execute ApiHooks()."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:981
+msgid ""
+"Sysadmin module is not installed. Unable to refresh system updates cache."
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:380
@@ -11021,11 +11130,15 @@ msgstr ""
 msgid "System Notifications Email"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:75
+msgid "System OS Updates Summary"
+msgstr ""
+
 #: amp.i18n.php:678 ../core/install.php:444
 msgid "System Setup"
 msgstr "システムセットアップ"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:612
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:655
 msgid "System Update Details"
 msgstr ""
 
@@ -11065,6 +11178,10 @@ msgstr ""
 msgid "System update check completed. See log below:"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:29
+msgid "System update functionality is only supported with Sysadmin module."
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:24
 #, php-format
 msgid ""
@@ -11074,6 +11191,10 @@ msgid ""
 "be automatically installed. It is recommended that both are left on.<br /"
 ">Note that updates <strong>do not cause an outage</strong>. Some may require "
 "a reboot to be applied, and you will be told this in the summary email."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
+msgid "System updates via the web interface are not currently available."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:884
@@ -11135,11 +11256,11 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "テレフォニーエンジン"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
 msgid "Test Repos Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:106
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:152
 msgid "Test repos are enabled"
 msgstr ""
 
@@ -11549,6 +11670,15 @@ msgstr ""
 
 #: amp.i18n.php:716
 msgid "The format times should display in. The default of "
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:154
+msgid ""
+"The freepbx17 and sangoma-pbx17 Debian packages are bootstrap-only "
+"components. Their installation process is non-idempotent, and reinstalling "
+"them will overwrite critical configuration and may render the system "
+"unusable. For this reason, these packages are held to prevent accidental "
+"reinstallation."
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:39 ../core/Api/Gql/Devices.php:75
@@ -12283,7 +12413,7 @@ msgid ""
 "</br> For more information visit %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
 msgid "This system has test repos enabled."
 msgstr ""
 
@@ -12418,6 +12548,10 @@ msgid ""
 "parameter to YES"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:42
+msgid "To automatically prevent Debian 13 upgrades:"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/login.php:9
 msgid "To get started, please enter your credentials:"
 msgstr "ログイン情報を入力して開始してください："
@@ -12433,6 +12567,12 @@ msgstr ""
 msgid ""
 "To play the media you will need to either update your browser to a recent "
 "version or update your %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:37
+msgid ""
+"To prevent this, ensure your repository files use a specific Debian codename "
+"(such as 'bookworm') instead of 'stable'."
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:232
@@ -12621,6 +12761,10 @@ msgstr ""
 msgid "Unable to enable Trunk %s. This trunk type may not support this"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:946
+msgid "Unable to fetch system updates data."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:299
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
@@ -12678,7 +12822,7 @@ msgstr ""
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:659
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:702
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12716,6 +12860,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:479
 #, php-format
 msgid "Unable to strip signature - result was: %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:994
+msgid "Unable to trigger system update check. Please try again."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:400
@@ -12763,7 +12911,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:684
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -12873,7 +13021,7 @@ msgstr "アップデート通知"
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:706
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:749
 msgid "Update System"
 msgstr ""
 
@@ -12893,7 +13041,7 @@ msgstr ""
 msgid "Update an inbound route on the system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:484
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:527
 #, php-format
 msgid "Update error: Tried to run '%s', exit code %s"
 msgstr ""
@@ -12926,7 +13074,7 @@ msgstr ""
 msgid "Updates Advance Settings Field"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:671
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:714
 msgid "Updates Available:"
 msgstr ""
 
@@ -12944,6 +13092,11 @@ msgstr ""
 #: installlib/installcommand.class.php:593
 #, php-format
 msgid "Updating tables %s..."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:85
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:128
+msgid "Upgradable Packages"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1344
@@ -13030,6 +13183,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:244
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:262
 msgid "Usage"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
+msgid "Use"
 msgstr ""
 
 #: ../core/Core.class.php:3600
@@ -13317,6 +13474,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1262
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:58
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:487
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:519
 msgid "Version"
 msgstr "バージョン"
 
@@ -13379,6 +13538,10 @@ msgstr "%sのセキュリティに関する脆弱性"
 #, php-format
 msgid "Vulnerable, Requires: %s"
 msgstr "脆弱性があるため、%sが必要"
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:34
+msgid "WARNING: Debian 13 Upgrade Risk Detected"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/header.php:108
 #, php-format
@@ -13782,6 +13945,10 @@ msgstr ""
 "DAHDiチャネル間をブリッジする時にエコーキャンセルをオンにするかどうか。詳細は"
 "DAHDiドキュメントを参照ください。"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:153
+msgid "Why are packages held?"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:18
 msgid ""
 "With great power comes great responsibility. This command can potentially "
@@ -13796,7 +13963,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:621
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:664
 msgid "Working"
 msgstr ""
 
@@ -14058,8 +14225,8 @@ msgid ""
 "possible: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:113
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:164
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:159
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:210
 msgid "You have some fault RPM versions running"
 msgstr ""
 
@@ -14193,6 +14360,13 @@ msgstr ""
 "現在のmemory_limit値 %sM が低く、問題発生する可能性があります。FreePBXはこの"
 "値を変更できない為、php.ini設定ファイル内のこの値を %sM に増加してください"
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:36
+#, php-format
+msgid ""
+"Your repository configuration may allow an upgrade to Debian 13, which is "
+"not supported by %s."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:609
 #, php-format
 msgid "Your server [%s] discovered the following security issues:"
@@ -14307,6 +14481,7 @@ msgid "an error occurred trying to write out manager.conf changes"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:551
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
 msgid "and"
 msgstr ""
 
@@ -14803,6 +14978,10 @@ msgstr "ok"
 msgid "ok moved"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:23
+msgid "on the command line."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:370
 msgid "originate"
 msgstr ""
@@ -14947,6 +15126,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:304
 msgid "this file must be done via the Web GUI. This file is IGNORED BY FreePBX"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:43
+msgid "to run sysadmin hook"
 msgstr ""
 
 #: ../core/Core.class.php:3672 ../core/Core.class.php:3673
