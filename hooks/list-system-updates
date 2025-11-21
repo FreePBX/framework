@@ -19,25 +19,85 @@ if (!file_exists('/etc/freepbx.conf')) {
 
 include_once '/etc/freepbx.conf';
 
+/**
+ * Check if a repository string indicates a security repository
+ * Handles various Debian/Ubuntu security repository naming conventions:
+ *   - Debian: bookworm-security, bullseye-security, buster-security, stable-security, oldstable-security, etc.
+ *   - Ubuntu: jammy-security, focal-security, bionic-security, etc.
+ *   - Generic: *-security, *security*, security-*
+ * 
+ * @param string $repo Repository name or comma-separated list of repositories
+ * @return bool True if any repository in the list is a security repository
+ */
+function isSecurityRepository($repo) {
+    if (empty($repo) || !is_string($repo)) {
+        return false;
+    }
+    
+    // Handle comma-separated repository lists
+    $repos = explode(',', $repo);
+    foreach ($repos as $singleRepo) {
+        $singleRepo = trim($singleRepo);
+        if (empty($singleRepo)) {
+            continue;
+        }
+        
+        // Case-insensitive check for "security" anywhere in the repository name
+        // This catches: -security, _security, security, Security, SECURITY, etc.
+        if (stripos($singleRepo, 'security') !== false) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 // Get upgradable packages - run apt list only ONCE and parse for both regular and security
 $upgradablePackages = [];
 $securityPackages = [];
 $output = shell_exec('apt list --upgradable 2>/dev/null');
 if ($output && is_string($output)) {
     $lines = explode("\n", $output);
-    foreach ($lines as $line) {
+    foreach ($lines as $lineNum => $line) {
         // Skip empty lines and header line
+        $line = trim($line);
         if (empty($line) || strpos($line, 'Listing...') !== false) {
             continue;
         }
-        // Parse line format: package/arch version repository [upgradable from: old_version]
-        if (preg_match('/^(\S+)\/\S+\s+(\S+)\s+(\S+)\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
-            $packageName = isset($matches[1]) ? $matches[1] : '';
-            $repository = isset($matches[3]) ? $matches[3] : '';
+        
+        // Parse line format: package/repo1,repo2 version arch [upgradable from: old_version]
+        // Examples:
+        //   openssl/oldstable-security,oldstable-security 3.0.17-1~deb12u3 amd64 [upgradable from: 3.0.17-1~deb12u2]
+        //   package/bookworm-security 1.0.0 amd64 [upgradable from: 0.9.0]
+        //   package/bullseye-security,bookworm-security 1.0.0 amd64 [upgradable from: 0.9.0]
+        //   package/stable-security 1.0.0 amd64 [upgradable from: 0.9.0]
+        //   package/jammy-security 1.0.0 amd64 [upgradable from: 0.9.0] (Ubuntu)
+        
+        // More flexible regex to handle various formats and whitespace variations
+        // Pattern breakdown:
+        //   ^(\S+) - package name (non-whitespace)
+        //   \/ - literal slash
+        //   ([^\s]+) - repository part (can contain commas, hyphens, etc., until whitespace)
+        //   \s+ - one or more whitespace
+        //   (\S+) - new version
+        //   \s+ - one or more whitespace
+        //   (\S+) - architecture
+        //   \s+ - one or more whitespace
+        //   \[upgradable from: (\S+)\] - old version in brackets
+        if (preg_match('/^(\S+)\/([^\s]+)\s+(\S+)\s+(\S+)\s+\[upgradable from: (\S+)\]$/', $line, $matches)) {
+            $packageName = isset($matches[1]) ? trim($matches[1]) : '';
+            $repositoryPart = isset($matches[2]) ? trim($matches[2]) : ''; // Repository part after slash (can be comma-separated)
+            $newVersion = isset($matches[3]) ? trim($matches[3]) : '';
+            $arch = isset($matches[4]) ? trim($matches[4]) : '';
+            $oldVersion = isset($matches[5]) ? trim($matches[5]) : '';
+            
+            // Validate we have essential data
+            if (empty($packageName) || empty($newVersion)) {
+                continue;
+            }
             
             // Skip FreePBX/Sangoma packages
             if (
-                empty($packageName) ||
                 strpos($packageName, 'freepbx17') !== false ||
                 strpos($packageName, 'sangoma-pbx17') !== false ||
                 $packageName === 'nodejs' ||
@@ -47,19 +107,34 @@ if ($output && is_string($output)) {
             }
             
             $packageData = [
-                'name' => $matches[1],
-                'new_version' => isset($matches[2]) ? $matches[2] : '',
-                'old_version' => isset($matches[4]) ? $matches[4] : '',
+                'name' => $packageName,
+                'new_version' => $newVersion,
+                'old_version' => $oldVersion,
             ];
             
-            // Check if it's a security package
-            if (stripos($repository, 'security') !== false || stripos($repository, '-security') !== false) {
-                $packageData['repository'] = $repository;
-                $securityPackages[] = $packageData;
+            // Check if it's a security package by examining the repository part
+            // Uses helper function to handle various Debian/Ubuntu security repository naming conventions
+            $isSecurity = isSecurityRepository($repositoryPart);
+            
+            if ($isSecurity && !empty($repositoryPart)) {
+                // Store the repository information for security packages
+                $packageData['repository'] = $repositoryPart;
             }
             
-            // Add to regular upgradable packages
-            $upgradablePackages[] = $packageData;
+            // Add security packages to security list
+            if ($isSecurity) {
+                $securityPackages[] = $packageData;
+            } else {
+                // Add to regular upgradable packages (exclude security packages to avoid duplication)
+                $upgradablePackages[] = $packageData;
+            }
+        } else {
+            // Log unparseable lines for debugging (only if line looks like it should be a package)
+            // Skip lines that are clearly not package lines (warnings, errors, etc.)
+            if (preg_match('/^[a-zA-Z0-9]/', $line) && strpos($line, '/') !== false) {
+                // This might be a package line we couldn't parse - could be a format variation
+                // Silently skip for now to avoid cluttering logs, but structure is here for future debugging
+            }
         }
     }
 }
