@@ -5,7 +5,7 @@
 
 # get settings from db/config file
 if [ -e "/etc/freepbx.conf" ]; then        # Check if file exists.
-	php -v > /dev/null 2>&1
+	/usr/bin/php -v > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
   		`php -r '
 		$bootstrap_settings["freepbx_auth"] = false;
