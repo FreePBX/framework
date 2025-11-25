@@ -3,11 +3,44 @@
 #	Copyright 2018 Sangoma Technologies Inc
 #
 
+# Find PHP executable and validate it's actually PHP
+PHP_BIN=""
+
+# Try to find PHP using command -v
+CANDIDATE=$(command -v php 2>/dev/null)
+if [ -n "$CANDIDATE" ] && [ -x "$CANDIDATE" ]; then
+	# Validate it's actually PHP by checking version output
+	if "$CANDIDATE" -v 2>/dev/null | grep -qi "php" >/dev/null 2>&1; then
+		PHP_BIN="$CANDIDATE"
+	fi
+fi
+
+# If not found or invalid, check common locations
+if [ -z "$PHP_BIN" ]; then
+	for path in /usr/bin/php /usr/local/bin/php /opt/rh/php*/root/usr/bin/php; do
+		# Expand glob patterns
+		for candidate in $path; do
+			if [ -x "$candidate" ] && [ -f "$candidate" ]; then
+				# Validate it's actually PHP
+				if "$candidate" -v 2>/dev/null | grep -qi "php" >/dev/null 2>&1; then
+					PHP_BIN="$candidate"
+					break 2
+				fi
+			fi
+		done
+	done
+fi
+
+if [ -z "$PHP_BIN" ]; then
+	echo "ERROR: PHP executable not found!"
+	exit 1
+fi
+
 # get settings from db/config file
 if [ -e "/etc/freepbx.conf" ]; then        # Check if file exists.
-	php -v > /dev/null 2>&1
+	"$PHP_BIN" -v > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
-  		`php -r '
+  		`"$PHP_BIN" -r '
 		$bootstrap_settings["freepbx_auth"] = false;
 		$bootstrap_settings["skip_astman"] = true;
 		$restrict_mods = true;
