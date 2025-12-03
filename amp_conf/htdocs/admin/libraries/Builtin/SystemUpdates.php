@@ -85,7 +85,8 @@ class SystemUpdates {
 		case 'getsysupdatestatus':
 			return $this->getYumUpdateStatus();
 		case 'getsystemupdatesdata':
-			return $this->getSystemUpdatesData();
+			$checkAndRefresh = isset($req['checkAndRefresh']) && $req['checkAndRefresh'] == true;
+			return $this->getSystemUpdatesData($checkAndRefresh);
 		case 'refreshsystemupdatescache':
 			return $this->refreshSystemUpdatesCache();
 		}
@@ -811,12 +812,14 @@ class SystemUpdates {
 
 	/**
 	 * Get system updates data from cache
-	 * Returns cached data if available and not expired (1 hour cache)
-	 * If cache is expired, triggers hook to fetch new data
+	 * Returns cached data if available
+	 * If checkAndRefresh is true, checks cache age and refreshes if stale (when tab is clicked)
+	 * If checkAndRefresh is false, just returns cached data without triggering hook (on page load)
 	 *
+	 * @param bool $checkAndRefresh If true, check cache age and refresh if stale (default: false)
 	 * @return array
 	 */
-	public function getSystemUpdatesData() {
+	public function getSystemUpdatesData($checkAndRefresh = false) {
 		try {
 			// Check if sysadmin module is available (cached) - do this first to avoid unnecessary work
 			$hasSysadmin = $this->hasSysadminModule();
@@ -841,86 +844,52 @@ class SystemUpdates {
 		// Try to get cached data
 		$cached = $framework->getConfig('systemupdates');
 		
-		// Check if we have cached repository data and if it's recent enough (5 minutes for repos)
-		$repoCacheValid = false;
-		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
-			$age = time() - $cached['timestamp'];
-			// Repository data is valid if cache is less than 5 minutes old (300 seconds)
-			// This ensures we get fresh repo checks more frequently than package data
-			$repoCacheValid = ($age < 300);
-		}
+		// Check if cache exists
+		$cacheExists = ($cached && is_array($cached) && isset($cached['timestamp']));
 		
-		// If repository cache is stale or doesn't exist, trigger hook to refresh it (only if sysadmin is installed)
-		if (!$repoCacheValid && $hasSysadmin) {
-			$this->triggerSystemUpdatesHook();
+		// Only check and refresh if explicitly requested (when tab is clicked)
+		if ($checkAndRefresh) {
+			// Check if we have cached repository data and if it's recent enough (5 minutes for repos)
+			$repoCacheValid = false;
+			$packageCacheValid = false;
+			if ($cacheExists) {
+				$age = time() - $cached['timestamp'];
+				// Repository data is valid if cache is less than 5 minutes old (300 seconds)
+				$repoCacheValid = ($age < 300);
+				// Package data is valid if cache is less than 1 hour old (3600 seconds)
+				$packageCacheValid = ($age < 3600);
+			}
 			
-			// Wait a moment for hook to complete, then check cache again
-			$startTime = time();
-			$maxWait = 5; // Wait up to 5 seconds
-			while ((time() - $startTime) < $maxWait) {
-				$cached = $framework->getConfig('systemupdates');
-				if ($cached && is_array($cached) && isset($cached['timestamp'])) {
-					$age = time() - $cached['timestamp'];
-					if ($age < 10) {
-						// Fresh data from hook
-						break;
+			// If cache doesn't exist or is stale, trigger hook to refresh it (only if sysadmin is installed)
+			if ((!$cacheExists || !$repoCacheValid || !$packageCacheValid) && $hasSysadmin) {
+				$this->triggerSystemUpdatesHook();
+				
+				// Wait a moment for hook to complete, then check cache again
+				$startTime = time();
+				$maxWait = 5; // Wait up to 5 seconds
+				while ((time() - $startTime) < $maxWait) {
+					$cached = $framework->getConfig('systemupdates');
+					if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+						$age = time() - $cached['timestamp'];
+						if ($age < 10) {
+							// Fresh data from hook
+							break;
+						}
 					}
+					usleep(500000); // Wait 0.5 seconds
 				}
-				usleep(500000); // Wait 0.5 seconds
+				// Re-read cache after hook
+				$cached = $framework->getConfig('systemupdates');
 			}
-			// Re-read cache after hook
-			$cached = $framework->getConfig('systemupdates');
 		}
+		// NOTE: We do NOT trigger hook automatically when cache doesn't exist on page load
+		// Hook should only be triggered when:
+		// 1. User clicks System Updates tab (checkAndRefresh = true)
+		// 2. User clicks Refresh button (refreshSystemUpdatesCache())
 		
-		// Now check if we have valid cached package data (1 hour cache for packages)
-		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
+		// Return cached data if it exists (even if stale when checkAndRefresh is false)
+		if ($cached && is_array($cached) && isset($cached['timestamp']) && $hasSysadmin) {
 			$age = time() - $cached['timestamp'];
-			if ($age < 3600) {
-				// Return cached package data with repository data from hook
-				return [
-					'status' => true,
-					'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
-					'held' => isset($cached['held']) ? $cached['held'] : [],
-					'security' => isset($cached['security']) ? $cached['security'] : [],
-					'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
-					'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
-					'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
-					'has_sysadmin' => $hasSysadmin,
-					'cache_age' => $age,
-					'last_update' => $cached['timestamp']
-				];
-			}
-		}
-		
-		// Package cache expired or doesn't exist - trigger hook to fetch all data (only if sysadmin is installed)
-		$hookTriggered = false;
-		if ($hasSysadmin) {
-			$hookTriggered = $this->triggerSystemUpdatesHook();
-		}
-		
-		// After triggering hook, check cache again (hook may have updated it)
-		$cached = $framework->getConfig('systemupdates');
-		
-		if ($cached && is_array($cached) && isset($cached['timestamp'])) {
-			// Check if cache was just updated (within last 10 seconds)
-			$age = time() - $cached['timestamp'];
-			if ($age < 10) {
-				// Fresh data from hook
-				return [
-					'status' => true,
-					'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
-					'held' => isset($cached['held']) ? $cached['held'] : [],
-					'security' => isset($cached['security']) ? $cached['security'] : [],
-					'repositories' => isset($cached['repositories']) ? $cached['repositories'] : [],
-					'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
-					'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
-					'has_sysadmin' => $hasSysadmin,
-					'cache_age' => $age,
-					'last_update' => $cached['timestamp']
-				];
-			}
-			
-			// Return stale cached data while waiting
 			return [
 				'status' => true,
 				'upgradable' => isset($cached['upgradable']) ? $cached['upgradable'] : [],
@@ -930,9 +899,23 @@ class SystemUpdates {
 				'debian13_risk' => isset($cached['debian13_risk']) ? $cached['debian13_risk'] : false,
 				'debian13_risk_files' => isset($cached['debian13_risk_files']) ? $cached['debian13_risk_files'] : [],
 				'has_sysadmin' => $hasSysadmin,
-				'message' => $hookTriggered ? _('Fetching new data... Please refresh in a moment.') : _('Cache expired. Unable to trigger update check.')
+				'cache_age' => $age,
+				'last_update' => $cached['timestamp']
 			];
 		}
+		
+		// No cache or cache expired - return empty data
+		return [
+			'status' => false,
+			'upgradable' => [],
+			'held' => [],
+			'security' => [],
+			'repositories' => [],
+			'debian13_risk' => false,
+			'debian13_risk_files' => [],
+			'has_sysadmin' => $hasSysadmin,
+			'message' => _('No cache available. Please click on System Updates tab to refresh.')
+		];
 		
 		return [
 			'status' => false,

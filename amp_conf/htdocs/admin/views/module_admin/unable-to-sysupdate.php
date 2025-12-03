@@ -269,7 +269,7 @@ function refreshSystemUpdatesCache() {
 function loadSystemUpdatesData() {
   $.ajax({
     url: window.ajaxurl,
-    data: { module: "framework", command: "sysupdate", action: "getsystemupdatesdata" },
+    data: { module: "framework", command: "sysupdate", action: "getsystemupdatesdata", checkAndRefresh: true },
     success: function(response) {
       $('#systemupdates-loading').hide();
       $('#systemupdates-content').show();
