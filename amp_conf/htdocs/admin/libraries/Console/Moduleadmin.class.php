@@ -547,12 +547,12 @@ class Moduleadmin extends Command {
 				if($this->format == 'json') {
 					if(!isset($this->progress) && $data['read'] < $data['total']) {
 						$this->progress = true;
-						$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+						$this->writeln(array("read" => $data['read'] ?? 0, "total" => $data['total'] ?? 0),"downloading");
 					} elseif(isset($this->progress) && $data['read'] < $data['total']) {
-						$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+						$this->writeln(array("read" => $data['read'] ?? 0, "total" => $data['total'] ?? 0),"downloading");
 					} elseif($data['read'] == $data['total']) {
 						if(isset($this->progress) && $data['read'] = $data['total']) {
-							$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+							$this->writeln(array("read" => $data['read'] ?? 0, "total" => $data['total'] ?? 0),"downloading");
 							unset($this->progress);
 						}
 					}
@@ -579,7 +579,7 @@ class Moduleadmin extends Command {
 			case "untar":
 				if(isset($this->progress)) {
 					if($this->format == 'json') {
-						$this->writeln(array("read" => $data['total'], "total" => $data['total']),"downloading");
+						$this->writeln(array("read" => $data['total'] ?? 0, "total" => $data['total'] ?? 0),"downloading");
 					} else {
 						$this->progress->finish();
 						$this->writeln("");
