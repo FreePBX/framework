@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-21 05:43-0500\n"
+"POT-Creation-Date: 2025-12-03 10:09-0500\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -21,15 +21,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
-#: ../core/Core.class.php:4707
+#: ../core/Core.class.php:4729
 msgid " Convert the chan_sip extension to PJSIP. Please Run: "
 msgstr ""
 
-#: ../core/Core.class.php:4710
+#: ../core/Core.class.php:4732
 msgid " Convert the sip trunks to pjsip. Please Run: "
 msgstr ""
 
-#: ../core/Core.class.php:4713
+#: ../core/Core.class.php:4735
 msgid " In Advance settings set SIP Channel Driver option to chan_pjsip."
 msgstr ""
 
@@ -240,7 +240,7 @@ msgstr "%s online %s upgrade beschikbaar (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s online upgrade beschikbaar (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:710
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:711
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -547,14 +547,14 @@ msgstr ""
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: ../core/Core.class.php:4380
+#: ../core/Core.class.php:4402
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4401
+#: ../core/Core.class.php:4423
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -571,7 +571,7 @@ msgstr "'cp -rf' van orgineel: '%s' naar bestemming: '%s'...details volgen"
 msgid "'fwconsole reload' failed, config not applied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:152
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:153
 msgid ""
 "'sangoma-devel' rpm is installed.\n"
 "yum repo 'sng7-testing' is enabled."
@@ -609,7 +609,7 @@ msgstr ""
 msgid "--Select a Group--"
 msgstr ""
 
-#: ../core/Core.class.php:4716
+#: ../core/Core.class.php:4738
 msgid ". It is recommended not to use chan_sip settings."
 msgstr ""
 
@@ -629,7 +629,7 @@ msgstr ""
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:708
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:709
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -765,7 +765,7 @@ msgstr ""
 "Een route voor dit inkomend nummer (DID / nummer van de beller (CID) bestaat "
 "al!"
 
-#: ../core/Core.class.php:3176 ../core/functions.inc.php:4338
+#: ../core/Core.class.php:3198 ../core/functions.inc.php:4338
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -1974,19 +1974,15 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr "Wisselgesprek is standaard geactiveerd"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:933
-msgid "Cache expired. Unable to trigger update check."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:247
 msgid "Cache path is not writable!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1027
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1010
 msgid "Cache refresh timed out. Please try again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1017
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:1000
 msgid "Cache refreshed successfully."
 msgstr ""
 
@@ -2143,11 +2139,11 @@ msgstr ""
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3656
+#: ../core/Core.class.php:3678
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3657
+#: ../core/Core.class.php:3679
 msgid "Caller ID Number"
 msgstr ""
 
@@ -2368,7 +2364,7 @@ msgstr "Certificaat bestandslocatie"
 msgid "ChanSpy"
 msgstr "ChanSpy"
 
-#: ../core/Core.class.php:4705
+#: ../core/Core.class.php:4727
 msgid "Chan_sip module deprecated in Asterisk V21+"
 msgstr ""
 
@@ -2426,8 +2422,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:723
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:750
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:724
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:751
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Controleer online"
@@ -2838,7 +2834,7 @@ msgstr ""
 msgid "Convert legacy chan_sip trunks to chan_pjsip trunks. eg: <all/trunkid>"
 msgstr ""
 
-#: ../core/Core.class.php:4737
+#: ../core/Core.class.php:4759
 msgid "Convert the sip trunks to pjsip (Trunk name : "
 msgstr ""
 
@@ -2855,12 +2851,12 @@ msgstr ""
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:4261
+#: ../core/Core.class.php:4283
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4333
+#: ../core/Core.class.php:4355
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3070,7 +3066,7 @@ msgstr ""
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:670
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:671
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3188,7 +3184,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:3816
+#: ../core/Core.class.php:3838
 msgid "DID already exists"
 msgstr ""
 
@@ -3196,11 +3192,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:3595
+#: ../core/Core.class.php:3617
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:3596
+#: ../core/Core.class.php:3618
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -3575,8 +3571,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:237
-#: ../core/Core.class.php:3625 ../core/Core.class.php:3626
-#: ../core/Core.class.php:3648 ../core/Core.class.php:3649
+#: ../core/Core.class.php:3647 ../core/Core.class.php:3648
+#: ../core/Core.class.php:3670 ../core/Core.class.php:3671
 #: ../core/functions.inc.php:5216 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3589,7 +3585,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:3660 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3682 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -3710,7 +3706,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:4060 ../core/functions.inc.php:5159
+#: ../core/Core.class.php:4082 ../core/functions.inc.php:5159
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3725,7 +3721,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1689 ../core/Core.class.php:1921
+#: ../core/Core.class.php:1711 ../core/Core.class.php:1943
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -3746,7 +3742,7 @@ msgstr ""
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3629 ../core/Core.class.php:3630
+#: ../core/Core.class.php:3651 ../core/Core.class.php:3652
 msgid "Device Technology"
 msgstr ""
 
@@ -3755,7 +3751,7 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:3770
+#: ../core/Core.class.php:3792
 msgid "Device could not be added."
 msgstr ""
 
@@ -4757,7 +4753,7 @@ msgstr ""
 msgid "Error installing core reason(s): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:960
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:943
 msgid "Error loading system updates data: "
 msgstr ""
 
@@ -4964,8 +4960,8 @@ msgid "Extended"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:266
-#: ../core/Core.class.php:3616 ../core/Core.class.php:3617
-#: ../core/Core.class.php:4048 ../core/functions.inc.php:4822
+#: ../core/Core.class.php:3638 ../core/Core.class.php:3639
+#: ../core/Core.class.php:4070 ../core/functions.inc.php:4822
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5024,15 +5020,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3697
+#: ../core/Core.class.php:3719
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3700
+#: ../core/Core.class.php:3722
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/Core.class.php:3703
+#: ../core/Core.class.php:3725
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5056,7 +5052,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/Core.class.php:3591 ../core/Core.class.php:3592
+#: amp.i18n.php:858 ../core/Core.class.php:3613 ../core/Core.class.php:3614
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr ""
@@ -5196,7 +5192,7 @@ msgstr ""
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:4312
+#: ../core/Core.class.php:4334
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5237,11 +5233,11 @@ msgstr ""
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:4394 ../core/Core.class.php:4401
+#: ../core/Core.class.php:4416 ../core/Core.class.php:4423
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4352
+#: ../core/Core.class.php:4374
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5266,11 +5262,7 @@ msgstr ""
 msgid "Fetch system status for DB"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:933
-msgid "Fetching new data... Please refresh in a moment."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:946
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:929
 msgid "Fetching system updates data... Please refresh in a moment."
 msgstr ""
 
@@ -5561,8 +5553,8 @@ msgstr ""
 msgid "Found local Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:159
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:210
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:160
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:211
 msgid ""
 "Found some faulty RPM versions please run 'yum update -y' manually to update "
 "to the latest version."
@@ -6116,7 +6108,7 @@ msgid ""
 "automatically generated by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:662
 msgid "Idle"
 msgstr ""
 
@@ -6465,7 +6457,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:4102 ../core/Core.class.php:4111
+#: ../core/Core.class.php:4124 ../core/Core.class.php:4133
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6495,7 +6487,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:3652 ../core/Core.class.php:3653
+#: ../core/Core.class.php:3674 ../core/Core.class.php:3675
 msgid "Incoming DID"
 msgstr ""
 
@@ -6570,7 +6562,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:732
 msgid "Installed Version"
 msgstr ""
 
@@ -6826,11 +6818,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:675
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:676
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:679
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:680
 msgid "Last System Update:"
 msgstr ""
 
@@ -6846,7 +6838,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4394
+#: ../core/Core.class.php:4416
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7019,7 +7011,7 @@ msgstr ""
 msgid "Make sure you have access to this item."
 msgstr ""
 
-#: ../core/Core.class.php:1209
+#: ../core/Core.class.php:1219
 msgid "Malformated csv file"
 msgstr ""
 
@@ -7695,7 +7687,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:37
-#: ../core/Core.class.php:3621 ../core/Core.class.php:3622
+#: ../core/Core.class.php:3643 ../core/Core.class.php:3644
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7721,7 +7713,7 @@ msgstr ""
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:676
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:677
 #: ../core/functions.inc.php:4712
 msgid "Never"
 msgstr ""
@@ -7731,11 +7723,11 @@ msgstr ""
 msgid "Never - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:734
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:735
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:732
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
 #: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:376
 #: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:403
@@ -7848,7 +7840,7 @@ msgstr ""
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: ../core/Core.class.php:4790
+#: ../core/Core.class.php:4812
 msgid "No SIP trunks found."
 msgstr ""
 
@@ -7859,6 +7851,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:745
 msgid "No actions to perform"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:917
+msgid "No cache available. Please click on System Updates tab to refresh."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:241
@@ -7922,7 +7918,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:704
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:705
 msgid "No updates currently required!"
 msgstr ""
 
@@ -8425,7 +8421,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:4085
+#: ../core/Core.class.php:4107
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8579,7 +8575,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr ""
 
-#: ../core/Core.class.php:4380
+#: ../core/Core.class.php:4402
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8895,7 +8891,7 @@ msgid ""
 "`from-did-direct,100,1`"
 msgstr ""
 
-#: ../core/Core.class.php:3706
+#: ../core/Core.class.php:3728
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9105,11 +9101,11 @@ msgstr ""
 msgid "RFC 4733"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:731
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:732
 msgid "RPM Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:529
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:530
 #, php-format
 msgid ""
 "RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code "
@@ -9261,7 +9257,7 @@ msgstr ""
 msgid "Refresh cache to get latest data"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:672
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:673
 msgid "Refresh page"
 msgstr ""
 
@@ -9597,7 +9593,7 @@ msgstr ""
 msgid "Rules:"
 msgstr ""
 
-#: ../core/Console/Convert2pjsip.class.php:54 ../core/Core.class.php:4788
+#: ../core/Console/Convert2pjsip.class.php:54 ../core/Core.class.php:4810
 msgid "Run 'fwconsole reload' to reload config"
 msgstr ""
 
@@ -9653,7 +9649,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:4025 ../core/Core.class.php:4026
+#: ../core/Core.class.php:4047 ../core/Core.class.php:4048
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -10504,7 +10500,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:4307
+#: ../core/Core.class.php:4329
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10522,7 +10518,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:4266
+#: ../core/Core.class.php:4288
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10575,7 +10571,7 @@ msgstr ""
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4348
+#: ../core/Core.class.php:4370
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10587,7 +10583,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4339
+#: ../core/Core.class.php:4361
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -10683,7 +10679,7 @@ msgstr ""
 msgid "Sysadmin module in not installed. Unable to execute ApiHooks()."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:981
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:964
 msgid ""
 "Sysadmin module is not installed. Unable to refresh system updates cache."
 msgstr ""
@@ -10740,7 +10736,7 @@ msgstr ""
 msgid "System Setup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:655
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:656
 msgid "System Update Details"
 msgstr ""
 
@@ -10858,11 +10854,11 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:668
 msgid "Test Repos Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:152
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:153
 msgid "Test repos are enabled"
 msgstr ""
 
@@ -11077,7 +11073,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3661
+#: ../core/Core.class.php:3683
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11707,8 +11703,8 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
-#: ../core/Api/Gql/Extensions.php:195 ../core/Core.class.php:1696
-#: ../core/Core.class.php:1928
+#: ../core/Api/Gql/Extensions.php:195 ../core/Core.class.php:1718
+#: ../core/Core.class.php:1950
 msgid "This device id is already in use"
 msgstr ""
 
@@ -11910,7 +11906,7 @@ msgid ""
 "</br> For more information visit %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:667
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:668
 msgid "This system has test repos enabled."
 msgstr ""
 
@@ -11920,7 +11916,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:3160
+#: ../core/Core.class.php:3182
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -12121,11 +12117,11 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:4787
+#: ../core/Core.class.php:4809
 msgid "Trunk converted successfully!"
 msgstr ""
 
-#: ../core/Core.class.php:4093
+#: ../core/Core.class.php:4115
 msgid "Trunk:"
 msgstr ""
 
@@ -12134,7 +12130,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:872 ../core/Core.class.php:3599
+#: amp.i18n.php:872 ../core/Core.class.php:3621
 #: ../core/views/trunks/bootnav.php:20 ../core/views/trunks/main.php:2
 #: ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
@@ -12221,13 +12217,13 @@ msgstr ""
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1847
+#: ../core/Core.class.php:1869
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1841
+#: ../core/Core.class.php:1863
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -12255,7 +12251,7 @@ msgstr ""
 msgid "Unable to enable Trunk %s. This trunk type may not support this"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:946
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:929
 msgid "Unable to fetch system updates data."
 msgstr ""
 
@@ -12316,7 +12312,7 @@ msgstr ""
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:702
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:703
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12356,7 +12352,7 @@ msgstr ""
 msgid "Unable to strip signature - result was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:994
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:977
 msgid "Unable to trigger system update check. Please try again."
 msgstr ""
 
@@ -12405,7 +12401,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:684
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:685
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -12484,8 +12480,9 @@ msgstr ""
 msgid "Unsupported"
 msgstr ""
 
-#: ../core/Core.class.php:1201 ../core/Core.class.php:1206
-#: ../core/Core.class.php:1215
+#: ../core/Core.class.php:1198 ../core/Core.class.php:1208
+#: ../core/Core.class.php:1225 ../core/Core.class.php:1231
+#: ../core/Core.class.php:1236
 msgid "Unsupported Pattern file format"
 msgstr ""
 
@@ -12515,7 +12512,7 @@ msgstr ""
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:749
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:750
 msgid "Update System"
 msgstr ""
 
@@ -12535,7 +12532,7 @@ msgstr ""
 msgid "Update an inbound route on the system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:527
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:528
 #, php-format
 msgid "Update error: Tried to run '%s', exit code %s"
 msgstr ""
@@ -12568,7 +12565,7 @@ msgstr ""
 msgid "Updates Advance Settings Field"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:714
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:715
 msgid "Updates Available:"
 msgstr ""
 
@@ -12679,7 +12676,7 @@ msgstr ""
 msgid "Use"
 msgstr ""
 
-#: ../core/Core.class.php:3600
+#: ../core/Core.class.php:3622
 msgid "Use Bulk Handler to import or export PJSIP trunk configuration."
 msgstr ""
 
@@ -12777,7 +12774,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:4072 ../core/functions.inc.php:4824
+#: ../core/Core.class.php:4094 ../core/functions.inc.php:4824
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -12837,7 +12834,7 @@ msgstr ""
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3797
+#: ../core/Core.class.php:3819
 msgid "User could not be added."
 msgstr ""
 
@@ -13378,7 +13375,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:664
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
 msgid "Working"
 msgstr ""
 
@@ -13622,8 +13619,8 @@ msgid ""
 "possible: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:159
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:210
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:160
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:211
 msgid "You have some fault RPM versions running"
 msgstr ""
 
@@ -13675,7 +13672,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:3153
+#: ../core/Core.class.php:3175
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
@@ -14089,7 +14086,7 @@ msgstr ""
 msgid "fwconsole command"
 msgstr ""
 
-#: ../core/Core.class.php:4707
+#: ../core/Core.class.php:4729
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
@@ -14098,7 +14095,7 @@ msgstr ""
 msgid "fwconsole is not executable at %s"
 msgstr ""
 
-#: ../core/Core.class.php:4710
+#: ../core/Core.class.php:4732
 msgid "fwconsole trunks --converttopjsip <all/trunkid>."
 msgstr ""
 
@@ -14470,7 +14467,7 @@ msgstr ""
 msgid "setting AMP_ACCESS_DB_CREDS to true"
 msgstr ""
 
-#: ../core/Core.class.php:3676 ../core/Core.class.php:3677
+#: ../core/Core.class.php:3698 ../core/Core.class.php:3699
 msgid "sip server"
 msgstr ""
 
@@ -14479,7 +14476,7 @@ msgstr ""
 msgid "sip:[username]@[ip]:[port]"
 msgstr ""
 
-#: ../core/Core.class.php:3717
+#: ../core/Core.class.php:3739
 msgid "sip_server is missing."
 msgstr ""
 
@@ -14507,7 +14504,7 @@ msgstr ""
 msgid "to run sysadmin hook"
 msgstr ""
 
-#: ../core/Core.class.php:3672 ../core/Core.class.php:3673
+#: ../core/Core.class.php:3694 ../core/Core.class.php:3695
 msgid "trunk name"
 msgstr ""
 
@@ -14515,7 +14512,7 @@ msgstr ""
 msgid "trunk_name"
 msgstr ""
 
-#: ../core/Core.class.php:3714
+#: ../core/Core.class.php:3736
 msgid "trunk_name is missing."
 msgstr ""
 
