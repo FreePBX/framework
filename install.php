@@ -162,6 +162,12 @@ if (is_dir("$wr/admin/views")) {
 	unset($obj);
 }
 
+if (function_exists("sql")) {
+	$result = sql("SELECT * FROM freepbx_settings WHERE `keyword` = 'AUTHTYPE'",'getRow',DB_FETCHMODE_ASSOC);
+	if (isset($result['hidden']) && $result['hidden'] == 0) {
+		sql("UPDATE freepbx_settings SET `hidden` = 1 WHERE `keyword` = 'AUTHTYPE'");
+	}
+}
 /*
  * Framework install script
  */
