@@ -364,6 +364,15 @@ class Reload extends Command {
 			$this->freepbx->Notifications->delete('core', 'AMPMGRPASS');
 		}
 
+		// Warn if webserver auth is in use
+		if ($this->freepbx->Config->get('AUTHTYPE') == 'webserver') {
+			if (!$this->freepbx->Notifications->exists('framework', 'WEBSERVER_AUTH')) {
+				$this->freepbx->Notifications->add_warning('framework', 'WEBSERVER_AUTH', _("Security Notice: Authentication Update Recommended"), _("Your system is using webserver authentication for the Authorization Type (Advanced Settings) option, which may offer reduced security compared to the default method.\n\nTo revert to the default authentication, run:\n\nfwconsole setting AUTHTYPE usermanager\n\nIf this configuration is intentional, you may continue using it.\n\nFor more details, see <a href=\"https://github.com/FreePBX/security-reporting/security/advisories/GHSA-9jvh-mv6x-w698\" target=\"_blank\">GHSA-9jvh-mv6x-w698</a>."), '', false, true);
+			}
+		} else {
+			$this->freepbx->Notifications->delete('framework', 'WEBSERVER_AUTH');
+		}
+
 		$this->freepbx->Notifications->delete('ari', 'ARI_ADMIN_PASSWORD');
 		$this->freepbx->Notifications->delete('core', 'AMPDBPASS');
 
