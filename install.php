@@ -168,6 +168,14 @@ if (function_exists("sql")) {
 		sql("UPDATE freepbx_settings SET `hidden` = 1 WHERE `keyword` = 'AUTHTYPE'");
 	}
 }
+
+if ($amp_conf['AUTHTYPE'] == 'webserver' || $amp_conf['AUTHTYPE'] == 'none') {
+	$kv = \FreePBX::Framework()->getConfig('AUTH_NOTIFICATION_HIDDEN');
+	if (!\FreePBX::Notifications()->exists('framework', 'WEBSERVER_AUTH') && empty($kv)) {
+		\FreePBX::Notifications()->add_warning('framework', 'WEBSERVER_AUTH', _("Security Notice: Authentication Update Recommended"), _("Your system is using webserver authentication for the Authorization Type (Advanced Settings) option, which may offer reduced security compared to the default method.\n\nTo revert to the default authentication, run:\n\nfwconsole setting AUTHTYPE usermanager\n\nIf this configuration is intentional, you may continue using it.\n\nFor more details, see <a href=\"https://github.com/FreePBX/security-reporting/security/advisories?state=published\" target=\"_blank\">GHSA-9jvh-mv6x-w698</a>."), '', false, true);
+		\FreePBX::Framework()->setConfig('AUTH_NOTIFICATION_HIDDEN', 1);
+	}
+}
 /*
  * Framework install script
  */
