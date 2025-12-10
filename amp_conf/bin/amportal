@@ -34,11 +34,131 @@ else
 	exit
 fi
 
+# Security check function to validate freepbx_engine file before execution
+# This prevents privilege escalation by ensuring files are in secure directories and owned by trusted users
+# This check works regardless of whether amportal runs as root or asterisk user
+is_secure_freepbx_engine() {
+	local file="$1"
+	local dir="$2"
+	
+	# Check if file exists and is executable
+	if [ ! -x "$file" ] || [ ! -f "$file" ]; then
+		return 1
+	fi
+	
+	# Resolve symlinks to check the actual target file
+	# This prevents symlink attacks where a symlink points to an untrusted file
+	local real_file=$(readlink -f "$file" 2>/dev/null || realpath "$file" 2>/dev/null || echo "$file")
+	if [ ! -f "$real_file" ]; then
+		return 1
+	fi
+	
+	# Get the expected asterisk user from configuration (defaults to 'asterisk' if not set)
+	local expected_asterisk_user="${AMPASTERISKUSER:-asterisk}"
+	
+	# Get file owner (try Linux stat format first, then BSD/Mac format)
+	local file_owner=$(stat -c '%U' "$real_file" 2>/dev/null || stat -f '%Su' "$real_file" 2>/dev/null)
+	if [ -z "$file_owner" ]; then
+		return 1
+	fi
+	
+	# File must be owned by root or the configured asterisk user
+	# This allows legitimate installations where files are owned by asterisk user
+	# but prevents execution of files created by other non-root users
+	if [ "$file_owner" != "root" ] && [ "$file_owner" != "$expected_asterisk_user" ]; then
+		return 1
+	fi
+	
+	# Get directory owner
+	local dir_owner=$(stat -c '%U' "$dir" 2>/dev/null || stat -f '%Su' "$dir" 2>/dev/null)
+	if [ -z "$dir_owner" ]; then
+		return 1
+	fi
+	
+	# Directory must be owned by root or the configured asterisk user
+	# This allows legitimate installations while preventing untrusted directories
+	if [ "$dir_owner" != "root" ] && [ "$dir_owner" != "$expected_asterisk_user" ]; then
+		return 1
+	fi
+	
+	# Get numeric permissions (octal) - ensure 3 digits
+	# Check if file is writable by group or others by examining permission bits
+	local file_perms=$(stat -c '%a' "$real_file" 2>/dev/null)
+	if [ -z "$file_perms" ]; then
+		# Try BSD/Mac format
+		file_perms=$(stat -f '%OLp' "$real_file" 2>/dev/null)
+	fi
+	
+	if [ -n "$file_perms" ]; then
+		# Normalize to 3-digit octal (pad with zeros if needed, or take last 3 if 4 digits)
+		if [ ${#file_perms} -gt 3 ]; then
+			# If 4 digits (e.g., 1777 with sticky bit), take last 3 digits
+			file_perms="${file_perms: -3}"
+		else
+			# Pad with zeros if less than 3 digits
+			while [ ${#file_perms} -lt 3 ]; do
+				file_perms="0$file_perms"
+			done
+		fi
+		
+		# Extract group and others permission digits (2nd and 3rd digits)
+		local group_perm="${file_perms:1:1}"
+		local others_perm="${file_perms:2:1}"
+		
+		# Check if group or others have write permission
+		# Write permission is indicated by values 2, 3, 6, or 7
+		# This prevents modification of the file by non-root users
+		case "$group_perm" in
+			2|3|6|7) return 1 ;;
+		esac
+		case "$others_perm" in
+			2|3|6|7) return 1 ;;
+		esac
+	fi
+	
+	# Get directory permissions
+	local dir_perms=$(stat -c '%a' "$dir" 2>/dev/null)
+	if [ -z "$dir_perms" ]; then
+		dir_perms=$(stat -f '%OLp' "$dir" 2>/dev/null)
+	fi
+	
+	if [ -n "$dir_perms" ]; then
+		# Normalize to 3-digit octal (pad with zeros if needed, or take last 3 if 4 digits)
+		if [ ${#dir_perms} -gt 3 ]; then
+			# If 4 digits (e.g., 1777 with sticky bit), take last 3 digits
+			dir_perms="${dir_perms: -3}"
+		else
+			# Pad with zeros if less than 3 digits
+			while [ ${#dir_perms} -lt 3 ]; do
+				dir_perms="0$dir_perms"
+			done
+		fi
+		
+		# Directory must not be writable by group or others
+		# This is the CRITICAL security check: if the directory is writable by group (e.g., asterisk group),
+		# a member of that group could place a malicious file there, even if owned by asterisk user
+		# This prevents the vulnerability where group-writable directories allow privilege escalation
+		local dir_group_perm="${dir_perms:1:1}"
+		local dir_others_perm="${dir_perms:2:1}"
+		
+		case "$dir_group_perm" in
+			2|3|6|7) return 1 ;;
+		esac
+		case "$dir_others_perm" in
+			2|3|6|7) return 1 ;;
+		esac
+	fi
+	
+	return 0
+}
+
 for dir in ${AMPBIN} ${ASTVARLIBDIR}/bin /var/lib/asterisk/bin /usr/local/freepbx/bin
 do
-	# exec the first one we find
+	# Only exec if file exists, is executable, and passes security checks
 	if [ -x "$dir"/freepbx_engine ]; then
-		exec "$dir"/freepbx_engine $@
+		if is_secure_freepbx_engine "$dir/freepbx_engine" "$dir"; then
+			exec "$dir"/freepbx_engine $@
+		fi
 	fi
 done
 
