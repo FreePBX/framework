@@ -654,6 +654,14 @@ switch($display) {
 					echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
 					break;
 				} else {
+					// Check module maintenance version expiry before loading module
+					if (FreePBX::Modules()->checkStatus('sysadmin')) {
+						$maintenanceBlockHtml = FreePBX::Sysadmin()->getModuleMaintenanceBlockHtml($module_name);
+						if (!empty($maintenanceBlockHtml)) {
+							echo $maintenanceBlockHtml;
+							break;
+						}
+					}
 					// load language info if available
 					modgettext::textdomain($module_name);
 					if ( isset($currentcomponent) ) {
