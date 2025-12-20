@@ -640,7 +640,7 @@ switch ($action) {
 					$skipaction = true;
 					$issues = true;
 					$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
-						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependserrors).'</li></ul></strong>');
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 				}
 				if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 					$skipaction = true;
