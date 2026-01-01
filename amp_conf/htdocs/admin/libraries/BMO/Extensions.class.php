@@ -58,10 +58,7 @@ class Extensions {
 					$exten_usage[$mod] = $module_usage;
 				}
 				modgettext::pop_textdomain();
-			}
-
-			
-			if (function_exists($function)) {
+			} else if (function_exists($function)) {
 				modgettext::push_textdomain($mod);
 				$module_usage = $function($exten);
 				if (!empty($module_usage)) {
