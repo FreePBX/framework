@@ -47,7 +47,20 @@ class Extensions {
 		}
 
 		foreach(array_keys($module_hash) as $mod) {
-			$function = $mod."_check_extensions";
+            $function = $mod."_check_extensions";
+            $name = ucfirst($mod);
+            // Check for BMO style hook method in module replacing the legacy function check
+            // copyright 2026 Applied Messaging Inc
+            if (method_exists("FreePBX\\modules\\" . $name, "doCheckExtensions")) {
+                modgettext::push_textdomain($mod);
+				$module_usage = $this->FreePBX->$name->doCheckExtensions($exten);
+                if (!empty($module_usage)) {
+					$exten_usage[$mod] = $module_usage;
+				}
+				modgettext::pop_textdomain();
+			}
+
+			
 			if (function_exists($function)) {
 				modgettext::push_textdomain($mod);
 				$module_usage = $function($exten);
