@@ -220,7 +220,8 @@ $(document).ready(function(){
 		$('#summarytab').removeClass('active');
 		$('#systemupdatestab').addClass('active');
 		$('a[href="#summarytab"]').removeClass('active');
-		$('a[href="#systemupdatestab"]').addClass('active');
+		$('a[href="#systemupdatestab"]').data('user-clicked', true);
+		$('a[href="#systemupdatestab"]').tab('show');
 	});
 })
 

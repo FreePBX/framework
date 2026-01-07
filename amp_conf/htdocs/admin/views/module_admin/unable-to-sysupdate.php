@@ -178,8 +178,10 @@ $(document).ready(function() {
   
   // Only load when systemupdatestab is shown AND user clicked it
   $('a[href="#systemupdatestab"]').on('shown.bs.tab', function(e) {
+    // Check if the tab was clicked via a link from summary tab(not just shown on page load)
+    var clickedViaLink = $(this).data('user-clicked') === true;
     // Only load if user actually clicked the tab
-    if (userClickedTab) {
+    if (userClickedTab || clickedViaLink) {
       <?php if ($hasSysadmin): ?>
       // Sysadmin is available - load data via AJAX
       loadSystemUpdatesData();
