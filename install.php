@@ -360,3 +360,9 @@ try {
 } catch (\Exception $e) {
 	out(sprintf(_("Error updating GPG Keys: %s"), $e->getMessage()));
 }
+try {
+	outn(_("Checking and updating Repo GPG key..."));
+	\FreePBX::GPG()->checkAndUpdateRepoKey(true);
+} catch (\Exception $e) {
+	out(sprintf(_("Repo GPG key check failed: %s"), $e->getMessage()));
+}
