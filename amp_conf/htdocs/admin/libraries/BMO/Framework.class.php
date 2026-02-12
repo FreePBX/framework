@@ -38,6 +38,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			case 'authping':
 			case 'scheduler':
 			case 'sysupdate':
+			case 'gpg-update':
 			case 'reload':
 			case 'navbarToogle':
 			case 'check-and-set-language':
@@ -78,6 +79,8 @@ class Framework extends FreePBX_Helpers implements BMO {
 		case 'sysupdate':
 			$s = new Builtin\SystemUpdates();
 			return $s->ajax($_REQUEST);
+		case 'gpg-update':
+			return Builtin\GpgKeyChecker::updateFreepbxGpgKey();
 		case 'reload':
 			return $this->doReload();
 		case 'check-and-set-language':

@@ -23,6 +23,28 @@ try {
       <strong><?php echo _("System updates via the web interface are not currently available."); ?></strong> <?php echo _("Use"); ?> <code>apt update</code> <?php echo _("and"); ?> <code>apt upgrade</code> <?php echo _("on the command line."); ?>
     </div>
     
+    <!-- GPG Key Expiry Warning -->
+    <?php if (!empty($gpg_key_expiring) && !empty($gpg_key_info['applicable'])): ?>
+    <div class='panel panel-warning' id="gpg-key-expiry-panel" style='margin-bottom: 20px;'>
+      <div class='panel-heading'>
+        <strong><i class="fa fa-key"></i> <?php echo _("FreePBX Repository GPG Key Expiring Soon"); ?></strong>
+      </div>
+      <div class='panel-body'>
+        <p><?php
+          $days = (int)($gpg_key_info['expires_in_days'] ?? 0);
+          $expiryDate = htmlspecialchars($gpg_key_info['expiry_date'] ?? _("unknown"));
+          echo $days < 0
+            ? sprintf(_("The FreePBX repository GPG key expired %d days ago (on %s). To avoid repository authentication issues, please update the key now."), abs($days), $expiryDate)
+            : sprintf(_("The FreePBX repository GPG key will expire in %d days (on %s). To avoid repository authentication issues, please update the key now."), $days, $expiryDate);
+        ?></p>
+        <button type="button" class="btn btn-warning" id="gpg-update-key-btn">
+          <i class="fa fa-download"></i> <?php echo _("Update GPG Key"); ?>
+        </button>
+        <span id="gpg-update-status" style="display:none; margin-left:10px;"></span>
+      </div>
+    </div>
+    <?php endif; ?>
+    
     <!-- Sysadmin Module Notice -->
     <div id="sysadmin-notice" class="alert alert-info" style="margin-bottom: 20px; <?php echo $hasSysadmin ? 'display: none;' : ''; ?>">
       <h4 style='margin-top: 0;'><i class="fa fa-info-circle"></i> <?php echo _("Sysadmin Module Notice"); ?></h4>
