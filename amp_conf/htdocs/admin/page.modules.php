@@ -1131,6 +1131,7 @@ switch ($action) {
 			} else {
 				$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
 			}
+
 		} else {
 			$summary['candosystemupdates'] = true;
 			$summary['systemupdates'] = $su->getPendingUpdates();

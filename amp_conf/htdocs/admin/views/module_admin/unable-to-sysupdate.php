@@ -23,6 +23,7 @@ try {
       <strong><?php echo _("System updates via the web interface are not currently available."); ?></strong> <?php echo _("Use"); ?> <code>apt update</code> <?php echo _("and"); ?> <code>apt upgrade</code> <?php echo _("on the command line."); ?>
     </div>
     
+    
     <!-- Sysadmin Module Notice -->
     <div id="sysadmin-notice" class="alert alert-info" style="margin-bottom: 20px; <?php echo $hasSysadmin ? 'display: none;' : ''; ?>">
       <h4 style='margin-top: 0;'><i class="fa fa-info-circle"></i> <?php echo _("Sysadmin Module Notice"); ?></h4>

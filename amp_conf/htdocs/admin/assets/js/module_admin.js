@@ -223,6 +223,7 @@ $(document).ready(function(){
 		$('a[href="#systemupdatestab"]').data('user-clicked', true);
 		$('a[href="#systemupdatestab"]').tab('show');
 	});
+
 })
 
 function check_upgrade_all() {
