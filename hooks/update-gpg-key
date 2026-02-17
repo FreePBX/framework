@@ -11,6 +11,8 @@
 GPG_URL="http://deb.freepbx.org/gpg/aptly-pubkey.asc"
 GPG_PATH="/etc/apt/trusted.gpg.d/freepbx.gpg"
 RESULT_FILE="/var/spool/asterisk/tmp/gpg_update_result.json"
+TMP_KEY="$(mktemp)"
+TMP_GPG="$(mktemp)"
 
 # Ensure temp directory exists
 mkdir -p /var/spool/asterisk/tmp
@@ -21,13 +23,19 @@ if [ ! -d "/etc/apt/trusted.gpg.d" ]; then
 fi
 
 # Download and install the key
-wget -qO - "$GPG_URL" | gpg --dearmor --yes -o "$GPG_PATH" 2>&1
-EXIT_CODE=$?
-
-if [ $EXIT_CODE -eq 0 ]; then
-	echo '{"success":true,"message":"GPG key updated successfully"}' > "$RESULT_FILE"
+if wget -qO "$TMP_KEY" "$GPG_URL" && [ -s "$TMP_KEY" ]; then
+	gpg --dearmor --yes -o "$TMP_GPG" "$TMP_KEY" 2>&1
+	EXIT_CODE=$?
+	if [ $EXIT_CODE -eq 0 ] && [ -s "$TMP_GPG" ]; then
+		mv -f "$TMP_GPG" "$GPG_PATH"
+		echo '{"success":true,"message":"GPG key updated successfully"}' > "$RESULT_FILE"
+	else
+		echo '{"success":false,"message":"Failed to update GPG key. Exit code: '"$EXIT_CODE"'"}' > "$RESULT_FILE"
+	fi
 else
-	echo '{"success":false,"message":"Failed to update GPG key. Exit code: '"$EXIT_CODE"'"}' > "$RESULT_FILE"
+	EXIT_CODE=1
+	echo '{"success":false,"message":"Failed to download GPG key"}' > "$RESULT_FILE"
 fi
 
+rm -f "$TMP_KEY" "$TMP_GPG"
 exit $EXIT_CODE

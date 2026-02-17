@@ -1655,6 +1655,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'updateall':
 			case 'upgradeall':
+				$this->checkAndUpdateGpgKey();
 				if($devmode) {
 					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
 				}
@@ -1875,6 +1876,34 @@ class Moduleadmin extends Command {
 		$this->doRemoteDownload($xml['downloadurl']);
 		$this->doForkInstall($modulename);
 		return true;
+	}
+
+	/**
+	 * Check FreePBX GPG key expiry and auto-update if needed
+	 *
+	 * This runs before module upgrades to ensure the APT key is valid
+	 * on Debian-based systems that use the FreePBX repository.
+	 */
+	private function checkAndUpdateGpgKey() {
+		if (!class_exists('\FreePBX\Builtin\GpgKeyChecker')) {
+			return;
+		}
+		$self = $this;
+		\FreePBX\Builtin\GpgKeyChecker::checkAndUpdate(true, function($message, $type) use ($self) {
+			switch ($type) {
+				case 'success':
+					$self->writeln("<info>{$message}</info>");
+					break;
+				case 'warning':
+					$self->writeln("<comment>{$message}</comment>");
+					break;
+				case 'error':
+					$self->writeln("<error>{$message}</error>");
+					break;
+				default:
+					$self->writeln($message);
+			}
+		});
 	}
 
 	/**
