@@ -1141,11 +1141,12 @@ switch ($action) {
 				$nt = \FreePBX::create()->Notifications;
 				$nt->delete('framework', 'GPG_KEY_EXPIRY');
 				if ($gpgStatus['needs_update']) {
-					$displayText = _("FreePBX Repository GPG Key Expiring Soon");
+					$displayText = _("Sangoma Debian Repository GPG Key Expiring Soon");
+					$expiryDate = $gpgStatus['expiry_date'] ?: _("unknown");
 					$days = (int) $gpgStatus['expires_in_days'];
 					$extendedText = $days < 0
-						? sprintf(_("The FreePBX repository GPG key expired %d days ago (on %s). Please update the key from the System Updates tab to avoid repository authentication issues."), abs($days), $gpgStatus['expiry_date'] ?: _("unknown"))
-						: sprintf(_("The FreePBX repository GPG key expires in %d days (on %s). Please update the key from the System Updates tab to avoid repository authentication issues."), $days, $gpgStatus['expiry_date'] ?: _("unknown"));
+						? sprintf(_("The GPG key used to verify packages from deb.freepbx.org expired on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate)
+						: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate);
 					$link = "config.php?display=modules&module_page=summary#systemupdatestab";
 					$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, $link, false, true);
 				}
