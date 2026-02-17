@@ -27,15 +27,15 @@ try {
     <?php if (!empty($gpg_key_expiring) && !empty($gpg_key_info['applicable'])): ?>
     <div class='panel panel-warning' id="gpg-key-expiry-panel" style='margin-bottom: 20px;'>
       <div class='panel-heading'>
-        <strong><i class="fa fa-key"></i> <?php echo _("FreePBX Repository GPG Key Expiring Soon"); ?></strong>
+        <strong><i class="fa fa-key"></i> <?php echo _("Sangoma Debian Repository GPG Key Expiring Soon"); ?></strong>
       </div>
       <div class='panel-body'>
         <p><?php
           $days = (int)($gpg_key_info['expires_in_days'] ?? 0);
           $expiryDate = htmlspecialchars($gpg_key_info['expiry_date'] ?? _("unknown"));
           echo $days < 0
-            ? sprintf(_("The FreePBX repository GPG key expired %d days ago (on %s). To avoid repository authentication issues, please update the key now."), abs($days), $expiryDate)
-            : sprintf(_("The FreePBX repository GPG key will expire in %d days (on %s). To avoid repository authentication issues, please update the key now."), $days, $expiryDate);
+            ? sprintf(_("The GPG key used to verify packages from deb.freepbx.org expired on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate)
+            : sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate);
         ?></p>
         <button type="button" class="btn btn-warning" id="gpg-update-key-btn">
           <i class="fa fa-download"></i> <?php echo _("Update GPG Key"); ?>
