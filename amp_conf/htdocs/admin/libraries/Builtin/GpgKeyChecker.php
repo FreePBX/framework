@@ -217,7 +217,7 @@ class GpgKeyChecker {
 
 		// Auto-update if requested
 		if ($autoUpdate) {
-			$output(_('Updating FreePBX repository GPG key...'), 'info');
+			$output(_('Updating Sangoma Debian Repository GPG key...'), 'info');
 			$result['updated'] = true;
 
 			$updateResult = self::updateFreepbxGpgKey();
