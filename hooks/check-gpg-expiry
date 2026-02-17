@@ -32,40 +32,22 @@ if (!file_exists($gpgPath)) {
 $result['applicable'] = true;
 $output = [];
 $returnVar = 0;
-exec('gpg --show-keys --with-colons --with-fingerprint ' . escapeshellarg($gpgPath) . ' 2>/dev/null', $output, $returnVar);
+exec('gpg --show-keys ' . escapeshellarg($gpgPath) . ' 2>/dev/null', $output, $returnVar);
 
-$expiryDate = null;
-if ($returnVar === 0 && !empty($output)) {
-	foreach ($output as $line) {
-		if (strpos($line, 'pub:') === 0) {
-			$fields = explode(':', $line);
-			$keyId = $fields[4] ?? '';
-			$expiryTs = isset($fields[6]) ? (int) $fields[6] : 0;
-			if (!empty($keyId)) {
-				$result['key_id'] = substr($keyId, -16);
-			}
-			if ($expiryTs > 0) {
-				$expiryDate = date('Y-m-d', $expiryTs);
-			}
-			break;
-		}
-	}
+if ($returnVar !== 0 || empty($output)) {
+	$result['needs_update'] = true;
+	file_put_contents($outFile, json_encode($result, JSON_PRETTY_PRINT));
+	exit(0);
 }
 
-if (!$expiryDate) {
-	$output = [];
-	$returnVar = 0;
-	exec('gpg --show-keys ' . escapeshellarg($gpgPath) . ' 2>/dev/null', $output, $returnVar);
-	if ($returnVar === 0 && !empty($output)) {
-		foreach ($output as $line) {
-			if (preg_match('/\[expires:\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
-				$expiryDate = $m[1];
-				break;
-			}
-			if (preg_match('/^\s+([A-F0-9]{16,40})$/', trim($line), $m)) {
-				$result['key_id'] = substr($m[1], -16);
-			}
-		}
+$expiryDate = null;
+foreach ($output as $line) {
+	if (preg_match('/\[expires:\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
+		$expiryDate = $m[1];
+		break;
+	}
+	if (preg_match('/^\s+([A-F0-9]{16,40})$/', trim($line), $m)) {
+		$result['key_id'] = substr($m[1], -16);
 	}
 }
 

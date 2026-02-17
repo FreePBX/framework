@@ -28,6 +28,7 @@ if wget -qO "$TMP_KEY" "$GPG_URL" && [ -s "$TMP_KEY" ]; then
 	EXIT_CODE=$?
 	if [ $EXIT_CODE -eq 0 ] && [ -s "$TMP_GPG" ]; then
 		mv -f "$TMP_GPG" "$GPG_PATH"
+		chmod 644 "$GPG_PATH"
 		echo '{"success":true,"message":"GPG key updated successfully"}' > "$RESULT_FILE"
 	else
 		echo '{"success":false,"message":"Failed to update GPG key. Exit code: '"$EXIT_CODE"'"}' > "$RESULT_FILE"
