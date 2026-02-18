@@ -141,7 +141,6 @@ class System extends Command {
 			break;
 			case "installall":
 			case "upgradeall":
-				$this->checkAndUpdateGpgKey($output);
 				$output->writeln("Attempting to update system");
 				$this->sysUpdate->startYumUpdate();
 				$progress = new ProgressBar($output);
@@ -192,35 +191,5 @@ class System extends Command {
 	 */
 	private function addToEmail($line) {
 		$this->emailbody[] = $line;
-	}
-
-	/**
-	 * Check FreePBX GPG key expiry and auto-update if needed
-	 *
-	 * This runs during system updates to ensure the GPG key is valid
-	 * before attempting package updates on Debian/APT systems.
-	 *
-	 * @param OutputInterface $output
-	 */
-	private function checkAndUpdateGpgKey($output) {
-		if (!class_exists('\FreePBX\Builtin\GpgKeyChecker')) {
-			return;
-		}
-		$self = $this;
-		\FreePBX\Builtin\GpgKeyChecker::checkAndUpdate(true, function($message, $type) use ($output, $self) {
-			switch ($type) {
-				case 'success':
-					$output->writeln("<info>{$message}</info>");
-					break;
-				case 'warning':
-					$output->writeln("<comment>{$message}</comment>");
-					break;
-				case 'error':
-					$output->writeln("<error>{$message}</error>");
-					break;
-				default:
-					$output->writeln($message);
-			}
-		});
 	}
 }

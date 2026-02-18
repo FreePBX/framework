@@ -224,33 +224,6 @@ $(document).ready(function(){
 		$('a[href="#systemupdatestab"]').tab('show');
 	});
 
-	// GPG key update button (System Updates tab, Debian/APT)
-	$(document).on('click', '#gpg-update-key-btn', function() {
-		var $btn = $(this);
-		var $status = $('#gpg-update-status');
-		$btn.prop('disabled', true);
-		$status.show().removeClass('text-success text-danger').html('<i class="fa fa-spinner fa-spin"></i> ' + _('Updating...'));
-		$.ajax({
-			url: window.ajaxurl || FreePBX.ajaxurl,
-			type: 'POST',
-			data: { module: 'framework', command: 'gpg-update' },
-			dataType: 'json',
-			success: function(data) {
-				if (data && data.success) {
-					$status.addClass('text-success').html('<i class="fa fa-check"></i> ' + (data.message || _('GPG key updated successfully.')));
-					$('#gpg-key-expiry-panel').fadeOut(500);
-					setTimeout(function() { window.location.href=window.location.href; }, 3000);
-				} else {
-					$status.addClass('text-danger').html('<i class="fa fa-times"></i> ' + (data && data.message ? data.message : _('Update failed.')));
-					$btn.prop('disabled', false);
-				}
-			},
-			error: function(xhr) {
-				$status.addClass('text-danger').html('<i class="fa fa-times"></i> ' + _('Update failed.'));
-				$btn.prop('disabled', false);
-			}
-		});
-	});
 })
 
 function check_upgrade_all() {
