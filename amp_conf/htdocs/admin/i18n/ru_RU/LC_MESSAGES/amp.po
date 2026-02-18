@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-18 01:46-0500\n"
+"POT-Creation-Date: 2026-02-18 03:27-0500\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -192,7 +192,7 @@ msgstr ""
 msgid "%s (current: %s)"
 msgstr "%s (текущий: %s)"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:57
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:36
 #, php-format
 msgid "%s 17 is supported only on Debian 12."
 msgstr ""
@@ -1107,7 +1107,7 @@ msgstr "Дополнительная информация"
 msgid "Additional Settings"
 msgstr "Дополнительные установки"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:177
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:156
 #, php-format
 msgid ""
 "Additionally, nodejs* packages are held to prevent upgrades to newer Node.js "
@@ -1171,7 +1171,7 @@ msgstr "Дополнительные настройки"
 msgid "Advanced Settings Details"
 msgstr "Дополнительные возможности - подробней"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:60
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:39
 msgid "Affected files:"
 msgstr ""
 
@@ -2506,10 +2506,6 @@ msgstr ""
 msgid "Checking %s..."
 msgstr "Проверка %s..."
 
-#: install.php:366
-msgid "Checking FreePBX repository GPG key..."
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:39
 msgid "Checking Online, Please Wait..."
 msgstr "Проверка онлайн, пожалуйста ожидайте..."
@@ -2647,7 +2643,7 @@ msgstr ""
 msgid "Click to Expand"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:535
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:514
 msgid "Click to expand"
 msgstr ""
 
@@ -3127,8 +3123,8 @@ msgid "Current System Version:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:400
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:427
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:379
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:406
 msgid "Current Version"
 msgstr ""
 
@@ -5030,11 +5026,6 @@ msgstr ""
 msgid "Error: \"%s\" must not be blank/empty"
 msgstr ""
 
-#: install.php:372
-#, php-format
-msgid "Error: %s"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:179
 #, php-format
 msgid "Error: Command[%s] did not return true!"
@@ -6217,8 +6208,8 @@ msgstr "Положить трубку"
 msgid "Header"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:119
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:168
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:98
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:147
 msgid "Held Packages"
 msgstr ""
 
@@ -7304,7 +7295,7 @@ msgstr "Список всех онлайн-модулей,не требующи�
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:70
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:49
 msgid "Loading system updates data..."
 msgstr ""
 
@@ -8154,8 +8145,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:732
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:373
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:400
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:427
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:379
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:406
 msgid "New Version"
 msgstr ""
 
@@ -8304,8 +8295,8 @@ msgstr "Не указан файл для загрузки"
 msgid "No file was uploaded"
 msgstr "Файл не загружен"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:180
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:448
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:159
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:427
 msgid "No held packages found."
 msgstr ""
 
@@ -8329,13 +8320,13 @@ msgstr "Не указано имя для данного CA"
 msgid "No pending module updates."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:87
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:373
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:66
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:352
 msgid "No repository files found."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:139
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:395
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:118
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:374
 msgid "No security upgradable packages found."
 msgstr ""
 
@@ -8347,8 +8338,8 @@ msgstr "Не указан статус для checkStatus"
 msgid "No updates currently required!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:157
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:422
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:136
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:401
 msgid "No upgradable packages found."
 msgstr ""
 
@@ -9097,10 +9088,10 @@ msgstr "Скрипт POST_RELOAD"
 msgid "PRE_RELOAD Script"
 msgstr "Скрипт PRE_RELOAD"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:400
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:427
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:511
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:543
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:379
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:406
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:490
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:522
 msgid "Package Name"
 msgstr ""
 
@@ -9373,7 +9364,7 @@ msgstr "Введите канал для этого устройства"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Пожалуйста, введите пароль пользователя состоящий только из цифр"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:65
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:44
 msgid "Please execute"
 msgstr ""
 
@@ -9435,7 +9426,7 @@ msgstr ""
 msgid "Please select the type of device you want to create"
 msgstr "Выберите тип устройства,которое хотите создать"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:62
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:41
 msgid ""
 "Please update your repository configuration to use 'bookworm' instead of "
 "'stable' to prevent unsupported upgrades."
@@ -9646,7 +9637,7 @@ msgid "RPM(s) requiring upgrades:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/System.class.php:114
-#: amp_conf/htdocs/admin/libraries/Console/System.class.php:170
+#: amp_conf/htdocs/admin/libraries/Console/System.class.php:169
 msgid "RPM(s) upgrade check had errors:"
 msgstr ""
 
@@ -9781,12 +9772,12 @@ msgstr "Резервирование"
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:99
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:288
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:78
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:267
 msgid "Refresh Cache"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:98
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:77
 msgid "Refresh cache to get latest data"
 msgstr ""
 
@@ -9803,7 +9794,7 @@ msgstr "Обновление  %s"
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:263
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:242
 msgid "Refreshing..."
 msgstr ""
 
@@ -9831,11 +9822,11 @@ msgstr "Отвергать обратную тарификацию"
 msgid "Related Tickets"
 msgstr "Связанный тикет"
 
-#: amp_conf/htdocs/admin/page.modules.php:1221
+#: amp_conf/htdocs/admin/page.modules.php:1200
 msgid "Related URL"
 msgstr "Связанный URL"
 
-#: amp_conf/htdocs/admin/page.modules.php:1221
+#: amp_conf/htdocs/admin/page.modules.php:1200
 msgid "Related URLs"
 msgstr "Связанные URL-ы"
 
@@ -9964,11 +9955,11 @@ msgid "Repositories"
 msgstr "Репозитории"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:208
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:400
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:379
 msgid "Repository"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:80
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:59
 msgid "Repository Configuration Files"
 msgstr ""
 
@@ -10296,11 +10287,6 @@ msgstr ""
 msgid "SUSPECT LINK:"
 msgstr "ПОДОЗРИТЕЛЬНАЯ ССЫЛКА:"
 
-#: amp_conf/htdocs/admin/page.modules.php:1144
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:30
-msgid "Sangoma Debian Repository GPG Key Expiring Soon"
-msgstr ""
-
 #: amp_conf/htdocs/admin/config.php:832
 msgid "Sangoma Support"
 msgstr ""
@@ -10398,11 +10384,11 @@ msgstr "Проблемы безопасности"
 msgid "Security Notice: Authentication Update Recommended"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:113
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:92
 msgid "Security Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:132
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:111
 msgid "Security Upgradable Packages"
 msgstr ""
 
@@ -11284,7 +11270,7 @@ msgstr ""
 msgid "Syntax error in your freepbx_menu.conf file"
 msgstr "Синтаксическая ошибка в  файле  freepbx_menu.con"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:50
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:29
 msgid "Sysadmin Module Notice"
 msgstr ""
 
@@ -11341,7 +11327,7 @@ msgstr ""
 msgid "System Notifications Email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:97
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:76
 msgid "System OS Updates Summary"
 msgstr ""
 
@@ -11385,11 +11371,11 @@ msgstr "Значение пользователя для Web"
 msgid "System is missing SOX"
 msgstr "Система не обнаружила SOX"
 
-#: amp_conf/htdocs/admin/libraries/Console/System.class.php:176
+#: amp_conf/htdocs/admin/libraries/Console/System.class.php:175
 msgid "System update check completed. See log below:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:51
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:30
 msgid "System update functionality is only supported with Sysadmin module."
 msgstr ""
 
@@ -11613,24 +11599,6 @@ msgid ""
 "analytics. These are used to focus development efforts based on real user "
 "input. All information is anonymous. You can disable this in Advanced "
 "Settings with the Browser Stats setting."
-msgstr ""
-
-#: amp_conf/htdocs/admin/page.modules.php:1148
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:37
-#, php-format
-msgid ""
-"The GPG key used to verify packages from deb.freepbx.org expired on %s. "
-"Please update the key from the System Updates tab to prevent repository "
-"authentication errors and package update failures."
-msgstr ""
-
-#: amp_conf/htdocs/admin/page.modules.php:1149
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:38
-#, php-format
-msgid ""
-"The GPG key used to verify packages from deb.freepbx.org will expire on %s. "
-"Please update the key from the System Updates tab to prevent repository "
-"authentication errors and package update failures."
 msgstr ""
 
 #: ../core/install.php:1292
@@ -11910,7 +11878,7 @@ msgstr ""
 msgid "The format times should display in. The default of "
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:176
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:155
 msgid ""
 "The freepbx17 and sangoma-pbx17 Debian packages are bootstrap-only "
 "components. Their installation process is non-idempotent, and reinstalling "
@@ -12829,7 +12797,7 @@ msgid ""
 "parameter to YES"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:64
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:43
 msgid "To automatically prevent Debian 13 upgrades:"
 msgstr ""
 
@@ -12852,7 +12820,7 @@ msgid ""
 "version or update your %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:59
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:38
 msgid ""
 "To prevent this, ensure your repository files use a specific Debian codename "
 "(such as 'bookworm') instead of 'stable'."
@@ -13312,10 +13280,6 @@ msgstr "Обновлёню"
 msgid "Update"
 msgstr "Обновления"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:41
-msgid "Update GPG Key"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/footer.php:113
 msgid "Update Notifications"
 msgstr "Предупреждения об обновлении"
@@ -13397,8 +13361,8 @@ msgstr "Подготавливаются установки для обновл�
 msgid "Updating tables %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:107
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:150
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:86
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:129
 msgid "Upgradable Packages"
 msgstr ""
 
@@ -13787,8 +13751,8 @@ msgstr "GPПроверка G..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1262
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:58
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:511
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:543
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:490
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:522
 msgid "Version"
 msgstr "Версия"
 
@@ -13852,7 +13816,7 @@ msgstr "Уязвимость по проблеме безопасности %s"
 msgid "Vulnerable, Requires: %s"
 msgstr "Уязвимость, требуется: %s"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:56
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:35
 msgid "WARNING: Debian 13 Upgrade Risk Detected"
 msgstr ""
 
@@ -14273,7 +14237,7 @@ msgstr ""
 "Нужно ли включать эхоподавление если два канала замыкаются напрямую. См. "
 "документацию по DAHDi для деталей."
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:175
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:154
 msgid "Why are packages held?"
 msgstr ""
 
@@ -14728,7 +14692,7 @@ msgstr ""
 "некоторые проблемы. FreePBX не может изменить это в вашей системе. Вам нужно "
 "увеличить это до %sM в вашем файле php.ini"
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:58
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:37
 #, php-format
 msgid ""
 "Your repository configuration may allow an upgrade to Debian 13, which is "
@@ -15531,7 +15495,7 @@ msgstr "повреждённый"
 msgid "this file must be done via the Web GUI. This file is IGNORED BY FreePBX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:65
+#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:44
 msgid "to run sysadmin hook"
 msgstr ""
 
@@ -15563,8 +15527,6 @@ msgstr ""
 "установках"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3330
-#: amp_conf/htdocs/admin/page.modules.php:1145
-#: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:35
 msgid "unknown"
 msgstr "неизвестный"
 
