@@ -889,11 +889,6 @@ class GPG {
 			}
 		}
 
-		try {
-			$this->checkAndUpdateRepoKey(true);
-		} catch (\Exception $e) {
-			freepbx_log(FPBX_LOG_ERROR, "Repo GPG key check failed: ".$e->getMessage());
-		}
 		return $refreshSuccess;
 	}
 
