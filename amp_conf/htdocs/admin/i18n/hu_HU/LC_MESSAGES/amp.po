@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-18 03:27-0500\n"
+"POT-Creation-Date: 2026-02-18 05:38-0500\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -778,9 +778,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "MINDEN SZEKCIÓ"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:223
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:236
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:260
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:220
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:233
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:257
 #, php-format
 msgid "AMI failure details:"
 msgstr ""
@@ -1527,7 +1527,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1021
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1016
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -2363,6 +2363,10 @@ msgstr ""
 msgid "Checking Signatures of Modules..."
 msgstr ""
 
+#: install.php:364
+msgid "Checking and updating Repo GPG key..."
+msgstr ""
+
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
 #, php-format
 msgid "Checking for %s field.."
@@ -3185,7 +3189,7 @@ msgstr ""
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:244
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:241
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
@@ -3701,7 +3705,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1044
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1039
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
@@ -3711,7 +3715,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1068
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1063
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
@@ -3930,7 +3934,7 @@ msgstr ""
 msgid "Don't ask to enable disabled modules assume no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1051
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1046
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr ""
@@ -4966,17 +4970,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:234
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:231
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:218
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:258
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:255
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -5054,7 +5058,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:275
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:272
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -5865,7 +5869,7 @@ msgstr ""
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1034
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1029
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr ""
@@ -5929,7 +5933,7 @@ msgstr ""
 msgid "I can only do .gpg files at the moment"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1006
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1001
 msgid "I don't know who I should be running GPG as."
 msgstr ""
 
@@ -5937,7 +5941,7 @@ msgstr ""
 msgid "I don't know who I should be running OpenSSL as."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1012
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1007
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:111
 #, php-format
 msgid ""
@@ -7807,7 +7811,7 @@ msgstr ""
 msgid "No security upgradable packages found."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:960
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:955
 msgid "No status was given to checkStatus"
 msgstr ""
 
@@ -8607,13 +8611,13 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1097
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1092
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1083
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1078
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:611
 #, php-format
 msgid ""
@@ -9311,6 +9315,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:341
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:343
 msgid "Repo "
+msgstr ""
+
+#: install.php:367
+#, php-format
+msgid "Repo GPG key check failed: %s"
 msgstr ""
 
 #: amp.i18n.php:498
@@ -10517,7 +10526,7 @@ msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:189
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:186
 msgid "Successfully reloaded"
 msgstr ""
 
@@ -12179,7 +12188,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:152
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:149
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -12334,8 +12343,8 @@ msgstr ""
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:176
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:181
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:173
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:178
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -13413,7 +13422,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:244
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:241
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -13821,7 +13830,7 @@ msgstr ""
 msgid "changed %s settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:909
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:904
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr ""
@@ -14016,7 +14025,7 @@ msgstr ""
 msgid "fwconsole convert2pjsip -a."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:161
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""
