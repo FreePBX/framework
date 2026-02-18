@@ -42,6 +42,191 @@ function framework_print_errors($src, $dst, $errors) {
 	}
 }
 
+function framework_repo_key_gpg_binary() {
+	$locations = array("/usr/bin/gpg", "/usr/bin/gpg2", "/usr/local/bin/gpg", "/usr/local/bin/gpg2");
+	foreach ($locations as $loc) {
+		if (!file_exists($loc) || filetype($loc) !== "file") {
+			continue;
+		}
+		return $loc;
+	}
+
+	throw new \Exception(_("Could not find gpg command!"));
+}
+
+function framework_repo_key_expiry_from_file($gpgBinary, $path) {
+	$result = [
+		'valid' => false,
+		'expires_in_days' => 0,
+		'expiry_date' => '',
+		'key_id' => '',
+	];
+
+	$output = [];
+	$returnVar = 0;
+	exec($gpgBinary . ' --show-keys ' . escapeshellarg($path) . ' 2>/dev/null', $output, $returnVar);
+	if ($returnVar !== 0 || empty($output)) {
+		return $result;
+	}
+
+	$expiryDate = null;
+	foreach ($output as $line) {
+		if (preg_match('/\[expires:\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
+			$expiryDate = $m[1];
+			break;
+		}
+		if (preg_match('/^\s*([A-F0-9]{16,40})\s*$/', trim($line), $m)) {
+			$result['key_id'] = substr($m[1], -16);
+		}
+	}
+
+	if (!$expiryDate) {
+		return $result;
+	}
+
+	$expiryTs = strtotime($expiryDate);
+	if ($expiryTs === false) {
+		return $result;
+	}
+
+	$result['valid'] = true;
+	$result['expiry_date'] = $expiryDate;
+	$result['expires_in_days'] = (int) floor(($expiryTs - time()) / 86400);
+	return $result;
+}
+
+function framework_check_repo_key_expiry($gpgBinary) {
+	$result = [
+		'applicable' => false,
+		'needs_update' => false,
+		'expires_in_days' => 0,
+		'expiry_date' => '',
+		'key_id' => '',
+	];
+
+	$aptDir = dirname(FRAMEWORK_REPO_GPG_KEY_PATH);
+	if (!is_dir($aptDir)) {
+		return $result;
+	}
+
+	$result['applicable'] = true;
+	if (!file_exists(FRAMEWORK_REPO_GPG_KEY_PATH)) {
+		$result['needs_update'] = true;
+		return $result;
+	}
+
+	$direct = framework_repo_key_expiry_from_file($gpgBinary, FRAMEWORK_REPO_GPG_KEY_PATH);
+	if ($direct['valid']) {
+		$result['expiry_date'] = $direct['expiry_date'];
+		$result['expires_in_days'] = $direct['expires_in_days'];
+		$result['key_id'] = $direct['key_id'];
+		$result['needs_update'] = ($result['expires_in_days'] < FRAMEWORK_REPO_GPG_KEY_EXPIRY_UPDATE_DAYS);
+		return $result;
+	}
+
+	$result['needs_update'] = true;
+	return $result;
+}
+
+function framework_update_repo_key($gpgBinary) {
+	if (!file_exists('/etc/apt/trusted.gpg.d')) {
+		return [
+			'success' => false,
+			'message' => _('APT trusted key directory does not exist. This system may not use APT.'),
+		];
+	}
+
+	$response = \FreePBX::Curl()->get(FRAMEWORK_REPO_GPG_KEY_URL);
+	if (empty($response) || $response->status_code !== 200 || empty($response->body)) {
+		return [
+			'success' => false,
+			'message' => _('Failed to download GPG key.'),
+		];
+	}
+
+	$tmpKey = tempnam(sys_get_temp_dir(), 'fpbx-gpg-');
+	$tmpGpg = tempnam(sys_get_temp_dir(), 'fpbx-gpg-');
+	if ($tmpKey === false || $tmpGpg === false) {
+		return [
+			'success' => false,
+			'message' => _('Unable to create temporary files for GPG update.'),
+		];
+	}
+
+	$success = false;
+	$message = '';
+	try {
+		if (file_put_contents($tmpKey, $response->body) === false || !filesize($tmpKey)) {
+			$message = _('Failed to write downloaded GPG key.');
+		} else {
+			$output = [];
+			$exitCode = 0;
+			exec($gpgBinary . ' --dearmor --yes -o ' . escapeshellarg($tmpGpg) . ' ' . escapeshellarg($tmpKey) . ' 2>/dev/null', $output, $exitCode);
+			if ($exitCode !== 0 || !filesize($tmpGpg)) {
+				$message = sprintf(_('Failed to dearmor GPG key. Exit code: %s'), $exitCode);
+			} elseif (!@rename($tmpGpg, FRAMEWORK_REPO_GPG_KEY_PATH)) {
+				if (@copy($tmpGpg, FRAMEWORK_REPO_GPG_KEY_PATH)) {
+					@unlink($tmpGpg);
+				} else {
+					$message = _('Failed to install GPG key.');
+				}
+			}
+
+			if (empty($message)) {
+				@chmod(FRAMEWORK_REPO_GPG_KEY_PATH, 0644);
+				$success = true;
+				$message = _('GPG key updated successfully.');
+			}
+		}
+	} finally {
+		if (is_file($tmpKey)) {
+			@unlink($tmpKey);
+		}
+		if (is_file($tmpGpg)) {
+			@unlink($tmpGpg);
+		}
+	}
+
+	return [
+		'success' => $success,
+		'message' => $message,
+	];
+}
+
+function framework_check_and_update_repo_key($autoUpdate = false, $outputCallback = null) {
+	$result = [
+		'checked' => true,
+		'applicable' => false,
+		'needed_update' => false,
+		'updated' => false,
+		'success' => false,
+		'message' => '',
+	];
+
+	$gpgBinary = framework_repo_key_gpg_binary();
+	$gpgStatus = framework_check_repo_key_expiry($gpgBinary);
+	$result['applicable'] = $gpgStatus['applicable'];
+
+	if (!$gpgStatus['applicable']) {
+		return $result;
+	}
+
+	if (!$gpgStatus['needs_update']) {
+		$result['success'] = true;
+		return $result;
+	}
+
+	$result['needed_update'] = true;
+	if ($autoUpdate) {
+		$result['updated'] = true;
+		$updateResult = framework_update_repo_key($gpgBinary);
+		$result['success'] = $updateResult['success'];
+		$result['message'] = $updateResult['message'];
+	}
+
+	return $result;
+}
+
 global $amp_conf;
 
 // default php will check local path, or should we add that in?
@@ -64,6 +249,16 @@ if (!function_exists('version_compare_freepbx')) {
 			return version_compare($version1, $version2);
 		}
 	}
+}
+
+if (!defined('FRAMEWORK_REPO_GPG_KEY_URL')) {
+	define('FRAMEWORK_REPO_GPG_KEY_URL', 'http://deb.freepbx.org/gpg/aptly-pubkey.asc');
+}
+if (!defined('FRAMEWORK_REPO_GPG_KEY_PATH')) {
+	define('FRAMEWORK_REPO_GPG_KEY_PATH', '/etc/apt/trusted.gpg.d/freepbx.gpg');
+}
+if (!defined('FRAMEWORK_REPO_GPG_KEY_EXPIRY_UPDATE_DAYS')) {
+	define('FRAMEWORK_REPO_GPG_KEY_EXPIRY_UPDATE_DAYS', 30);
 }
 
 /* This is here to catch some errors in an 11->12 upgrade, specifically
@@ -360,9 +555,7 @@ try {
 } catch (\Exception $e) {
 	out(sprintf(_("Error updating GPG Keys: %s"), $e->getMessage()));
 }
-try {
-	outn(_("Checking and updating Repo GPG key..."));
-	\FreePBX::GPG()->checkAndUpdateRepoKey(true);
-} catch (\Exception $e) {
-	out(sprintf(_("Repo GPG key check failed: %s"), $e->getMessage()));
-}
+
+outn(_("Checking and updating Sangoma Debian Repository GPG Key..."));
+framework_check_and_update_repo_key(true);
+out(_("Done."));
