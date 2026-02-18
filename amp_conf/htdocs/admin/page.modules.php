@@ -1132,32 +1132,11 @@ switch ($action) {
 				$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
 			}
 
-			// Check FreePBX GPG key expiry for Debian/APT systems
-			$gpgStatus = \FreePBX\Builtin\GpgKeyChecker::checkFreepbxGpgExpiry();
-			$summary['gpg_key_expiring'] = $gpgStatus['applicable'] && $gpgStatus['needs_update'];
-			$summary['gpg_key_info'] = $gpgStatus;
-
-			if ($gpgStatus['applicable']) {
-				$nt = \FreePBX::create()->Notifications;
-				$nt->delete('framework', 'GPG_KEY_EXPIRY');
-				if ($gpgStatus['needs_update']) {
-					$displayText = _("Sangoma Debian Repository GPG Key Expiring Soon");
-					$expiryDate = $gpgStatus['expiry_date'] ?: _("unknown");
-					$days = (int) $gpgStatus['expires_in_days'];
-					$extendedText = $days < 0
-						? sprintf(_("The GPG key used to verify packages from deb.freepbx.org expired on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate)
-						: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire on %s. Please update the key from the System Updates tab to prevent repository authentication errors and package update failures."), $expiryDate);
-					$link = "config.php?display=modules&module_page=summary#systemupdatestab";
-					$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, $link, false, true);
-				}
-			}
 		} else {
 			$summary['candosystemupdates'] = true;
 			$summary['systemupdates'] = $su->getPendingUpdates();
 			$summary['systemupdateavail'] = $summary['systemupdates']['pbxupdateavail'];
 			$summary['pendingupgradessystem'] = is_countable($summary['systemupdates']['rpms']) ? count($summary['systemupdates']['rpms']) : 0;
-			$summary['gpg_key_expiring'] = false;
-			$summary['gpg_key_info'] = [];
 		}
 
 		// Which tab should be active?

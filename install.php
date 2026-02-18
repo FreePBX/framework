@@ -360,15 +360,3 @@ try {
 } catch (\Exception $e) {
 	out(sprintf(_("Error updating GPG Keys: %s"), $e->getMessage()));
 }
-
-// Check and update FreePBX repository GPG key if expiring (Debian/APT systems)
-if (class_exists('\FreePBX\Builtin\GpgKeyChecker')) {
-	outn(_("Checking FreePBX repository GPG key..."));
-	try {
-		\FreePBX\Builtin\GpgKeyChecker::checkAndUpdate(true, function($message, $type) {
-			out($message);
-		});
-	} catch (\Exception $e) {
-		out(sprintf(_("Error: %s"), $e->getMessage()));
-	}
-}
