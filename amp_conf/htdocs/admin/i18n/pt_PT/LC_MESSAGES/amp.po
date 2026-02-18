@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-17 05:33-0500\n"
+"POT-Creation-Date: 2026-02-18 01:46-0500\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -162,11 +162,6 @@ msgstr ""
 #, php-format
 msgid ""
 "%s %s will be upgraded to online version %s and switched to the %s track"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:215
-#, php-format
-msgid "%s (%s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:53
@@ -850,7 +845,7 @@ msgid ""
 "left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:95
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:223
 msgid "APT trusted key directory does not exist. This system may not use APT."
 msgstr ""
 
@@ -1597,7 +1592,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr "Dir etc do Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:800
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1021
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -1639,7 +1634,7 @@ msgstr "Tentativa de carregar %s mas a classe %s não foi definida"
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr "Tentativa de carergar %s com sugestão %s, mas é inexistente"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1765
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1764
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr ""
@@ -2216,9 +2211,9 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1517
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1551
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1595
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1660
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1734
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1787
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1659
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1733
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1786
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
 
@@ -2307,7 +2302,7 @@ msgstr ""
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:376
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:590
 msgid "Cannot revoke null key!"
 msgstr ""
 
@@ -2320,7 +2315,7 @@ msgstr ""
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:388
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:602
 msgid "Cannot trust null key!"
 msgstr ""
 
@@ -2896,7 +2891,7 @@ msgstr ""
 msgid "Could not find extracted module: %s"
 msgstr "Não foi possível encontrar o módulo extraído: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:97
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:102
 msgid "Could not find gpg command!"
 msgstr ""
 
@@ -3846,7 +3841,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:823
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1044
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr "Diretório %s não existe e não pode ser criado (getGpgLocation)."
@@ -3856,7 +3851,7 @@ msgstr "Diretório %s não existe e não pode ser criado (getGpgLocation)."
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:847
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1068
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr "Diretório %s não existe e não pode ser criado. (checkPermissions)"
@@ -4077,7 +4072,7 @@ msgstr "Não Interessa"
 msgid "Don't ask to enable disabled modules assume no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:830
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1051
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr "Não existem permissões/não posso escrever para %s"
@@ -5169,6 +5164,15 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:254
+#, php-format
+msgid "Failed to dearmor GPG key. Exit code: %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:231
+msgid "Failed to download GPG key."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3236
 #, php-format
 msgid "Failed to get remote file, error was: %s"
@@ -5178,6 +5182,10 @@ msgstr ""
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr "Falha obtendo ficheiro remoto, o mirror site pode estar em baixo: %s"
+
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:259
+msgid "Failed to install GPG key."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:339
 msgid "Failed to load installed modules list"
@@ -5253,6 +5261,10 @@ msgstr ""
 msgid "Failed to updated core device"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:248
+msgid "Failed to write downloaded GPG key."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1784
 msgid "Failed to write file to disk"
 msgstr ""
@@ -5260,11 +5272,6 @@ msgstr ""
 #: ../core/functions.inc.php:4680
 msgid "Failed to write indications.conf"
 msgstr "Falha ao escrever indications.conf"
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:249
-#, php-format
-msgid "Failed: %s"
-msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:38
 msgid "Fallback Welcome Page"
@@ -5757,11 +5764,11 @@ msgid ""
 "when it is first bootstrapping the installer."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:158
-msgid "GPG key update initiated. Please refresh to verify."
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:266
+msgid "GPG key updated successfully."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:538
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:752
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr ""
@@ -6027,7 +6034,7 @@ msgstr ""
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:813
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1034
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "Diretório Home %s não existe e não pode ser criado"
@@ -6091,11 +6098,11 @@ msgid ""
 "joe@somedomain.com"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:472
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:686
 msgid "I can only do .gpg files at the moment"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:785
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1006
 msgid "I don't know who I should be running GPG as."
 msgstr "Não sei em nome de quem devería estar a executar o GPG."
 
@@ -6103,7 +6110,7 @@ msgstr "Não sei em nome de quem devería estar a executar o GPG."
 msgid "I don't know who I should be running OpenSSL as."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:791
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1012
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:111
 #, php-format
 msgid ""
@@ -6361,7 +6368,7 @@ msgid ""
 "addition to the users extension to call them."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:249
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:463
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -6567,10 +6574,6 @@ msgstr "Número Incorreto de Diretórios para %s"
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:403
 #, php-format
 msgid "Incorrect permissions please check the permission your trying to set"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:102
-msgid "Incron not configured, unable to update GPG key."
 msgstr ""
 
 #: ../core/views/did/advanced_form.php:291
@@ -6862,12 +6865,12 @@ msgstr ""
 msgid "Keep Nav Bar Expanded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:338
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:552
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:378
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:592
 msgid "Key revokation/trust removal is not currently implemented."
 msgstr ""
 
@@ -7334,12 +7337,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1461
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1508
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1598
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1698
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1725
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1737
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1746
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1755
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1779
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1697
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1724
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1736
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1745
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1754
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1778
 msgid "Missing module name"
 msgstr ""
 
@@ -7357,8 +7360,8 @@ msgstr "module.xml em falta em %s"
 msgid "Missing outbound routes have been found"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1706
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1714
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1705
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1713
 msgid "Missing repo name"
 msgstr ""
 
@@ -7423,7 +7426,7 @@ msgstr "Módulo \"%s\" assinado por uma chave inválida."
 msgid "Module %s installation completed in %s seconds"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1923
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1894
 #, php-format
 msgid "Module %s installation failed with errors: %s"
 msgstr ""
@@ -7605,7 +7608,7 @@ msgstr "Módulo não está ativo: não é possível desativar"
 msgid "Module not installed: cannot uninstall"
 msgstr "Módulo não está instalado: não é possível desinstalar"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:217
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:431
 msgid "Module signature expired"
 msgstr ""
 
@@ -7812,11 +7815,6 @@ msgstr ""
 msgid "New Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:233
-#, php-format
-msgid "New expiry: %s"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1227
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:131
 #, php-format
@@ -7971,7 +7969,7 @@ msgstr ""
 msgid "No interfaces found"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:183
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:397
 msgid "No module to check"
 msgstr ""
 
@@ -7997,7 +7995,7 @@ msgstr ""
 msgid "No security upgradable packages found."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:739
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:960
 msgid "No status was given to checkStatus"
 msgstr "Nenhum estado definido para checkStatus"
 
@@ -8115,11 +8113,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:243
 msgid "Not an array"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:187
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:188
-msgid "Not applicable (non-Debian system)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:843
@@ -8786,7 +8779,7 @@ msgstr "Caminho para tiff2pdf"
 msgid "Path for tiffinfo"
 msgstr "Caminho para tiffinfo"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:187
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:401
 msgid "Path given to verifyModule. Only provide a module name"
 msgstr "Caminho definido para verifyModule. Facultar apenas um nome de módulo"
 
@@ -8820,13 +8813,13 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:876
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1097
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:862
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1083
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:611
 #, php-format
 msgid ""
@@ -9003,7 +8996,7 @@ msgstr ""
 msgid "Please provide valid device technology"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1769
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1768
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 
@@ -11844,7 +11837,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1768
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1767
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
@@ -12395,7 +12388,11 @@ msgstr "Não foi possível ligação aos servidores: %s"
 msgid "Unable to create %s config file"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:366
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
+msgid "Unable to create temporary files for GPG update."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:580
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr ""
@@ -12437,7 +12434,7 @@ msgstr ""
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:117
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:331
 #, php-format
 msgid "Unable to open file %s"
 msgstr ""
@@ -12492,7 +12489,7 @@ msgstr ""
 msgid "Unable to start Asterisk!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:530
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:744
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr ""
@@ -12501,7 +12498,7 @@ msgstr ""
 msgid "Unable to start OpenSSL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:479
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:693
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr ""
@@ -12510,7 +12507,7 @@ msgstr ""
 msgid "Unable to trigger system update check. Please try again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:400
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:614
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Não é possível confirmar na Chave do FreePBX! -- %s"
@@ -12559,7 +12556,7 @@ msgstr ""
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1801
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1800
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr ""
@@ -12730,10 +12727,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1334
 #: amp_conf/htdocs/admin/page.modules.php:395
 msgid "Updating Hooks..."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:220
-msgid "Updating Sangoma Debian Repository GPG key..."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
@@ -13079,11 +13072,6 @@ msgstr "Extensão de Timeout Padrão do VMX"
 #: amp.i18n.php:852 ../core/install.php:348
 msgid "VMX Default Timeout Priority"
 msgstr "Prioridade de Timeout Padrão do VMX"
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:193
-#, php-format
-msgid "Valid (expires: %s)"
-msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:228
 msgid "Valid core extensions"
@@ -14017,7 +14005,7 @@ msgid ""
 "FreePBX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:241
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:455
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3266
 #, fuzzy
 msgid "altered"
@@ -14068,7 +14056,7 @@ msgstr ""
 msgid "changed %s settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:688
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:909
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr ""
@@ -14195,16 +14183,6 @@ msgstr ""
 msgid "exists"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:213
-#, php-format
-msgid "expired %s days ago"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Builtin/GpgKeyChecker.php:212
-#, php-format
-msgid "expires in %s days"
-msgstr ""
-
 #: upgrades/2.10.0beta3/migration.php:58 upgrades/2.10.0beta3/migration.php:73
 msgid "failed"
 msgstr ""
@@ -14283,12 +14261,12 @@ msgstr ""
 msgid "fwconsole trunks --converttopjsip <all/trunkid>."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:615
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:829
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:421
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:635
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr ""
@@ -14457,7 +14435,7 @@ msgstr ""
 msgid "migrating.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:233
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:447
 msgid "missing"
 msgstr ""
 
@@ -14476,7 +14454,7 @@ msgstr ""
 msgid "missing value and/or defaultval required for [%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:420
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr ""
@@ -14729,7 +14707,7 @@ msgstr "tipo desconhecido: [%s]"
 msgid "unrecognized rule: %s discarding"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:195
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:409
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3328
 msgid "unsigned"
 msgstr "não assinado"
