@@ -572,8 +572,7 @@ try {
 		$extendedText = $days < 0
 			? sprintf(_("The GPG key used to verify packages from deb.freepbx.org repository expired %d days ago (on %s). Repository updates will fail until the key is updated. Please update the key by running the command : \"fwconsole util updategpgkey\" from CLI."), abs($days), $gpgStatus['expiry_date'] ?: _("unknown"))
 			: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire in %d days on %s .To prevent repository authentication issues, please update the key by running the command:  \"fwconsole util updategpgkey\" from CLI."), $days, $gpgStatus['expiry_date'] ?: _("unknown"));
-		$link = "config.php?display=modules&module_page=summary#systemupdatestab";
-		$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, $link, false, true);
+		$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, false, false, true);
 	}
 } catch (\Exception $e) {
 	// Ignore notification updates if GPG isn't available.
