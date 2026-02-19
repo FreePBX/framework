@@ -161,6 +161,27 @@ class Util extends Command {
 				}
 				$output->writeln("======Clearing unused Extensions Finished =======");
 			break;
+			case "updategpgkey":
+				$output->writeln(_("Checking and updating Sangoma Debian Repository GPG Key..."));
+				try {
+					$result = \FreePBX::GPG()->checkAndUpdateRepoKey(true);
+					if (!$result['applicable']) {
+						$output->writeln(_("APT trusted key directory does not exist. This system may not use APT."));
+					} elseif (!$result['needed_update']) {
+						$nt = \FreePBX::create()->Notifications;
+						$nt->delete('framework', 'GPG_KEY_EXPIRY');
+						$output->writeln(_("GPG key is up to date."));
+					} elseif ($result['success']) {
+						$nt = \FreePBX::create()->Notifications;
+						$nt->delete('framework', 'GPG_KEY_EXPIRY');
+						$output->writeln($result['message'] ?: _("GPG key updated successfully."));
+					} else {
+						$output->writeln('<error>'.($result['message'] ?: _("Failed to update GPG key.")).'</error>');
+					}
+				} catch (\Exception $e) {
+					$output->writeln('<error>'.sprintf(_("Error updating GPG key: %s"), $e->getMessage()).'</error>');
+				}
+			break;
 			default:
 				$output->writeln('Invalid argument');
 			break;

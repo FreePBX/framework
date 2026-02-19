@@ -559,3 +559,23 @@ try {
 outn(_("Checking and updating Sangoma Debian Repository GPG Key..."));
 framework_check_and_update_repo_key(true);
 out(_("Done."));
+
+try {
+	$gpgBinary = framework_repo_key_gpg_binary();
+	$gpgStatus = framework_check_repo_key_expiry($gpgBinary);
+	$nt = \FreePBX::create()->Notifications;
+	$nt->delete('framework', 'GPG_KEY_EXPIRY');
+	if ($gpgStatus['applicable'] && $gpgStatus['needs_update']) {
+		out(_("Sangoma Debian Repository GPG Key Update Failed"));
+		$days = (int) $gpgStatus['expires_in_days'];
+		$displayText =  $days < 0 ? _("Sangoma Debian Repository GPG Key Expired") : _("Sangoma Debian Repository GPG Key Expiring Soon");
+		$extendedText = $days < 0
+			? sprintf(_("The GPG key used to verify packages from deb.freepbx.org repository is  expired %d days ago (on %s). prevent repository authentication issues, please update the key by running the command \"fwconsole util updategpgkey\" from CLI."), abs($days), $gpgStatus['expiry_date'] ?: _("unknown"))
+			: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire in %d days (on %s). prevent repository authentication issues, please update the key by running the command \"fwconsole util updategpgkey\" from CLI."), $days, $gpgStatus['expiry_date'] ?: _("unknown"));
+		$link = "config.php?display=modules&module_page=summary#systemupdatestab";
+		$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, $link, false, true);
+	}
+} catch (\Exception $e) {
+	// Ignore notification updates if GPG isn't available.
+}
+
