@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-18 21:36-0500\n"
+"POT-Creation-Date: 2026-02-19 02:50-0500\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -842,7 +842,8 @@ msgid ""
 "left blank"
 msgstr ""
 
-#: install.php:135
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1024
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:169 install.php:135
 msgid "APT trusted key directory does not exist. This system may not use APT."
 msgstr ""
 
@@ -2398,7 +2399,7 @@ msgstr ""
 msgid "Checking Signatures of Modules..."
 msgstr ""
 
-#: install.php:559
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:165 install.php:559
 msgid "Checking and updating Sangoma Debian Repository GPG Key..."
 msgstr ""
 
@@ -4710,6 +4711,11 @@ msgstr ""
 msgid "Error updating GPG Keys: %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:182
+#, php-format
+msgid "Error updating GPG key: %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2084
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
@@ -5066,12 +5072,12 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
-#: install.php:166
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1055 install.php:166
 #, php-format
 msgid "Failed to dearmor GPG key. Exit code: %s"
 msgstr ""
 
-#: install.php:143
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1032 install.php:143
 msgid "Failed to download GPG key."
 msgstr ""
 
@@ -5085,7 +5091,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: install.php:171
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1060 install.php:171
 msgid "Failed to install GPG key."
 msgstr ""
 
@@ -5159,11 +5165,15 @@ msgstr ""
 msgid "Failed to start call trasnfer monitoring service"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:179
+msgid "Failed to update GPG key."
+msgstr ""
+
 #: ../core/Api/Gql/Devices.php:96
 msgid "Failed to updated core device"
 msgstr ""
 
-#: install.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1049 install.php:160
 msgid "Failed to write downloaded GPG key."
 msgstr ""
 
@@ -5658,7 +5668,12 @@ msgid ""
 "when it is first bootstrapping the installer."
 msgstr ""
 
-#: install.php:178
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:173
+msgid "GPG key is up to date."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1067
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:177 install.php:178
 msgid "GPG key updated successfully."
 msgstr ""
 
@@ -9743,6 +9758,18 @@ msgstr ""
 msgid "SUSPECT LINK:"
 msgstr "LINK SUSPECT:"
 
+#: install.php:571
+msgid "Sangoma Debian Repository GPG Key Expired"
+msgstr ""
+
+#: install.php:571
+msgid "Sangoma Debian Repository GPG Key Expiring Soon"
+msgstr ""
+
+#: install.php:569
+msgid "Sangoma Debian Repository GPG Key Update Failed"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:832
 msgid "Sangoma Support"
 msgstr ""
@@ -11001,6 +11028,23 @@ msgid ""
 "analytics. These are used to focus development efforts based on real user "
 "input. All information is anonymous. You can disable this in Advanced "
 "Settings with the Browser Stats setting."
+msgstr ""
+
+#: install.php:573
+#, php-format
+msgid ""
+"The GPG key used to verify packages from deb.freepbx.org repository is  "
+"expired %d days ago (on %s). prevent repository authentication issues, "
+"please update the key by running the command \"fwconsole util updategpgkey\" "
+"from CLI."
+msgstr ""
+
+#: install.php:574
+#, php-format
+msgid ""
+"The GPG key used to verify packages from deb.freepbx.org will expire in %d "
+"days (on %s). prevent repository authentication issues, please update the "
+"key by running the command \"fwconsole util updategpgkey\" from CLI."
 msgstr ""
 
 #: ../core/install.php:1292
@@ -12294,7 +12338,7 @@ msgstr ""
 msgid "Unable to create %s config file"
 msgstr ""
 
-#: install.php:152
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1041 install.php:152
 msgid "Unable to create temporary files for GPG update."
 msgstr ""
 
@@ -14617,6 +14661,7 @@ msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3330
+#: install.php:573 install.php:574
 msgid "unknown"
 msgstr ""
 
