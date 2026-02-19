@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-18 05:38-0500\n"
+"POT-Creation-Date: 2026-02-18 21:36-0500\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -863,7 +863,7 @@ msgid ""
 "left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:223
+#: install.php:135
 msgid "APT trusted key directory does not exist. This system may not use APT."
 msgstr ""
 
@@ -1610,7 +1610,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr "دایرکتوری etc استریسک"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1016
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:801
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -1913,7 +1913,7 @@ msgstr "کش روزانه مرورگر"
 msgid "Browser Stats"
 msgstr "آمار مرورگر"
 
-#: install.php:350
+#: install.php:545
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2338,7 +2338,7 @@ msgstr ""
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:590
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:375
 msgid "Cannot revoke null key!"
 msgstr ""
 
@@ -2351,11 +2351,11 @@ msgstr ""
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:602
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:387
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:294
+#: install.php:489
 msgid "Cant Find Framework XML"
 msgstr "نمیتواند فریم ورک XML را پیدا کند"
 
@@ -2499,8 +2499,8 @@ msgstr "بررسی آنلاین، لطفا صبرکنید..."
 msgid "Checking Signatures of Modules..."
 msgstr "بررسی امضای ماژول ها..."
 
-#: install.php:364
-msgid "Checking and updating Repo GPG key..."
+#: install.php:559
+msgid "Checking and updating Sangoma Debian Repository GPG Key..."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
@@ -2710,11 +2710,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr "ابزارهای متداول"
 
-#: install.php:288
+#: install.php:483
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:279
+#: install.php:474
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -2938,7 +2938,7 @@ msgstr ""
 msgid "Could not find extracted module: %s"
 msgstr "نمیتواند ماژول استخراج شده را پیدا کند: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:102
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:96 install.php:54
 msgid "Could not find gpg command!"
 msgstr "نمیتواند دستور gpg را پیدا کند!"
 
@@ -3945,7 +3945,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr "برداشتن مستقیم تماس"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1039
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:824
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr "دایرکتوری %s وجود ندادر، و نمیتوان آن را ساخت (getGpgLocation)."
@@ -3955,7 +3955,7 @@ msgstr "دایرکتوری %s وجود ندادر، و نمیتوان آن را 
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "دایرکتوری %s وجود ندارد، و نمیتواند ساخته شود."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1063
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:848
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr "دایرکتوری %s وجود ندارد، و نمیتواند ساخته شود.(بررسی دسترسی ها)"
@@ -4181,7 +4181,7 @@ msgstr "مهم نیست"
 msgid "Don't ask to enable disabled modules assume no."
 msgstr "با فرض پاسخ منفی از پرسش برای فعال کردن ماژولهای غیر فعال خودداری کن."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1046
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:831
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr "دسترسی لازم را ندارید/نمیتوانید بنویسید در %s"
@@ -4209,8 +4209,8 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2063
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2136
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2286
-#: amp_conf/htdocs/admin/page.modules.php:399 install.php:284 install.php:290
-#: install.php:311 install.php:346 install.php:352 install.php:359
+#: amp_conf/htdocs/admin/page.modules.php:399 install.php:479 install.php:485
+#: install.php:506 install.php:541 install.php:547 install.php:554
 #: installlib/installcommand.class.php:557
 #: installlib/installcommand.class.php:595 ../core/install.php:271
 #: ../core/install.php:992
@@ -4220,6 +4220,10 @@ msgstr "انجام شد"
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:185
 #, php-format
 msgid "Done with %s"
+msgstr ""
+
+#: install.php:561
+msgid "Done."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:761
@@ -4925,7 +4929,7 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:361
+#: install.php:556
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
@@ -5294,12 +5298,12 @@ msgstr ""
 msgid "Failed to create extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:254
+#: install.php:166
 #, php-format
 msgid "Failed to dearmor GPG key. Exit code: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:231
+#: install.php:143
 msgid "Failed to download GPG key."
 msgstr ""
 
@@ -5313,7 +5317,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr "شکست در دریافت فایل خارجی، سایت پشتیبان در دسترس نیست: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:259
+#: install.php:171
 msgid "Failed to install GPG key."
 msgstr ""
 
@@ -5392,7 +5396,7 @@ msgstr ""
 msgid "Failed to updated core device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:248
+#: install.php:160
 msgid "Failed to write downloaded GPG key."
 msgstr ""
 
@@ -5936,11 +5940,11 @@ msgstr ""
 "installs may have some early logging sent to /tmp/freepbx_pre_install.log "
 "when it is first bootstrapping the installer."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:266
+#: install.php:178
 msgid "GPG key updated successfully."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:752
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:537
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr "GPG took too  long to run the command: [%s]"
@@ -6215,7 +6219,7 @@ msgstr "برای شنیدن روی کلید اجرا کلیک کنید"
 msgid "Hit the red record button to start recording from your browser"
 msgstr "برای ضبط از مرورگر روی کلید قرمز کلیک کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1029
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:814
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "دایرکتوری خانگی %s وجود ندارد، و نمیتواند ایجاد شود"
@@ -6284,11 +6288,11 @@ msgstr ""
 "custom device which is really a remote SIP URI might be configured such as "
 "SIP/joe@somedomain.com"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:686
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:471
 msgid "I can only do .gpg files at the moment"
 msgstr "I can  only do .gpg files at the moment"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1001
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:786
 msgid "I don't know who I should be running GPG as."
 msgstr "I don't know  who I should be running GPG as."
 
@@ -6296,7 +6300,7 @@ msgstr "I don't know  who I should be running GPG as."
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "I don't know  who I should be running OpenSSL as."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1007
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:792
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:111
 #, php-format
 msgid ""
@@ -6612,7 +6616,7 @@ msgstr ""
 "anonymous sip calls, you can supply a friendly name that can be used in "
 "addition to the users extension to call them."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:463
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:248
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -6965,7 +6969,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr "خطای داخلی. تابع getVersion با نسخه فریم ورک همخوانی ندارد"
 
-#: install.php:308
+#: install.php:503
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -7117,12 +7121,12 @@ msgstr "کلید واژه"
 msgid "Keep Nav Bar Expanded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:552
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:337
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr "ارائه کلید - %s  - هگزا نیست"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:592
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:377
 msgid "Key revokation/trust removal is not currently implemented."
 msgstr ""
 
@@ -7884,7 +7888,7 @@ msgstr "ماژول فعال نشده: نمیتواند غیرفعال شود"
 msgid "Module not installed: cannot uninstall"
 msgstr "ماژول نصب نشده: نمیتواند عزل شود"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:431
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:216
 msgid "Module signature expired"
 msgstr ""
 
@@ -8239,7 +8243,7 @@ msgstr ""
 msgid "No description is available."
 msgstr "توضیحی در دسترس نیست."
 
-#: install.php:189
+#: install.php:384
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "بدون دایرکتوری %s، نیاز به نصب اسکریپت نیست"
@@ -8266,7 +8270,7 @@ msgstr ""
 msgid "No interfaces found"
 msgstr "رابط ها یافت نشدند"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:397
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:182
 msgid "No module to check"
 msgstr "ماژولی برای بررسی نیست"
 
@@ -8292,7 +8296,7 @@ msgstr ""
 msgid "No security upgradable packages found."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:955
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:740
 msgid "No status was given to checkStatus"
 msgstr "وضعیتی برای checkStatus مشخص نشده است"
 
@@ -9140,7 +9144,7 @@ msgstr "مسیر برای tiff2pdf"
 msgid "Path for tiffinfo"
 msgstr "مسیر برای tiffinfo"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:401
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:186
 msgid "Path given to verifyModule. Only provide a module name"
 msgstr "Path given to verifyModule. Only provide  a module name"
 
@@ -9176,7 +9180,7 @@ msgstr ""
 "Permanent  contacts assigned to AoR. This setting is automatically generated "
 "by the PBX if left blank"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1092
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:877
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
@@ -9184,7 +9188,7 @@ msgstr ""
 "خطا در سطوح دسترسی %s - لطفا دستور 'fwconsole chown' را با دسترسی روت اجرا "
 "کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:1078
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:863
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:611
 #, php-format
 msgid ""
@@ -9754,7 +9758,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "بازنشانی %s"
 
-#: install.php:356
+#: install.php:551
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9905,11 +9909,6 @@ msgstr "در حال حذف فایل %s"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:343
 msgid "Repo "
 msgstr "منبع "
-
-#: install.php:367
-#, php-format
-msgid "Repo GPG key check failed: %s"
-msgstr ""
 
 #: amp.i18n.php:498
 msgid "Report Unknown Dest as Error"
@@ -10135,7 +10134,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:338
+#: install.php:533
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -10347,7 +10346,7 @@ msgstr "امنیت"
 msgid "Security Issue"
 msgstr "موضوع امنیتی"
 
-#: install.php:175
+#: install.php:370
 msgid "Security Notice: Authentication Update Recommended"
 msgstr ""
 
@@ -10622,7 +10621,7 @@ msgstr "Sets which PHP errors  are reported"
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Setting AUTHTYPE to none  consistent with old default"
 
-#: install.php:305
+#: install.php:500
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -10673,7 +10672,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:331
+#: install.php:526
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
@@ -13039,11 +13038,11 @@ msgstr "عدم توانایی اتصال به سرورها از آدرس های:
 msgid "Unable to create %s config file"
 msgstr "عدم توانایی ایجاد فایل پیکربندی %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
+#: install.php:152
 msgid "Unable to create temporary files for GPG update."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:580
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:365
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr "Unable to  download GPG key %s, or find %s or %s"
@@ -13085,7 +13084,7 @@ msgstr ""
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr "Unable to  locate the FreePBX BMO Class '%s'"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:331
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:116
 #, php-format
 msgid "Unable to open file %s"
 msgstr "عدم توانایی بازکردن فایل %s"
@@ -13142,7 +13141,7 @@ msgstr "عدم توانایی ذخیره %s"
 msgid "Unable to start Asterisk!"
 msgstr "عدم اجرای استریسک!"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:744
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:529
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Unable to  start GPG, the command was: [%s]"
@@ -13151,7 +13150,7 @@ msgstr "Unable to  start GPG, the command was: [%s]"
 msgid "Unable to start OpenSSL"
 msgstr "عدم توانایی اجرای OpenSSL"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:693
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:478
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr "Unable to  strip signature - result was: %s"
@@ -13160,7 +13159,7 @@ msgstr "Unable to  strip signature - result was: %s"
 msgid "Unable to trigger system update check. Please try again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:614
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:399
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Unable to  trust the FreePBX Key! -- %s"
@@ -13783,7 +13782,7 @@ msgstr "تایید GPG..."
 msgid "Version"
 msgstr "نسخه"
 
-#: install.php:314
+#: install.php:509
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 
@@ -14753,7 +14752,7 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: install.php:175
+#: install.php:370
 msgid "Your system is using "
 msgstr ""
 
@@ -14846,7 +14845,7 @@ msgstr ""
 "alt attribute to use in  place of image and title hover value. Defaults to "
 "FreePBX"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:455
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3266
 msgid "altered"
 msgstr "تغییر داده شد"
@@ -14855,7 +14854,7 @@ msgstr "تغییر داده شد"
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:270
+#: install.php:465
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "بروز خطا در حذف بسته فایل/دایرکتوری: %s"
@@ -14898,7 +14897,7 @@ msgstr ""
 msgid "changed %s settings"
 msgstr "تنظیمات %s تغییر کرد"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:904
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:689
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr "checkSig was  given %s, which is not a file"
@@ -14976,7 +14975,7 @@ msgstr "حذف شد"
 msgid "description of the setting"
 msgstr ""
 
-#: install.php:211 install.php:223 install.php:234
+#: install.php:406 install.php:418 install.php:429
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1158
 #: ../core/install.php:1199 ../core/install.php:1241
 msgid "done"
@@ -14987,7 +14986,7 @@ msgstr "انجام شد"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr "انجام شد. بازگذاری مجدد FreePBX برای به روزرسانی تنظیمات سفارشی متن."
 
-#: install.php:209 install.php:220 install.php:231
+#: install.php:404 install.php:415 install.php:426
 msgid "done, see errors below"
 msgstr "انجام شد، مشاهده خطا های زیر"
 
@@ -15053,7 +15052,7 @@ msgstr "failed to  include %s during %s of the %s module."
 msgid "failed to open %s module archive into _cache directory."
 msgstr "failed to  open %s module archive into _cache directory."
 
-#: install.php:272
+#: install.php:467
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "فایل/دایرکتوری: %s با موفقیت حذف شد"
@@ -15072,7 +15071,7 @@ msgstr "فرمت فهرست به صورت xml"
 msgid "framework couldn't copy file to %s"
 msgstr "فریم ورک نمیتواند فایل را به %s کپی کند"
 
-#: install.php:258
+#: install.php:453
 msgid "framework file install done, removing packages from module"
 msgstr "نصب فایل فریم ورک انجام شد، حذف بسته ها از ماژول"
 
@@ -15105,12 +15104,12 @@ msgstr ""
 msgid "fwconsole trunks --converttopjsip <all/trunkid>."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:829
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:614
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr "getHashes was  given %s which is not a directory!"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:635
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:420
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr "gpg --export-ownertrust didn't  return sane stuff - %s"
@@ -15145,7 +15144,7 @@ msgstr ""
 msgid "insert"
 msgstr "قرار دادن"
 
-#: install.php:202
+#: install.php:397
 #, php-format
 msgid "installing files to %s.."
 msgstr "نصب فایلها به %s.."
@@ -15289,7 +15288,7 @@ msgstr "در حال انتقال قوانین.."
 msgid "migrating.."
 msgstr "در حال انتقال.."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:447
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:232
 msgid "missing"
 msgstr "از دست دادن"
 
@@ -15308,7 +15307,7 @@ msgstr "missing options  for keyword [%s] required if type is select"
 msgid "missing value and/or defaultval required for [%s]"
 msgstr "از دست دادن مقدار و/یا مقدار اولیه لازم برای [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:420
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:205
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr "module.sig check  failed! %s"
@@ -15565,7 +15564,7 @@ msgstr "نوع ناشناخته: [%s]"
 msgid "unrecognized rule: %s discarding"
 msgstr "unrecognized  rule: %s discarding"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:409
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:194
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3328
 msgid "unsigned"
 msgstr "بدون امضا"
