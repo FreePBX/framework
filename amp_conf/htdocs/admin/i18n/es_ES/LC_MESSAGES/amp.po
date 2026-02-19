@@ -10897,18 +10897,18 @@ msgstr ""
 #: install.php:573
 #, php-format
 msgid ""
-"The GPG key used to verify packages from deb.freepbx.org repository is  "
-"expired %d days ago (on %s). prevent repository authentication issues, "
-"please update the key by running the command \"fwconsole util updategpgkey\" "
-"from CLI."
+"The GPG key used to verify packages from deb.freepbx.org repository expired "
+"%d days ago (on %s). Repository updates will fail until the key is updated. "
+"Please update the key by running the command : \"fwconsole util "
+"updategpgkey\" from CLI."
 msgstr ""
 
 #: install.php:574
 #, php-format
 msgid ""
 "The GPG key used to verify packages from deb.freepbx.org will expire in %d "
-"days (on %s). prevent repository authentication issues, please update the "
-"key by running the command \"fwconsole util updategpgkey\" from CLI."
+"days on %s .To prevent repository authentication issues, please update the "
+"key by running the command:  \"fwconsole util updategpgkey\" from CLI."
 msgstr ""
 
 #: ../core/install.php:1292
