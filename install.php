@@ -71,7 +71,7 @@ function framework_repo_key_expiry_from_file($gpgBinary, $path) {
 
 	$expiryDate = null;
 	foreach ($output as $line) {
-		if (preg_match('/\[expires:\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
+		if (preg_match('/\[(?:expires|expired):\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
 			$expiryDate = $m[1];
 			break;
 		}
@@ -570,8 +570,8 @@ try {
 		$days = (int) $gpgStatus['expires_in_days'];
 		$displayText =  $days < 0 ? _("Sangoma Debian Repository GPG Key Expired") : _("Sangoma Debian Repository GPG Key Expiring Soon");
 		$extendedText = $days < 0
-			? sprintf(_("The GPG key used to verify packages from deb.freepbx.org repository is  expired %d days ago (on %s). prevent repository authentication issues, please update the key by running the command \"fwconsole util updategpgkey\" from CLI."), abs($days), $gpgStatus['expiry_date'] ?: _("unknown"))
-			: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire in %d days (on %s). prevent repository authentication issues, please update the key by running the command \"fwconsole util updategpgkey\" from CLI."), $days, $gpgStatus['expiry_date'] ?: _("unknown"));
+			? sprintf(_("The GPG key used to verify packages from deb.freepbx.org repository expired %d days ago (on %s). Repository updates will fail until the key is updated. Please update the key by running the command : \"fwconsole util updategpgkey\" from CLI."), abs($days), $gpgStatus['expiry_date'] ?: _("unknown"))
+			: sprintf(_("The GPG key used to verify packages from deb.freepbx.org will expire in %d days on %s .To prevent repository authentication issues, please update the key by running the command:  \"fwconsole util updategpgkey\" from CLI."), $days, $gpgStatus['expiry_date'] ?: _("unknown"));
 		$link = "config.php?display=modules&module_page=summary#systemupdatestab";
 		$nt->add_error('framework', 'GPG_KEY_EXPIRY', $displayText, $extendedText, $link, false, true);
 	}

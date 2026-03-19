@@ -960,7 +960,7 @@ class GPG {
 
 		$expiryDate = null;
 		foreach ($output as $line) {
-			if (preg_match('/\[expires:\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
+			if (preg_match('/\[(?:expires|expired):\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
 				$expiryDate = $m[1];
 				break;
 			}
