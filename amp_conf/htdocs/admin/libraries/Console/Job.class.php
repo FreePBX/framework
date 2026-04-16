@@ -74,21 +74,20 @@ class Job extends Command {
 		}
 
 		// Acquire lock only for --run to prevent concurrent job execution.
-		// Non-destructive operations (--list, --enable, --disable) do not
-		// need mutual exclusion and should not be blocked by a running job.
-		if (!$this->lock()) {
-			$output->writeln('<error>The command is already running in another process.</error>');
-			return 1;
-		}
+		// Non-destructive operations (--list, --enable, --disable, help)
+		// do not need mutual exclusion and should not be blocked.
+		if($input->hasParameterOption('--run')) {
+			if (!$this->lock()) {
+				$output->writeln('<error>The command is already running in another process.</error>');
+				return 1;
+			}
 
-		if($input->hasParameterOption('--run') && is_null($input->getOption('run'))) {
-			//run all
-			$this->runJobs($this->registerTasks($this->findAllJobs()));
-			return 0;
-		}
-
-		if($input->getOption('run')) {
-			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
+			if(is_null($input->getOption('run'))) {
+				//run all
+				$this->runJobs($this->registerTasks($this->findAllJobs()));
+			} else {
+				$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
+			}
 			return 0;
 		}
 
