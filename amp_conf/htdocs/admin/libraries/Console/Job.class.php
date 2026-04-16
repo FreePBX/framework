@@ -39,11 +39,6 @@ class Job extends Command {
 		$this->output = $output;
 		$this->input = $input;
 
-		if (!$this->lock()) {
-			$output->writeln('The command is already running in another process.');
-			return 0;
-		}
-
 		if($input->getOption('force')) {
 			$this->force = true;
 		}
@@ -55,22 +50,6 @@ class Job extends Command {
 
 		if($input->getOption('disable')) {
 			$this->enableJob($input->getOption('disable'), false);
-			return 0;
-		}
-
-		if($input->getOption('disable')) {
-			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
-			return 0;
-		}
-
-		if($input->hasParameterOption('--run') && is_null($input->getOption('run'))) {
-			//run all
-			$this->runJobs($this->registerTasks($this->findAllJobs()));
-			return 0;
-		}
-
-		if($input->getOption('run')) {
-			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
 			return 0;
 		}
 
@@ -91,6 +70,25 @@ class Job extends Command {
 			}
 			$table->setRows($rows);
 			$table->render();
+			return 0;
+		}
+
+		// Acquire lock only for --run to prevent concurrent job execution.
+		// Non-destructive operations (--list, --enable, --disable) do not
+		// need mutual exclusion and should not be blocked by a running job.
+		if (!$this->lock()) {
+			$output->writeln('<error>The command is already running in another process.</error>');
+			return 1;
+		}
+
+		if($input->hasParameterOption('--run') && is_null($input->getOption('run'))) {
+			//run all
+			$this->runJobs($this->registerTasks($this->findAllJobs()));
+			return 0;
+		}
+
+		if($input->getOption('run')) {
+			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
 			return 0;
 		}
 
