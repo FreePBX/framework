@@ -415,6 +415,14 @@ if ($ret != 0) {
 	out(_("done, see errors below"));
 } else {
 	exec("chmod +x $bin_dest/*");
+	if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
+		$f = $bin_dest . '/fwconsole';
+		if (file_exists($f) && !is_link($f)) {
+			@chown($f, 'root');
+			@chgrp($f, 'root');
+			@chmod($f, 0755);
+		}
+	}
 	out(_("done"));
 }
 

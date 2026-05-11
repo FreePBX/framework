@@ -162,6 +162,10 @@ class Chown extends Command {
 					}
 				}
 			}
+
+			// After AMPBIN execdir above: fwconsole must not be owned/writable by the web/Asterisk
+			// service user (local replacement before root invokes fwconsole).
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $AMPBIN.'/fwconsole', 'perms' => 0755, 'owner' => 'root', 'group' => 'root', 'always' => true);
 		}
 		//Let's move the custom array to the end so it happens last
 		//FREEPBX-12515
