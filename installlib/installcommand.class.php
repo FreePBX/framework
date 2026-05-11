@@ -701,6 +701,13 @@ class FreePBXInstallCommand extends Command {
 				chmod($file, $perms);
 			}
 		}
+		if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
+			$privileged = $bin."/fwconsole";
+			if (file_exists($privileged) && !is_link($privileged)) {
+				@chown($privileged, 'root');
+				@chgrp($privileged, 'root');
+			}
+		}
 
 		// Create additional dirs
 		$extraDirs = array(
