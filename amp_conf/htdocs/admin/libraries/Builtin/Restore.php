@@ -27,6 +27,11 @@ class Restore Extends Base\RestoreBase{
 				$this->log(sprintf(_("Ignorning restore of MODULE_REPO Advanced Settings from %s"), $this->data['module']));
 				continue;
 			}
+			if($keyword === 'AUTHTYPE' && $value == 'none'){
+                                $this->log(_("Ignorning AUTHTYPE from backup"));
+                                continue;
+                        }
+
 			if(in_array($keyword,$skinsettings)){
 				$this->log(sprintf(_("Ignorning Brand view  Setting %s"), $keyword));
 				continue;
