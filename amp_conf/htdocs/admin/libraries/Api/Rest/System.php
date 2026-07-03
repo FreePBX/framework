@@ -8,6 +8,9 @@ class System extends Base {
 		return [
 			'read:system' => [
 				'description' => _('Read system information'),
+			],
+			'write:system' => [
+				'description' => _('Update system information'),
 			]
 		];
 	}
@@ -40,7 +43,7 @@ class System extends Base {
 				'message' => 'Doreload/apply config has been initiated. Please check the status using /apistatus/'.$txnId.' api with the following transaction id '.$txnId];
 			$response->getBody()->write(json_encode($data));
 			return $response->withHeader('Content-Type', 'application/json');
-		})->add($this->checkReadScopeMiddleware('system'));
+		})->add($this->checkAllWriteScopeMiddleware());
 
 		//fetch the api status for asyc task
 		$app->get('/apistatus/{txnId}', function($request, $response, $args) use($freepbx) {

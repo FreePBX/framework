@@ -21,7 +21,7 @@ class Modules extends Base {
 		];
 	}
 	public function mutationCallback() {
-		if($this->checkReadScope('modules')) {
+		if($this->checkAllWriteScope()) {
 			return function() {
 				return [				
 				'moduleOperations' => Relay::mutationWithClientMutationId([
