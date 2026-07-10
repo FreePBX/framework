@@ -116,6 +116,17 @@ class Ajax extends FreePBX_Helpers {
 				if (!defined('FREEPBX_IS_AUTH')) {
 					define('FREEPBX_IS_AUTH', 'TRUE');
 				}
+				if ($module !== 'framework' && $module !== 'search') {
+					$has_perms = $this->hasAjaxModuleAccess($module);
+					// Dashboard disk widget embeds sysadmin JS that calls these read-only endpoints.
+					if (!$has_perms && $module === 'sysadmin'
+						&& in_array($command, ['getDiskSpaceUsage', 'removeDiskNoti'], true)) {
+						$has_perms = $this->hasAjaxModuleAccess('dashboard');
+					}
+					if (!$has_perms) {
+						$this->ajaxError(403, 'ajaxRequest declined - Permissions');
+					}
+				}
 			}
 		}
 
@@ -152,6 +163,33 @@ class Ajax extends FreePBX_Helpers {
 		$this->sendHeaders();
 		echo $output;
 		exit;
+	}
+
+	/**
+	 * Check if the logged-in admin may use AJAX for a module section.
+	 *
+	 * @param string $module Module rawname
+	 * @return bool
+	 */
+	private function hasAjaxModuleAccess($module) {
+		if ($_SESSION['AMP_user']->checkSection($module)) {
+			return true;
+		}
+		foreach ($this->freepbx->Modules->getActiveModules(false) as $key => $mod) {
+			if (($mod['rawname'] ?? $key) !== $module && $key !== $module) {
+				continue;
+			}
+			foreach ($mod['items'] ?? [] as $itemKey => $item) {
+				if (isset($item['access']) && strtolower($item['access']) === 'all') {
+					return true;
+				}
+				if ($_SESSION['AMP_user']->checkSection($itemKey)
+					|| $_SESSION['AMP_user']->checkSection($item['display'] ?? $itemKey)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
