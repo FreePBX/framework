@@ -3,54 +3,23 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>17.0.30</version>
+	<version>18.0.1</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*17.0.30* FREEI-2972 ignore the authtype form backup 
-		*17.0.29* FREEI-2718: enforce root ownership for fwconsole file 
-		*17.0.28* Github Issue#958 Updating Sangoma Debian repo GPG Key 
-		*17.0.26* FREEI-2719 fix:Update Freepbx-V17 Repo GPG key 
-		*17.0.25* #937 System Updates does not load when accessed from Summary page 
-		*17.0.24*    FREEI-2401 Fixing amportal privilege escalation issue. 
-		*17.0.23*    FREEI-2351 Hiding the Authorization Type field from the Advanced Settings page UI. 
-		*17.0.21.12* Executing updated package list hook only during System update tab click 
-		*17.0.21.11* Fixing Github issue#931 Update PHP command to full path in amportal script 
-		*17.0.21.10* bump 
-		*17.0.21.9* Fixing Github #921 Improving System update UI 
-		*17.0.21.7* Asterisk 23 support 
-		*17.0.21.5* Packaging of ver 17.0.21.5
-		*17.0.21.4* Packaging of ver 17.0.21.4
-		*17.0.21.3* Fixes #214: Increase padding so buttons are not hidden behind Firefox 
-		*17.0.21.2* Packaging of ver 17.0.21.2
-		*17.0.21.1* bump 
-		*17.0.21*   FREEI-2013 Sanitizing input while setting the language.
-		*17.0.20*   FREEI-2349 Validating AJAX module parameter.
-		*17.0.19.30* Packaging of ver 17.0.19.30
-		*17.0.19.29* Fix undefined variable in Config::prepare_conf_value 
-		*17.0.19.28* #issue-735 donot edit the manager.conf file manually warning text added 
-		*17.0.19.27* Update form_helper to resolve deprecation warning 
-		*17.0.19.26* Fixing warning issue and github #700 updating wiki links.  
-		*17.0.19.25* #Issue-674 Contactmanager Special Characters on fields 
-		*17.0.19.24* #Issue-650 Custom Context no Delete Button 
-		*17.0.19.23* #601 Fixing typo error. 
-		*17.0.19.22* #582 FreePBX 17 FollowMe - GOSUB_RETVAL empty from [macro-blkvm-setifempty] 
-		*17.0.19.21*  bump
-		*17.0.19.20*  bump
-		*17.0.19.19*  FREEI-1138 Adding support for issue hyperlink to Github or internal jira from module.xml changelog
-		*17.0.1* Inital Release
+		*18.0.1* initial release
 	</changelog>
 	<description>
 		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
 	</description>
 	<depends>
-		<phpversion>8.2.0</phpversion>
+		<phpversion>8.4.0</phpversion>
 	</depends>
 	<supported>
-		<version>17.0</version>
+		<version>18.0</version>
 	</supported>
 	<database>
 		<table name="admin">
