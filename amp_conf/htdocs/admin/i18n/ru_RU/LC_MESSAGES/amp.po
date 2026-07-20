@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-16 07:01-0400\n"
+"POT-Creation-Date: 2026-07-20 05:59-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -779,7 +779,7 @@ msgstr ""
 "Номер ИД, который будет ассоциирован с этим номером DID - в следующем поле "
 "ниже"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:533
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:544
 msgid "A minium of asterisk-version-switch-6.1-19 or higher is required"
 msgstr ""
 
@@ -1268,7 +1268,7 @@ msgstr ""
 "Все установки можно выполнить через панель модуля Дополнительные настройки в "
 "интерфейсе FreePBX"
 
-#: ../core/Components/Outboundrouting.php:235
+#: ../core/Components/Outboundrouting.php:234
 #, php-format
 msgid ""
 "All the patterns for route id %s were NOT unique which can cause unexpected "
@@ -1488,7 +1488,7 @@ msgstr "Директория AGI-скриптов Астериск"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1647,7 +1647,7 @@ msgid ""
 "written out. %s and Asterisk might be in a weird state"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:528
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:539
 msgid ""
 "Asterisk version switch has started. Kindly check the fetchApiStatus api "
 "with the transaction id."
@@ -1826,7 +1826,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr "Автоматически запустить comedia- (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:495
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:506
 msgid "Automatic update status"
 msgstr ""
 
@@ -1853,7 +1853,7 @@ msgstr ""
 "POST_RELOAD_DEBUG=true, то вывод этого скрипта будет виден на вэб-странице."
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:511
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:389
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:400
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
 "completed."
@@ -2780,8 +2780,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "Перегрузка"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:441
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:452
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:467
 msgid "Connected"
 msgstr "Подключено"
 
@@ -3368,7 +3368,7 @@ msgstr ""
 "Обнаружена ошибка базы данных. Запущено автоматическое восстановление. "
 "Попробуйте ещё раз"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:471
 msgid "Database Status"
 msgstr ""
 
@@ -5395,7 +5395,7 @@ msgstr "Ошибка при исполнении скрипта инсталля
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:399
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:410
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5416,7 +5416,7 @@ msgstr "Ошибка отправки на email  уведомления о не
 msgid "Failed to send update notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:530
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:541
 msgid "Failed to start asterisk version switch"
 msgstr ""
 
@@ -6000,7 +6000,7 @@ msgstr " Слишком длинная команда  GPG для запуска
 msgid "GUI Behavior"
 msgstr "Поведение вэб-интерфейса"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:481
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6894,13 +6894,17 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:323
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:325
 msgid "Initial Setup is completed"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:8
 msgid "Initial setup"
 msgstr "Начальная установка"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:321
+msgid "Initial setup is already complete; cannot create a new administrator"
+msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
 msgid "Initialize freepbx_conf settings.."
@@ -7112,7 +7116,7 @@ msgstr "Неверный путь %s"
 msgid "Invalid path value"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:386
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:397
 msgid ""
 "Invalid privileges to execute yum-run-update. Please run: fwconsole chown "
 "through console and try again."
@@ -7318,7 +7322,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr "Список всех онлайн-модулей,не требующих аргументов"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:481
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:492
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7558,7 +7562,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:213
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:221
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:295
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:363
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
 #: ../core/Api/Gql/Dids.php:110 ../core/Api/Gql/Dids.php:226
 #: ../core/Api/Gql/Dids.php:274
 msgid "Message for the request"
@@ -8460,8 +8464,8 @@ msgstr ""
 "продолжать вызов через следующий сконфигурированный транк или назначение "
 "даже если канал возвращает статус Занято или Неверный номер."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:443
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:454
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:469
 msgid "Not Connected"
 msgstr ""
 
@@ -8507,7 +8511,7 @@ msgstr "Не массив"
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:436
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:447
 msgid "Not running"
 msgstr ""
 
@@ -10163,7 +10167,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:434
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
 msgid "Running"
 msgstr ""
 
@@ -10860,7 +10864,7 @@ msgstr ""
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:483
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:494
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -11050,7 +11054,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:497
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:508
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -11164,7 +11168,7 @@ msgstr "Статус"
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:217
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:299
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:367
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Status for the request"
 msgstr ""
 
@@ -12907,7 +12911,7 @@ msgstr "Трек"
 msgid "Track module (edge/stable) "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:382
 msgid "Transaction Id for status check"
 msgstr ""
 
@@ -13379,6 +13383,10 @@ msgstr "Обновить мой браузер сейчас"
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:45
 msgid "Update system RPM package"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Rest/System.php:13
+msgid "Update system information"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:167
@@ -14770,7 +14778,7 @@ msgstr ""
 msgid "Your system is using "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:397
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:408
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
