@@ -160,6 +160,19 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	 * Strip CR/LF from AMI header fields to prevent action injection.
+	 *
+	 * @param mixed $value
+	 * @return string
+	 */
+	function sanitize_ami_value($value) {
+		if ($value === null) {
+			return '';
+		}
+		return str_replace(array("\r", "\n"), '', (string) $value);
+	}
+
+	/**
 	* Send a request
 	*
 	* @param string $action
@@ -169,13 +182,18 @@ class AGI_AsteriskManager {
 	function send_request($action, $parameters=array(), $retry=true) {
 		$reconnects = $this->reconnects;
 
+		$action = $this->sanitize_ami_value($action);
 		$req = "Action: $action\r\n";
 		foreach($parameters as $var=>$val) {
+			$var = $this->sanitize_ami_value($var);
 			if (is_array($val)) {
 				foreach($val as $k => $v) {
+					$k = $this->sanitize_ami_value($k);
+					$v = $this->sanitize_ami_value($v);
 					$req .= "$var: $k=$v\r\n";
 				}
 			} else {
+				$val = $this->sanitize_ami_value($val);
 				$req .= "$var: $val\r\n";
 			}
 
@@ -1252,6 +1270,11 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_put($family, $key, $value) {
+		// strip CR/LF before AstDB write / AMI Command.
+		$family = $this->sanitize_ami_value($family);
+		$key = $this->sanitize_ami_value($key);
+		$value = $this->sanitize_ami_value($value);
+
 		$value = (trim($value ?? ' ') == '')?'"'.$value.'"':$value;
 		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
 		if (!empty($this->memAstDB)){
