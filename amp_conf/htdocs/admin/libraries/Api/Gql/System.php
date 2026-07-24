@@ -28,7 +28,7 @@ class System extends Base {
 	 * @return void
 	 */
 	public function mutationCallback() {
-		if($this->checkAllWriteScope()) {
+		if($this->checkWriteScope('system')) {
 			return function() {
 				return [
 				'addInitialSetup' => Relay::mutationWithClientMutationId([
