@@ -83,9 +83,9 @@ class PhpStringTokenParser
                 ['\\', '\''],
                 substr($str, $bLength + 1, -1)
             );
-        } else {
-            return self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
         }
+
+        return self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
     }
 
     /**
@@ -94,7 +94,7 @@ class PhpStringTokenParser
      * @param string      $str   String without quotes
      * @param string|null $quote Quote type
      */
-    public static function parseEscapeSequences(string $str, string $quote = null): string
+    public static function parseEscapeSequences(string $str, ?string $quote = null): string
     {
         if (null !== $quote) {
             $str = str_replace('\\'.$quote, $quote, $str);
@@ -115,9 +115,9 @@ class PhpStringTokenParser
             return self::$replacements[$str];
         } elseif ('x' === $str[0] || 'X' === $str[0]) {
             return \chr(hexdec($str));
-        } else {
-            return \chr(octdec($str));
         }
+
+        return \chr(octdec($str));
     }
 
     /**

@@ -14,10 +14,13 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\SqliteSchemaManager;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
+use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types;
 use Doctrine\DBAL\Types\IntegerType;
 use Doctrine\Deprecations\Deprecation;
+use InvalidArgumentException;
 
 use function array_combine;
 use function array_keys;
@@ -26,12 +29,14 @@ use function array_search;
 use function array_unique;
 use function array_values;
 use function count;
+use function explode;
 use function implode;
 use function is_numeric;
 use function sprintf;
 use function sqrt;
 use function str_replace;
 use function strlen;
+use function strpos;
 use function strtolower;
 use function trim;
 
@@ -154,13 +159,13 @@ class SqlitePlatform extends AbstractPlatform
 
         switch ($unit) {
             case DateIntervalUnit::WEEK:
-                $interval *= 7;
-                $unit      = DateIntervalUnit::DAY;
+                $interval = $this->multiplyInterval((string) $interval, 7);
+                $unit     = DateIntervalUnit::DAY;
                 break;
 
             case DateIntervalUnit::QUARTER:
-                $interval *= 3;
-                $unit      = DateIntervalUnit::MONTH;
+                $interval = $this->multiplyInterval((string) $interval, 3);
+                $unit     = DateIntervalUnit::MONTH;
                 break;
         }
 
@@ -191,6 +196,12 @@ class SqlitePlatform extends AbstractPlatform
     public function getCurrentDatabaseExpression(): string
     {
         return "'main'";
+    }
+
+    /** @link https://www2.sqlite.org/cvstrac/wiki?p=UnsupportedSql */
+    public function createSelectSQLBuilder(): SelectSQLBuilder
+    {
+        return new DefaultSelectSQLBuilder($this, null, null);
     }
 
     /**
@@ -734,6 +745,8 @@ class SqlitePlatform extends AbstractPlatform
 
     /**
      * {@inheritDoc}
+     *
+     * @deprecated This API is not portable.
      */
     public function getForUpdateSQL()
     {
@@ -761,38 +774,38 @@ class SqlitePlatform extends AbstractPlatform
     protected function initializeDoctrineTypeMappings()
     {
         $this->doctrineTypeMapping = [
-            'bigint'           => 'bigint',
-            'bigserial'        => 'bigint',
-            'blob'             => 'blob',
-            'boolean'          => 'boolean',
-            'char'             => 'string',
-            'clob'             => 'text',
-            'date'             => 'date',
-            'datetime'         => 'datetime',
-            'decimal'          => 'decimal',
-            'double'           => 'float',
-            'double precision' => 'float',
-            'float'            => 'float',
-            'image'            => 'string',
-            'int'              => 'integer',
-            'integer'          => 'integer',
-            'longtext'         => 'text',
-            'longvarchar'      => 'string',
-            'mediumint'        => 'integer',
-            'mediumtext'       => 'text',
-            'ntext'            => 'string',
-            'numeric'          => 'decimal',
-            'nvarchar'         => 'string',
-            'real'             => 'float',
-            'serial'           => 'integer',
-            'smallint'         => 'smallint',
-            'text'             => 'text',
-            'time'             => 'time',
-            'timestamp'        => 'datetime',
-            'tinyint'          => 'boolean',
-            'tinytext'         => 'text',
-            'varchar'          => 'string',
-            'varchar2'         => 'string',
+            'bigint'           => Types\Types::BIGINT,
+            'bigserial'        => Types\Types::BIGINT,
+            'blob'             => Types\Types::BLOB,
+            'boolean'          => Types\Types::BOOLEAN,
+            'char'             => Types\Types::STRING,
+            'clob'             => Types\Types::TEXT,
+            'date'             => Types\Types::DATE_MUTABLE,
+            'datetime'         => Types\Types::DATETIME_MUTABLE,
+            'decimal'          => Types\Types::DECIMAL,
+            'double'           => Types\Types::FLOAT,
+            'double precision' => Types\Types::FLOAT,
+            'float'            => Types\Types::FLOAT,
+            'image'            => Types\Types::STRING,
+            'int'              => Types\Types::INTEGER,
+            'integer'          => Types\Types::INTEGER,
+            'longtext'         => Types\Types::TEXT,
+            'longvarchar'      => Types\Types::STRING,
+            'mediumint'        => Types\Types::INTEGER,
+            'mediumtext'       => Types\Types::TEXT,
+            'ntext'            => Types\Types::STRING,
+            'numeric'          => Types\Types::DECIMAL,
+            'nvarchar'         => Types\Types::STRING,
+            'real'             => Types\Types::FLOAT,
+            'serial'           => Types\Types::INTEGER,
+            'smallint'         => Types\Types::SMALLINT,
+            'text'             => Types\Types::TEXT,
+            'time'             => Types\Types::TIME_MUTABLE,
+            'timestamp'        => Types\Types::DATETIME_MUTABLE,
+            'tinyint'          => Types\Types::BOOLEAN,
+            'tinytext'         => Types\Types::TEXT,
+            'varchar'          => Types\Types::STRING,
+            'varchar2'         => Types\Types::STRING,
         ];
     }
 
@@ -895,7 +908,7 @@ class SqlitePlatform extends AbstractPlatform
      */
     public function canEmulateSchemas()
     {
-        Deprecation::trigger(
+        Deprecation::triggerIfCalledFromOutside(
             'doctrine/dbal',
             'https://github.com/doctrine/dbal/pull/4805',
             'SqlitePlatform::canEmulateSchemas() is deprecated.',
@@ -916,6 +929,48 @@ class SqlitePlatform extends AbstractPlatform
         }
 
         return $sql;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCreateIndexSQL(Index $index, $table)
+    {
+        if ($table instanceof Table) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/4798',
+                'Passing $table as a Table object to %s is deprecated. Pass it as a quoted name instead.',
+                __METHOD__,
+            );
+
+            $table = $table->getQuotedName($this);
+        }
+
+        $name    = $index->getQuotedName($this);
+        $columns = $index->getColumns();
+
+        if (count($columns) === 0) {
+            throw new InvalidArgumentException(sprintf(
+                'Incomplete or invalid index definition %s on table %s',
+                $name,
+                $table,
+            ));
+        }
+
+        if ($index->isPrimary()) {
+            return $this->getCreatePrimaryKeySQL($index, $table);
+        }
+
+        if (strpos($table, '.') !== false) {
+            [$schema, $table] = explode('.', $table, 2);
+            $name             = $schema . '.' . $name;
+        }
+
+        $query  = 'CREATE ' . $this->getCreateIndexSQLFlags($index) . 'INDEX ' . $name . ' ON ' . $table;
+        $query .= ' (' . $this->getIndexFieldDeclarationListSQL($index) . ')' . $this->getPartialIndexSQL($index);
+
+        return $query;
     }
 
     /**
@@ -970,7 +1025,7 @@ class SqlitePlatform extends AbstractPlatform
      * {@inheritDoc}
      *
      * @param int|null $createFlags
-     * @psalm-param int-mask-of<AbstractPlatform::CREATE_*>|null $createFlags
+     * @phpstan-param int-mask-of<AbstractPlatform::CREATE_*>|null $createFlags
      */
     public function getCreateTableSQL(Table $table, $createFlags = null)
     {
@@ -1095,7 +1150,12 @@ class SqlitePlatform extends AbstractPlatform
         $sql      = [];
         $tableSql = [];
         if (! $this->onSchemaAlterTable($diff, $tableSql)) {
-            $dataTable = new Table('__temp__' . $table->getName());
+            $tableName = $table->getName();
+            if (strpos($tableName, '.') !== false) {
+                [, $tableName] = explode('.', $tableName, 2);
+            }
+
+            $dataTable = new Table('__temp__' . $tableName);
 
             $newTable = new Table(
                 $table->getQuotedName($this),

@@ -27,10 +27,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class DecoratorServicePass extends AbstractRecursivePass
 {
-    /**
-     * @return void
-     */
-    public function process(ContainerBuilder $container)
+    protected bool $skipScalars = true;
+
+    public function process(ContainerBuilder $container): void
     {
         $definitions = new \SplPriorityQueue();
         $order = \PHP_INT_MAX;
@@ -90,7 +89,7 @@ class DecoratorServicePass extends AbstractRecursivePass
             }
 
             if ($decoratedDefinition?->isSynthetic()) {
-                throw new InvalidArgumentException(sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
+                throw new InvalidArgumentException(\sprintf('A synthetic service cannot be decorated: service "%s" cannot decorate "%s".', $id, $inner));
             }
 
             if (isset($decoratingDefinitions[$inner])) {

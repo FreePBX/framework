@@ -20,23 +20,20 @@ use Symfony\Component\VarExporter\Exception\ClassNotFoundException;
  */
 class Hydrator
 {
-    public static $hydrators = [];
-    public static $simpleHydrators = [];
-    public static $propertyScopes = [];
+    public const PROPERTY_HAS_HOOKS = 1;
+    public const PROPERTY_NOT_BY_REF = 2;
 
-    public $registry;
-    public $values;
-    public $properties;
-    public $value;
-    public $wakeups;
+    public static array $hydrators = [];
+    public static array $simpleHydrators = [];
+    public static array $propertyScopes = [];
 
-    public function __construct(?Registry $registry, ?Values $values, array $properties, $value, array $wakeups)
-    {
-        $this->registry = $registry;
-        $this->values = $values;
-        $this->properties = $properties;
-        $this->value = $value;
-        $this->wakeups = $wakeups;
+    public function __construct(
+        public readonly Registry $registry,
+        public readonly ?Values $values,
+        public readonly array $properties,
+        public readonly mixed $value,
+        public readonly array $wakeups,
+    ) {
     }
 
     public static function hydrate($objects, $values, $properties, $value, $wakeups)
@@ -70,11 +67,11 @@ class Hydrator
                 return $baseHydrator;
 
             case 'ErrorException':
-                return $baseHydrator->bindTo(null, new class() extends \ErrorException {
+                return $baseHydrator->bindTo(null, new class extends \ErrorException {
                 });
 
             case 'TypeError':
-                return $baseHydrator->bindTo(null, new class() extends \Error {
+                return $baseHydrator->bindTo(null, new class extends \Error {
                 });
 
             case 'SplObjectStorage':
@@ -83,7 +80,7 @@ class Hydrator
                         if ("\0" === $name) {
                             foreach ($values as $i => $v) {
                                 for ($j = 0; $j < \count($v); ++$j) {
-                                    $objects[$i]->attach($v[$j], $v[++$j]);
+                                    $objects[$i][$v[$j]] = $v[++$j];
                                 }
                             }
                             continue;
@@ -156,13 +153,16 @@ class Hydrator
     public static function getSimpleHydrator($class)
     {
         $baseHydrator = self::$simpleHydrators['stdClass'] ??= (function ($properties, $object) {
-            $readonly = (array) $this;
+            $notByRef = (array) $this;
 
             foreach ($properties as $name => &$value) {
-                $object->$name = $value;
-
-                if (!($readonly[$name] ?? false)) {
+                if (!$noRef = $notByRef[$name] ?? false) {
+                    $object->$name = $value;
                     $object->$name = &$value;
+                } elseif (true !== $noRef) {
+                    $noRef($object, $value);
+                } else {
+                    $object->$name = $value;
                 }
             }
         })->bindTo(new \stdClass());
@@ -172,11 +172,11 @@ class Hydrator
                 return $baseHydrator;
 
             case 'ErrorException':
-                return $baseHydrator->bindTo(new \stdClass(), new class() extends \ErrorException {
+                return $baseHydrator->bindTo(new \stdClass(), new class extends \ErrorException {
                 });
 
             case 'TypeError':
-                return $baseHydrator->bindTo(new \stdClass(), new class() extends \Error {
+                return $baseHydrator->bindTo(new \stdClass(), new class extends \Error {
                 });
 
             case 'SplObjectStorage':
@@ -188,7 +188,7 @@ class Hydrator
                             continue;
                         }
                         for ($i = 0; $i < \count($value); ++$i) {
-                            $object->attach($value[$i], $value[++$i]);
+                            $object[$value[$i]] = $value[++$i];
                         }
                     }
                 };
@@ -217,14 +217,23 @@ class Hydrator
         }
 
         if (!$classReflector->isInternal()) {
-            $readonly = new \stdClass();
-            foreach ($classReflector->getProperties(\ReflectionProperty::IS_READONLY) as $propertyReflector) {
-                if ($class === $propertyReflector->class) {
-                    $readonly->{$propertyReflector->name} = true;
+            $notByRef = new \stdClass();
+            foreach ($classReflector->getProperties() as $propertyReflector) {
+                if ($propertyReflector->isStatic()) {
+                    continue;
+                }
+                if (!$propertyReflector->isAbstract() && $propertyReflector->getHooks()) {
+                    $notByRef->{$propertyReflector->name} = $propertyReflector->setRawValue(...);
+                } elseif ($propertyReflector->isReadOnly()) {
+                    $notByRef->{$propertyReflector->name} = static function ($object, $value) use ($propertyReflector) {
+                        if (!$propertyReflector->isInitialized($object)) {
+                            $propertyReflector->setValue($object, $value);
+                        }
+                    };
                 }
             }
 
-            return $baseHydrator->bindTo($readonly, $class);
+            return $baseHydrator->bindTo($notByRef, $class);
         }
 
         if ($classReflector->name !== $class) {
@@ -254,10 +263,7 @@ class Hydrator
         };
     }
 
-    /**
-     * @return array
-     */
-    public static function getPropertyScopes($class)
+    public static function getPropertyScopes($class): array
     {
         $propertyScopes = [];
         $r = new \ReflectionClass($class);
@@ -269,12 +275,23 @@ class Hydrator
                 continue;
             }
             $name = $property->name;
+            $access = ($flags << 2) | ($flags & \ReflectionProperty::IS_READONLY ? self::PROPERTY_NOT_BY_REF : 0);
+
+            if (!$property->isAbstract() && $h = $property->getHooks()) {
+                $access |= self::PROPERTY_HAS_HOOKS | (isset($h['get']) && !$h['get']->returnsReference() ? self::PROPERTY_NOT_BY_REF : 0);
+            }
 
             if (\ReflectionProperty::IS_PRIVATE & $flags) {
-                $propertyScopes["\0$class\0$name"] = $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $class : null];
+                $propertyScopes["\0$class\0$name"] = $propertyScopes[$name] = [$class, $name, null, $access, $property];
+
                 continue;
             }
-            $propertyScopes[$name] = [$class, $name, $flags & \ReflectionProperty::IS_READONLY ? $property->class : null];
+
+            $propertyScopes[$name] = [$class, $name, null, $access, $property];
+
+            if ($flags & \ReflectionProperty::IS_PRIVATE_SET) {
+                $propertyScopes[$name][2] = $property->class;
+            }
 
             if (\ReflectionProperty::IS_PROTECTED & $flags) {
                 $propertyScopes["\0*\0$name"] = $propertyScopes[$name];
@@ -285,12 +302,20 @@ class Hydrator
             $class = $r->name;
 
             foreach ($r->getProperties(\ReflectionProperty::IS_PRIVATE) as $property) {
-                if (!$property->isStatic()) {
-                    $name = $property->name;
-                    $readonlyScope = $property->isReadOnly() ? $class : null;
-                    $propertyScopes["\0$class\0$name"] = [$class, $name, $readonlyScope];
-                    $propertyScopes[$name] ??= [$class, $name, $readonlyScope];
+                $flags = $property->getModifiers();
+
+                if (\ReflectionProperty::IS_STATIC & $flags) {
+                    continue;
                 }
+                $name = $property->name;
+                $access = ($flags << 2) | ($flags & \ReflectionProperty::IS_READONLY ? self::PROPERTY_NOT_BY_REF : 0);
+
+                if ($h = $property->getHooks()) {
+                    $access |= self::PROPERTY_HAS_HOOKS | (isset($h['get']) && !$h['get']->returnsReference() ? self::PROPERTY_NOT_BY_REF : 0);
+                }
+
+                $propertyScopes["\0$class\0$name"] = [$class, $name, null, $access, $property];
+                $propertyScopes[$name] ??= $propertyScopes["\0$class\0$name"];
             }
         }
 

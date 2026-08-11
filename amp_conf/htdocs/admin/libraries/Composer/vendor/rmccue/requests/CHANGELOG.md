@@ -1,6 +1,142 @@
 Changelog
 =========
 
+2.0.19
+------
+
+### Overview of changes
+- Update bundled certificates as of 2026-07-16. [#1050], [#1061]
+- General housekeeping.
+
+[#1050]: https://github.com/WordPress/Requests/pull/1050
+[#1061]: https://github.com/WordPress/Requests/pull/1061
+
+2.0.18
+------
+
+### Overview of changes
+- Update bundled certificates as of 2026-02-11. [#1039]
+- General housekeeping.
+
+[#1039]: https://github.com/WordPress/Requests/pull/1039
+
+2.0.17
+------
+
+### Overview of changes
+- Update bundled certificates as of 2025-12-02. [#1000]
+- General housekeeping.
+
+[#1000]: https://github.com/WordPress/Requests/pull/1000
+
+2.0.16
+------
+
+### Overview of changes
+- Update bundled certificates as of 2025-11-04. [#954]
+- Fixed: PHP 8.5 deprecation notices for `Reflection*::setAccessible()` [#940]
+- Fixed: PHP 8.5 deprecation notices for `curl_close()` [#947] Props [@TobiasBg][gh-TobiasBg]
+- Fixed: PHP 8.5 deprecation notices `Using null as an array offset` [#956]
+- Fixed: Disallow `FilteredIterator` to accept objects (PHP 8.5 deprecation). [#968]
+  Note: This is technically a breaking change as this was documented behaviour. However, `FilteredIterator` is an internal class and the only detected use of this behavior was in a test.
+- Fixed: tests for expired and revoked SSL certificates. [#967]
+- Composer: remove `roave/security-advisories` (no longer needed with Composer 2.9+). [#961]
+- README: corrected Python Requests library URL. [#944] Props [@pmbaldha][gh-pmbaldha]
+- General housekeeping.
+
+[#940]: https://github.com/WordPress/Requests/pull/940
+[#944]: https://github.com/WordPress/Requests/pull/944
+[#947]: https://github.com/WordPress/Requests/pull/947
+[#954]: https://github.com/WordPress/Requests/pull/954
+[#956]: https://github.com/WordPress/Requests/pull/956
+[#961]: https://github.com/WordPress/Requests/pull/961
+[#967]: https://github.com/WordPress/Requests/pull/967
+[#968]: https://github.com/WordPress/Requests/pull/968
+
+2.0.15
+------
+
+### Overview of changes
+- Update bundled certificates as of 2024-12-31. [#919]
+- General housekeeping.
+
+[#919]: https://github.com/WordPress/Requests/pull/919
+
+2.0.14
+------
+
+### Overview of changes
+- Update bundled certificates as of 2024-11-26. [#910]
+- Confirmed compatibility with PHP 8.4.
+    No new changes were needed, so Request 2.0.11 and higher can be considered compatible with PHP 8.4.
+- Various other general housekeeping.
+
+[#910]: https://github.com/WordPress/Requests/pull/910
+
+2.0.13
+------
+
+### Overview of changes
+- Update bundled certificates as of 2024-09-24. [#900]
+- Various minor documentation improvements and other general housekeeping.
+
+[#900]: https://github.com/WordPress/Requests/pull/900
+
+2.0.12
+------
+
+### Overview of changes
+- Update bundled certificates as of 2024-07-02. [#877]
+
+[#877]: https://github.com/WordPress/Requests/pull/877
+
+2.0.11
+------
+
+### Overview of changes
+- Update bundled certificates as of 2024-03-11. [#864]
+- Fixed: PHP 8.4 deprecation of the two parameter signature of `stream_context_set_option()`. [#822] Props [@jrfnl][gh-jrfnl]
+- Fixed: PHP 8.4 deprecation of implicitly nullable parameter. [#865] Props [@Ayesh][gh-ayesh], [@jrfnl][gh-jrfnl]
+    Note: this fix constitutes an, albeit small, breaking change to the signature of the `Cookie::parse_from_headers()` method.
+    Classes which extend the `Cookie` class and overload the `parse_from_headers()` method should be updated for the new method signature.
+    Additionally, if code calling the `Cookie::parse_from_headers()` method would be wrapped in a `try - catch` to catch a potential PHP `TypeError` (PHP 7.0+) or `Exception` (PHP < 7.0) for when invalid data was passed as the `$origin` parameter, this code will need to be updated to now also catch a potential `WpOrg\Requests\Exception\InvalidArgumentException`.
+    As due diligence could not find any classes which would be affected by this BC-break, we have deemed it acceptable to include this fix in the 2.0.11 release.
+
+[#822]: https://github.com/WordPress/Requests/pull/822
+[#864]: https://github.com/WordPress/Requests/pull/864
+[#865]: https://github.com/WordPress/Requests/pull/865
+
+2.0.10
+------
+
+### Overview of changes
+- Update bundled certificates as of 2023-12-04. [#850]
+
+[#850]: https://github.com/WordPress/Requests/pull/850
+
+2.0.9
+-----
+
+### Overview of changes
+- Hotfix: Rollback changes from PR [#657]. [#839] Props [@tomsommer][gh-tomsommer] & [@laszlof][gh-laszlof]
+
+[#839]: https://github.com/WordPress/Requests/pull/839
+
+2.0.8
+-----
+
+### Overview of changes
+- Update bundled certificates as of 2023-08-22. [#823]
+- Fixed: only force close cURL connection when needed (cURL < 7.22). [#656], [#657] Props [@mircobabini][gh-mircobabini]
+- Composer: updated list of suggested PHP extensions to enable. [#821]
+- README: add information about the PSR-7/PSR-18 wrapper for Requests. [#827]
+
+[#656]: https://github.com/WordPress/Requests/pull/656
+[#657]: https://github.com/WordPress/Requests/pull/657
+[#821]: https://github.com/WordPress/Requests/pull/821
+[#823]: https://github.com/WordPress/Requests/pull/823
+[#827]: https://github.com/WordPress/Requests/pull/827
+
 2.0.7
 -----
 
@@ -65,7 +201,7 @@ Changelog
 - Docs: the Hook documentation has been updated to reflect the current available hooks. [#646]
 - General housekeeping. [#635], [#649], [#650], [#653], [#655], [#658], [#660], [#661], [#662], [#669], [#671], [#672], [#674]
 
-Props [@alpipego][gh-alpipego], [@costdev][gh-costdev], [@jegrandet][gh-jegrandet] [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera]
+Props [@alpipego][gh-alpipego], [@costdev][gh-costdev], [@jegrandet][gh-jegrandet], [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera]
 
 [#674]: https://github.com/WordPress/Requests/pull/674
 [#672]: https://github.com/WordPress/Requests/pull/672
@@ -983,6 +1119,7 @@ Initial release!
 [gh-adri]: https://github.com/adri
 [gh-alpipego]: https://github.com/alpipego/
 [gh-amandato]: https://github.com/amandato
+[gh-ayesh]: https://github.com/Ayesh
 [gh-beutnagel]: https://github.com/beutnagel
 [gh-carlalexander]: https://github.com/carlalexander
 [gh-catharsisjelly]: https://github.com/catharsisjelly
@@ -1000,8 +1137,10 @@ Initial release!
 [gh-jrfnl]: https://github.com/jrfnl
 [gh-KasperFranz]: https://github.com/KasperFranz
 [gh-kwuerl]: https://github.com/kwuerl
+[gh-laszlof]: https://github.com/laszlof
 [gh-laurentmartelli]: https://github.com/laurentmartelli
 [gh-mbabker]: https://github.com/mbabker
+[gh-mircobabini]: https://github.com/mircobabini
 [gh-mishan]: https://github.com/mishan
 [gh-ntwb]: https://github.com/ntwb
 [gh-ocean90]: https://github.com/ocean90
@@ -1009,6 +1148,7 @@ Initial release!
 [gh-ozh]: https://github.com/ozh
 [gh-patmead]: https://github.com/patmead
 [gh-peterwilsoncc]: https://github.com/peterwilsoncc
+[gh-pmbaldha]: https://github.com/pmbaldha
 [gh-qibinghua]: https://github.com/qibinghua
 [gh-remik]: https://github.com/remik
 [gh-rmccue]: https://github.com/rmccue
@@ -1022,7 +1162,9 @@ Initial release!
 [gh-szepeviktor]: https://github.com/szepeviktor
 [gh-TimothyBJacobs]: https://github.com/TimothyBJacobs
 [gh-tnorthcutt]: https://github.com/tnorthcutt
+[gh-TobiasBg]: https://github.com/TobiasBg
 [gh-todeveni]: https://github.com/todeveni
+[gh-tomsommer]: https://github.com/tomsommer
 [gh-tonebender]: https://github.com/tonebender
 [gh-twdnhfr]: https://github.com/twdnhfr
 [gh-TysonAndre]: https://github.com/TysonAndre
@@ -1031,3 +1173,4 @@ Initial release!
 [gh-xknown]: https://github.com/xknown
 [gh-Zegnat]: https://github.com/Zegnat
 [gh-ZsgsDesign]: https://github.com/ZsgsDesign
+

@@ -13,6 +13,7 @@ namespace Symfony\Component\Console\Helper;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -50,7 +51,7 @@ class ProgressIndicator
      * @param int        $indicatorChangeInterval Change interval in milliseconds
      * @param array|null $indicatorValues         Animated indicator characters
      */
-    public function __construct(OutputInterface $output, string $format = null, int $indicatorChangeInterval = 100, array $indicatorValues = null)
+    public function __construct(OutputInterface $output, ?string $format = null, int $indicatorChangeInterval = 100, ?array $indicatorValues = null)
     {
         $this->output = $output;
 
@@ -70,6 +71,8 @@ class ProgressIndicator
 
     /**
      * Sets the current indicator message.
+     *
+     * @return void
      */
     public function setMessage(?string $message)
     {
@@ -80,6 +83,8 @@ class ProgressIndicator
 
     /**
      * Starts the indicator output.
+     *
+     * @return void
      */
     public function start(string $message)
     {
@@ -98,6 +103,8 @@ class ProgressIndicator
 
     /**
      * Advances the indicator.
+     *
+     * @return void
      */
     public function advance()
     {
@@ -123,6 +130,8 @@ class ProgressIndicator
 
     /**
      * Finish the indicator with message.
+     *
+     * @return void
      */
     public function finish(string $message)
     {
@@ -132,7 +141,9 @@ class ProgressIndicator
 
         $this->message = $message;
         $this->display();
-        $this->output->writeln('');
+        if (!$this->output instanceof ConsoleSectionOutput) {
+            $this->output->writeln('');
+        }
         $this->started = false;
     }
 
@@ -148,6 +159,8 @@ class ProgressIndicator
      * Sets a placeholder formatter for a given name.
      *
      * This method also allow you to override an existing placeholder.
+     *
+     * @return void
      */
     public static function setPlaceholderFormatterDefinition(string $name, callable $callable)
     {
@@ -166,7 +179,7 @@ class ProgressIndicator
         return self::$formatters[$name] ?? null;
     }
 
-    private function display()
+    private function display(): void
     {
         if (OutputInterface::VERBOSITY_QUIET === $this->output->getVerbosity()) {
             return;
@@ -195,9 +208,11 @@ class ProgressIndicator
     /**
      * Overwrites a previous message to the output.
      */
-    private function overwrite(string $message)
+    private function overwrite(string $message): void
     {
-        if ($this->output->isDecorated()) {
+        if ($this->output instanceof ConsoleSectionOutput) {
+            $this->output->overwrite($message);
+        } elseif ($this->output->isDecorated()) {
             $this->output->write("\x0D\x1B[2K");
             $this->output->write($message);
         } else {
@@ -216,18 +231,10 @@ class ProgressIndicator
     private static function initPlaceholderFormatters(): array
     {
         return [
-            'indicator' => function (self $indicator) {
-                return $indicator->indicatorValues[$indicator->indicatorCurrent % \count($indicator->indicatorValues)];
-            },
-            'message' => function (self $indicator) {
-                return $indicator->message;
-            },
-            'elapsed' => function (self $indicator) {
-                return Helper::formatTime(time() - $indicator->startTime);
-            },
-            'memory' => function () {
-                return Helper::formatMemory(memory_get_usage(true));
-            },
+            'indicator' => static fn (self $indicator) => $indicator->indicatorValues[$indicator->indicatorCurrent % \count($indicator->indicatorValues)],
+            'message' => static fn (self $indicator) => $indicator->message,
+            'elapsed' => static fn (self $indicator) => Helper::formatTime(time() - $indicator->startTime, 2),
+            'memory' => static fn () => Helper::formatMemory(memory_get_usage(true)),
         ];
     }
 }

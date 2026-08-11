@@ -111,7 +111,7 @@ class Command
      *
      * @throws LogicException When the command name is empty
      */
-    public function __construct(string $name = null)
+    public function __construct(?string $name = null)
     {
         $this->definition = new InputDefinition();
 
@@ -141,13 +141,18 @@ class Command
      * Ignores validation errors.
      *
      * This is mainly useful for the help command.
+     *
+     * @return void
      */
     public function ignoreValidationErrors()
     {
         $this->ignoreValidationErrors = true;
     }
 
-    public function setApplication(Application $application = null)
+    /**
+     * @return void
+     */
+    public function setApplication(?Application $application = null)
     {
         if (1 > \func_num_args()) {
             trigger_deprecation('symfony/console', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
@@ -162,6 +167,9 @@ class Command
         $this->fullDefinition = null;
     }
 
+    /**
+     * @return void
+     */
     public function setHelperSet(HelperSet $helperSet)
     {
         $this->helperSet = $helperSet;
@@ -198,6 +206,8 @@ class Command
 
     /**
      * Configures the current command.
+     *
+     * @return void
      */
     protected function configure()
     {
@@ -228,6 +238,8 @@ class Command
      * This method is executed before the InputDefinition is validated.
      * This means that this is the only place where the command can
      * interactively ask for values of missing required arguments.
+     *
+     * @return void
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -242,6 +254,8 @@ class Command
      *
      * @see InputInterface::bind()
      * @see InputInterface::validate()
+     *
+     * @return void
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
@@ -310,7 +324,11 @@ class Command
             $statusCode = ($this->code)($input, $output);
         } else {
             $statusCode = $this->execute($input, $output);
-         }
+
+            if (!\is_int($statusCode)) {
+                throw new \TypeError(\sprintf('Return value of "%s::execute()" must be of the type int, "%s" returned.', static::class, get_debug_type($statusCode)));
+            }
+        }
 
         return is_numeric($statusCode) ? (int) $statusCode : 0;
     }
@@ -374,7 +392,7 @@ class Command
      *
      * @internal
      */
-    public function mergeApplicationDefinition(bool $mergeArgs = true)
+    public function mergeApplicationDefinition(bool $mergeArgs = true): void
     {
         if (null === $this->application) {
             return;
@@ -428,7 +446,7 @@ class Command
      */
     public function getNativeDefinition(): InputDefinition
     {
-        return $this->definition ?? throw new LogicException(sprintf('Command class "%s" is not correctly initialized. You probably forgot to call the parent constructor.', static::class));
+        return $this->definition ?? throw new LogicException(\sprintf('Command class "%s" is not correctly initialized. You probably forgot to call the parent constructor.', static::class));
     }
 
     /**
@@ -442,11 +460,11 @@ class Command
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
-    public function addArgument(string $name, int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = null */): static
+    public function addArgument(string $name, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = null */): static
     {
         $suggestedValues = 5 <= \func_num_args() ? func_get_arg(4) : [];
         if (!\is_array($suggestedValues) && !$suggestedValues instanceof \Closure) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+            throw new \TypeError(\sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
         }
         $this->definition->addArgument(new InputArgument($name, $mode, $description, $default, $suggestedValues));
         $this->fullDefinition?->addArgument(new InputArgument($name, $mode, $description, $default, $suggestedValues));
@@ -466,11 +484,11 @@ class Command
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
-    public function addOption(string $name, string|array $shortcut = null, int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = [] */): static
+    public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, string $description = '', mixed $default = null /* array|\Closure $suggestedValues = [] */): static
     {
         $suggestedValues = 6 <= \func_num_args() ? func_get_arg(5) : [];
         if (!\is_array($suggestedValues) && !$suggestedValues instanceof \Closure) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
+            throw new \TypeError(\sprintf('Argument 5 passed to "%s()" must be array or \Closure, "%s" given.', __METHOD__, get_debug_type($suggestedValues)));
         }
         $this->definition->addOption(new InputOption($name, $shortcut, $mode, $description, $default, $suggestedValues));
         $this->fullDefinition?->addOption(new InputOption($name, $shortcut, $mode, $description, $default, $suggestedValues));
@@ -644,7 +662,7 @@ class Command
         $key = $short ? 'short' : 'long';
 
         if (!isset($this->synopsis[$key])) {
-            $this->synopsis[$key] = trim(sprintf('%s %s', $this->name, $this->definition->getSynopsis($short)));
+            $this->synopsis[$key] = trim(\sprintf('%s %s', $this->name, $this->definition->getSynopsis($short)));
         }
 
         return $this->synopsis[$key];
@@ -658,7 +676,7 @@ class Command
     public function addUsage(string $usage): static
     {
         if (!str_starts_with($usage, $this->name)) {
-            $usage = sprintf('%s %s', $this->name, $usage);
+            $usage = \sprintf('%s %s', $this->name, $usage);
         }
 
         $this->usages[] = $usage;
@@ -685,7 +703,7 @@ class Command
     public function getHelper(string $name): mixed
     {
         if (null === $this->helperSet) {
-            throw new LogicException(sprintf('Cannot retrieve helper "%s" because there is no HelperSet defined. Did you forget to add your command to the application or to set the application on the command using the setApplication() method? You can also set the HelperSet directly using the setHelperSet() method.', $name));
+            throw new LogicException(\sprintf('Cannot retrieve helper "%s" because there is no HelperSet defined. Did you forget to add your command to the application or to set the application on the command using the setApplication() method? You can also set the HelperSet directly using the setHelperSet() method.', $name));
         }
 
         return $this->helperSet->get($name);
@@ -698,10 +716,10 @@ class Command
      *
      * @throws InvalidArgumentException When the name is invalid
      */
-    private function validateName(string $name)
+    private function validateName(string $name): void
     {
         if (!preg_match('/^[^\:]++(\:[^\:]++)*$/', $name)) {
-            throw new InvalidArgumentException(sprintf('Command name "%s" is invalid.', $name));
+            throw new InvalidArgumentException(\sprintf('Command name "%s" is invalid.', $name));
         }
     }
 }

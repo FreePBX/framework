@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -30,13 +26,41 @@ final class Validator extends AllOf
     /**
      * Create instance validator.
      */
-    public static function create(): self
+    public static function create(Validatable ...$rules): self
     {
-        return new self();
+        return new self(...$rules);
     }
 
     /**
-     * {@inheritDoc}
+     * @param mixed $input
+     */
+    public function assert($input): void
+    {
+        parent::assert($input);
+    }
+
+    public function isValid(mixed $input): bool
+    {
+        return parent::validate($input);
+    }
+
+    public function setName(string $name): Validatable
+    {
+        return parent::setName($name);
+    }
+
+    public function getName(): ?string
+    {
+        return parent::getName();
+    }
+
+    public function setTemplate(string $template): Validatable
+    {
+        return parent::setTemplate($template);
+    }
+
+    /**
+     * @param mixed $input
      */
     public function check($input): void
     {

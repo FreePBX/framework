@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Giggsey\Locale;
+
+use RuntimeException;
 
 class Locale
 {
-    protected static $dataDir = '../data/';
+    protected static string $dataDir = '../data/';
 
     /**
      * Gets the primary language for the input locale
@@ -98,7 +102,7 @@ class Locale
         return '';
     }
 
-    public static function getVersion()
+    public static function getVersion(): string
     {
         $file = __DIR__ . DIRECTORY_SEPARATOR . static::$dataDir . '_version.php';
 
@@ -113,6 +117,7 @@ class Locale
     public static function getSupportedLocales(): array
     {
         $dataDir = __DIR__ . DIRECTORY_SEPARATOR . static::$dataDir;
+        /** @var array<string,string> $regionList */
         $regionList = require $dataDir . '_list.php';
 
         return array_keys($regionList);
@@ -121,9 +126,8 @@ class Locale
     /**
      * Load a list of all countries supported by a particular Locale
      *
-     * @param string $locale
      * @return string[] Associative array of Country Code => Country Name
-     * @throws \RuntimeException On an invalid region
+     * @throws RuntimeException On an invalid region
      */
     public static function getAllCountriesForLocale(string $locale): array
     {
@@ -131,7 +135,7 @@ class Locale
         $regionList = require $dataDir . '_list.php';
 
         if (!isset($regionList[$locale])) {
-            throw new \RuntimeException("Locale is not supported");
+            throw new RuntimeException('Locale is not supported');
         }
 
         /*

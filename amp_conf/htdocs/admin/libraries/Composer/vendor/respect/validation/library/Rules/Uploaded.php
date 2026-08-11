@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -16,6 +12,7 @@ namespace Respect\Validation\Rules;
 use Psr\Http\Message\UploadedFileInterface;
 use SplFileInfo;
 
+use function function_exists;
 use function is_scalar;
 use function is_uploaded_file;
 
@@ -28,7 +25,7 @@ use function is_uploaded_file;
 final class Uploaded extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `validate()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::isValid()} instead.
      */
     public function validate($input): bool
     {
@@ -42,6 +39,10 @@ final class Uploaded extends AbstractRule
 
         if (!is_scalar($input)) {
             return false;
+        }
+
+        if (function_exists('mock_is_uploaded_file')) {
+            return mock_is_uploaded_file((string) $input);
         }
 
         return is_uploaded_file((string) $input);

@@ -18,10 +18,10 @@ use Symfony\Component\PropertyAccess\Exception\OutOfBoundsException;
  */
 class PropertyPathBuilder
 {
-    private $elements = [];
-    private $isIndex = [];
+    private array $elements = [];
+    private array $isIndex = [];
 
-    public function __construct(PropertyPathInterface|string $path = null)
+    public function __construct(PropertyPathInterface|string|null $path = null)
     {
         if (null !== $path) {
             $this->append($path);
@@ -86,7 +86,7 @@ class PropertyPathBuilder
     public function remove(int $offset, int $length = 1)
     {
         if (!isset($this->elements[$offset])) {
-            throw new OutOfBoundsException(sprintf('The offset "%s" is not within the property path.', $offset));
+            throw new OutOfBoundsException(\sprintf('The offset "%s" is not within the property path.', $offset));
         }
 
         $this->resize($offset, $length, 0);
@@ -134,10 +134,10 @@ class PropertyPathBuilder
      *
      * @throws OutOfBoundsException If the offset is invalid
      */
-    public function replaceByIndex(int $offset, string $name = null)
+    public function replaceByIndex(int $offset, ?string $name = null)
     {
         if (!isset($this->elements[$offset])) {
-            throw new OutOfBoundsException(sprintf('The offset "%s" is not within the property path.', $offset));
+            throw new OutOfBoundsException(\sprintf('The offset "%s" is not within the property path.', $offset));
         }
 
         if (null !== $name) {
@@ -154,10 +154,10 @@ class PropertyPathBuilder
      *
      * @throws OutOfBoundsException If the offset is invalid
      */
-    public function replaceByProperty(int $offset, string $name = null)
+    public function replaceByProperty(int $offset, ?string $name = null)
     {
         if (!isset($this->elements[$offset])) {
-            throw new OutOfBoundsException(sprintf('The offset "%s" is not within the property path.', $offset));
+            throw new OutOfBoundsException(\sprintf('The offset "%s" is not within the property path.', $offset));
         }
 
         if (null !== $name) {

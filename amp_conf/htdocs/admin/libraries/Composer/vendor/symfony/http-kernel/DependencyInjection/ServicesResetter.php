@@ -38,7 +38,7 @@ class ServicesResetter implements ResetInterface
         $this->resetMethods = $resetMethods;
     }
 
-    public function reset()
+    public function reset(): void
     {
         foreach ($this->resettableServices as $id => $service) {
             if ($service instanceof LazyObjectInterface && !$service->isLazyObjectInitialized(true)) {

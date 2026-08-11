@@ -231,7 +231,7 @@ use ReflectionMethod;
  *                                                                                                                                                                                                     You should rather use the ->settings() method.
  *                                                                                                                                                                                                     Or you can use method variants: addYearsWithOverflow/addYearsNoOverflow, same variants
  *                                                                                                                                                                                                     are available for quarters, years, decade, centuries, millennia (singular and plural forms).
- * @method mixed                                              withTestNow($testNow = null, $callback = null)                                                                               Temporarily sets a static date to be used within the callback.
+ * @method mixed                                              withTestNow($testNow, $callback)                                                                                             Temporarily sets a static date to be used within the callback.
  *                                                                                                                                                                                         Using setTestNow to set the date, executing the callback, then
  *                                                                                                                                                                                         clearing the test instance.
  *                                                                                                                                                                                         /!\ Use this method for unit tests only.
@@ -266,7 +266,7 @@ class Factory
         return $this;
     }
 
-    public function className(string $className = null)
+    public function className(?string $className = null)
     {
         return $className === null ? $this->getClassName() : $this->setClassName($className);
     }
@@ -283,7 +283,7 @@ class Factory
         return $this;
     }
 
-    public function settings(array $settings = null)
+    public function settings(?array $settings = null)
     {
         return $settings === null ? $this->getSettings() : $this->setSettings($settings);
     }

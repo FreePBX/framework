@@ -148,7 +148,6 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="entity-result" type="orm:entity-result"/>
             <xs:element name="column-result" type="orm:column-result"/>
-            <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
         </xs:choice>
         <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
@@ -226,22 +225,13 @@
 
   <xs:complexType name="mapped-superclass" >
     <xs:complexContent>
-      <xs:extension base="orm:entity">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
-        </xs:choice>
-        <xs:anyAttribute namespace="##other"/>
-      </xs:extension>
+      <xs:extension base="orm:entity"/>
     </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="embeddable">
     <xs:complexContent>
-      <xs:extension base="orm:entity">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-          <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
-        </xs:choice>
-      </xs:extension>
+      <xs:extension base="orm:entity"/>
     </xs:complexContent>
   </xs:complexType>
 
@@ -302,7 +292,7 @@
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-    <xs:attribute name="type" type="xs:NMTOKEN" default="string" />
+    <xs:attribute name="type" type="orm:type" default="string" />
     <xs:attribute name="column" type="orm:columntoken" />
     <xs:attribute name="length" type="xs:NMTOKEN" />
     <xs:attribute name="unique" type="xs:boolean" default="false" />
@@ -330,6 +320,7 @@
 
   <xs:complexType name="discriminator-column">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="options" type="orm:options" minOccurs="0" />
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
@@ -337,6 +328,7 @@
     <xs:attribute name="field-name" type="xs:NMTOKEN" />
     <xs:attribute name="length" type="xs:NMTOKEN" />
     <xs:attribute name="column-definition" type="xs:string" />
+    <xs:attribute name="enum-type" type="xs:string" />
     <xs:anyAttribute namespace="##other"/>
   </xs:complexType>
 
@@ -383,7 +375,7 @@
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
-    <xs:attribute name="value" type="xs:NMTOKEN" use="required"/>
+    <xs:attribute name="value" type="orm:type" use="required"/>
     <xs:attribute name="class" type="orm:fqcn" use="required"/>
     <xs:anyAttribute namespace="##other"/>
   </xs:complexType>
@@ -413,7 +405,7 @@
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
     <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
-    <xs:attribute name="type" type="xs:NMTOKEN" />
+    <xs:attribute name="type" type="orm:type" />
     <xs:attribute name="column" type="orm:columntoken" />
     <xs:attribute name="length" type="xs:NMTOKEN" />
     <xs:attribute name="association-key" type="xs:boolean" default="false" />
@@ -441,6 +433,13 @@
   <xs:simpleType name="fqcn" id="fqcn">
     <xs:restriction base="xs:token">
       <xs:pattern value="[a-zA-Z_u01-uff][a-zA-Z0-9_u01-uff]+" id="fqcn.pattern">
+      </xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="type" id="type">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="([a-zA-Z_u01-uff][a-zA-Z0-9_u01-uff]+)|(\c+)" id="type.class.pattern">
       </xs:pattern>
     </xs:restriction>
   </xs:simpleType>
@@ -556,7 +555,6 @@
       <xs:choice minOccurs="0" maxOccurs="1">
         <xs:element name="join-column" type="orm:join-column"/>
         <xs:element name="join-columns" type="orm:join-columns"/>
-        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
       </xs:choice>
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
@@ -574,7 +572,6 @@
       <xs:choice minOccurs="0" maxOccurs="1">
         <xs:element name="join-column" type="orm:join-column"/>
         <xs:element name="join-columns" type="orm:join-columns"/>
-        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
       </xs:choice>
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
@@ -629,7 +626,7 @@
       <xs:element name="options" type="orm:options" minOccurs="0" />
       <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"/>
     </xs:choice>
-    <xs:attribute name="type" type="xs:NMTOKEN" default="string" />
+    <xs:attribute name="type" type="orm:type" default="string" />
     <xs:attribute name="column" type="orm:columntoken" />
     <xs:attribute name="length" type="xs:NMTOKEN" />
     <xs:attribute name="unique" type="xs:boolean" default="false" />

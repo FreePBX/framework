@@ -12,6 +12,7 @@
 namespace Symfony\Component\HttpFoundation;
 
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Exception\UnexpectedValueException;
 
 /**
  * InputBag is a container for user input values such as $_GET, $_POST, $_REQUEST, and $_COOKIE.
@@ -28,13 +29,13 @@ final class InputBag extends ParameterBag
     public function get(string $key, mixed $default = null): string|int|float|bool|null
     {
         if (null !== $default && !\is_scalar($default) && !$default instanceof \Stringable) {
-            throw new \InvalidArgumentException(sprintf('Expected a scalar value as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($default)));
+            throw new \InvalidArgumentException(\sprintf('Expected a scalar value as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($default)));
         }
 
         $value = parent::get($key, $this);
 
         if (null !== $value && $this !== $value && !\is_scalar($value) && !$value instanceof \Stringable) {
-            throw new BadRequestException(sprintf('Input value "%s" contains a non-scalar value.', $key));
+            throw new BadRequestException(\sprintf('Input value "%s" contains a non-scalar value.', $key));
         }
 
         return $this === $value ? $default : $value;
@@ -67,7 +68,7 @@ final class InputBag extends ParameterBag
     public function set(string $key, mixed $value): void
     {
         if (null !== $value && !\is_scalar($value) && !\is_array($value) && !$value instanceof \Stringable) {
-            throw new \InvalidArgumentException(sprintf('Expected a scalar, or an array as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($value)));
+            throw new \InvalidArgumentException(\sprintf('Expected a scalar, or an array as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($value)));
         }
 
         $this->parameters[$key] = $value;
@@ -83,11 +84,11 @@ final class InputBag extends ParameterBag
      *
      * @return ?T
      */
-    public function getEnum(string $key, string $class, \BackedEnum $default = null): ?\BackedEnum
+    public function getEnum(string $key, string $class, ?\BackedEnum $default = null): ?\BackedEnum
     {
         try {
             return parent::getEnum($key, $class, $default);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             throw new BadRequestException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -111,11 +112,11 @@ final class InputBag extends ParameterBag
         }
 
         if (\is_array($value) && !(($options['flags'] ?? 0) & (\FILTER_REQUIRE_ARRAY | \FILTER_FORCE_ARRAY))) {
-            throw new BadRequestException(sprintf('Input value "%s" contains an array, but "FILTER_REQUIRE_ARRAY" or "FILTER_FORCE_ARRAY" flags were not set.', $key));
+            throw new BadRequestException(\sprintf('Input value "%s" contains an array, but "FILTER_REQUIRE_ARRAY" or "FILTER_FORCE_ARRAY" flags were not set.', $key));
         }
 
         if ((\FILTER_CALLBACK & $filter) && !(($options['options'] ?? null) instanceof \Closure)) {
-            throw new \InvalidArgumentException(sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
+            throw new \InvalidArgumentException(\sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
         }
 
         $options['flags'] ??= 0;

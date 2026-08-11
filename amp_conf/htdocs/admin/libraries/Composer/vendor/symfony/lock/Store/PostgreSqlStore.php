@@ -28,8 +28,8 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
 {
     private \PDO $conn;
     private string $dsn;
-    private string $username = '';
-    private string $password = '';
+    private ?string $username = null;
+    private ?string $password = null;
     private array $connectionOptions = [];
     private static array $storeRegistry = [];
 
@@ -49,11 +49,11 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
      * @throws InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      * @throws InvalidArgumentException When namespace contains invalid characters
      */
-    public function __construct(\PDO|string $connOrDsn, array $options = [])
+    public function __construct(#[\SensitiveParameter] \PDO|string $connOrDsn, #[\SensitiveParameter] array $options = [])
     {
         if ($connOrDsn instanceof \PDO) {
             if (\PDO::ERRMODE_EXCEPTION !== $connOrDsn->getAttribute(\PDO::ATTR_ERRMODE)) {
-                throw new InvalidArgumentException(sprintf('"%s" requires PDO error mode attribute be set to throw Exceptions (i.e. $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)).', __METHOD__));
+                throw new InvalidArgumentException(\sprintf('"%s" requires PDO error mode attribute be set to throw Exceptions (i.e. $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)).', __METHOD__));
             }
 
             $this->conn = $connOrDsn;
@@ -67,6 +67,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         $this->connectionOptions = $options['db_connection_options'] ?? $this->connectionOptions;
     }
 
+    /**
+     * @return void
+     */
     public function save(Key $key)
     {
         // prevent concurrency within the same connection
@@ -99,6 +102,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         throw new LockConflictedException();
     }
 
+    /**
+     * @return void
+     */
     public function saveRead(Key $key)
     {
         // prevent concurrency within the same connection
@@ -132,6 +138,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         throw new LockConflictedException();
     }
 
+    /**
+     * @return void
+     */
     public function putOffExpiration(Key $key, float $ttl)
     {
         // postgresql locks forever.
@@ -141,6 +150,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         }
     }
 
+    /**
+     * @return void
+     */
     public function delete(Key $key)
     {
         // Prevent deleting locks own by an other key in the same connection
@@ -179,6 +191,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         return false;
     }
 
+    /**
+     * @return void
+     */
     public function waitAndSave(Key $key)
     {
         // prevent concurrency within the same connection
@@ -202,6 +217,9 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
         $this->unlockShared($key);
     }
 
+    /**
+     * @return void
+     */
     public function waitAndSaveRead(Key $key)
     {
         // prevent concurrency within the same connection
@@ -277,7 +295,7 @@ class PostgreSqlStore implements BlockingSharedLockStoreInterface, BlockingStore
     private function checkDriver(): void
     {
         if ('pgsql' !== $driver = $this->conn->getAttribute(\PDO::ATTR_DRIVER_NAME)) {
-            throw new InvalidArgumentException(sprintf('The adapter "%s" does not support the "%s" driver.', __CLASS__, $driver));
+            throw new InvalidArgumentException(\sprintf('The adapter "%s" does not support the "%s" driver.', __CLASS__, $driver));
         }
     }
 

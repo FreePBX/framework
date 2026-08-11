@@ -12,8 +12,11 @@ use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
+use Doctrine\DBAL\SQL\Builder\DefaultSelectSQLBuilder;
+use Doctrine\DBAL\SQL\Builder\SelectSQLBuilder;
 use Doctrine\DBAL\Types\BinaryType;
 use Doctrine\DBAL\Types\BlobType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
 use UnexpectedValueException;
 
@@ -133,8 +136,8 @@ class PostgreSQLPlatform extends AbstractPlatform
     protected function getDateArithmeticIntervalExpression($date, $operator, $interval, $unit)
     {
         if ($unit === DateIntervalUnit::QUARTER) {
-            $interval *= 3;
-            $unit      = DateIntervalUnit::MONTH;
+            $interval = $this->multiplyInterval((string) $interval, 3);
+            $unit     = DateIntervalUnit::MONTH;
         }
 
         return '(' . $date . ' ' . $operator . ' (' . $interval . " || ' " . $unit . "')::interval)";
@@ -263,6 +266,11 @@ class PostgreSQLPlatform extends AbstractPlatform
         );
 
         return true;
+    }
+
+    public function createSelectSQLBuilder(): SelectSQLBuilder
+    {
+        return new DefaultSelectSQLBuilder($this, 'FOR UPDATE', null);
     }
 
     /**
@@ -397,8 +405,6 @@ SQL
      * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
      *
      * {@inheritDoc}
-     *
-     * @link http://ezcomponents.org/docs/api/trunk/DatabaseSchema/ezcDbSchemaPgsqlReader.html
      */
     public function getListTableIndexesSQL($table, $database = null)
     {
@@ -827,6 +833,16 @@ SQL
             return $this->getDropConstraintSQL($constraintName, $table);
         }
 
+        if ($table !== null) {
+            $indexName = $index instanceof Index ? $index->getQuotedName($this) : $index;
+            $tableName = $table instanceof Table ? $table->getQuotedName($this) : $table;
+
+            if (strpos($tableName, '.') !== false) {
+                [$schema] = explode('.', $tableName);
+                $index    = $schema . '.' . $indexName;
+            }
+        }
+
         return parent::getDropIndexSQL($index, $table);
     }
 
@@ -852,7 +868,9 @@ SQL
             $queryFields .= ', PRIMARY KEY(' . implode(', ', $keyColumns) . ')';
         }
 
-        $query = 'CREATE TABLE ' . $name . ' (' . $queryFields . ')';
+        $unlogged = isset($options['unlogged']) && $options['unlogged'] === true ? ' UNLOGGED' : '';
+
+        $query = 'CREATE' . $unlogged . ' TABLE ' . $name . ' (' . $queryFields . ')';
 
         $sql = [$query];
 
@@ -1184,6 +1202,19 @@ SQL
     }
 
     /**
+     * Get the snippet used to retrieve the default value for a given column
+     */
+    public function getDefaultColumnValueSQLSnippet(): string
+    {
+        return <<<'SQL'
+             SELECT pg_get_expr(adbin, adrelid)
+             FROM pg_attrdef
+             WHERE c.oid = pg_attrdef.adrelid
+                AND pg_attrdef.adnum=a.attnum
+        SQL;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getReadLockSQL()
@@ -1197,47 +1228,47 @@ SQL
     protected function initializeDoctrineTypeMappings()
     {
         $this->doctrineTypeMapping = [
-            'bigint'           => 'bigint',
-            'bigserial'        => 'bigint',
-            'bool'             => 'boolean',
-            'boolean'          => 'boolean',
-            'bpchar'           => 'string',
-            'bytea'            => 'blob',
-            'char'             => 'string',
-            'date'             => 'date',
-            'datetime'         => 'datetime',
-            'decimal'          => 'decimal',
-            'double'           => 'float',
-            'double precision' => 'float',
-            'float'            => 'float',
-            'float4'           => 'float',
-            'float8'           => 'float',
-            'inet'             => 'string',
-            'int'              => 'integer',
-            'int2'             => 'smallint',
-            'int4'             => 'integer',
-            'int8'             => 'bigint',
-            'integer'          => 'integer',
-            'interval'         => 'string',
-            'json'             => 'json',
-            'jsonb'            => 'json',
-            'money'            => 'decimal',
-            'numeric'          => 'decimal',
-            'serial'           => 'integer',
-            'serial4'          => 'integer',
-            'serial8'          => 'bigint',
-            'real'             => 'float',
-            'smallint'         => 'smallint',
-            'text'             => 'text',
-            'time'             => 'time',
-            'timestamp'        => 'datetime',
-            'timestamptz'      => 'datetimetz',
-            'timetz'           => 'time',
-            'tsvector'         => 'text',
-            'uuid'             => 'guid',
-            'varchar'          => 'string',
-            'year'             => 'date',
-            '_varchar'         => 'string',
+            'bigint'           => Types::BIGINT,
+            'bigserial'        => Types::BIGINT,
+            'bool'             => Types::BOOLEAN,
+            'boolean'          => Types::BOOLEAN,
+            'bpchar'           => Types::STRING,
+            'bytea'            => Types::BLOB,
+            'char'             => Types::STRING,
+            'date'             => Types::DATE_MUTABLE,
+            'datetime'         => Types::DATETIME_MUTABLE,
+            'decimal'          => Types::DECIMAL,
+            'double'           => Types::FLOAT,
+            'double precision' => Types::FLOAT,
+            'float'            => Types::FLOAT,
+            'float4'           => Types::FLOAT,
+            'float8'           => Types::FLOAT,
+            'inet'             => Types::STRING,
+            'int'              => Types::INTEGER,
+            'int2'             => Types::SMALLINT,
+            'int4'             => Types::INTEGER,
+            'int8'             => Types::BIGINT,
+            'integer'          => Types::INTEGER,
+            'interval'         => Types::STRING,
+            'json'             => Types::JSON,
+            'jsonb'            => Types::JSON,
+            'money'            => Types::DECIMAL,
+            'numeric'          => Types::DECIMAL,
+            'serial'           => Types::INTEGER,
+            'serial4'          => Types::INTEGER,
+            'serial8'          => Types::BIGINT,
+            'real'             => Types::FLOAT,
+            'smallint'         => Types::SMALLINT,
+            'text'             => Types::TEXT,
+            'time'             => Types::TIME_MUTABLE,
+            'timestamp'        => Types::DATETIME_MUTABLE,
+            'timestamptz'      => Types::DATETIMETZ_MUTABLE,
+            'timetz'           => Types::TIME_MUTABLE,
+            'tsvector'         => Types::TEXT,
+            'uuid'             => Types::GUID,
+            'varchar'          => Types::STRING,
+            'year'             => Types::DATE_MUTABLE,
+            '_varchar'         => Types::STRING,
         ];
     }
 

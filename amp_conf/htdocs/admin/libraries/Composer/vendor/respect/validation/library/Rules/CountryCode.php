@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -336,7 +332,7 @@ final class CountryCode extends AbstractSearcher
         ['YD', 'YMD', '720'], // Yemen, Democratic, People's Democratic Republic of
         ['YE', 'YEM', '887'], // Yemen
         ['YT', 'MYT', '175'], // Mayotte
-        ['YU', 'YUG', '891'], // Yugoslavia, Socialist Federal Republic of
+        ['YU', 'YUG', '891'], // Yugoslavia, (Socialist) Federal Republic of
         ['ZA', 'ZAF', '710'], // South Africa
         ['ZM', 'ZMB', '894'], // Zambia
         ['ZR', 'ZAR', '180'], // Zaire, Republic of
@@ -372,7 +368,7 @@ final class CountryCode extends AbstractSearcher
     /**
      * {@inheritDoc}
      */
-    protected function getDataSource(): array
+    protected function getDataSource($input = null): array
     {
         return array_column(self::COUNTRY_CODES, self::SET_INDEXES[$this->set]);
     }

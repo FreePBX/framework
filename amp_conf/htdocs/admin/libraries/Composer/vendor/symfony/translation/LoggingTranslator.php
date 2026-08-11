@@ -30,14 +30,14 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
     public function __construct(TranslatorInterface $translator, LoggerInterface $logger)
     {
         if (!$translator instanceof TranslatorBagInterface || !$translator instanceof LocaleAwareInterface) {
-            throw new InvalidArgumentException(sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
+            throw new InvalidArgumentException(\sprintf('The Translator "%s" must implement TranslatorInterface, TranslatorBagInterface and LocaleAwareInterface.', get_debug_type($translator)));
         }
 
         $this->translator = $translator;
         $this->logger = $logger;
     }
 
-    public function trans(?string $id, array $parameters = [], string $domain = null, string $locale = null): string
+    public function trans(?string $id, array $parameters = [], ?string $domain = null, ?string $locale = null): string
     {
         $trans = $this->translator->trans($id = (string) $id, $parameters, $domain, $locale);
         $this->log($id, $domain, $locale);
@@ -45,6 +45,9 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
         return $trans;
     }
 
+    /**
+     * @return void
+     */
     public function setLocale(string $locale)
     {
         $prev = $this->translator->getLocale();
@@ -53,7 +56,7 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
             return;
         }
 
-        $this->logger->debug(sprintf('The locale of the translator has changed from "%s" to "%s".', $prev, $locale));
+        $this->logger->debug(\sprintf('The locale of the translator has changed from "%s" to "%s".', $prev, $locale));
     }
 
     public function getLocale(): string
@@ -61,7 +64,7 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
         return $this->translator->getLocale();
     }
 
-    public function getCatalogue(string $locale = null): MessageCatalogueInterface
+    public function getCatalogue(?string $locale = null): MessageCatalogueInterface
     {
         return $this->translator->getCatalogue($locale);
     }
@@ -84,7 +87,7 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
     }
 
     /**
-     * Passes through all unknown calls onto the translator object.
+     * @return mixed
      */
     public function __call(string $method, array $args)
     {
@@ -94,7 +97,7 @@ class LoggingTranslator implements TranslatorInterface, TranslatorBagInterface, 
     /**
      * Logs for missing translations.
      */
-    private function log(string $id, ?string $domain, ?string $locale)
+    private function log(string $id, ?string $domain, ?string $locale): void
     {
         $domain ??= 'messages';
 

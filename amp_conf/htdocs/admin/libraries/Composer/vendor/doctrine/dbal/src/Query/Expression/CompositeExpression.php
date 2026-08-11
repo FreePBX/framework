@@ -149,6 +149,7 @@ class CompositeExpression implements Countable
      * Retrieves the amount of expressions on composite expression.
      *
      * @return int
+     * @phpstan-return int<0, max>
      */
     #[ReturnTypeWillChange]
     public function count()

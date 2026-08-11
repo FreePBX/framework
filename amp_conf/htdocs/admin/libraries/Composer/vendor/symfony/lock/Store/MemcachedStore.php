@@ -30,6 +30,9 @@ class MemcachedStore implements PersistingStoreInterface
     private int $initialTtl;
     private bool $useExtendedReturn;
 
+    /**
+     * @return bool
+     */
     public static function isSupported()
     {
         return \extension_loaded('memcached');
@@ -45,13 +48,16 @@ class MemcachedStore implements PersistingStoreInterface
         }
 
         if ($initialTtl < 1) {
-            throw new InvalidArgumentException(sprintf('"%s()" expects a strictly positive TTL. Got %d.', __METHOD__, $initialTtl));
+            throw new InvalidArgumentException(\sprintf('"%s()" expects a strictly positive TTL. Got %d.', __METHOD__, $initialTtl));
         }
 
         $this->memcached = $memcached;
         $this->initialTtl = $initialTtl;
     }
 
+    /**
+     * @return void
+     */
     public function save(Key $key)
     {
         $token = $this->getUniqueToken($key);
@@ -64,10 +70,13 @@ class MemcachedStore implements PersistingStoreInterface
         $this->checkNotExpired($key);
     }
 
+    /**
+     * @return void
+     */
     public function putOffExpiration(Key $key, float $ttl)
     {
         if ($ttl < 1) {
-            throw new InvalidTtlException(sprintf('"%s()" expects a TTL greater or equals to 1 second. Got %s.', __METHOD__, $ttl));
+            throw new InvalidTtlException(\sprintf('"%s()" expects a TTL greater or equals to 1 second. Got %s.', __METHOD__, $ttl));
         }
 
         // Interface defines a float value but Store required an integer.
@@ -100,6 +109,9 @@ class MemcachedStore implements PersistingStoreInterface
         $this->checkNotExpired($key);
     }
 
+    /**
+     * @return void
+     */
     public function delete(Key $key)
     {
         $token = $this->getUniqueToken($key);

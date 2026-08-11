@@ -48,9 +48,9 @@ class ConsoleSectionOutput extends StreamOutput
     public function setMaxHeight(int $maxHeight): void
     {
         // when changing max height, clear output of current section and redraw again with the new height
-        $existingContent = $this->popStreamContentUntilCurrentSection($this->maxHeight ? min($this->maxHeight, $this->lines) : $this->lines);
-
+        $previousMaxHeight = $this->maxHeight;
         $this->maxHeight = $maxHeight;
+        $existingContent = $this->popStreamContentUntilCurrentSection($previousMaxHeight ? min($previousMaxHeight, $this->lines) : $this->lines);
 
         parent::doWrite($this->getVisibleContent(), false);
         parent::doWrite($existingContent, false);
@@ -60,8 +60,10 @@ class ConsoleSectionOutput extends StreamOutput
      * Clears previous output for this section.
      *
      * @param int $lines Number of lines to clear. If null, then the entire output of this section is cleared
+     *
+     * @return void
      */
-    public function clear(int $lines = null)
+    public function clear(?int $lines = null)
     {
         if (empty($this->content) || !$this->isDecorated()) {
             return;
@@ -81,11 +83,36 @@ class ConsoleSectionOutput extends StreamOutput
 
     /**
      * Overwrites the previous output with a new message.
+     *
+     * @return void
      */
     public function overwrite(string|iterable $message)
     {
-        $this->clear();
-        $this->writeln($message);
+        if (!$this->content || !$this->isDecorated()) {
+            $this->writeln($message);
+
+            return;
+        }
+
+        // Replace own content and write everything in a single cursor-up + erase
+        // pass, to avoid the flicker (and the line-eating artifacts on some
+        // terminals) caused by calling clear() then writeln() back-to-back.
+        $linesCleared = $this->lines;
+        $this->content = [];
+        $this->lines = 0;
+
+        if (!is_iterable($message)) {
+            $message = [$message];
+        }
+
+        foreach ($message as $line) {
+            $this->addContent($this->getFormatter()->format($line) ?? '', true);
+        }
+
+        $erasedContent = $this->popStreamContentUntilCurrentSection($this->maxHeight ? min($this->maxHeight, $linesCleared) : $linesCleared);
+
+        parent::doWrite($this->getVisibleContent(), false);
+        parent::doWrite($erasedContent, false);
     }
 
     public function getContent(): string
@@ -115,8 +142,7 @@ class ConsoleSectionOutput extends StreamOutput
             // re-add the line break (that has been removed in the above `explode()` for
             // - every line that is not the last line
             // - if $newline is required, also add it to the last line
-            // - if it's not new line, but input ending with `\PHP_EOL`
-            if ($i < $count || $newline || str_ends_with($input, \PHP_EOL)) {
+            if ($i < $count || $newline) {
                 $lineContent .= \PHP_EOL;
             }
 
@@ -153,14 +179,23 @@ class ConsoleSectionOutput extends StreamOutput
     /**
      * @internal
      */
-    public function addNewLineOfInputSubmit()
+    public function addNewLineOfInputSubmit(): void
     {
         $this->content[] = \PHP_EOL;
         ++$this->lines;
     }
 
+    /**
+     * @return void
+     */
     protected function doWrite(string $message, bool $newline)
     {
+        // Simulate newline behavior for consistent output formatting, avoiding extra logic
+        if (!$newline && str_ends_with($message, \PHP_EOL)) {
+            $message = substr($message, 0, -\strlen(\PHP_EOL));
+            $newline = true;
+        }
+
         if (!$this->isDecorated()) {
             parent::doWrite($message, $newline);
 
@@ -206,7 +241,7 @@ class ConsoleSectionOutput extends StreamOutput
                 break;
             }
 
-            $numberOfLinesToClear += $section->lines;
+            $numberOfLinesToClear += $section->maxHeight ? min($section->lines, $section->maxHeight) : $section->lines;
             if ('' !== $sectionContent = $section->getVisibleContent()) {
                 if (!str_ends_with($sectionContent, \PHP_EOL)) {
                     $sectionContent .= \PHP_EOL;
@@ -217,7 +252,7 @@ class ConsoleSectionOutput extends StreamOutput
 
         if ($numberOfLinesToClear > 0) {
             // move cursor up n lines
-            parent::doWrite(sprintf("\x1b[%dA", $numberOfLinesToClear), false);
+            parent::doWrite(\sprintf("\x1b[%dA", $numberOfLinesToClear), false);
             // erase to end of screen
             parent::doWrite("\x1b[0J", false);
         }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: giggsey
@@ -12,14 +13,14 @@ use libphonenumber\prefixmapper\PrefixTimeZonesMap;
 
 class PhoneNumberToTimeZonesMapper
 {
-    const UNKNOWN_TIMEZONE = 'Etc/Unknown';
-    const MAPPING_DATA_DIRECTORY = '/timezone/data/';
-    const MAPPING_DATA_FILE_NAME = 'map_data.php';
+    public const UNKNOWN_TIMEZONE = 'Etc/Unknown';
+    public const MAPPING_DATA_DIRECTORY = '/timezone/data/';
+    public const MAPPING_DATA_FILE_NAME = 'map_data.php';
     /**
      * @var PhoneNumberToTimeZonesMapper
      */
     protected static $instance;
-    protected $unknownTimeZoneList = array();
+    protected $unknownTimeZoneList = [];
     /**
      * @var PhoneNumberUtil
      */
@@ -29,7 +30,7 @@ class PhoneNumberToTimeZonesMapper
     protected function __construct($phonePrefixDataDirectory)
     {
         $this->prefixTimeZonesMap = static::loadPrefixTimeZonesMapFromFile(
-            \dirname(__FILE__) . $phonePrefixDataDirectory . DIRECTORY_SEPARATOR . static::MAPPING_DATA_FILE_NAME
+            __DIR__ . $phonePrefixDataDirectory . DIRECTORY_SEPARATOR . static::MAPPING_DATA_FILE_NAME
         );
         $this->phoneUtil = PhoneNumberUtil::getInstance();
 
@@ -55,7 +56,6 @@ class PhoneNumberToTimeZonesMapper
      * <p> The {@link PhoneNumberToTimeZonesMapper} is implemented as a singleton. Therefore, calling
      * this method multiple times will only result in one instance being created.
      *
-     * @param $mappingDir
      * @return PhoneNumberToTimeZonesMapper instance
      */
     public static function getInstance($mappingDir = self::MAPPING_DATA_DIRECTORY)

@@ -24,10 +24,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ResolveDecoratorStackPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $stacks = [];
 
@@ -35,11 +32,11 @@ class ResolveDecoratorStackPass implements CompilerPassInterface
             $definition = $container->getDefinition($id);
 
             if (!$definition instanceof ChildDefinition) {
-                throw new InvalidArgumentException(sprintf('Invalid service "%s": only definitions with a "parent" can have the "container.stack" tag.', $id));
+                throw new InvalidArgumentException(\sprintf('Invalid service "%s": only definitions with a "parent" can have the "container.stack" tag.', $id));
             }
 
             if (!$stack = $definition->getArguments()) {
-                throw new InvalidArgumentException(sprintf('Invalid service "%s": the stack of decorators is empty.', $id));
+                throw new InvalidArgumentException(\sprintf('Invalid service "%s": the stack of decorators is empty.', $id));
             }
 
             $stacks[$id] = $stack;
@@ -92,14 +89,14 @@ class ResolveDecoratorStackPass implements CompilerPassInterface
         foreach ($stacks[$id] as $k => $definition) {
             if ($definition instanceof ChildDefinition && isset($stacks[$definition->getParent()])) {
                 $path[] = $definition->getParent();
-                $definition = unserialize(serialize($definition)); // deep clone
+                $definition = unserialize(serialize($definition), ['allowed_classes' => true]); // deep clone
             } elseif ($definition instanceof Definition) {
                 $definitions[$decoratedId = $prefix.$k] = $definition;
                 continue;
             } elseif ($definition instanceof Reference || $definition instanceof Alias) {
                 $path[] = (string) $definition;
             } else {
-                throw new InvalidArgumentException(sprintf('Invalid service "%s": unexpected value of type "%s" found in the stack of decorators.', $id, get_debug_type($definition)));
+                throw new InvalidArgumentException(\sprintf('Invalid service "%s": unexpected value of type "%s" found in the stack of decorators.', $id, get_debug_type($definition)));
             }
 
             $p = $prefix.$k;

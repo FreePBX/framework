@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -14,9 +10,6 @@ declare(strict_types=1);
 namespace Respect\Validation;
 
 use finfo;
-use Respect\Validation\Rules\Key;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Validator\ValidatorInterface as SymfonyValidator;
 
 interface ChainedValidator extends Validatable
 {
@@ -52,7 +45,11 @@ interface ChainedValidator extends Validatable
      */
     public function between($minimum, $maximum): ChainedValidator;
 
-    public function bic(string $countryCode): ChainedValidator;
+    /**
+     * @param mixed $minimum
+     * @param mixed $maximum
+     */
+    public function betweenExclusive($minimum, $maximum): ChainedValidator;
 
     public function boolType(): ChainedValidator;
 
@@ -85,6 +82,11 @@ interface ChainedValidator extends Validatable
      * @param mixed[] $needles
      */
     public function containsAny(array $needles, bool $strictCompareArray = false): ChainedValidator;
+
+    /**
+     * @param mixed $containsValue
+     */
+    public function containsCount($containsValue, int $count): ChainedValidator;
 
     public function countable(): ChainedValidator;
 
@@ -161,6 +163,8 @@ interface ChainedValidator extends Validatable
      */
     public function greaterThan($compareTo): ChainedValidator;
 
+    public function hetu(): ChainedValidator;
+
     public function hexRgbColor(): ChainedValidator;
 
     public function iban(): ChainedValidator;
@@ -207,7 +211,7 @@ interface ChainedValidator extends Validatable
         bool $mandatory = true
     ): ChainedValidator;
 
-    public function keySet(Key ...$rule): ChainedValidator;
+    public function keySet(Validatable ...$rule): ChainedValidator;
 
     public function keyValue(string $comparedKey, string $ruleName, string $baseKey): ChainedValidator;
 
@@ -300,6 +304,8 @@ interface ChainedValidator extends Validatable
 
     public function polishIdCard(): ChainedValidator;
 
+    public function portugueseNif(): ChainedValidator;
+
     public function positive(): ChainedValidator;
 
     public function postalCode(string $countryCode): ChainedValidator;
@@ -307,6 +313,8 @@ interface ChainedValidator extends Validatable
     public function primeNumber(): ChainedValidator;
 
     public function printable(string ...$additionalChars): ChainedValidator;
+
+    public function publicDomainSuffix(): ChainedValidator;
 
     public function punct(string ...$additionalChars): ChainedValidator;
 
@@ -319,8 +327,6 @@ interface ChainedValidator extends Validatable
     public function roman(): ChainedValidator;
 
     public function scalarVal(): ChainedValidator;
-
-    public function sf(Constraint $constraint, ?SymfonyValidator $validator = null): ChainedValidator;
 
     public function size(?string $minSize = null, ?string $maxSize = null): ChainedValidator;
 

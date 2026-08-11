@@ -40,7 +40,7 @@ final class Statement implements StatementInterface
     /** @var array<int, mixed> */
     private array $parameters = [];
 
-    /** @psalm-var array<int, int> */
+    /** @var array<int, int> */
     private array $parameterTypes = [];
 
     /**
@@ -81,8 +81,17 @@ final class Statement implements StatementInterface
             throw UnknownParameter::new((string) $param);
         }
 
-        $this->parameters[$this->parameterMap[$param]]     = $value;
-        $this->parameterTypes[$this->parameterMap[$param]] = $type;
+        if ($value === null) {
+            $type = ParameterType::NULL;
+        }
+
+        if ($type === ParameterType::BOOLEAN) {
+            $this->parameters[$this->parameterMap[$param]]     = (bool) $value === false ? 'f' : 't';
+            $this->parameterTypes[$this->parameterMap[$param]] = ParameterType::STRING;
+        } else {
+            $this->parameters[$this->parameterMap[$param]]     = $value;
+            $this->parameterTypes[$this->parameterMap[$param]] = $type;
+        }
 
         return true;
     }

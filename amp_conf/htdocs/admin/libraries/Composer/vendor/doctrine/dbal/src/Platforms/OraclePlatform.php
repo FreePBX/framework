@@ -13,6 +13,7 @@ use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\TransactionIsolationLevel;
 use Doctrine\DBAL\Types\BinaryType;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Deprecations\Deprecation;
 use InvalidArgumentException;
 
@@ -113,11 +114,11 @@ class OraclePlatform extends AbstractPlatform
             case DateIntervalUnit::YEAR:
                 switch ($unit) {
                     case DateIntervalUnit::QUARTER:
-                        $interval *= 3;
+                        $interval = $this->multiplyInterval((string) $interval, 3);
                         break;
 
                     case DateIntervalUnit::YEAR:
-                        $interval *= 12;
+                        $interval = $this->multiplyInterval((string) $interval, 12);
                         break;
                 }
 
@@ -472,8 +473,6 @@ class OraclePlatform extends AbstractPlatform
      * @deprecated The SQL used for schema introspection is an implementation detail and should not be relied upon.
      *
      * {@inheritDoc}
-     *
-     * @link http://ezcomponents.org/docs/api/trunk/DatabaseSchema/ezcDbSchemaOracleReader.html
      */
     public function getListTableIndexesSQL($table, $database = null)
     {
@@ -1240,29 +1239,29 @@ SQL
     protected function initializeDoctrineTypeMappings()
     {
         $this->doctrineTypeMapping = [
-            'binary_double'  => 'float',
-            'binary_float'   => 'float',
-            'binary_integer' => 'boolean',
-            'blob'           => 'blob',
-            'char'           => 'string',
-            'clob'           => 'text',
-            'date'           => 'date',
-            'float'          => 'float',
-            'integer'        => 'integer',
-            'long'           => 'string',
-            'long raw'       => 'blob',
-            'nchar'          => 'string',
-            'nclob'          => 'text',
-            'number'         => 'integer',
-            'nvarchar2'      => 'string',
-            'pls_integer'    => 'boolean',
-            'raw'            => 'binary',
-            'rowid'          => 'string',
-            'timestamp'      => 'datetime',
-            'timestamptz'    => 'datetimetz',
-            'urowid'         => 'string',
-            'varchar'        => 'string',
-            'varchar2'       => 'string',
+            'binary_double'  => Types::FLOAT,
+            'binary_float'   => Types::FLOAT,
+            'binary_integer' => Types::BOOLEAN,
+            'blob'           => Types::BLOB,
+            'char'           => Types::STRING,
+            'clob'           => Types::TEXT,
+            'date'           => Types::DATE_MUTABLE,
+            'float'          => Types::FLOAT,
+            'integer'        => Types::INTEGER,
+            'long'           => Types::STRING,
+            'long raw'       => Types::BLOB,
+            'nchar'          => Types::STRING,
+            'nclob'          => Types::TEXT,
+            'number'         => Types::INTEGER,
+            'nvarchar2'      => Types::STRING,
+            'pls_integer'    => Types::BOOLEAN,
+            'raw'            => Types::BINARY,
+            'rowid'          => Types::STRING,
+            'timestamp'      => Types::DATETIME_MUTABLE,
+            'timestamptz'    => Types::DATETIMETZ_MUTABLE,
+            'urowid'         => Types::STRING,
+            'varchar'        => Types::STRING,
+            'varchar2'       => Types::STRING,
         ];
     }
 

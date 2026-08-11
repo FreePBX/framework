@@ -31,11 +31,11 @@ final class CompletionInput extends ArgvInput
     public const TYPE_OPTION_NAME = 'option_name';
     public const TYPE_NONE = 'none';
 
-    private $tokens;
-    private $currentIndex;
-    private $completionType;
-    private $completionName = null;
-    private $completionValue = '';
+    private array $tokens;
+    private int $currentIndex;
+    private string $completionType;
+    private ?string $completionName = null;
+    private string $completionValue = '';
 
     /**
      * Converts a terminal string into tokens.
@@ -53,7 +53,7 @@ final class CompletionInput extends ArgvInput
      * Create an input based on an COMP_WORDS token list.
      *
      * @param string[] $tokens       the set of split tokens (e.g. COMP_WORDS or argv)
-     * @param          $currentIndex the index of the cursor (e.g. COMP_CWORD)
+     * @param int      $currentIndex the index of the cursor (e.g. COMP_CWORD)
      */
     public static function fromTokens(array $tokens, int $currentIndex): self
     {
@@ -141,7 +141,9 @@ final class CompletionInput extends ArgvInput
      * TYPE_OPTION_NAME    when completing the name of an input option
      * TYPE_NONE           when nothing should be completed
      *
-     * @return string One of self::TYPE_* constants. TYPE_OPTION_NAME and TYPE_NONE are already implemented by the Console component
+     * TYPE_OPTION_NAME and TYPE_NONE are already implemented by the Console component.
+     *
+     * @return self::TYPE_*
      */
     public function getCompletionType(): string
     {

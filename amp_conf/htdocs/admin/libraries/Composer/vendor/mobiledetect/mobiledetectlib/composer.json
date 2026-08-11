@@ -9,7 +9,7 @@
         {
             "name": "Serban Ghita",
             "email": "serbanghita@gmail.com",
-            "homepage": "http://mobiledetect.net",
+            "homepage": "https://mobiledetect.net",
             "role": "Developer"
         }
     ],
@@ -17,9 +17,9 @@
         "php": ">=7.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0.0",
-        "squizlabs/php_codesniffer": "3.*",
-        "friendsofphp/php-cs-fixer": "v2.19.3"
+        "friendsofphp/php-cs-fixer": "^3.14",
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
         "classmap": [
@@ -29,7 +29,12 @@
             "Detection\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "DetectionTests\\": "tests/"
+        }
+    },
     "archive": {
-      "exclude": ["docs", "examples", "export"]
+      "exclude": ["docs", "scripts"]
     }
 }

@@ -37,23 +37,13 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      * @param bool|null                     $decorated Whether to decorate messages (null for auto-guessing)
      * @param OutputFormatterInterface|null $formatter Output formatter instance (null to use default OutputFormatter)
      */
-    public function __construct(int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = null, OutputFormatterInterface $formatter = null)
+    public function __construct(int $verbosity = self::VERBOSITY_NORMAL, ?bool $decorated = null, ?OutputFormatterInterface $formatter = null)
     {
         parent::__construct($this->openOutputStream(), $verbosity, $decorated, $formatter);
 
-        if (null === $formatter) {
-            // for BC reasons, stdErr has it own Formatter only when user don't inject a specific formatter.
-            $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated);
-
-            return;
-        }
-
-        $actualDecorated = $this->isDecorated();
-        $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $this->getFormatter());
-
-        if (null === $decorated) {
-            $this->setDecorated($actualDecorated && $this->stderr->isDecorated());
-        }
+        // stderr gets its own formatter: decoration is held by the formatter, so a shared one
+        // would force both streams to the same state instead of detecting each independently
+        $this->stderr = new StreamOutput($this->openErrorStream(), $verbosity, $decorated, $formatter ? clone $formatter : null);
     }
 
     /**
@@ -64,18 +54,27 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         return new ConsoleSectionOutput($this->getStream(), $this->consoleSectionOutputs, $this->getVerbosity(), $this->isDecorated(), $this->getFormatter());
     }
 
+    /**
+     * @return void
+     */
     public function setDecorated(bool $decorated)
     {
         parent::setDecorated($decorated);
         $this->stderr->setDecorated($decorated);
     }
 
+    /**
+     * @return void
+     */
     public function setFormatter(OutputFormatterInterface $formatter)
     {
         parent::setFormatter($formatter);
         $this->stderr->setFormatter($formatter);
     }
 
+    /**
+     * @return void
+     */
     public function setVerbosity(int $level)
     {
         parent::setVerbosity($level);
@@ -87,6 +86,9 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
         return $this->stderr;
     }
 
+    /**
+     * @return void
+     */
     public function setErrorOutput(OutputInterface $error)
     {
         $this->stderr = $error;
@@ -130,12 +132,27 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      */
     private function openOutputStream()
     {
+        static $stdout;
+
+        if ($stdout) {
+            return $stdout;
+        }
+
         if (!$this->hasStdoutSupport()) {
-            return fopen('php://output', 'w');
+            return $stdout = fopen('php://output', 'w');
         }
 
         // Use STDOUT when possible to prevent from opening too many file descriptors
-        return \defined('STDOUT') ? \STDOUT : (@fopen('php://stdout', 'w') ?: fopen('php://output', 'w'));
+        if (!\defined('STDOUT')) {
+            return $stdout = @fopen('php://stdout', 'w') ?: fopen('php://output', 'w');
+        }
+
+        // On Windows, STDOUT is opened in text mode; reopen in binary mode to prevent \n to \r\n conversion
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return $stdout = @fopen('php://stdout', 'w') ?: \STDOUT;
+        }
+
+        return $stdout = \STDOUT;
     }
 
     /**
@@ -143,11 +160,26 @@ class ConsoleOutput extends StreamOutput implements ConsoleOutputInterface
      */
     private function openErrorStream()
     {
+        static $stderr;
+
+        if ($stderr) {
+            return $stderr;
+        }
+
         if (!$this->hasStderrSupport()) {
-            return fopen('php://output', 'w');
+            return $stderr = fopen('php://output', 'w');
         }
 
         // Use STDERR when possible to prevent from opening too many file descriptors
-        return \defined('STDERR') ? \STDERR : (@fopen('php://stderr', 'w') ?: fopen('php://output', 'w'));
+        if (!\defined('STDERR')) {
+            return $stderr = @fopen('php://stderr', 'w') ?: fopen('php://output', 'w');
+        }
+
+        // On Windows, STDERR is opened in text mode; reopen in binary mode to prevent \n → \r\n conversion
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return $stderr = @fopen('php://stderr', 'w') ?: \STDERR;
+        }
+
+        return $stderr ??= \STDERR;
     }
 }

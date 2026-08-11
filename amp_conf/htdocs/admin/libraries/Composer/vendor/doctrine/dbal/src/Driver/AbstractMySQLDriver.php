@@ -8,9 +8,16 @@ use Doctrine\DBAL\Driver\API\MySQL;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MariaDb1010Platform;
 use Doctrine\DBAL\Platforms\MariaDb1027Platform;
+use Doctrine\DBAL\Platforms\MariaDb1043Platform;
+use Doctrine\DBAL\Platforms\MariaDb1052Platform;
+use Doctrine\DBAL\Platforms\MariaDb1060Platform;
+use Doctrine\DBAL\Platforms\MariaDb110700Platform;
+use Doctrine\DBAL\Platforms\MariaDb120300Platform;
 use Doctrine\DBAL\Platforms\MySQL57Platform;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
+use Doctrine\DBAL\Platforms\MySQL84Platform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\MySQLSchemaManager;
 use Doctrine\DBAL\VersionAwarePlatformDriver;
@@ -34,12 +41,59 @@ abstract class AbstractMySQLDriver implements VersionAwarePlatformDriver
     public function createDatabasePlatformForVersion($version)
     {
         $mariadb = stripos($version, 'mariadb') !== false;
-        if ($mariadb && version_compare($this->getMariaDbMysqlVersionNumber($version), '10.2.7', '>=')) {
-            return new MariaDb1027Platform();
-        }
 
-        if (! $mariadb) {
+        if ($mariadb) {
+            $mariaDbVersion = $this->getMariaDbMysqlVersionNumber($version);
+            if (version_compare($mariaDbVersion, '12.3.0', '>=')) {
+                return new MariaDb120300Platform();
+            }
+
+            if (version_compare($mariaDbVersion, '11.7.0', '>=')) {
+                return new MariaDb110700Platform();
+            }
+
+            if (version_compare($mariaDbVersion, '10.10.0', '>=')) {
+                return new MariaDb1010Platform();
+            }
+
+            if (version_compare($mariaDbVersion, '10.6.0', '>=')) {
+                return new MariaDb1060Platform();
+            }
+
+            if (version_compare($mariaDbVersion, '10.5.2', '>=')) {
+                return new MariaDb1052Platform();
+            }
+
+            if (version_compare($mariaDbVersion, '10.4.3', '>=')) {
+                return new MariaDb1043Platform();
+            }
+
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/6110',
+                'Support for MariaDB < 10.4 is deprecated and will be removed in DBAL 4.'
+                . ' Consider upgrading to a more recent version of MariaDB.',
+            );
+
+            if (version_compare($mariaDbVersion, '10.2.7', '>=')) {
+                return new MariaDb1027Platform();
+            }
+        } else {
             $oracleMysqlVersion = $this->getOracleMysqlVersionNumber($version);
+
+            if (version_compare($oracleMysqlVersion, '8.4.0', '>=')) {
+                if (! version_compare($version, '8.4.0', '>=')) {
+                    Deprecation::trigger(
+                        'doctrine/orm',
+                        'https://github.com/doctrine/dbal/pull/5779',
+                        'Version detection logic for MySQL will change in DBAL 4. '
+                            . 'Please specify the version as the server reports it, e.g. "8.4.0" instead of "8.4".',
+                    );
+                }
+
+                return new MySQL84Platform();
+            }
+
             if (version_compare($oracleMysqlVersion, '8', '>=')) {
                 if (! version_compare($version, '8.0.0', '>=')) {
                     Deprecation::trigger(
@@ -65,14 +119,14 @@ abstract class AbstractMySQLDriver implements VersionAwarePlatformDriver
 
                 return new MySQL57Platform();
             }
-        }
 
-        Deprecation::trigger(
-            'doctrine/dbal',
-            'https://github.com/doctrine/dbal/pull/5060',
-            'MySQL 5.6 support is deprecated and will be removed in DBAL 4.'
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/5072',
+                'MySQL 5.6 support is deprecated and will be removed in DBAL 4.'
                 . ' Consider upgrading to MySQL 5.7 or later.',
-        );
+            );
+        }
 
         return $this->getDatabasePlatform();
     }
@@ -92,7 +146,7 @@ abstract class AbstractMySQLDriver implements VersionAwarePlatformDriver
                 '/^(?P<major>\d+)(?:\.(?P<minor>\d+)(?:\.(?P<patch>\d+))?)?/',
                 $versionString,
                 $versionParts,
-            ) === 0
+            ) !== 1
         ) {
             throw Exception::invalidPlatformVersionSpecified(
                 $versionString,
@@ -106,6 +160,8 @@ abstract class AbstractMySQLDriver implements VersionAwarePlatformDriver
 
         if ($majorVersion === '5' && $minorVersion === '7') {
             $patchVersion ??= '9';
+        } else {
+            $patchVersion ??= '0';
         }
 
         return $majorVersion . '.' . $minorVersion . '.' . $patchVersion;
@@ -136,7 +192,7 @@ abstract class AbstractMySQLDriver implements VersionAwarePlatformDriver
                 '/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i',
                 $versionString,
                 $versionParts,
-            ) === 0
+            ) !== 1
         ) {
             throw Exception::invalidPlatformVersionSpecified(
                 $versionString,

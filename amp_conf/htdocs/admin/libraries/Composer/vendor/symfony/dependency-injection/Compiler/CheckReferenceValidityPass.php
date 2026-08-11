@@ -25,6 +25,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CheckReferenceValidityPass extends AbstractRecursivePass
 {
+    protected bool $skipScalars = true;
+
     protected function processValue(mixed $value, bool $isRoot = false): mixed
     {
         if ($isRoot && $value instanceof Definition && ($value->isSynthetic() || $value->isAbstract())) {
@@ -34,7 +36,7 @@ class CheckReferenceValidityPass extends AbstractRecursivePass
             $targetDefinition = $this->container->getDefinition((string) $value);
 
             if ($targetDefinition->isAbstract()) {
-                throw new RuntimeException(sprintf('The definition "%s" has a reference to an abstract definition "%s". Abstract definitions cannot be the target of references.', $this->currentId, $value));
+                throw new RuntimeException(\sprintf('The definition "%s" has a reference to an abstract definition "%s". Abstract definitions cannot be the target of references.', $this->currentId, $value));
             }
         }
 

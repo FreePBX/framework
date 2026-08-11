@@ -17,6 +17,7 @@
 
 namespace Symfony\Component\HttpKernel\HttpCache;
 
+use Symfony\Component\HttpFoundation\Exception\SuspiciousOperationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -38,6 +39,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private ?ResponseCacheStrategyInterface $surrogateCacheStrategy = null;
     private array $options = [];
     private array $traces = [];
+    private ?Request $forwardedRequest = null;
+    private ?Request $backendRequest = null;
 
     /**
      * Constructor.
@@ -61,6 +64,9 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *   * private_headers        Set of request headers that trigger "private" cache-control behavior
      *                            on responses that don't explicitly state whether the response is
      *                            public or private via a Cache-Control directive. (default: Authorization and Cookie)
+     *
+     *   * skip_response_headers  Set of response headers that are never cached even if a response is cacheable (public).
+     *                            (default: Set-Cookie)
      *
      *   * allow_reload           Specifies whether the client can force a cache reload by including a
      *                            Cache-Control "no-cache" directive in the request. Set it to ``true``
@@ -86,7 +92,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            Unless your application needs to process events on cache hits, it is recommended
      *                            to set this to false to avoid having to bootstrap the Symfony framework on a cache hit.
      */
-    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, SurrogateInterface $surrogate = null, array $options = [])
+    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, ?SurrogateInterface $surrogate = null, array $options = [])
     {
         $this->store = $store;
         $this->kernel = $kernel;
@@ -99,6 +105,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             'debug' => false,
             'default_ttl' => 0,
             'private_headers' => ['Authorization', 'Cookie'],
+            'skip_response_headers' => ['Set-Cookie'],
             'allow_reload' => false,
             'allow_revalidate' => false,
             'stale_while_revalidate' => 2,
@@ -129,7 +136,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         return $this->traces;
     }
 
-    private function addTraces(Response $response)
+    private function addTraces(Response $response): void
     {
         $traceString = null;
 
@@ -153,7 +160,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     {
         $log = [];
         foreach ($this->traces as $request => $traces) {
-            $log[] = sprintf('%s: %s', $request, implode(', ', $traces));
+            $log[] = \sprintf('%s: %s', $request, implode(', ', $traces));
         }
 
         return implode('; ', $log);
@@ -190,6 +197,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // FIXME: catch exceptions and implement a 500 error page here? -> in Varnish, there is a built-in error page mechanism
         if (HttpKernelInterface::MAIN_REQUEST === $type) {
             $this->traces = [];
+            $this->forwardedRequest = null;
+            $this->backendRequest = null;
             // Keep a clone of the original request for surrogates so they can access it.
             // We must clone here to get a separate instance because the application will modify the request during
             // the application flow (we know it always does because we do ourselves by setting REMOTE_ADDR to 127.0.0.1
@@ -214,7 +223,19 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $this->record($request, 'reload');
             $response = $this->fetch($request, $catch);
         } else {
-            $response = $this->lookup($request, $catch);
+            $response = null;
+            do {
+                try {
+                    $response = $this->lookup($request, $catch);
+                } catch (CacheWasLockedException) {
+                }
+            } while (null === $response);
+        }
+
+        if (HttpKernelInterface::MAIN_REQUEST === $type) {
+            // Expose the request actually handled by the backend (a sub-request on a cache miss)
+            // to kernel.terminate listeners, as would happen behind a real reverse proxy.
+            $this->backendRequest = $this->forwardedRequest ?? $request;
         }
 
         $this->restoreResponseBody($request, $response);
@@ -233,11 +254,16 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         $response->prepare($request);
 
-        $response->isNotModified($request);
+        if (HttpKernelInterface::MAIN_REQUEST === $type) {
+            $response->isNotModified($request);
+        }
 
         return $response;
     }
 
+    /**
+     * @return void
+     */
     public function terminate(Request $request, Response $response)
     {
         // Do not call any listeners in case of a cache hit.
@@ -250,7 +276,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         if ($this->getKernel() instanceof TerminableInterface) {
-            $this->getKernel()->terminate($request, $response);
+            $this->getKernel()->terminate($this->backendRequest ?? $request, $response);
         }
     }
 
@@ -458,12 +484,13 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *
      * @return Response
      */
-    protected function forward(Request $request, bool $catch = false, Response $entry = null)
+    protected function forward(Request $request, bool $catch = false, ?Response $entry = null)
     {
         $this->surrogate?->addSurrogateCapability($request);
 
         // always a "master" request (as the real master request can be in cache)
         $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MAIN_REQUEST, $catch);
+        $this->forwardedRequest = $request;
 
         /*
          * Support stale-if-error given on Responses or as a config option.
@@ -566,21 +593,12 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         // wait for the lock to be released
         if ($this->waitForLock($request)) {
-            // replace the current entry with the fresh one
-            $new = $this->lookup($request);
-            $entry->headers = $new->headers;
-            $entry->setContent($new->getContent());
-            $entry->setStatusCode($new->getStatusCode());
-            $entry->setProtocolVersion($new->getProtocolVersion());
-            foreach ($new->headers->getCookies() as $cookie) {
-                $entry->headers->setCookie($cookie);
-            }
-        } else {
-            // backend is slow as hell, send a 503 response (to avoid the dog pile effect)
-            $entry->setStatusCode(503);
-            $entry->setContent('503 Service Unavailable');
-            $entry->headers->set('Retry-After', 10);
+            throw new CacheWasLockedException(); // unwind back to handle(), try again
         }
+        // backend is slow as hell, send a 503 response (to avoid the dog pile effect)
+        $entry->setStatusCode(503);
+        $entry->setContent('503 Service Unavailable');
+        $entry->headers->set('Retry-After', 10);
 
         return true;
     }
@@ -588,13 +606,24 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Writes the Response to the cache.
      *
+     * @return void
+     *
      * @throws \Exception
      */
     protected function store(Request $request, Response $response)
     {
         try {
-            $this->store->write($request, $response);
+            $restoreHeaders = [];
+            foreach ($this->options['skip_response_headers'] as $header) {
+                if (!$response->headers->has($header)) {
+                    continue;
+                }
 
+                $restoreHeaders[$header] = $response->headers->all($header);
+                $response->headers->remove($header);
+            }
+
+            $this->store->write($request, $response);
             $this->record($request, 'store');
 
             $response->headers->set('Age', $response->getAge());
@@ -603,6 +632,10 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
             if ($this->options['debug']) {
                 throw $e;
+            }
+        } finally {
+            foreach ($restoreHeaders as $header => $values) {
+                $response->headers->set($header, $values);
             }
         }
 
@@ -613,7 +646,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Restores the Response body.
      */
-    private function restoreResponseBody(Request $request, Response $response)
+    private function restoreResponseBody(Request $request, Response $response): void
     {
         if ($response->headers->has('X-Body-Eval')) {
             \assert(self::BODY_EVAL_BOUNDARY_LENGTH === 24);
@@ -652,6 +685,9 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $response->headers->remove('X-Body-File');
     }
 
+    /**
+     * @return void
+     */
     protected function processResponseBody(Request $request, Response $response)
     {
         if ($this->surrogate?->needsParsing($response)) {
@@ -683,7 +719,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Records that an event took place.
      */
-    private function record(Request $request, string $event)
+    private function record(Request $request, string $event): void
     {
         $this->traces[$this->getTraceKey($request)][] = $event;
     }
@@ -698,7 +734,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $path .= '?'.$qs;
         }
 
-        return $request->getMethod().' '.$path;
+        try {
+            return $request->getMethod().' '.$path;
+        } catch (SuspiciousOperationException $e) {
+            return '_BAD_METHOD_ '.$path;
+        }
     }
 
     /**

@@ -10,8 +10,12 @@ use Doctrine\DBAL\Logging\SQLLogger;
 use Doctrine\DBAL\Schema\SchemaManagerFactory;
 use Doctrine\Deprecations\Deprecation;
 use Psr\Cache\CacheItemPoolInterface;
+use RuntimeException;
 
+use function class_exists;
 use function func_num_args;
+use function interface_exists;
+use function sprintf;
 
 /**
  * Configuration container for the Doctrine DBAL.
@@ -55,6 +59,14 @@ class Configuration
      * @var bool
      */
     protected $autoCommit = true;
+
+    /**
+     * Whether type comments should be disabled to provide the same DB schema than
+     * will be obtained with DBAL 4.x. This is useful when relying only on the
+     * platform-aware schema comparison (which does not need those type comments)
+     * rather than the deprecated legacy tooling.
+     */
+    private bool $disableTypeComments = false;
 
     private ?SchemaManagerFactory $schemaManagerFactory = null;
 
@@ -121,6 +133,14 @@ class Configuration
             __METHOD__,
         );
 
+        if ($this->resultCache !== null && ! interface_exists(Cache::class)) {
+            throw new RuntimeException(sprintf(
+                'Calling %s() is not supported if the doctrine/cache package is not installed. '
+                . 'Try running "composer require doctrine/cache" or migrate cache access to PSR-6.',
+                __METHOD__,
+            ));
+        }
+
         return $this->resultCacheImpl;
     }
 
@@ -129,8 +149,11 @@ class Configuration
      */
     public function setResultCache(CacheItemPoolInterface $cache): void
     {
-        $this->resultCacheImpl = DoctrineProvider::wrap($cache);
-        $this->resultCache     = $cache;
+        if (class_exists(DoctrineProvider::class)) {
+            $this->resultCacheImpl = DoctrineProvider::wrap($cache);
+        }
+
+        $this->resultCache = $cache;
     }
 
     /**
@@ -238,6 +261,19 @@ class Configuration
     public function setSchemaManagerFactory(SchemaManagerFactory $schemaManagerFactory): self
     {
         $this->schemaManagerFactory = $schemaManagerFactory;
+
+        return $this;
+    }
+
+    public function getDisableTypeComments(): bool
+    {
+        return $this->disableTypeComments;
+    }
+
+    /** @return $this */
+    public function setDisableTypeComments(bool $disableTypeComments): self
+    {
+        $this->disableTypeComments = $disableTypeComments;
 
         return $this;
     }
