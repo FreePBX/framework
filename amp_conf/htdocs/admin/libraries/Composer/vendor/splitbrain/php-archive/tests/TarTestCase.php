@@ -16,7 +16,7 @@ class TarTestCase extends TestCase
     protected $extensions = array('tar');
 
     /** @inheritdoc */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         if (extension_loaded('zlib')) {
@@ -31,7 +31,7 @@ class TarTestCase extends TestCase
     }
 
     /** @inheritdoc */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->extensions[] = null;
@@ -53,7 +53,8 @@ class TarTestCase extends TestCase
      * Callback check function
      * @param FileInfo $fileinfo
      */
-    public function increaseCounter($fileinfo) {
+    public function increaseCounter($fileinfo)
+    {
         $this->assertInstanceOf('\\splitbrain\\PHPArchive\\FileInfo', $fileinfo);
         $this->counter++;
     }
@@ -434,6 +435,176 @@ class TarTestCase extends TestCase
         }
     }
 
+    /**
+     * A pax global extended header is metadata and should not show up as an entry
+     */
+    public function testPaxGlobalHeader()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-global.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(1, $content);
+        $this->assertEquals('testdata1.txt', $content[0]->getPath());
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-global.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertFileNotExists($out . '/pax_global_header');
+        $this->assertFileExists($out . '/testdata1.txt');
+        $this->assertEquals("testcontent1\n", file_get_contents($out . '/testdata1.txt'));
+    }
+
+    /**
+     * Old v7 archives use a NUL byte as typeflag for regular files
+     */
+    public function testV7Extract()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+
+        $tar = new Tar();
+        $tar->open("$dir/v7.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(1, $content);
+        $this->assertFalse($content[0]->getIsdir());
+
+        $tar = new Tar();
+        $tar->open("$dir/v7.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertEquals("testcontent1\n", file_get_contents($out . '/testdata1.txt'));
+    }
+
+    /**
+     * Symlinks can not be created, they are skipped instead of being mistaken for directories
+     */
+    public function testSymlinkExtract()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+
+        $tar = new Tar();
+        $tar->open("$dir/symlink.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(1, $content);
+        $this->assertEquals('testdata1.txt', $content[0]->getPath());
+
+        $tar = new Tar();
+        $tar->open("$dir/symlink.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertFileNotExists($out . '/link.txt');
+        $this->assertEquals("testcontent1\n", file_get_contents($out . '/testdata1.txt'));
+    }
+
+    /**
+     * A file name too long for the entry's own header is taken from the pax records
+     */
+    public function testPaxLongPath()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+        $path = 'тестовый-каталог/ä-слайд-150x150-длинное-имя-файла-которое-не-влезает-в-ustar-заголовок.jpg';
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-longpath.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(3, $content);
+        $this->assertEquals('', $content[0]->getPath()); // the archive root itself
+        $this->assertEquals('тестовый-каталог', $content[1]->getPath());
+        $this->assertEquals($path, $content[2]->getPath());
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-longpath.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertEquals("testcontent1\n", file_get_contents("$out/$path"));
+    }
+
+    /**
+     * Pax records describe the entry following them, a global header describes all entries
+     */
+    public function testPaxRecords()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+        $path = 'тестовый-каталог/ä-слайд-очень-длинное-имя-файла-не-влезающее-в-ustar.jpg';
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-fields.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(2, $content);
+
+        // this entry has no records of its own and inherits the global ones
+        $this->assertEquals('plain.txt', $content[0]->getPath());
+        $this->assertEquals('globaluser', $content[0]->getOwner());
+        $this->assertEquals('globalgroup', $content[0]->getGroup());
+        $this->assertEquals(999, $content[0]->getUid());
+        $this->assertEquals(222, $content[0]->getGid()); // no record, taken from the header
+        $this->assertEquals(1400000000, $content[0]->getMtime());
+
+        // the records of this entry win over its header and over the global ones
+        $this->assertEquals($path, $content[1]->getPath());
+        $this->assertEquals(13, $content[1]->getSize()); // its header says 0
+        $this->assertEquals(1500000000, $content[1]->getMtime()); // fractional in the record
+        $this->assertEquals(1234, $content[1]->getUid());
+        $this->assertEquals(333, $content[1]->getGid());
+        $this->assertEquals('globaluser', $content[1]->getOwner());
+        $this->assertEquals('', $content[1]->getGroup()); // an empty record deletes the value
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-fields.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertEquals("testcontent1\n", file_get_contents($out . '/plain.txt'));
+        $this->assertEquals("testcontent2\n", file_get_contents("$out/$path"));
+    }
+
+    /**
+     * Pax extended headers are metadata and should not show up as entries
+     */
+    public function testPaxExtendedHeader()
+    {
+        $dir = $this->getDir() . '/tar';
+        $out = vfsStream::url('home_root_path/dwtartest' . md5(time()));
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-posix.tar");
+        $content = $tar->contents();
+
+        $this->assertCount(2, $content);
+        $this->assertEquals('', $content[0]->getPath()); // the archive root itself
+        $this->assertEquals('testdata1.txt', $content[1]->getPath());
+
+        $tar = new Tar();
+        $tar->open("$dir/pax-posix.tar");
+        $tar->extract($out);
+
+        clearstatcache();
+
+        $this->assertFileNotExists($out . '/PaxHeaders');
+        $this->assertEquals("testcontent1\n", file_get_contents($out . '/testdata1.txt'));
+    }
+
     // FS#1442
     public function testCreateLongFile()
     {
@@ -560,7 +731,8 @@ class TarTestCase extends TestCase
     /**
      * Add a zero byte file to a tar and extract it again
      */
-    public function testZeroByteFile() {
+    public function testZeroByteFile()
+    {
         $archive = sys_get_temp_dir() . '/dwziptest' . md5(time()) . '.zip';
         $extract = sys_get_temp_dir() . '/dwziptest' . md5(time() + 1);
 
@@ -776,6 +948,118 @@ class TarTestCase extends TestCase
 
         $tar->save(vfsStream::url('archive_file'));
         $this->assertTrue(true); // succeed if no exception, yet
+    }
+
+    public function testNumberEncodeDecode()
+    {
+        // 2^34 + 17 = 2^2 * 2^32 + 17
+        $refValue = (1 << 34) + 17;
+        $encoded = Tar::numberEncode($refValue, 12);
+        $this->assertEquals(pack('CCnNN', 128, 0, 0, 1 << 2, 17), $encoded);
+        $decoded = Tar::numberDecode($encoded);
+        $this->assertEquals($refValue, $decoded);
+
+        $encoded = Tar::numberEncode($refValue, 7);
+        $this->assertEquals(pack('CnN', 128, 1 << 2, 17), $encoded);
+        $decoded = Tar::numberDecode($encoded);
+        $this->assertEquals($refValue, $decoded);
+
+        $refValue = -1234;
+        $encoded = Tar::numberEncode($refValue, 12);
+        $this->assertEquals(pack('CCnNN', 0xFF, 0xFF, 0xFFFF, 0xFFFFFFFF, -1234), $encoded);
+        $decoded = Tar::numberDecode($encoded);
+        $this->assertEquals($refValue, $decoded);
+
+        $encoded = Tar::numberEncode($refValue, 3);
+        $this->assertEquals(pack('Cn', 0xFF, -1234), $encoded);
+        $decoded = Tar::numberDecode($encoded);
+        $this->assertEquals($refValue, $decoded);
+    }
+
+    public function testReadCurrentEntry()
+    {
+        $tar = new Tar();
+        $tar->open(__DIR__ . '/tar/test.tar');
+        $out = sys_get_temp_dir() . '/dwtartest' . md5(time());
+        $tar->extract($out);
+
+        $tar = new Tar();
+        $tar->open(__DIR__ . '/tar/test.tar');
+        $pathsRead = array();
+        foreach ($tar->yieldContents() as $i) {
+            $this->assertFileExists($out . '/' . $i->getPath());
+            if ($i->getIsdir()) {
+                $this->assertEquals('', $tar->readCurrentEntry());
+            } else {
+                $this->assertStringEqualsFile($out . '/' . $i->getPath(), $tar->readCurrentEntry());
+            }
+            $pathsRead[] = $i->getPath();
+        }
+        $pathsReadRef = array('tar', 'tar/testdata1.txt', 'tar/foobar', 'tar/foobar/testdata2.txt');
+        $this->assertEquals($pathsReadRef, $pathsRead);
+
+        self::RDelete($out);
+    }
+
+    /**
+     * Create an archive, extract it, and compare file properties
+     */
+    public function testFilePropertiesPreservation()
+    {
+        $input = glob($this->getDir() . '/../src/*');
+        $archive = sys_get_temp_dir() . '/dwtartest' . md5(time()) . '.tar';
+        $extract = sys_get_temp_dir() . '/dwtartest' . md5(time() + 1);
+
+        // Create archive
+        $tar = new Tar();
+        $tar->create($archive);
+        foreach ($input as $path) {
+            $file = basename($path);
+            $tar->addFile($path, $file);
+        }
+        $tar->close();
+        $this->assertFileExists($archive);
+
+        // Extract archive
+        $tar = new Tar();
+        $tar->open($archive);
+        $tar->extract($extract);
+        $tar->close();
+
+        // Compare file properties
+        foreach ($input as $originalPath) {
+            $filename = basename($originalPath);
+            $extractedPath = $extract . '/' . $filename;
+
+            $this->assertFileExists($extractedPath, "Extracted file should exist: $filename");
+
+            // Compare file sizes
+            $originalSize = filesize($originalPath);
+            $extractedSize = filesize($extractedPath);
+            $this->assertEquals($originalSize, $extractedSize, "File size should match for: $filename");
+
+            // Compare file contents
+            $originalContent = file_get_contents($originalPath);
+            $extractedContent = file_get_contents($extractedPath);
+            $this->assertEquals($originalContent, $extractedContent, "File content should match for: $filename");
+
+            // Compare modification times (allow small difference due to tar format limitations)
+            $originalMtime = filemtime($originalPath);
+            $extractedMtime = filemtime($extractedPath);
+            $this->assertLessThanOrEqual(1, abs($originalMtime - $extractedMtime),
+                "Modification time should be preserved (within 1 second) for: $filename");
+
+            // Compare file permissions (only on Unix-like systems)
+            if (DIRECTORY_SEPARATOR === '/') {
+                $originalPerms = fileperms($originalPath) & 0777;
+                $extractedPerms = fileperms($extractedPath) & 0777;
+                $this->assertEquals($originalPerms, $extractedPerms,
+                    "File permissions should match for: $filename");
+            }
+        }
+
+        self::RDelete($extract);
+        unlink($archive);
     }
 
     /**

@@ -17,30 +17,23 @@ use Symfony\Component\DependencyInjection\Reference;
 
 final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
 {
+    protected bool $skipScalars = true;
+
     private array $aliases = [];
-
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
-    {
-        if ($value instanceof Reference && isset($this->aliases[$id = (string) $value])) {
-            return new Reference($this->aliases[$id], $value->getInvalidBehavior());
-        }
-
-        return parent::processValue($value, $isRoot);
-    }
 
     public function process(ContainerBuilder $container): void
     {
         foreach ($container->findTaggedServiceIds('container.private') as $id => $tags) {
             if (null === $package = $tags[0]['package'] ?? null) {
-                throw new InvalidArgumentException(sprintf('The "package" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
+                throw new InvalidArgumentException(\sprintf('The "package" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
             }
 
             if (null === $version = $tags[0]['version'] ?? null) {
-                throw new InvalidArgumentException(sprintf('The "version" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
+                throw new InvalidArgumentException(\sprintf('The "version" attribute is mandatory for the "container.private" tag on the "%s" service.', $id));
             }
 
             $definition = $container->getDefinition($id);
-            if (!$definition->isPublic() || $definition->isPrivate()) {
+            if ($definition->isPrivate()) {
                 continue;
             }
 
@@ -55,5 +48,14 @@ final class AliasDeprecatedPublicServicesPass extends AbstractRecursivePass
         }
 
         parent::process($container);
+    }
+
+    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    {
+        if ($value instanceof Reference && isset($this->aliases[$id = (string) $value])) {
+            return new Reference($this->aliases[$id], $value->getInvalidBehavior());
+        }
+
+        return parent::processValue($value, $isRoot);
     }
 }

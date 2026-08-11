@@ -26,7 +26,7 @@ trait ParentTrait
     final public function parent(string $parent): static
     {
         if (!$this->allowParent) {
-            throw new InvalidArgumentException(sprintf('A parent cannot be defined when either "_instanceof" or "_defaults" are also defined for service prototype "%s".', $this->id));
+            throw new InvalidArgumentException(\sprintf('A parent cannot be defined when either "_instanceof" or "_defaults" are also defined for service prototype "%s".', $this->id));
         }
 
         if ($this->definition instanceof ChildDefinition) {
@@ -36,7 +36,7 @@ trait ParentTrait
             $definition = serialize($this->definition);
             $definition = substr_replace($definition, '53', 2, 2);
             $definition = substr_replace($definition, 'Child', 44, 0);
-            $definition = unserialize($definition);
+            $definition = unserialize($definition, ['allowed_classes' => true]);
 
             $this->definition = $definition->setParent($parent);
         }

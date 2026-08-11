@@ -22,7 +22,7 @@ class DateTimeTzImmutableType extends DateTimeTzType
     /**
      * {@inheritDoc}
      *
-     * @psalm-param T $value
+     * @phpstan-param T $value
      *
      * @return (T is null ? null : string)
      *
@@ -62,15 +62,15 @@ class DateTimeTzImmutableType extends DateTimeTzType
 
         $dateTime = DateTimeImmutable::createFromFormat($platform->getDateTimeTzFormatString(), $value);
 
-        if ($dateTime === false) {
-            throw ConversionException::conversionFailedFormat(
-                $value,
-                $this->getName(),
-                $platform->getDateTimeTzFormatString(),
-            );
+        if ($dateTime !== false) {
+            return $dateTime;
         }
 
-        return $dateTime;
+        throw ConversionException::conversionFailedFormat(
+            $value,
+            $this->getName(),
+            $platform->getDateTimeTzFormatString(),
+        );
     }
 
     /**

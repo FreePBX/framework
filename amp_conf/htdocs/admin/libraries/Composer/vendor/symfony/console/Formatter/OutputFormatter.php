@@ -12,6 +12,9 @@
 namespace Symfony\Component\Console\Formatter;
 
 use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Helper\Helper;
+
+use function Symfony\Component\String\b;
 
 /**
  * Formatter class for console output.
@@ -81,6 +84,9 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         $this->styleStack = new OutputFormatterStyleStack();
     }
 
+    /**
+     * @return void
+     */
     public function setDecorated(bool $decorated)
     {
         $this->decorated = $decorated;
@@ -91,6 +97,9 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         return $this->decorated;
     }
 
+    /**
+     * @return void
+     */
     public function setStyle(string $name, OutputFormatterStyleInterface $style)
     {
         $this->styles[strtolower($name)] = $style;
@@ -104,7 +113,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
     public function getStyle(string $name): OutputFormatterStyleInterface
     {
         if (!$this->hasStyle($name)) {
-            throw new InvalidArgumentException(sprintf('Undefined style: "%s".', $name));
+            throw new InvalidArgumentException(\sprintf('Undefined style: "%s".', $name));
         }
 
         return $this->styles[strtolower($name)];
@@ -115,11 +124,18 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         return $this->formatAndWrap($message, 0);
     }
 
+    /**
+     * @return string
+     */
     public function formatAndWrap(?string $message, int $width)
     {
         if (null === $message) {
             return '';
         }
+
+        // For ASCII-only strings, byte positions equal character positions,
+        // so we can use native strlen/substr which is much faster than Helper::length/substr.
+        $isAscii = !preg_match('/[\x80-\xFF]/', $message);
 
         $offset = 0;
         $output = '';
@@ -135,9 +151,17 @@ class OutputFormatter implements WrappableOutputFormatterInterface
                 continue;
             }
 
-            // add the text up to the next tag
-            $output .= $this->applyCurrentStyle(substr($message, $offset, $pos - $offset), $output, $width, $currentLineLength);
-            $offset = $pos + \strlen($text);
+            if ($isAscii) {
+                // For ASCII, byte position = character position, no conversion needed
+                $output .= $this->applyCurrentStyle(substr($message, $offset, $pos - $offset), $output, $width, $currentLineLength);
+                $offset = $pos + \strlen($text);
+            } else {
+                // convert byte position to character position.
+                $pos = Helper::length(substr($message, 0, $pos));
+                // add the text up to the next tag
+                $output .= $this->applyCurrentStyle(Helper::substr($message, $offset, $pos - $offset), $output, $width, $currentLineLength);
+                $offset = $pos + Helper::length($text);
+            }
 
             // opening tag?
             if ($open = '/' !== $text[1]) {
@@ -158,7 +182,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
             }
         }
 
-        $output .= $this->applyCurrentStyle(substr($message, $offset), $output, $width, $currentLineLength);
+        $output .= $this->applyCurrentStyle($isAscii ? substr($message, $offset) : Helper::substr($message, $offset), $output, $width, $currentLineLength);
 
         return strtr($output, ["\0" => '\\', '\\<' => '<', '\\>' => '>']);
     }
@@ -225,14 +249,24 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         }
 
         if ($currentLineLength) {
-            $prefix = substr($text, 0, $i = $width - $currentLineLength)."\n";
-            $text = substr($text, $i);
+            $lines = explode("\n", $text, 2);
+            $prefix = Helper::substr($lines[0], 0, $i = $width - $currentLineLength)."\n";
+            $text = Helper::substr($lines[0], $i);
+
+            if (isset($lines[1])) {
+                // $prefix may contain the full first line in which the \n is already a part of $prefix.
+                if ('' !== $text) {
+                    $text .= "\n";
+                }
+
+                $text .= $lines[1];
+            }
         } else {
             $prefix = '';
         }
 
         preg_match('~(\\n)$~', $text, $matches);
-        $text = $prefix.preg_replace('~([^\\n]{'.$width.'})\\ *~', "\$1\n", $text);
+        $text = $prefix.$this->addLineBreaks($text, $width);
         $text = rtrim($text, "\n").($matches[1] ?? '');
 
         if (!$currentLineLength && '' !== $current && !str_ends_with($current, "\n")) {
@@ -241,8 +275,8 @@ class OutputFormatter implements WrappableOutputFormatterInterface
 
         $lines = explode("\n", $text);
 
-        foreach ($lines as $line) {
-            $currentLineLength += \strlen($line);
+        foreach ($lines as $i => $line) {
+            $currentLineLength = 0 === $i ? $currentLineLength + Helper::length($line) : Helper::length($line);
             if ($width <= $currentLineLength) {
                 $currentLineLength = 0;
             }
@@ -255,5 +289,12 @@ class OutputFormatter implements WrappableOutputFormatterInterface
         }
 
         return implode("\n", $lines);
+    }
+
+    private function addLineBreaks(string $text, int $width): string
+    {
+        $encoding = mb_detect_encoding($text, null, true) ?: 'UTF-8';
+
+        return b($text)->toUnicodeString($encoding)->wordwrap($width, "\n", true)->toByteString($encoding);
     }
 }

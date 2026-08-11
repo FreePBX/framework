@@ -112,6 +112,8 @@ class Minifier
 
     protected static $keywords = ["delete", "do", "for", "in", "instanceof", "return", "typeof", "yield"];
 
+    protected $max_keyword_len;
+
     /**
      * Contains lock ids which are used to replace certain code patterns and
      * prevent them from being minified
@@ -189,6 +191,8 @@ class Minifier
         $this->b = "\n";
         $this->last_char = "\n";
         $this->output = "";
+
+        $this->max_keyword_len = max(array_map('strlen', static::$keywords));
     }
 
     /**
@@ -624,10 +628,24 @@ class Minifier
         }
 
         $this->echo($this->b);
+        // Flag to make sure that we don't end the regex too early because of
+        // unescaped forward slashes inside a character class. e.g /[/]/
+        // In non-v-mode, The only characters that cannot appear literally are \, ], and -
+        // In v-mode more characters are reserved and forbidden from appearing literally
+        // including but not limited to [ ] \ /
+        $character_class = false;
+        $character_class_index = null;
 
         while (($this->a = $this->getChar()) !== false) {
-            if ($this->a === '/') {
+            if ($this->a === '/' && !$character_class) {
                 break;
+            }
+            
+            if ($this->a === '[') {
+                $character_class = true;
+                $character_class_index = $this->index;
+            } elseif ($this->a === ']') {
+                $character_class = false;
             }
 
             if ($this->a === '\\') {
@@ -636,6 +654,9 @@ class Minifier
             }
 
             if ($this->a === "\n") {
+                if ($character_class) {
+                    throw new \RuntimeException('Unclosed character class at position: ' . $character_class_index);
+                }
                 throw new \RuntimeException('Unclosed regex pattern at position: ' . $this->index);
             }
 
@@ -658,7 +679,8 @@ class Minifier
     protected function endsInKeyword() {
 
         # When this function is called A is not yet assigned to output.
-        $testOutput = $this->output . $this->a;
+        # Regular expression only needs to check final part of output for keyword.
+        $testOutput = substr($this->output . $this->a, -1 * ($this->max_keyword_len + 10));
 
         foreach(static::$keywords as $keyword) {
             if (preg_match('/[^\w]'.$keyword.'[ ]?$/i', $testOutput) === 1) {

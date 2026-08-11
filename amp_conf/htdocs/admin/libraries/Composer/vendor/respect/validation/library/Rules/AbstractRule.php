@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -22,6 +18,8 @@ use Respect\Validation\Validatable;
  * @author Henrique Moody <henriquemoody@gmail.com>
  * @author Nick Lombard <github@jigsoft.co.za>
  * @author Vicente Mendoza <vicentemmor@yahoo.com.mx>
+ *
+ * @deprecated This class is deprecated, and will be removed in the next major version. Use {@see \Respect\Validation\Rules\Core\Simple} instead.
  */
 abstract class AbstractRule implements Validatable
 {
@@ -36,7 +34,7 @@ abstract class AbstractRule implements Validatable
     protected $template;
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `assert()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::assert()} instead.
      */
     public function assert($input): void
     {
@@ -48,7 +46,7 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `check()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::check()} instead.
      */
     public function check($input): void
     {
@@ -56,7 +54,7 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `getName()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::getName()} instead.
      */
     public function getName(): ?string
     {
@@ -64,7 +62,8 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * {@inheritDoc}
+     * @param mixed[] $extraParams
+     * @deprecated Calling `reportError()` directly is deprecated, and will be removed in the next major version.
      */
     public function reportError($input, array $extraParams = []): ValidationException
     {
@@ -72,7 +71,7 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `setName()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::setName()} instead.
      */
     public function setName(string $name): Validatable
     {
@@ -82,7 +81,7 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `setTemplate()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::setTemplate()} instead.
      */
     public function setTemplate(string $template): Validatable
     {
@@ -92,7 +91,8 @@ abstract class AbstractRule implements Validatable
     }
 
     /**
-     * @param mixed$input
+     * @deprecated Calling validator as a function is deprecated, and will be removed in the next major version.
+     * @param mixed $input
      */
     public function __invoke($input): bool
     {

@@ -38,16 +38,15 @@ final class UidValueResolver implements ArgumentValueResolverInterface, ValueRes
         if ($argument->isVariadic()
             || !\is_string($value = $request->attributes->get($argument->getName()))
             || null === ($uidClass = $argument->getType())
-            || !is_subclass_of($argument->getType(), AbstractUid::class, true)
+            || !is_subclass_of($uidClass, AbstractUid::class, true)
         ) {
             return [];
         }
 
-        /* @var class-string<AbstractUid> $uidClass */
         try {
             return [$uidClass::fromString($value)];
         } catch (\InvalidArgumentException $e) {
-            throw new NotFoundHttpException(sprintf('The uid for the "%s" parameter is invalid.', $argument->getName()), $e);
+            throw new NotFoundHttpException(\sprintf('The uid for the "%s" parameter is invalid.', $argument->getName()), $e);
         }
     }
 }

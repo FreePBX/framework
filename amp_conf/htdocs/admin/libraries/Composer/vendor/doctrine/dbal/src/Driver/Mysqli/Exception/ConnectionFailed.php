@@ -11,11 +11,9 @@ use ReflectionProperty;
 
 use function assert;
 
-/**
- * @internal
- *
- * @psalm-immutable
- */
+use const PHP_VERSION_ID;
+
+/** @internal */
 final class ConnectionFailed extends AbstractException
 {
     public static function new(mysqli $connection): self
@@ -29,7 +27,9 @@ final class ConnectionFailed extends AbstractException
     public static function upcast(mysqli_sql_exception $exception): self
     {
         $p = new ReflectionProperty(mysqli_sql_exception::class, 'sqlstate');
-        $p->setAccessible(true);
+        if (PHP_VERSION_ID < 80100) {
+            $p->setAccessible(true);
+        }
 
         return new self($exception->getMessage(), $p->getValue($exception), (int) $exception->getCode(), $exception);
     }

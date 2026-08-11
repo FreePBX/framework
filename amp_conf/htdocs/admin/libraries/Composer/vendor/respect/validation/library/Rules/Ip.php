@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -23,12 +19,14 @@ use function is_string;
 use function long2ip;
 use function mb_strpos;
 use function mb_substr_count;
+use function min;
 use function sprintf;
 use function str_repeat;
 use function str_replace;
 use function strtr;
 
 use const FILTER_VALIDATE_IP;
+use const PHP_INT_MAX;
 
 /**
  * Validates whether the input is a valid IP address.
@@ -45,7 +43,7 @@ final class Ip extends AbstractRule
     /**
      * @var string|null
      */
-    private $range; /** @phpstan-ignore-line */
+    private $range;
 
     /**
      * @var int|null
@@ -80,7 +78,7 @@ final class Ip extends AbstractRule
     }
 
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `validate()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::isValid()} instead.
      */
     public function validate($input): bool
     {
@@ -110,7 +108,7 @@ final class Ip extends AbstractRule
         }
 
         if ($this->startAddress && $this->mask) {
-            return $this->startAddress . '/' . long2ip((int) $this->mask);
+            return $this->startAddress . '/' . long2ip((int) min($this->mask, PHP_INT_MAX));
         }
 
         return null;

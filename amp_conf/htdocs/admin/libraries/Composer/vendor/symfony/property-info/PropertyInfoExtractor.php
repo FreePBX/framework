@@ -11,6 +11,9 @@
 
 namespace Symfony\Component\PropertyInfo;
 
+use Symfony\Component\PropertyInfo\Util\LegacyTypeConverter;
+use Symfony\Component\TypeInfo\Type;
+
 /**
  * Default {@see PropertyInfoExtractorInterface} implementation.
  *
@@ -20,12 +23,6 @@ namespace Symfony\Component\PropertyInfo;
  */
 class PropertyInfoExtractor implements PropertyInfoExtractorInterface, PropertyInitializableExtractorInterface
 {
-    private $listExtractors;
-    private $typeExtractors;
-    private $descriptionExtractors;
-    private $accessExtractors;
-    private $initializableExtractors;
-
     /**
      * @param iterable<mixed, PropertyListExtractorInterface>          $listExtractors
      * @param iterable<mixed, PropertyTypeExtractorInterface>          $typeExtractors
@@ -33,13 +30,13 @@ class PropertyInfoExtractor implements PropertyInfoExtractorInterface, PropertyI
      * @param iterable<mixed, PropertyAccessExtractorInterface>        $accessExtractors
      * @param iterable<mixed, PropertyInitializableExtractorInterface> $initializableExtractors
      */
-    public function __construct(iterable $listExtractors = [], iterable $typeExtractors = [], iterable $descriptionExtractors = [], iterable $accessExtractors = [], iterable $initializableExtractors = [])
-    {
-        $this->listExtractors = $listExtractors;
-        $this->typeExtractors = $typeExtractors;
-        $this->descriptionExtractors = $descriptionExtractors;
-        $this->accessExtractors = $accessExtractors;
-        $this->initializableExtractors = $initializableExtractors;
+    public function __construct(
+        private readonly iterable $listExtractors = [],
+        private readonly iterable $typeExtractors = [],
+        private readonly iterable $descriptionExtractors = [],
+        private readonly iterable $accessExtractors = [],
+        private readonly iterable $initializableExtractors = [],
+    ) {
     }
 
     public function getProperties(string $class, array $context = []): ?array
@@ -57,8 +54,34 @@ class PropertyInfoExtractor implements PropertyInfoExtractorInterface, PropertyI
         return $this->extract($this->descriptionExtractors, 'getLongDescription', [$class, $property, $context]);
     }
 
+    public function getType(string $class, string $property, array $context = []): ?Type
+    {
+        foreach ($this->typeExtractors as $extractor) {
+            if (!method_exists($extractor, 'getType')) {
+                $legacyTypes = $extractor->getTypes($class, $property, $context);
+
+                if (null !== $legacyTypes) {
+                    return LegacyTypeConverter::toTypeInfoType($legacyTypes);
+                }
+
+                continue;
+            }
+
+            if (null !== $value = $extractor->getType($class, $property, $context)) {
+                return $value;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @deprecated since Symfony 7.3, use "getType" instead
+     */
     public function getTypes(string $class, string $property, array $context = []): ?array
     {
+        trigger_deprecation('symfony/property-info', '7.3', 'The "%s()" method is deprecated, use "%s::getType()" instead.', __METHOD__, self::class);
+
         return $this->extract($this->typeExtractors, 'getTypes', [$class, $property, $context]);
     }
 

@@ -48,14 +48,14 @@ class MessageDigestPasswordHasher implements LegacyPasswordHasherInterface
         $this->iterations = $iterations;
     }
 
-    public function hash(#[\SensitiveParameter] string $plainPassword, string $salt = null): string
+    public function hash(#[\SensitiveParameter] string $plainPassword, ?string $salt = null): string
     {
         if ($this->isPasswordTooLong($plainPassword)) {
             throw new InvalidPasswordException();
         }
 
         if (!\in_array($this->algorithm, hash_algos(), true)) {
-            throw new LogicException(sprintf('The algorithm "%s" is not supported.', $this->algorithm));
+            throw new LogicException(\sprintf('The algorithm "%s" is not supported.', $this->algorithm));
         }
 
         $salted = $this->mergePasswordAndSalt($plainPassword, $salt);
@@ -69,7 +69,7 @@ class MessageDigestPasswordHasher implements LegacyPasswordHasherInterface
         return $this->encodeHashAsBase64 ? base64_encode($digest) : bin2hex($digest);
     }
 
-    public function verify(string $hashedPassword, #[\SensitiveParameter] string $plainPassword, string $salt = null): bool
+    public function verify(string $hashedPassword, #[\SensitiveParameter] string $plainPassword, ?string $salt = null): bool
     {
         if (\strlen($hashedPassword) !== $this->hashLength || str_contains($hashedPassword, '$')) {
             return false;

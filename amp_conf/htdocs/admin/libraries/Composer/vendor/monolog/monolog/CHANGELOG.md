@@ -1,3 +1,57 @@
+### 2.11.0 (2026-01-01)
+
+  * Added support for mongodb/mongodb 2.0+
+  * Fixed deprecation warnings in PHP 8.4/8.5
+  * Fixed TelegramBotHandler sending empty messages (#1992)
+  * Fixed RotatingFileHandler unlink errors not being suppressed correctly (#1999)
+
+### 2.10.0 (2024-11-12)
+
+  * Added `$fileOpenMode` to `StreamHandler` to define a custom fopen mode to open the log file (#1913)
+  * Fixed `StreamHandler` handling of write failures so that it now closes/reopens the stream and retries the write once before failing (#1882)
+  * Fixed `StreamHandler` error handler causing issues if a stream handler triggers an error (#1866)
+  * Fixed `JsonFormatter` handling of incomplete classes (#1834)
+  * Fixed `RotatingFileHandler` bug where rotation could sometimes not happen correctly (#1905)
+
+### 2.9.3 (2024-04-12)
+
+  * Fixed PHP 8.4 deprecation warnings (#1874)
+
+### 2.9.2 (2023-10-27)
+
+  * Fixed display_errors parsing in ErrorHandler which did not support string values (#1804)
+  * Fixed bug where the previous error handler would not be restored in some cases where StreamHandler fails (#1815)
+  * Fixed normalization error when normalizing incomplete classes (#1833)
+
+### 2.9.1 (2023-02-06)
+
+  * Fixed Logger not being serializable anymore (#1792)
+
+### 2.9.0 (2023-02-05)
+
+  * Deprecated FlowdockHandler & Formatter as the flowdock service was shutdown (#1748)
+  * Added support for enum context values in PsrLogMessageProcessor (#1773)
+  * Added graylog2/gelf-php 2.x support (#1747)
+  * Improved `BrowserConsoleHandler` logging to use more appropriate methods than just console.log in the browser (#1739)
+  * Fixed `WhatFailureGroupHandler` not catching errors happening inside `close()` (#1791)
+  * Fixed datetime field in `GoogleCloudLoggingFormatter` (#1758)
+  * Fixed infinite loop detection within Fibers (#1753)
+  * Fixed `AmqpHandler->setExtraAttributes` not working with buffering handler wrappers (#1781)
+
+### 2.8.0 (2022-07-24)
+
+  * Deprecated `CubeHandler` and `PHPConsoleHandler` as both projects are abandoned and those should not be used anymore (#1734)
+  * Added RFC 5424 level (`7` to `0`) support to `Logger::log` and `Logger::addRecord` to increase interoperability (#1723)
+  * Added support for `__toString` for objects which are not json serializable in `JsonFormatter` (#1733)
+  * Added `GoogleCloudLoggingFormatter` (#1719)
+  * Added support for Predis 2.x (#1732)
+  * Added `AmqpHandler->setExtraAttributes` to allow configuring attributes when using an AMQPExchange (#1724)
+  * Fixed serialization/unserialization of handlers to make sure private properties are included (#1727)
+  * Fixed allowInlineLineBreaks in LineFormatter causing issues with windows paths containing `\n` or `\r` sequences (#1720)
+  * Fixed max normalization depth not being taken into account when formatting exceptions with a deep chain of previous exceptions (#1726)
+  * Fixed PHP 8.2 deprecation warnings (#1722)
+  * Fixed rare race condition or filesystem issue where StreamHandler is unable to create the directory the log should go into yet it exists already (#1678)
+
 ### 2.7.0 (2022-06-09)
 
   * Added `$datetime` parameter to `Logger::addRecord` as low level API to allow logging into the past or future (#1682)

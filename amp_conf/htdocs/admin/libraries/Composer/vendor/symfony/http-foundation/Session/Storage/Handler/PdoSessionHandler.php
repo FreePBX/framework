@@ -11,7 +11,13 @@
 
 namespace Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+use Doctrine\DBAL\Schema\Name\Identifier;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
+use Doctrine\DBAL\Schema\PrimaryKeyConstraint;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Types;
 
 /**
@@ -90,12 +96,12 @@ class PdoSessionHandler extends AbstractSessionHandler
     /**
      * Username when lazy-connect.
      */
-    private string $username = '';
+    private ?string $username = null;
 
     /**
      * Password when lazy-connect.
      */
-    private string $password = '';
+    private ?string $password = null;
 
     /**
      * Connection options when lazy-connect.
@@ -151,11 +157,11 @@ class PdoSessionHandler extends AbstractSessionHandler
      *
      * @throws \InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      */
-    public function __construct(#[\SensitiveParameter] \PDO|string $pdoOrDsn = null, #[\SensitiveParameter] array $options = [])
+    public function __construct(#[\SensitiveParameter] \PDO|string|null $pdoOrDsn = null, #[\SensitiveParameter] array $options = [])
     {
         if ($pdoOrDsn instanceof \PDO) {
             if (\PDO::ERRMODE_EXCEPTION !== $pdoOrDsn->getAttribute(\PDO::ATTR_ERRMODE)) {
-                throw new \InvalidArgumentException(sprintf('"%s" requires PDO error mode attribute be set to throw Exceptions (i.e. $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)).', __CLASS__));
+                throw new \InvalidArgumentException(\sprintf('"%s" requires PDO error mode attribute be set to throw Exceptions (i.e. $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)).', __CLASS__));
             }
 
             $this->pdo = $pdoOrDsn;
@@ -180,51 +186,122 @@ class PdoSessionHandler extends AbstractSessionHandler
 
     /**
      * Adds the Table to the Schema if it doesn't exist.
+     *
+     * @return Schema The (possibly new) schema with the table added
      */
-    public function configureSchema(Schema $schema, \Closure $isSameDatabase = null): void
+    public function configureSchema(Schema $schema, ?\Closure $isSameDatabase = null)
     {
         if ($schema->hasTable($this->table) || ($isSameDatabase && !$isSameDatabase($this->getConnection()->exec(...)))) {
-            return;
+            return $schema;
         }
 
-        $table = $schema->createTable($this->table);
+        if (method_exists($schema, 'edit')) {
+            return $schema->edit()->addTable($this->buildSchemaTable())->create();
+        }
+
+        $this->configureSchemaTable($schema->createTable($this->table));
+
+        return $schema;
+    }
+
+    private function buildSchemaTable(): Table
+    {
+        $editor = Table::editor()->setUnquotedName($this->table);
+
         switch ($this->driver) {
             case 'mysql':
-                $table->addColumn($this->idCol, Types::BINARY)->setLength(128)->setNotnull(true);
-                $table->addColumn($this->dataCol, Types::BLOB)->setNotnull(true);
-                $table->addColumn($this->lifetimeCol, Types::INTEGER)->setUnsigned(true)->setNotnull(true);
-                $table->addColumn($this->timeCol, Types::INTEGER)->setUnsigned(true)->setNotnull(true);
-                $table->addOption('collate', 'utf8mb4_bin');
+                $editor
+                    ->addColumn(Column::editor()->setUnquotedName($this->idCol)->setTypeName(Types::BINARY)->setLength(128)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->dataCol)->setTypeName(Types::BLOB)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->lifetimeCol)->setTypeName(Types::INTEGER)->setUnsigned(true)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->timeCol)->setTypeName(Types::INTEGER)->setUnsigned(true)->setNotNull(true)->create())
+                    ->setOptions(['engine' => 'InnoDB']);
+                break;
+            case 'sqlite':
+                $editor
+                    ->addColumn(Column::editor()->setUnquotedName($this->idCol)->setTypeName(Types::TEXT)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->dataCol)->setTypeName(Types::BLOB)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->lifetimeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->timeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create());
+                break;
+            case 'pgsql':
+                $editor
+                    ->addColumn(Column::editor()->setUnquotedName($this->idCol)->setTypeName(Types::STRING)->setLength(128)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->dataCol)->setTypeName(Types::BINARY)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->lifetimeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->timeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create());
+                break;
+            case 'oci':
+                $editor
+                    ->addColumn(Column::editor()->setUnquotedName($this->idCol)->setTypeName(Types::STRING)->setLength(128)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->dataCol)->setTypeName(Types::BLOB)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->lifetimeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->timeCol)->setTypeName(Types::INTEGER)->setNotNull(true)->create());
+                break;
+            case 'sqlsrv':
+                $editor
+                    ->addColumn(Column::editor()->setUnquotedName($this->idCol)->setTypeName(Types::STRING)->setLength(128)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->dataCol)->setTypeName(Types::BLOB)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->lifetimeCol)->setTypeName(Types::INTEGER)->setUnsigned(true)->setNotNull(true)->create())
+                    ->addColumn(Column::editor()->setUnquotedName($this->timeCol)->setTypeName(Types::INTEGER)->setUnsigned(true)->setNotNull(true)->create());
+                break;
+            default:
+                throw new \DomainException(\sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver));
+        }
+
+        return $editor
+            ->addPrimaryKeyConstraint(new PrimaryKeyConstraint(null, [new UnqualifiedName(Identifier::unquoted($this->idCol))], true))
+            ->addIndex(Index::editor()->setUnquotedName($this->lifetimeCol.'_idx')->setUnquotedColumnNames($this->lifetimeCol)->create())
+            ->create();
+    }
+
+    /**
+     * To be removed when doctrine/dbal minimum is bumped to ^4.5.
+     */
+    private function configureSchemaTable(Table $table): void
+    {
+        switch ($this->driver) {
+            case 'mysql':
+                $table->addColumn($this->idCol, Types::BINARY, ['length' => 128, 'notnull' => true]);
+                $table->addColumn($this->dataCol, Types::BLOB, ['notnull' => true]);
+                $table->addColumn($this->lifetimeCol, Types::INTEGER, ['unsigned' => true, 'notnull' => true]);
+                $table->addColumn($this->timeCol, Types::INTEGER, ['unsigned' => true, 'notnull' => true]);
                 $table->addOption('engine', 'InnoDB');
                 break;
             case 'sqlite':
-                $table->addColumn($this->idCol, Types::TEXT)->setNotnull(true);
-                $table->addColumn($this->dataCol, Types::BLOB)->setNotnull(true);
-                $table->addColumn($this->lifetimeCol, Types::INTEGER)->setNotnull(true);
-                $table->addColumn($this->timeCol, Types::INTEGER)->setNotnull(true);
+                $table->addColumn($this->idCol, Types::TEXT, ['notnull' => true]);
+                $table->addColumn($this->dataCol, Types::BLOB, ['notnull' => true]);
+                $table->addColumn($this->lifetimeCol, Types::INTEGER, ['notnull' => true]);
+                $table->addColumn($this->timeCol, Types::INTEGER, ['notnull' => true]);
                 break;
             case 'pgsql':
-                $table->addColumn($this->idCol, Types::STRING)->setLength(128)->setNotnull(true);
-                $table->addColumn($this->dataCol, Types::BINARY)->setNotnull(true);
-                $table->addColumn($this->lifetimeCol, Types::INTEGER)->setNotnull(true);
-                $table->addColumn($this->timeCol, Types::INTEGER)->setNotnull(true);
+                $table->addColumn($this->idCol, Types::STRING, ['length' => 128, 'notnull' => true]);
+                $table->addColumn($this->dataCol, Types::BINARY, ['notnull' => true]);
+                $table->addColumn($this->lifetimeCol, Types::INTEGER, ['notnull' => true]);
+                $table->addColumn($this->timeCol, Types::INTEGER, ['notnull' => true]);
                 break;
             case 'oci':
-                $table->addColumn($this->idCol, Types::STRING)->setLength(128)->setNotnull(true);
-                $table->addColumn($this->dataCol, Types::BLOB)->setNotnull(true);
-                $table->addColumn($this->lifetimeCol, Types::INTEGER)->setNotnull(true);
-                $table->addColumn($this->timeCol, Types::INTEGER)->setNotnull(true);
+                $table->addColumn($this->idCol, Types::STRING, ['length' => 128, 'notnull' => true]);
+                $table->addColumn($this->dataCol, Types::BLOB, ['notnull' => true]);
+                $table->addColumn($this->lifetimeCol, Types::INTEGER, ['notnull' => true]);
+                $table->addColumn($this->timeCol, Types::INTEGER, ['notnull' => true]);
                 break;
             case 'sqlsrv':
-                $table->addColumn($this->idCol, Types::TEXT)->setLength(128)->setNotnull(true);
-                $table->addColumn($this->dataCol, Types::BLOB)->setNotnull(true);
-                $table->addColumn($this->lifetimeCol, Types::INTEGER)->setUnsigned(true)->setNotnull(true);
-                $table->addColumn($this->timeCol, Types::INTEGER)->setUnsigned(true)->setNotnull(true);
+                $table->addColumn($this->idCol, Types::STRING, ['length' => 128, 'notnull' => true]);
+                $table->addColumn($this->dataCol, Types::BLOB, ['notnull' => true]);
+                $table->addColumn($this->lifetimeCol, Types::INTEGER, ['unsigned' => true, 'notnull' => true]);
+                $table->addColumn($this->timeCol, Types::INTEGER, ['unsigned' => true, 'notnull' => true]);
                 break;
             default:
-                throw new \DomainException(sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver));
+                throw new \DomainException(\sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver));
         }
-        $table->setPrimaryKey([$this->idCol]);
+
+        if (class_exists(PrimaryKeyConstraint::class)) {
+            $table->addPrimaryKeyConstraint(new PrimaryKeyConstraint(null, [new UnqualifiedName(Identifier::unquoted($this->idCol))], true));
+        } else {
+            $table->setPrimaryKey([$this->idCol]);
+        }
+
         $table->addIndex([$this->lifetimeCol], $this->lifetimeCol.'_idx');
     }
 
@@ -252,12 +329,12 @@ class PdoSessionHandler extends AbstractSessionHandler
             // - trailing space removal
             // - case-insensitivity
             // - language processing like é == e
-            'mysql' => "CREATE TABLE $this->table ($this->idCol VARBINARY(128) NOT NULL PRIMARY KEY, $this->dataCol BLOB NOT NULL, $this->lifetimeCol INTEGER UNSIGNED NOT NULL, $this->timeCol INTEGER UNSIGNED NOT NULL) COLLATE utf8mb4_bin, ENGINE = InnoDB",
+            'mysql' => "CREATE TABLE $this->table ($this->idCol VARBINARY(128) NOT NULL PRIMARY KEY, $this->dataCol BLOB NOT NULL, $this->lifetimeCol INTEGER UNSIGNED NOT NULL, $this->timeCol INTEGER UNSIGNED NOT NULL) ENGINE = InnoDB",
             'sqlite' => "CREATE TABLE $this->table ($this->idCol TEXT NOT NULL PRIMARY KEY, $this->dataCol BLOB NOT NULL, $this->lifetimeCol INTEGER NOT NULL, $this->timeCol INTEGER NOT NULL)",
             'pgsql' => "CREATE TABLE $this->table ($this->idCol VARCHAR(128) NOT NULL PRIMARY KEY, $this->dataCol BYTEA NOT NULL, $this->lifetimeCol INTEGER NOT NULL, $this->timeCol INTEGER NOT NULL)",
             'oci' => "CREATE TABLE $this->table ($this->idCol VARCHAR2(128) NOT NULL PRIMARY KEY, $this->dataCol BLOB NOT NULL, $this->lifetimeCol INTEGER NOT NULL, $this->timeCol INTEGER NOT NULL)",
             'sqlsrv' => "CREATE TABLE $this->table ($this->idCol VARCHAR(128) NOT NULL PRIMARY KEY, $this->dataCol VARBINARY(MAX) NOT NULL, $this->lifetimeCol INTEGER NOT NULL, $this->timeCol INTEGER NOT NULL)",
-            default => throw new \DomainException(sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver)),
+            default => throw new \DomainException(\sprintf('Creating the session table is currently not implemented for PDO driver "%s".', $this->driver)),
         };
 
         try {
@@ -538,7 +615,7 @@ class PdoSessionHandler extends AbstractSessionHandler
                 return $dsn;
 
             default:
-                throw new \InvalidArgumentException(sprintf('The scheme "%s" is not supported by the PdoSessionHandler URL configuration. Pass a PDO DSN directly.', $params['scheme']));
+                throw new \InvalidArgumentException(\sprintf('The scheme "%s" is not supported by the PdoSessionHandler URL configuration. Pass a PDO DSN directly.', $params['scheme']));
         }
     }
 
@@ -734,7 +811,7 @@ class PdoSessionHandler extends AbstractSessionHandler
             case 'sqlite':
                 throw new \DomainException('SQLite does not support advisory locks.');
             default:
-                throw new \DomainException(sprintf('Advisory locks are currently not implemented for PDO driver "%s".', $this->driver));
+                throw new \DomainException(\sprintf('Advisory locks are currently not implemented for PDO driver "%s".', $this->driver));
         }
     }
 
@@ -776,7 +853,7 @@ class PdoSessionHandler extends AbstractSessionHandler
                     // we already locked when starting transaction
                     break;
                 default:
-                    throw new \DomainException(sprintf('Transactional locks are currently not implemented for PDO driver "%s".', $this->driver));
+                    throw new \DomainException(\sprintf('Transactional locks are currently not implemented for PDO driver "%s".', $this->driver));
             }
         }
 
@@ -794,6 +871,12 @@ class PdoSessionHandler extends AbstractSessionHandler
                 fwrite($data, $sessionData);
                 rewind($data);
                 $sql = "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, EMPTY_BLOB(), :expiry, :time) RETURNING $this->dataCol into :data";
+                break;
+            case 'sqlsrv':
+                $data = fopen('php://memory', 'r+');
+                fwrite($data, $sessionData);
+                rewind($data);
+                $sql = "INSERT INTO $this->table ($this->idCol, $this->dataCol, $this->lifetimeCol, $this->timeCol) VALUES (:id, :data, :expiry, :time)";
                 break;
             default:
                 $data = $sessionData;
@@ -821,6 +904,12 @@ class PdoSessionHandler extends AbstractSessionHandler
                 fwrite($data, $sessionData);
                 rewind($data);
                 $sql = "UPDATE $this->table SET $this->dataCol = EMPTY_BLOB(), $this->lifetimeCol = :expiry, $this->timeCol = :time WHERE $this->idCol = :id RETURNING $this->dataCol into :data";
+                break;
+            case 'sqlsrv':
+                $data = fopen('php://memory', 'r+');
+                fwrite($data, $sessionData);
+                rewind($data);
+                $sql = "UPDATE $this->table SET $this->dataCol = :data, $this->lifetimeCol = :expiry, $this->timeCol = :time WHERE $this->idCol = :id";
                 break;
             default:
                 $data = $sessionData;
@@ -869,12 +958,16 @@ class PdoSessionHandler extends AbstractSessionHandler
         $mergeStmt = $this->pdo->prepare($mergeSql);
 
         if ('sqlsrv' === $this->driver) {
+            $dataStream = fopen('php://memory', 'r+');
+            fwrite($dataStream, $data);
+            rewind($dataStream);
+
             $mergeStmt->bindParam(1, $sessionId, \PDO::PARAM_STR);
             $mergeStmt->bindParam(2, $sessionId, \PDO::PARAM_STR);
-            $mergeStmt->bindParam(3, $data, \PDO::PARAM_LOB);
+            $mergeStmt->bindParam(3, $dataStream, \PDO::PARAM_LOB);
             $mergeStmt->bindValue(4, time() + $maxlifetime, \PDO::PARAM_INT);
             $mergeStmt->bindValue(5, time(), \PDO::PARAM_INT);
-            $mergeStmt->bindParam(6, $data, \PDO::PARAM_LOB);
+            $mergeStmt->bindParam(6, $dataStream, \PDO::PARAM_LOB);
             $mergeStmt->bindValue(7, time() + $maxlifetime, \PDO::PARAM_INT);
             $mergeStmt->bindValue(8, time(), \PDO::PARAM_INT);
         } else {

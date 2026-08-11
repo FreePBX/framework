@@ -25,29 +25,27 @@
         "psr/cache": "^1.0 || ^2.0 || ^3.0"
     },
     "require-dev": {
-        "composer/package-versions-deprecated": "^1.11",
-        "phpstan/phpstan": "1.9.4",
-        "phpstan/phpstan-phpunit": "^1",
-        "phpstan/phpstan-strict-rules": "^1.1",
-        "doctrine/coding-standard": "^11",
+        "phpstan/phpstan": "^1 || 2.1.30",
+        "phpstan/phpstan-phpunit": "^1 || ^2",
+        "phpstan/phpstan-strict-rules": "^1 || ^2",
+        "doctrine/coding-standard": "^12 || ^14",
         "doctrine/common": "^3.0",
-        "phpunit/phpunit": "^8.5 || ^9.5",
-        "symfony/cache": "^4.4 || ^5.4 || ^6.0",
-        "vimeo/psalm": "4.30.0 || 5.3.0"
+        "phpunit/phpunit": "^8.5.38 || ^9.5",
+        "symfony/cache": "^4.4 || ^5.4 || ^6.0 || ^7.0"
     },
     "conflict": {
         "doctrine/common": "<2.10"
     },
     "autoload": {
         "psr-4": {
-            "Doctrine\\Persistence\\": "src/Persistence"
+            "Doctrine\\Persistence\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Doctrine\\Tests\\": "tests",
-            "Doctrine\\Tests_PHP74\\": "tests_php74",
-            "Doctrine\\Tests_PHP81\\": "tests_php81"
+            "Doctrine\\Tests\\Persistence\\": "tests",
+            "Doctrine\\Tests_PHP74\\Persistence\\": "tests_php74",
+            "Doctrine\\Tests_PHP81\\Persistence\\": "tests_php81"
         }
     },
     "config": {
@@ -55,5 +53,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/package-versions-deprecated": true
         }
+    },
+    "scripts": {
+        "docs": "composer --working-dir docs update && ./docs/vendor/bin/build-docs.sh @additional_args"
     }
 }

@@ -31,7 +31,7 @@ class X509Authenticator extends AbstractPreAuthenticatedAuthenticator
     private $userKey;
     private $credentialsKey;
 
-    public function __construct(UserProviderInterface $userProvider, TokenStorageInterface $tokenStorage, string $firewallName, string $userKey = 'SSL_CLIENT_S_DN_Email', string $credentialsKey = 'SSL_CLIENT_S_DN', LoggerInterface $logger = null)
+    public function __construct(UserProviderInterface $userProvider, TokenStorageInterface $tokenStorage, string $firewallName, string $userKey = 'SSL_CLIENT_S_DN_Email', string $credentialsKey = 'SSL_CLIENT_S_DN', ?LoggerInterface $logger = null)
     {
         parent::__construct($userProvider, $tokenStorage, $firewallName, $logger);
 
@@ -46,7 +46,7 @@ class X509Authenticator extends AbstractPreAuthenticatedAuthenticator
             $username = $request->server->get($this->userKey);
         } elseif (
             $request->server->has($this->credentialsKey)
-            && preg_match('#emailAddress=([^,/@]++@[^,/]++)#', $request->server->get($this->credentialsKey), $matches)
+            && preg_match('#(?:^|[,/])\s*(?:emailAddress|1\.2\.840\.113549\.1\.9\.1)=([^,/@]++@[^,/]++)#', $request->server->get($this->credentialsKey), $matches)
         ) {
             $username = $matches[1];
         }

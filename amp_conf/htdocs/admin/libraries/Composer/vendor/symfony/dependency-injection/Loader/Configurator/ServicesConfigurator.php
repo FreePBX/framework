@@ -27,20 +27,19 @@ class ServicesConfigurator extends AbstractConfigurator
     public const FACTORY = 'services';
 
     private Definition $defaults;
-    private ContainerBuilder $container;
-    private PhpFileLoader $loader;
     private array $instanceof;
-    private ?string $path;
     private string $anonymousHash;
     private int $anonymousCount;
 
-    public function __construct(ContainerBuilder $container, PhpFileLoader $loader, array &$instanceof, string $path = null, int &$anonymousCount = 0)
-    {
+    public function __construct(
+        private ContainerBuilder $container,
+        private PhpFileLoader $loader,
+        array &$instanceof,
+        private ?string $path = null,
+        int &$anonymousCount = 0,
+    ) {
         $this->defaults = new Definition();
-        $this->container = $container;
-        $this->loader = $loader;
         $this->instanceof = &$instanceof;
-        $this->path = $path;
         $this->anonymousHash = ContainerBuilder::hash($path ?: mt_rand());
         $this->anonymousCount = &$anonymousCount;
         $instanceof = [];
@@ -70,7 +69,7 @@ class ServicesConfigurator extends AbstractConfigurator
      * @param string|null $id    The service id, or null to create an anonymous service
      * @param string|null $class The class of the service, or null when $id is also the class name
      */
-    final public function set(?string $id, string $class = null): ServiceConfigurator
+    final public function set(?string $id, ?string $class = null): ServiceConfigurator
     {
         $defaults = $this->defaults;
         $definition = new Definition();
@@ -80,15 +79,15 @@ class ServicesConfigurator extends AbstractConfigurator
                 throw new \LogicException('Anonymous services must have a class name.');
             }
 
-            $id = sprintf('.%d_%s', ++$this->anonymousCount, preg_replace('/^.*\\\\/', '', $class).'~'.$this->anonymousHash);
-        } elseif (!$defaults->isPublic() || !$defaults->isPrivate()) {
-            $definition->setPublic($defaults->isPublic() && !$defaults->isPrivate());
+            $id = \sprintf('.%d_%s', ++$this->anonymousCount, preg_replace('/^.*\\\\/', '', $class).'~'.$this->anonymousHash);
+        } else {
+            $definition->setPublic($defaults->isPublic());
         }
 
         $definition->setAutowired($defaults->isAutowired());
         $definition->setAutoconfigured($defaults->isAutoconfigured());
         // deep clone, to avoid multiple process of the same instance in the passes
-        $definition->setBindings(unserialize(serialize($defaults->getBindings())));
+        $definition->setBindings(unserialize(serialize($defaults->getBindings()), ['allowed_classes' => true]));
         $definition->setChanges([]);
 
         $configurator = new ServiceConfigurator($this->container, $this->instanceof, true, $this, $definition, $id, $defaults->getTags(), $this->path);
@@ -116,9 +115,7 @@ class ServicesConfigurator extends AbstractConfigurator
     {
         $ref = static::processValue($referencedId, true);
         $alias = new Alias((string) $ref);
-        if (!$this->defaults->isPublic() || !$this->defaults->isPrivate()) {
-            $alias->setPublic($this->defaults->isPublic());
-        }
+        $alias->setPublic($this->defaults->isPublic());
         $this->container->setAlias($id, $alias);
 
         return new AliasConfigurator($this, $alias);
@@ -163,7 +160,7 @@ class ServicesConfigurator extends AbstractConfigurator
 
                 $services[$i] = $definition;
             } elseif (!$service instanceof ReferenceConfigurator) {
-                throw new InvalidArgumentException(sprintf('"%s()" expects a list of definitions as returned by "%s()" or "%s()", "%s" given at index "%s" for service "%s".', __METHOD__, InlineServiceConfigurator::FACTORY, ReferenceConfigurator::FACTORY, $service instanceof AbstractConfigurator ? $service::FACTORY.'()' : get_debug_type($service), $i, $id));
+                throw new InvalidArgumentException(\sprintf('"%s()" expects a list of definitions as returned by "%s()" or "%s()", "%s" given at index "%s" for service "%s".', __METHOD__, InlineServiceConfigurator::FACTORY, ReferenceConfigurator::FACTORY, $service instanceof AbstractConfigurator ? $service::FACTORY.'()' : get_debug_type($service), $i, $id));
             }
         }
 
@@ -180,7 +177,7 @@ class ServicesConfigurator extends AbstractConfigurator
     /**
      * Registers a service.
      */
-    final public function __invoke(string $id, string $class = null): ServiceConfigurator
+    final public function __invoke(string $id, ?string $class = null): ServiceConfigurator
     {
         return $this->set($id, $class);
     }

@@ -59,7 +59,7 @@ use function count;
  *
  * Instantiation through the DriverManager looks like:
  *
- * @psalm-import-type Params from DriverManager
+ * @phpstan-import-type Params from DriverManager
  * @example
  *
  * $conn = DriverManager::getConnection(array(
@@ -67,8 +67,8 @@ use function count;
  *    'driver' => 'pdo_mysql',
  *    'primary' => array('user' => '', 'password' => '', 'host' => '', 'dbname' => ''),
  *    'replica' => array(
- *        array('user' => 'replica1', 'password', 'host' => '', 'dbname' => ''),
- *        array('user' => 'replica2', 'password', 'host' => '', 'dbname' => ''),
+ *        array('user' => 'replica1', 'password' => '', 'host' => '', 'dbname' => ''),
+ *        array('user' => 'replica2', 'password' => '', 'host' => '', 'dbname' => ''),
  *    )
  * ));
  *
@@ -98,7 +98,7 @@ class PrimaryReadReplicaConnection extends Connection
      * @internal The connection can be only instantiated by the driver manager.
      *
      * @param array<string,mixed> $params
-     * @psalm-param Params $params
+     * @phpstan-param Params $params
      *
      * @throws Exception
      * @throws InvalidArgumentException

@@ -1,6 +1,35 @@
 CHANGELOG
 =========
 
+8.0
+---
+
+ * Restrict `ProxyHelper::generateLazyProxy()` to generating abstraction-based lazy decorators; use native lazy proxies otherwise
+ * Remove `LazyGhostTrait` and `LazyProxyTrait`, use native lazy objects instead
+ * Remove `ProxyHelper::generateLazyGhost()`, use native lazy objects instead
+
+7.4
+---
+
+ * Add support for exporting named closures
+
+7.3
+---
+
+ * Deprecate using `ProxyHelper::generateLazyProxy()` when native lazy proxies can be used - the method should be used to generate abstraction-based lazy decorators only
+ * Deprecate `LazyGhostTrait` and `LazyProxyTrait`, use native lazy objects instead
+ * Deprecate `ProxyHelper::generateLazyGhost()`, use native lazy objects instead
+
+7.2
+---
+
+ * Allow reinitializing lazy objects with a new initializer
+
+6.4
+---
+
+ * Deprecate per-property lazy-initializers
+
 6.2
 ---
 

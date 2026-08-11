@@ -41,14 +41,18 @@ class MetadataBag implements SessionBagInterface
 
     private int $updateThreshold;
 
+    private ?int $cookieLifetime;
+
     /**
-     * @param string $storageKey      The key used to store bag in the session
-     * @param int    $updateThreshold The time to wait between two UPDATED updates
+     * @param string   $storageKey      The key used to store bag in the session
+     * @param int      $updateThreshold The time to wait between two UPDATED updates
+     * @param int|null $cookieLifetime  The configured cookie lifetime; null to read from php.ini
      */
-    public function __construct(string $storageKey = '_sf2_meta', int $updateThreshold = 0)
+    public function __construct(string $storageKey = '_sf2_meta', int $updateThreshold = 0, ?int $cookieLifetime = null)
     {
         $this->storageKey = $storageKey;
         $this->updateThreshold = $updateThreshold;
+        $this->cookieLifetime = $cookieLifetime;
     }
 
     /**
@@ -88,7 +92,7 @@ class MetadataBag implements SessionBagInterface
      *
      * @return void
      */
-    public function stampNew(int $lifetime = null)
+    public function stampNew(?int $lifetime = null)
     {
         $this->stampCreated($lifetime);
     }
@@ -139,10 +143,10 @@ class MetadataBag implements SessionBagInterface
         $this->name = $name;
     }
 
-    private function stampCreated(int $lifetime = null): void
+    private function stampCreated(?int $lifetime = null): void
     {
         $timeStamp = time();
         $this->meta[self::CREATED] = $this->meta[self::UPDATED] = $this->lastUsed = $timeStamp;
-        $this->meta[self::LIFETIME] = $lifetime ?? (int) \ini_get('session.cookie_lifetime');
+        $this->meta[self::LIFETIME] = $lifetime ?? $this->cookieLifetime ?? (int) \ini_get('session.cookie_lifetime');
     }
 }

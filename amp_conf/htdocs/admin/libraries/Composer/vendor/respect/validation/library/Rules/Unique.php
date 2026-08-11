@@ -1,22 +1,17 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
 
 namespace Respect\Validation\Rules;
 
-use function array_unique;
+use function array_is_list;
+use function in_array;
 use function is_array;
-
-use const SORT_REGULAR;
 
 /**
  * Validates whether the input array contains only unique values.
@@ -28,7 +23,7 @@ use const SORT_REGULAR;
 final class Unique extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * @deprecated Calling `validate()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::isValid()} instead.
      */
     public function validate($input): bool
     {
@@ -36,6 +31,34 @@ final class Unique extends AbstractRule
             return false;
         }
 
-        return $input == array_unique($input, SORT_REGULAR);
+        return $input == $this->unique($input);
+    }
+
+    /**
+     * @param array<mixed, mixed> $input
+     *
+     * @return array<mixed, mixed>
+     */
+    private function unique(array $input): array
+    {
+        if (!array_is_list($input)) {
+            return $input;
+        }
+
+        $unique = [];
+        foreach ($input as $value) {
+            $comparedValue = $value;
+            if (is_array($comparedValue)) {
+                $comparedValue = $this->unique($comparedValue);
+            }
+
+            if (in_array($comparedValue, $unique, true)) {
+                continue;
+            }
+
+            $unique[] = $comparedValue;
+        }
+
+        return $unique;
     }
 }

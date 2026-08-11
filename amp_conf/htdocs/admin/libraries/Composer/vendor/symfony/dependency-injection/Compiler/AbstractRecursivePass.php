@@ -26,11 +26,9 @@ use Symfony\Component\ExpressionLanguage\Expression;
  */
 abstract class AbstractRecursivePass implements CompilerPassInterface
 {
-    /**
-     * @var ContainerBuilder
-     */
-    protected $container;
-    protected $currentId;
+    protected ?ContainerBuilder $container;
+    protected ?string $currentId = null;
+    protected bool $skipScalars = false;
 
     private bool $processExpressions = false;
     private ExpressionLanguage $expressionLanguage;
@@ -50,10 +48,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function enableExpressionProcessing()
+    protected function enableExpressionProcessing(): void
     {
         $this->processExpressions = true;
     }
@@ -77,8 +72,11 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {
+                if ((!$v || \is_scalar($v)) && $this->skipScalars) {
+                    continue;
+                }
                 if ($isRoot) {
-                    if ($v->hasTag('container.excluded')) {
+                    if ($v instanceof Definition && $v->hasTag('container.excluded')) {
                         continue;
                     }
                     $this->currentId = $k;
@@ -132,7 +130,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
             }
 
             if (!\function_exists($factory)) {
-                throw new RuntimeException(sprintf('Invalid service "%s": function "%s" does not exist.', $this->currentId, $factory));
+                throw new RuntimeException(\sprintf('Invalid service "%s": function "%s" does not exist.', $this->currentId, $factory));
             }
             $r = new \ReflectionFunction($factory);
             if (false !== $r->getFileName() && file_exists($r->getFileName())) {
@@ -146,7 +144,7 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
             [$class, $method] = $factory;
 
             if ('__construct' === $method) {
-                throw new RuntimeException(sprintf('Invalid service "%s": "__construct()" cannot be used as a factory method.', $this->currentId));
+                throw new RuntimeException(\sprintf('Invalid service "%s": "__construct()" cannot be used as a factory method.', $this->currentId));
             }
 
             if ($class instanceof Reference) {
@@ -170,20 +168,20 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
         try {
             if (!$r = $this->container->getReflectionClass($class)) {
                 if (null === $class) {
-                    throw new RuntimeException(sprintf('Invalid service "%s": the class is not set.', $this->currentId));
+                    throw new RuntimeException(\sprintf('Invalid service "%s": the class is not set.', $this->currentId));
                 }
 
-                throw new RuntimeException(sprintf('Invalid service "%s": class "%s" does not exist.', $this->currentId, $class));
+                throw new RuntimeException(\sprintf('Invalid service "%s": class "%s" does not exist.', $this->currentId, $class));
             }
         } catch (\ReflectionException $e) {
-            throw new RuntimeException(sprintf('Invalid service "%s": ', $this->currentId).lcfirst($e->getMessage()));
+            throw new RuntimeException(\sprintf('Invalid service "%s": ', $this->currentId).lcfirst($e->getMessage()));
         }
         if (!$r = $r->getConstructor()) {
             if ($required) {
-                throw new RuntimeException(sprintf('Invalid service "%s": class%s has no constructor.', $this->currentId, sprintf($class !== $this->currentId ? ' "%s"' : '', $class)));
+                throw new RuntimeException(\sprintf('Invalid service "%s": class%s has no constructor.', $this->currentId, \sprintf($class !== $this->currentId ? ' "%s"' : '', $class)));
             }
         } elseif (!$r->isPublic()) {
-            throw new RuntimeException(sprintf('Invalid service "%s": ', $this->currentId).sprintf($class !== $this->currentId ? 'constructor of class "%s"' : 'its constructor', $class).' must be public.');
+            throw new RuntimeException(\sprintf('Invalid service "%s": ', $this->currentId).\sprintf($class !== $this->currentId ? 'constructor of class "%s"' : 'its constructor', $class).' must be public. Did you miss configuring a factory or a static constructor? Try using the "#[Autoconfigure(constructor: ...)]" attribute for the latter.');
         }
 
         return $r;
@@ -203,11 +201,11 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
         }
 
         if (null === $class) {
-            throw new RuntimeException(sprintf('Invalid service "%s": the class is not set.', $this->currentId));
+            throw new RuntimeException(\sprintf('Invalid service "%s": the class is not set.', $this->currentId));
         }
 
         if (!$r = $this->container->getReflectionClass($class)) {
-            throw new RuntimeException(sprintf('Invalid service "%s": class "%s" does not exist.', $this->currentId, $class));
+            throw new RuntimeException(\sprintf('Invalid service "%s": class "%s" does not exist.', $this->currentId, $class));
         }
 
         if (!$r->hasMethod($method)) {
@@ -215,12 +213,16 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
                 return new \ReflectionMethod(static function (...$arguments) {}, '__invoke');
             }
 
-            throw new RuntimeException(sprintf('Invalid service "%s": method "%s()" does not exist.', $this->currentId, $class !== $this->currentId ? $class.'::'.$method : $method));
+            if ($r->hasMethod('__callStatic') && ($r = $r->getMethod('__callStatic')) && $r->isPublic()) {
+                return new \ReflectionMethod(static function (...$arguments) {}, '__invoke');
+            }
+
+            throw new RuntimeException(\sprintf('Invalid service "%s": method "%s()" does not exist.', $this->currentId, $class !== $this->currentId ? $class.'::'.$method : $method));
         }
 
         $r = $r->getMethod($method);
         if (!$r->isPublic()) {
-            throw new RuntimeException(sprintf('Invalid service "%s": method "%s()" must be public.', $this->currentId, $class !== $this->currentId ? $class.'::'.$method : $method));
+            throw new RuntimeException(\sprintf('Invalid service "%s": method "%s()" must be public.', $this->currentId, $class !== $this->currentId ? $class.'::'.$method : $method));
         }
 
         return $r;
@@ -241,12 +243,12 @@ abstract class AbstractRecursivePass implements CompilerPassInterface
                     $arg = $this->processValue(new Reference($id));
                     $this->inExpression = false;
                     if (!$arg instanceof Reference) {
-                        throw new RuntimeException(sprintf('"%s::processValue()" must return a Reference when processing an expression, "%s" returned for service("%s").', static::class, get_debug_type($arg), $id));
+                        throw new RuntimeException(\sprintf('"%s::processValue()" must return a Reference when processing an expression, "%s" returned for service("%s").', static::class, get_debug_type($arg), $id));
                     }
-                    $arg = sprintf('"%s"', $arg);
+                    $arg = \sprintf('"%s"', $arg);
                 }
 
-                return sprintf('$this->get(%s)', $arg);
+                return \sprintf('$this->get(%s)', $arg);
             });
         }
 

@@ -45,7 +45,7 @@ class HtmlDescriptor implements DumpDescriptorInterface
         if (isset($context['request'])) {
             $request = $context['request'];
             $controller = "<span class='dumped-tag'>{$this->dumper->dump($request['controller'], true, ['maxDepth' => 0])}</span>";
-            $title = sprintf('<code>%s</code> <a href="%s">%s</a>', $request['method'], $uri = $request['uri'], $uri);
+            $title = \sprintf('<code>%s</code> <a href="%s">%s</a>', $request['method'], $uri = $request['uri'], $uri);
             $dedupIdentifier = $request['identifier'];
         } elseif (isset($context['cli'])) {
             $title = '<code>$ </code>'.$context['cli']['command_line'];
@@ -58,9 +58,9 @@ class HtmlDescriptor implements DumpDescriptorInterface
         if (isset($context['source'])) {
             $source = $context['source'];
             $projectDir = $source['project_dir'] ?? null;
-            $sourceDescription = sprintf('%s on line %d', $source['name'], $source['line']);
+            $sourceDescription = \sprintf('%s on line %d', $source['name'], $source['line']);
             if (isset($source['file_link'])) {
-                $sourceDescription = sprintf('<a href="%s">%s</a>', $source['file_link'], $sourceDescription);
+                $sourceDescription = \sprintf('<a href="%s">%s</a>', $source['file_link'], $sourceDescription);
             }
         }
 
@@ -71,24 +71,24 @@ class HtmlDescriptor implements DumpDescriptorInterface
         ]);
 
         $output->writeln(<<<HTML
-<article data-dedup-id="$dedupIdentifier">
-    <header>
-        <div class="row">
-            <h2 class="col">$title</h2>
-            <time class="col text-small" title="$isoDate" datetime="$isoDate">
-                {$this->extractDate($context)}
-            </time>
-        </div>
-        {$this->renderTags($tags)}
-    </header>
-    <section class="body">
-        <p class="text-small">
-            $sourceDescription
-        </p>
-        {$this->dumper->dump($data, true)}
-    </section>
-</article>
-HTML
+            <article data-dedup-id="$dedupIdentifier">
+                <header>
+                    <div class="row">
+                        <h2 class="col">$title</h2>
+                        <time class="col text-small" title="$isoDate" datetime="$isoDate">
+                            {$this->extractDate($context)}
+                        </time>
+                    </div>
+                    {$this->renderTags($tags)}
+                </header>
+                <section class="body">
+                    <p class="text-small">
+                        $sourceDescription
+                    </p>
+                    {$this->dumper->dump($data, true)}
+                </section>
+            </article>
+            HTML
         );
     }
 
@@ -105,15 +105,15 @@ HTML
 
         $renderedTags = '';
         foreach ($tags as $key => $value) {
-            $renderedTags .= sprintf('<li><span class="badge">%s</span>%s</li>', $key, $value);
+            $renderedTags .= \sprintf('<li><span class="badge">%s</span>%s</li>', $key, $value);
         }
 
         return <<<HTML
-<div class="row">
-    <ul class="tags">
-        $renderedTags
-    </ul>
-</div>
-HTML;
+            <div class="row">
+                <ul class="tags">
+                    $renderedTags
+                </ul>
+            </div>
+            HTML;
     }
 }

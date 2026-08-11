@@ -1,4 +1,271 @@
+# Upgrade to 2.20
+
+## Add `Doctrine\ORM\Query\OutputWalker` interface, deprecate `Doctrine\ORM\Query\SqlWalker::getExecutor()`
+
+Output walkers should implement the new `\Doctrine\ORM\Query\OutputWalker` interface and create
+`Doctrine\ORM\Query\Exec\SqlFinalizer` instances instead of `Doctrine\ORM\Query\Exec\AbstractSqlExecutor`s.
+The output walker must not base its workings on the query `firstResult`/`maxResult` values, so that the 
+`SqlFinalizer` can be kept in the query cache and used regardless of the actual `firstResult`/`maxResult` values.
+Any operation dependent on `firstResult`/`maxResult` should take place within the `SqlFinalizer::createExecutor()`
+method. Details can be found at https://github.com/doctrine/orm/pull/11188.
+
+## Explictly forbid property hooks
+
+Property hooks are not supported yet by Doctrine ORM. Until support is added,
+they are explicitly forbidden because the support would result in a breaking
+change in behavior.
+
+Progress on this is tracked at https://github.com/doctrine/orm/issues/11624 .
+
+## PARTIAL DQL syntax is undeprecated 
+
+Use of the PARTIAL keyword is not deprecated anymore in DQL, because we will be
+able to support PARTIAL objects with PHP 8.4 Lazy Objects and
+Symfony/VarExporter in a better way. When we decided to remove this feature
+these two abstractions did not exist yet.
+
+WARNING: If you want to upgrade to 3.x and still use PARTIAL keyword in DQL
+with array or object hydrators, then you have to directly migrate to ORM 3.3.x or higher.
+PARTIAL keyword in DQL is not available in 3.0, 3.1 and 3.2 of ORM.
+
+## Deprecate `\Doctrine\ORM\Query\Parser::setCustomOutputTreeWalker()`
+
+Use the `\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER` query hint to set the output walker
+class instead of setting it through the `\Doctrine\ORM\Query\Parser::setCustomOutputTreeWalker()` method
+on the parser instance.
+
+# Upgrade to 2.19
+
+## Deprecate calling `ClassMetadata::getAssociationMappedByTargetField()` with the owning side of an association
+
+Calling
+`Doctrine\ORM\Mapping\ClassMetadata::getAssociationMappedByTargetField()` with
+the owning side of an association returns `null`, which is undocumented, and
+wrong according to the phpdoc of the parent method.
+
+If you do not know whether you are on the owning or inverse side of an association,
+you can use  `Doctrine\ORM\Mapping\ClassMetadata::isAssociationInverseSide()`
+to find out.
+
+## Deprecate `Doctrine\ORM\Query\Lexer::T_*` constants
+
+Use `Doctrine\ORM\Query\TokenType::T_*` instead.
+
+# Upgrade to 2.17
+
+## Deprecate annotations classes for named queries
+
+The following classes have been deprecated:
+
+* `Doctrine\ORM\Mapping\NamedNativeQueries`
+* `Doctrine\ORM\Mapping\NamedNativeQuery`
+* `Doctrine\ORM\Mapping\NamedQueries`
+* `Doctrine\ORM\Mapping\NamedQuery`
+
+## Deprecate `Doctrine\ORM\Query\Exec\AbstractSqlExecutor::_sqlStatements`
+
+Use `Doctrine\ORM\Query\Exec\AbstractSqlExecutor::sqlStatements` instead.
+
+## Undeprecate `Doctrine\ORM\Proxy\Autoloader`
+
+It will be a full-fledged class, no longer extending
+`Doctrine\Common\Proxy\Autoloader` in 3.0.x.
+
+## Deprecated: reliance on the non-optimal defaults that come with the `AUTO` identifier generation strategy
+
+When the `AUTO` identifier generation strategy was introduced, the best
+strategy at the time was selected for each database platform.
+A lot of time has passed since then, and with ORM 3.0.0 and DBAL 4.0.0, support
+for better strategies will be added.
+
+Because of that, it is now deprecated to rely on the historical defaults when
+they differ from what we will be recommended in the future.
+
+Instead, you should pick a strategy for each database platform you use, and it
+will be used when using `AUTO`. As of now, only PostgreSQL is affected by this.
+
+It is recommended that PostgreSQL users configure their existing and new
+applications to use `SEQUENCE` until `doctrine/dbal` 4.0.0 is released:
+
+```php
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\ORM\Configuration;
+
+assert($configuration instanceof Configuration);
+$configuration->setIdentityGenerationPreferences([
+    PostgreSQLPlatform::CLASS => ClassMetadata::GENERATOR_TYPE_SEQUENCE,
+]);
+```
+
+When DBAL 4 is released, `AUTO` will result in `IDENTITY`, and the above
+configuration should be removed to migrate to it.
+
+## Deprecate `EntityManagerInterface::getPartialReference()`
+
+This method does not have a replacement and will be removed in 3.0.
+
+## Deprecate not-enabling lazy-ghosts
+
+Not enabling lazy ghost objects is deprecated. In ORM 3.0, they will be always enabled.
+Ensure `Doctrine\ORM\Configuration::setLazyGhostObjectEnabled(true)` is called to enable them.
+
+# Upgrade to 2.16
+
+## Deprecated accepting duplicate IDs in the identity map
+
+For any given entity class and ID value, there should be only one object instance
+representing the entity.
+
+In https://github.com/doctrine/orm/pull/10785, a check was added that will guard this
+in the identity map. The most probable cause for violations of this rule are collisions
+of application-provided IDs.
+
+In ORM 2.16.0, the check was added by throwing an exception. In ORM 2.16.1, this will be
+changed to a deprecation notice. ORM 3.0 will make it an exception again. Use
+`\Doctrine\ORM\Configuration::setRejectIdCollisionInIdentityMap()` if you want to opt-in
+to the new mode.
+
+## Potential changes to the order in which `INSERT`s are executed
+
+In https://github.com/doctrine/orm/pull/10547, the commit order computation was improved
+to fix a series of bugs where a correct (working) commit order was previously not found.
+Also, the new computation may get away with fewer queries being executed: By inserting
+referred-to entities first and using their ID values for foreign key fields in subsequent
+`INSERT` statements, additional `UPDATE` statements that were previously necessary can be
+avoided.
+
+When using database-provided, auto-incrementing IDs, this may lead to IDs being assigned
+to entities in a different order than it was previously the case.
+
+## Deprecated returning post insert IDs from `EntityPersister::executeInserts()`
+
+Persisters implementing `\Doctrine\ORM\Persisters\Entity\EntityPersister` should no longer
+return an array of post insert IDs from their `::executeInserts()` method. Make the
+persister call `Doctrine\ORM\UnitOfWork::assignPostInsertId()` instead.
+
+## Changing the way how reflection-based mapping drivers report fields, deprecated the "old" mode
+
+In ORM 3.0, a change will be made regarding how the `AttributeDriver` reports field mappings.
+This change is necessary to be able to detect (and reject) some invalid mapping configurations.
+
+To avoid surprises during 2.x upgrades, the new mode is opt-in. It can be activated on the
+`AttributeDriver` and `AnnotationDriver` by setting the `$reportFieldsWhereDeclared`
+constructor parameter to `true`. It will cause `MappingException`s to be thrown when invalid
+configurations are detected.
+
+Not enabling the new mode will cause a deprecation notice to be raised. In ORM 3.0,
+only the new mode will be available.
+
+# Upgrade to 2.15
+
+## Deprecated configuring `JoinColumn` on the inverse side of one-to-one associations
+
+For one-to-one associations, the side using the `mappedBy` attribute is the inverse side.
+The owning side is the entity with the table containing the foreign key. Using `JoinColumn`
+configuration on the _inverse_ side now triggers a deprecation notice and will be an error
+in 3.0.
+
+## Deprecated overriding fields or associations not declared in mapped superclasses
+
+As stated in the documentation, fields and associations may only be overridden when being inherited
+from mapped superclasses. Overriding them for parent entity classes now triggers a deprecation notice
+and will be an error in 3.0.
+
+## Deprecated undeclared entity inheritance
+
+As soon as an entity class inherits from another entity class, inheritance has to
+be declared by adding the appropriate configuration for the root entity.
+
+## Deprecated stubs for "concrete table inheritance"
+
+This third way of mapping class inheritance was never implemented. Code stubs are
+now deprecated and will be removed in 3.0.
+
+* `\Doctrine\ORM\Mapping\ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS` constant
+* `\Doctrine\ORM\Mapping\ClassMetadataInfo::isInheritanceTypeTablePerClass()` method
+* Using `TABLE_PER_CLASS` as the value for the `InheritanceType` attribute or annotation
+  or in XML configuration files.
+
+# Upgrade to 2.14
+
+## Deprecated `Doctrine\ORM\Persisters\Exception\UnrecognizedField::byName($field)` method.
+
+Use `Doctrine\ORM\Persisters\Exception\UnrecognizedField::byFullyQualifiedName($className, $field)` instead.
+
+## Deprecated constants of `Doctrine\ORM\Internal\CommitOrderCalculator`
+
+The following public constants have been deprecated:
+
+* `CommitOrderCalculator::NOT_VISITED`
+* `CommitOrderCalculator::IN_PROGRESS`
+* `CommitOrderCalculator::VISITED`
+
+These constants were used for internal purposes. Relying on them is discouraged.
+
+## Deprecated `Doctrine\ORM\Query\AST\InExpression`
+
+The AST parser will create a `InListExpression` or a `InSubselectExpression` when
+encountering an `IN ()` DQL expression instead of a generic `InExpression`.
+
+As a consequence, `SqlWalker::walkInExpression()` has been deprecated in favor of
+`SqlWalker::walkInListExpression()` and `SqlWalker::walkInSubselectExpression()`.
+
+## Deprecated constructing a `CacheKey` without `$hash`
+
+The `Doctrine\ORM\Cache\CacheKey` class has an explicit constructor now with
+an optional parameter `$hash`. That parameter will become mandatory in 3.0.
+
+## Deprecated `AttributeDriver::$entityAnnotationClasses`
+
+If you need to change the behavior of `AttributeDriver::isTransient()`,
+override that method instead.
+
+## Deprecated incomplete schema updates
+
+Using `orm:schema-tool:update` without passing the `--complete` flag is
+deprecated. Use schema asset filtering if you need to preserve assets not
+managed by DBAL.
+
+Likewise, calling `SchemaTool::updateSchema()` or
+`SchemaTool::getUpdateSchemaSql()` with a second argument is deprecated.
+
+## Deprecated annotation mapping driver.
+
+Please switch to one of the other mapping drivers. Native attributes which PHP
+supports since version 8.0 are probably your best option.
+
+As a consequence, the following methods are deprecated:
+- `ORMSetup::createAnnotationMetadataConfiguration`
+- `ORMSetup::createDefaultAnnotationDriver`
+
+The marker interface `Doctrine\ORM\Mapping\Annotation` is deprecated as well.
+All annotation/attribute classes implement
+`Doctrine\ORM\Mapping\MappingAttribute` now.
+
+## Deprecated `Doctrine\ORM\Proxy\Proxy` interface.
+
+Use `Doctrine\Persistence\Proxy` instead to check whether proxies are initialized.
+
+## Deprecated `Doctrine\ORM\Event\LifecycleEventArgs` class.
+
+It will be removed in 3.0. Use one of the dedicated event classes instead:
+
+* `Doctrine\ORM\Event\PrePersistEventArgs`
+* `Doctrine\ORM\Event\PreUpdateEventArgs`
+* `Doctrine\ORM\Event\PreRemoveEventArgs`
+* `Doctrine\ORM\Event\PostPersistEventArgs`
+* `Doctrine\ORM\Event\PostUpdateEventArgs`
+* `Doctrine\ORM\Event\PostRemoveEventArgs`
+* `Doctrine\ORM\Event\PostLoadEventArgs`
+
 # Upgrade to 2.13
+
+## Deprecated `EntityManager::create()`
+
+The constructor of `EntityManager` is now public and should be used instead of the `create()` method.
+However, the constructor expects a `Connection` while `create()` accepted an array with connection parameters.
+You can pass that array to DBAL's `Doctrine\DBAL\DriverManager::getConnection()` method to bootstrap the
+connection.
 
 ## Deprecated `QueryBuilder` methods and constants.
 
@@ -394,7 +661,7 @@ function foo(EntityManagerInterface $entityManager, callable $func) {
     if (method_exists($entityManager, 'wrapInTransaction')) {
         return $entityManager->wrapInTransaction($func);
     }
-    
+
     return $entityManager->transactional($func);
 }
 ```
@@ -460,7 +727,7 @@ implementation. To work around this:
 * As a quick workaround, you can lock the doctrine/cache dependency to work around this: `composer require doctrine/cache ^1.11`.
   Note that this is only recommended as a bandaid fix, as future versions of ORM will no longer work with doctrine/cache
   1.11.
-  
+
 ## Deprecated: doctrine/cache for metadata caching
 
 The `Doctrine\ORM\Configuration#setMetadataCacheImpl()` method is deprecated and should no longer be used. Please use
@@ -485,12 +752,12 @@ Note that `toIterable()` yields results of the query, unlike `iterate()` which y
 
 # Upgrade to 2.7
 
-## Added `Doctrine\ORM\AbstractQuery#enableResultCache()` and `Doctrine\ORM\AbstractQuery#disableResultCache()` methods	
+## Added `Doctrine\ORM\AbstractQuery#enableResultCache()` and `Doctrine\ORM\AbstractQuery#disableResultCache()` methods
 
 Method `Doctrine\ORM\AbstractQuery#useResultCache()` which could be used for both enabling and disabling the cache
-(depending on passed flag) was split into two.	
+(depending on passed flag) was split into two.
 
-## Minor BC BREAK: paginator output walkers aren't be called anymore on sub-queries for queries without max results  
+## Minor BC BREAK: paginator output walkers aren't be called anymore on sub-queries for queries without max results
 
 To optimize DB interaction, `Doctrine\ORM\Tools\Pagination\Paginator` no longer fetches identifiers to be able to
 perform the pagination with join collections when max results isn't set in the query.
@@ -509,7 +776,7 @@ In the last patch of the `v2.6.x` series, we fixed a bug that was not converting
 In order to not break BC we've introduced a way to enable the fixed behavior using a boolean constructor argument. This
 argument will be removed in 3.0 and the default behavior will be the fixed one.
 
-## Deprecated: `Doctrine\ORM\AbstractQuery#useResultCache()`	
+## Deprecated: `Doctrine\ORM\AbstractQuery#useResultCache()`
 
 Method `Doctrine\ORM\AbstractQuery#useResultCache()` is deprecated because it is split into `enableResultCache()`
 and `disableResultCache()`. It will be removed in 3.0.
@@ -539,7 +806,7 @@ These related classes have been deprecated:
 
  * `Doctrine\ORM\Proxy\ProxyFactory`
  * `Doctrine\ORM\Proxy\Autoloader` - we suggest using the composer autoloader instead
- 
+
 These methods have been deprecated:
 
  * `Doctrine\ORM\Configuration#getAutoGenerateProxyClasses()`
@@ -588,7 +855,7 @@ If your code relies on single entity flushing optimisations via
 
 Said API was affected by multiple data integrity bugs due to the fact
 that change tracking was being restricted upon a subset of the managed
-entities. The ORM cannot support committing subsets of the managed 
+entities. The ORM cannot support committing subsets of the managed
 entities while also guaranteeing data integrity, therefore this
 utility was removed.
 
@@ -689,8 +956,8 @@ either:
  - map those classes as `MappedSuperclass`
 
 ## Minor BC BREAK: ``EntityManagerInterface`` instead of ``EntityManager`` in type-hints
- 
-As of 2.5, classes requiring the ``EntityManager`` in any method signature will now require 
+
+As of 2.5, classes requiring the ``EntityManager`` in any method signature will now require
 an ``EntityManagerInterface`` instead.
 If you are extending any of the following classes, then you need to check following
 signatures:
@@ -783,7 +1050,7 @@ the `Doctrine\ORM\Repository\DefaultRepositoryFactory`.
 When executing DQL queries with new object expressions, instead of returning DTOs numerically indexes, it will now respect user provided aliases. Consider the following query:
 
     SELECT new UserDTO(u.id,u.name) as user,new AddressDTO(a.street,a.postalCode) as address, a.id as addressId FROM User u INNER JOIN u.addresses a WITH a.isPrimary = true
-    
+
 Previously, your result would be similar to this:
 
     array(
@@ -981,7 +1248,7 @@ from 2.0 have to configure the annotation driver if they don't use `Configuratio
 
 ## Scalar mappings can now be omitted from DQL result
 
-You are now allowed to mark scalar SELECT expressions as HIDDEN an they are not hydrated anymore.
+You are now allowed to mark scalar SELECT expressions as HIDDEN and they are not hydrated anymore.
 Example:
 
 SELECT u, SUM(a.id) AS HIDDEN numArticles FROM User u LEFT JOIN u.Articles a ORDER BY numArticles DESC HAVING numArticles > 10
@@ -1021,7 +1288,7 @@ The EntityRepository now has an interface Doctrine\Persistence\ObjectRepository.
 The annotation reader was heavily refactored between 2.0 and 2.1-RC1. In theory the operation of the new reader should be backwards compatible, but it has to be setup differently to work that way:
 
     // new call to the AnnotationRegistry
-    \Doctrine\Common\Annotations\AnnotationRegistry::registerFile('/doctrine-src/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
+    \Doctrine\Common\Annotations\AnnotationRegistry::registerFile('/doctrine-src/src/Mapping/Driver/DoctrineAnnotations.php');
 
     $reader = new \Doctrine\Common\Annotations\AnnotationReader();
     $reader->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');

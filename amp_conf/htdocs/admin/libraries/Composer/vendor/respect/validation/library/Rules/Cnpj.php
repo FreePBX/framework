@@ -1,12 +1,8 @@
 <?php
 
 /*
- * This file is part of Respect/Validation.
- *
- * (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
- *
- * For the full copyright and license information, please view the LICENSE file
- * that was distributed with this source code.
+ * Copyright (c) Alexandre Gomes Gaigalas <alganet@gmail.com>
+ * SPDX-License-Identifier: MIT
  */
 
 declare(strict_types=1);
@@ -17,11 +13,18 @@ use function array_map;
 use function array_sum;
 use function count;
 use function is_scalar;
+use function ord;
 use function preg_replace;
 use function str_split;
+use function strtoupper;
 
 /**
  * Validates if the input is a Brazilian National Registry of Legal Entities (CNPJ) number.
+ *
+ * Since 2026 the CNPJ can be alphanumeric: the first twelve positions may contain the letters
+ * A to Z as well as digits, while the last two (the check digits) remain numeric. Each character
+ * is converted to its verification value by subtracting 48 from its ASCII code, so '0'-'9' map to
+ * 0-9 (identical to the previous numeric-only behaviour) and 'A'-'Z' map to 17-42.
  *
  * @author Alexandre Gomes Gaigalas <alganet@gmail.com>
  * @author Henrique Moody <henriquemoody@gmail.com>
@@ -33,7 +36,12 @@ use function str_split;
 final class Cnpj extends AbstractRule
 {
     /**
-     * {@inheritDoc}
+     * Value subtracted from a character's ASCII code to obtain its verification value.
+     */
+    private const BASE_ASCII = 48;
+
+    /**
+     * @deprecated Calling `validate()` directly from rules is deprecated. Please use {@see \Respect\Validation\Validator::isValid()} instead.
      */
     public function validate($input): bool
     {
@@ -78,9 +86,11 @@ final class Cnpj extends AbstractRule
     private function getDigits(string $input): array
     {
         return array_map(
-            'intval',
+            static function (string $character): int {
+                return ord($character) - self::BASE_ASCII;
+            },
             str_split(
-                (string) preg_replace('/\D/', '', $input)
+                (string) preg_replace('/[\W_]/', '', strtoupper($input))
             )
         );
     }
