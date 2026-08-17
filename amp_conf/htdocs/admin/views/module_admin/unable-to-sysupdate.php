@@ -53,7 +53,7 @@ try {
       
       <!-- 2. Repository Files Section -->
       <div class="panel panel-info" style="margin-top: 20px;">
-        <div class="panel-heading" style="cursor: pointer;" data-toggle="collapse" data-target="#repositories-collapse">
+        <div class="panel-heading" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#repositories-collapse">
           <h3 class="panel-title">
             <i class="fa fa-chevron-down" id="repositories-chevron"></i>
             <?php echo _("Repository Configuration Files"); ?>
@@ -105,7 +105,7 @@ try {
       
       <!-- Security Upgradable Packages Section -->
       <div class="panel panel-danger" style="margin-top: 20px;">
-        <div class="panel-heading" style="cursor: pointer;" data-toggle="collapse" data-target="#security-packages-collapse">
+        <div class="panel-heading" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#security-packages-collapse">
           <h3 class="panel-title">
             <i class="fa fa-shield"></i> <i class="fa fa-chevron-down" id="security-chevron"></i>
             <?php echo _("Security Upgradable Packages"); ?>
@@ -123,7 +123,7 @@ try {
       
       <!-- Upgradable Packages Section -->
       <div class="panel panel-default" style="margin-top: 20px;">
-        <div class="panel-heading" style="cursor: pointer;" data-toggle="collapse" data-target="#upgradable-packages-collapse">
+        <div class="panel-heading" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#upgradable-packages-collapse">
           <h3 class="panel-title">
             <i class="fa fa-chevron-down" id="upgradable-chevron"></i>
             <?php echo _("Upgradable Packages"); ?>
@@ -141,7 +141,7 @@ try {
       
       <!-- Held Packages Section -->
       <div class="panel panel-default" style="margin-top: 20px;">
-        <div class="panel-heading" style="cursor: pointer;" data-toggle="collapse" data-target="#held-packages-collapse">
+        <div class="panel-heading" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#held-packages-collapse">
           <h3 class="panel-title">
             <i class="fa fa-chevron-down" id="held-chevron"></i>
             <?php echo _("Held Packages"); ?>

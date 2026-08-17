@@ -4,7 +4,7 @@ global $_item_sort;
 ?>
 <div class="freepbx-navbar">
 	<nav class="navbar navbar-expand-lg fixed-top" role="navigation">
-		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#fpbx-menu-collapse">
+		<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#fpbx-menu-collapse">
 			<span class="sr-only">Toggle navigation</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -27,7 +27,7 @@ global $_item_sort;
 			<?php if ( isset($_SESSION['AMP_user']) ) { ?>
 				<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 					<li class="dropdown admin-btn">
-						<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
+						<button class="btn dropdown-toggle nav-button" data-bs-toggle="dropdown"><i class="fa fa-language"></i></button>
 						<ul id="fpbx_lang" class="dropdown-menu" role="menu">
 							<?php foreach ($language as $langKey => $lang) {
 									$class = $pointer='';
@@ -43,7 +43,7 @@ global $_item_sort;
 				<button id="search-btn" class="btn nav-button"><i class="fa fa-search"></i></button>
 				<?php if($authtype != 'none') {?>
 					<li class="dropdown admin-btn">
-						<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
+						<button class="btn dropdown-toggle nav-button" data-bs-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
 						<ul class="dropdown-menu" role="menu">
 							<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
 							<li role="presentation" class="divider"></li>

@@ -16,7 +16,7 @@
 							<div class="wrapper">
 								<ul class="nav nav-tabs list" role="tablist">
 								<?php foreach(array_keys($html['middle']) as $category) { ?>
-									<li data-name="<?php echo strtolower($category)?>" class="change-tab <?php echo ($active == strtolower($category)) ? 'active' : ''?>"><a href="#<?php echo strtolower($category)?>" aria-controls="<?php echo strtolower($category)?>" role="tab" data-toggle="tab"><?php echo ucfirst($category)?></a></li>
+									<li data-name="<?php echo strtolower($category)?>" class="change-tab <?php echo ($active == strtolower($category)) ? 'active' : ''?>"><a href="#<?php echo strtolower($category)?>" aria-controls="<?php echo strtolower($category)?>" role="tab" data-bs-toggle="tab"><?php echo ucfirst($category)?></a></li>
 								<?php $c++;} ?>
 								</ul>
 							</div>

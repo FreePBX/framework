@@ -167,11 +167,11 @@ foreach($compiled_scripts as $script) {
 if($lang != "en_US") {
   switch($lang) {
     case "es_ES":
-      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-es-SP.js'.$version_tag.'"></script>';
+      $html .= '<script src="assets/js/bootstrap-table-locale-1.27.3/bootstrap-table-es-SP.js'.$version_tag.'"></script>';
       $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-SP']);</script>";
     break;
     default:
-      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$lang).'.js'.$version_tag.'"></script>';
+      $html .= '<script src="assets/js/bootstrap-table-locale-1.27.3/bootstrap-table-'.str_replace("_","-",$lang).'.js'.$version_tag.'"></script>';
       $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$lang)."']);</script>";
     break;
   }
