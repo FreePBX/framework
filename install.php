@@ -64,31 +64,29 @@ function framework_repo_key_expiry_from_file($gpgBinary, $path) {
 
 	$output = [];
 	$returnVar = 0;
-	exec($gpgBinary . ' --show-keys ' . escapeshellarg($path) . ' 2>/dev/null', $output, $returnVar);
+	// For details of the --with-colons format : https://github.com/gpg/gnupg/blob/master/doc/DETAILS
+	// In our case, we need field 7 (timestamp of the expiration date) and 5 (keyid) of the first line
+	exec($gpgBinary . ' --with-colons --show-keys ' . escapeshellarg($path) . ' 2>/dev/null', $output, $returnVar);
 	if ($returnVar !== 0 || empty($output)) {
 		return $result;
 	}
 
-	$expiryDate = null;
-	foreach ($output as $line) {
-		if (preg_match('/\[(?:expires|expired):\s*(\d{4}-\d{2}-\d{2})\]/', $line, $m)) {
-			$expiryDate = $m[1];
-			break;
-		}
-		if (preg_match('/^\s*([A-F0-9]{16,40})\s*$/', trim($line), $m)) {
-			$result['key_id'] = substr($m[1], -16);
-		}
-	}
-
-	if (!$expiryDate) {
+	$expiryTs = null;
+	$gpg_fields = explode( ':', $output[0] );
+	if ( count($gpg_fields) < 17 ) {
 		return $result;
 	}
+	$expiryTs = (int) $gpg_fields[6];
+	$result['key_id'] = $gpg_fields[4];
 
-	$expiryTs = strtotime($expiryDate);
-	if ($expiryTs === false) {
+	if ( $expiryTs === 0 ) {
 		return $result;
+	} else {
+		// To keep the same behavior as before
+		$result['key_id'] = '';
 	}
 
+	$expiryDate = date( 'Y-m-d', $expiryTs );
 	$result['valid'] = true;
 	$result['expiry_date'] = $expiryDate;
 	$result['expires_in_days'] = (int) floor(($expiryTs - time()) / 86400);
