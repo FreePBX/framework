@@ -2115,7 +2115,7 @@ $(document).ready(function(){
 		};
 
 		reAdjust();
-		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
 			reAdjust();
 		});
 		$(window).on('resize',function(e){

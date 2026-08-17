@@ -1054,7 +1054,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 	}
 	if(!empty($details)) {
 			$dt = $details;
-			$details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
+			$details = '<div class="panel-group" id="message-'.$ts.'" data-bs-toggle="collapse" data-bs-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<span class="panel-title">
@@ -1074,7 +1074,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 		$details = '';
 	}
 	$link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
-	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-dismiss="alert" aria-hidden="true"></i>' : '';
+	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-bs-dismiss="alert" aria-hidden="true"></i>' : '';
 	return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
 }
 
