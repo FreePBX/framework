@@ -13,7 +13,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 #[\AllowDynamicProperties]
 class Restart extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('restart')
 			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->setDefinition(array(
@@ -21,7 +21,7 @@ class Restart extends Command {
 				new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if(posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);

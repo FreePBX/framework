@@ -11,7 +11,7 @@ use Symfony\Component\Console\Question\Question;
 
 #[\AllowDynamicProperties]
 class Kvstore extends Command {
-  protected function configure(){
+  protected function configure(): void{
     $this->setName('kvstore')
     ->setDescription('Manage kvstore')
     ->setDefinition(array(
@@ -23,7 +23,7 @@ class Kvstore extends Command {
       new InputOption('group','',InputOption::VALUE_REQUIRED, 'Optional Group','noid'))
       );
   }
-  protected function execute(InputInterface $input, OutputInterface $output){
+  protected function execute(InputInterface $input, OutputInterface $output): int{
     $module = ucfirst($input->getArgument('module'));
     $action = $input->getOption('action');
     $key = $input->getOption('key');
@@ -32,11 +32,11 @@ class Kvstore extends Command {
     $c = \FreePBX::$module();
     if(!is_object($c)){
       $output->writeln(sprintf(_("Could not load a class for %s"),$module));
-      return;
+      return 0;
     }
     if(!is_subclass_of($c,'\\FreePBX\\DB_Helper')){
       $output->writeln(sprintf(_("%s does not implement kvstore"),$module));
-      return;
+      return 0;
     }
     switch ($action) {
       case 'getall':
@@ -45,7 +45,7 @@ class Kvstore extends Command {
       case 'deleteall':
         if(!$input->getOption('iknowwhatiamdoing')){
           $output->writeln("This command blocked in readonly mode");
-          return;
+          return 0;
         }
         $c->deleteAll();
         break;
@@ -58,7 +58,7 @@ class Kvstore extends Command {
         case 'deletebyid':
           if(!$input->getOption('iknowwhatiamdoing')){
             $output->writeln("This command blocked in readonly mode");
-            return;
+            return 0;
           }
           $c->delById($key);
         break;
@@ -80,5 +80,6 @@ class Kvstore extends Command {
         break;
     }
 
+    return 0;
   }
 }

@@ -52,7 +52,7 @@ class Handler {
 	/**
 	 * @codeCoverageIgnore
 	 */
-	private function __clone() {
+	private final function __clone() {
 	}
 
 	/**

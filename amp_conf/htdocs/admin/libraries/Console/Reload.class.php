@@ -24,7 +24,7 @@ class Reload extends Command {
 	private $symlink_notice_modules_agi = "";
 	private $cp_errors = "";
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->messageBuffer = [];
 		$this->errorBuffer = [];
 		$this->freepbx = \FreePBX::create();
@@ -65,7 +65,7 @@ class Reload extends Command {
 		}
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->input = $input;
 		$this->output = $output;
 		$this->json = $input->getOption('json');

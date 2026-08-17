@@ -12,7 +12,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 #[\AllowDynamicProperties]
 class Validate extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('validate')
 		->setDescription(_('Validate your PBX against potential hacks'))
@@ -20,7 +20,7 @@ class Validate extends Command {
 			new InputOption('clean', 'c', InputOption::VALUE_NONE, _('Purge and clean system')
 		)));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if(file_exists("/tmp/validate.phar.gz.sha1")) {
 			unlink("/tmp/validate.phar.gz.sha1");
 		}
@@ -69,6 +69,7 @@ class Validate extends Command {
 		$process->setTimeout(180);
 		$process->setTty(true);
 		$process->run();
+		return 0;
 	}
 
 	private function download($filename,$progress_callback=null) {

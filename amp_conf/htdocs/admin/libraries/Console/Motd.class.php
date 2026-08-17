@@ -22,7 +22,7 @@ class Motd extends Command {
 	);
 	private $supporturl = 'http://www.freepbx.org/support-and-professional-services';
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('motd')
 		->setDescription(_('Prints MOTD'))
 		->setDefinition(array(
@@ -30,7 +30,7 @@ class Motd extends Command {
 
 		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->updateVars();
 		$edgemode = \FreePBX::Config()->get('MODULEADMINEDGE');
 		$alerts = count(\FreePBX::Notifications()->list_all());

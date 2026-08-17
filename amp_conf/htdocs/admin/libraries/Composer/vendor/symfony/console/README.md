@@ -7,12 +7,7 @@ interfaces.
 Sponsor
 -------
 
-The Console component for Symfony 6.4 is [backed][1] by [Les-Tilleuls.coop][2].
-
-Les-Tilleuls.coop is a team of 70+ Symfony experts who can help you design, develop and
-fix your projects. They provide a wide range of professional services including development,
-consulting, coaching, training and audits. They also are highly skilled in JS, Go and DevOps.
-They are a worker cooperative!
+This package is looking for a [backer][1].
 
 Help Symfony by [sponsoring][3] its development!
 
@@ -32,5 +27,4 @@ Credits
 component. Find sources and license at https://github.com/Seldaek/hidden-input.
 
 [1]: https://symfony.com/backers
-[2]: https://les-tilleuls.coop
 [3]: https://symfony.com/sponsor

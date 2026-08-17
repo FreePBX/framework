@@ -1,19 +1,26 @@
 <?php
 
 /**
- * libphonenumber-for-php-lite data file
+ * libphonenumber-for-php data file
  * This file has been @generated from libphonenumber data
  * Do not modify!
  * @internal
  */
 
+declare(strict_types=1);
+
 namespace libphonenumber;
 
+/**
+ * @internal
+ */
 class AlternateFormatsCountryCodeSet
 {
-    // A set of all country codes for which data is available.
-
-    public static $alternateFormatsCountryCodeSet = [
+    /**
+     * A set of all country calling codes for which data is available.
+     * @var int[]
+     */
+    public const ALTERNATE_FORMATS_COUNTRY_CODE_SET = [
         7,
         27,
         30,
@@ -61,5 +68,4 @@ class AlternateFormatsCountryCodeSet
         972,
         995,
     ];
-
 }

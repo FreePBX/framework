@@ -53,7 +53,7 @@ class Moduleadmin extends Command {
 		$this->updatemanager->sendEmail("moduleautoupdates", sprintf(_("%s (%s) Module Updates"), $brand, $ident), implode("\n", $body), 4, true);
 	}
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('moduleadmin')
 		->setAliases(array('ma'))
 		->setDescription('Module Administration')
@@ -78,7 +78,7 @@ class Moduleadmin extends Command {
 		->setHelp($this->showHelp());
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->FreePBX = FreePBX::Create();
 		/* TODO: Come back to this at some point
 		if(posix_getuid() === 0) {

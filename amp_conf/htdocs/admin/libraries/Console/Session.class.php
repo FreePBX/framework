@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[\AllowDynamicProperties]
 class Session extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('session')
 		->setDescription(_('Manage Session'))
 		->setDefinition(array(
@@ -18,7 +18,7 @@ class Session extends Command {
 			new InputOption('killall', 'k', InputOption::VALUE_NONE, _('Destroy all sessions')),
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if($input->getOption('list')){
 			$sessions = scandir(session_save_path());
 			foreach($sessions as $session){
@@ -47,5 +47,6 @@ class Session extends Command {
 				}
 			}
 		}
+		return 0;
 	}
 }

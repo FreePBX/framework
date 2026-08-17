@@ -15,7 +15,7 @@ use Symfony\Component\Console\Helper\Table;
 @ini_set('implicit_flush',1);
 #[\AllowDynamicProperties]
 class Debug extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->Notifications = \FreePBX::Notifications();
 		$this->setName('debug')
@@ -26,7 +26,7 @@ class Debug extends Command {
 			new InputOption('skipstandard', 's', InputOption::VALUE_NONE, _('Do not tail standard freepbx.log')),)
 		);
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->FreePBXConf->set_conf_values(array('FPBXDBUGDISABLE' => 0),true,true);
 		$DBUGFILE = $this->FreePBXConf->get('FPBXDBUGFILE');
 		$FPBXLOGFILE = $this->FreePBXConf->get('FPBX_LOG_FILE');

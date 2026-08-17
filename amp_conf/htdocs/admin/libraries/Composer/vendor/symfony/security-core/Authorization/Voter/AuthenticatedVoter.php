@@ -12,8 +12,10 @@
 namespace Symfony\Component\Security\Core\Authorization\Voter;
 
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
+use Symfony\Component\Security\Core\Authentication\Token\OfflineTokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 /**
  * AuthenticatedVoter votes if an attribute like IS_AUTHENTICATED_FULLY,
@@ -28,32 +30,21 @@ class AuthenticatedVoter implements CacheableVoterInterface
 {
     public const IS_AUTHENTICATED_FULLY = 'IS_AUTHENTICATED_FULLY';
     public const IS_AUTHENTICATED_REMEMBERED = 'IS_AUTHENTICATED_REMEMBERED';
-    /**
-     * @deprecated since Symfony 5.4
-     */
-    public const IS_AUTHENTICATED_ANONYMOUSLY = 'IS_AUTHENTICATED_ANONYMOUSLY';
-    /**
-     * @deprecated since Symfony 5.4
-     */
-    public const IS_ANONYMOUS = 'IS_ANONYMOUS';
     public const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
     public const IS_IMPERSONATOR = 'IS_IMPERSONATOR';
     public const IS_REMEMBERED = 'IS_REMEMBERED';
     public const PUBLIC_ACCESS = 'PUBLIC_ACCESS';
 
-    private $authenticationTrustResolver;
-
-    public function __construct(AuthenticationTrustResolverInterface $authenticationTrustResolver)
-    {
-        $this->authenticationTrustResolver = $authenticationTrustResolver;
+    public function __construct(
+        private AuthenticationTrustResolverInterface $authenticationTrustResolver,
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function vote(TokenInterface $token, mixed $subject, array $attributes, ?Vote $vote = null): int
     {
         if ($attributes === [self::PUBLIC_ACCESS]) {
+            $vote?->addReason('Access is public.');
+
             return VoterInterface::ACCESS_GRANTED;
         }
 
@@ -61,57 +52,55 @@ class AuthenticatedVoter implements CacheableVoterInterface
         foreach ($attributes as $attribute) {
             if (null === $attribute || (self::IS_AUTHENTICATED_FULLY !== $attribute
                     && self::IS_AUTHENTICATED_REMEMBERED !== $attribute
-                    && self::IS_AUTHENTICATED_ANONYMOUSLY !== $attribute
                     && self::IS_AUTHENTICATED !== $attribute
-                    && self::IS_ANONYMOUS !== $attribute
                     && self::IS_IMPERSONATOR !== $attribute
                     && self::IS_REMEMBERED !== $attribute)) {
                 continue;
             }
 
+            if ($token instanceof OfflineTokenInterface) {
+                throw new InvalidArgumentException('Cannot decide on authentication attributes when an offline token is used.');
+            }
+
             $result = VoterInterface::ACCESS_DENIED;
 
-            if (self::IS_AUTHENTICATED_FULLY === $attribute
-                && $this->authenticationTrustResolver->isFullFledged($token)) {
+            if ((self::IS_AUTHENTICATED_FULLY === $attribute || self::IS_AUTHENTICATED_REMEMBERED === $attribute)
+                && $this->authenticationTrustResolver->isFullFledged($token)
+            ) {
+                $vote?->addReason('The user is fully authenticated.');
+
                 return VoterInterface::ACCESS_GRANTED;
             }
 
             if (self::IS_AUTHENTICATED_REMEMBERED === $attribute
-                && ($this->authenticationTrustResolver->isRememberMe($token)
-                    || $this->authenticationTrustResolver->isFullFledged($token))) {
-                return VoterInterface::ACCESS_GRANTED;
-            }
-
-            if (self::IS_AUTHENTICATED_ANONYMOUSLY === $attribute
-                && ($this->authenticationTrustResolver->isAnonymous($token)
-                    || $this->authenticationTrustResolver->isRememberMe($token)
-                    || $this->authenticationTrustResolver->isFullFledged($token))) {
-                trigger_deprecation('symfony/security-core', '5.4', 'The "IS_AUTHENTICATED_ANONYMOUSLY" security attribute is deprecated, use "PUBLIC_ACCESS" for public resources, otherwise use "IS_AUTHENTICATED" or "IS_AUTHENTICATED_FULLY" instead if you want to check if the request is (fully) authenticated.');
+                && $this->authenticationTrustResolver->isRememberMe($token)
+            ) {
+                $vote?->addReason('The user is remembered.');
 
                 return VoterInterface::ACCESS_GRANTED;
             }
 
-            // @deprecated $this->authenticationTrustResolver must implement isAuthenticated() in 6.0
-            if (self::IS_AUTHENTICATED === $attribute
-                && (method_exists($this->authenticationTrustResolver, 'isAuthenticated')
-                    ? $this->authenticationTrustResolver->isAuthenticated($token)
-                    : ($token && $token->getUser()))) {
+            if (self::IS_AUTHENTICATED === $attribute && $this->authenticationTrustResolver->isAuthenticated($token)) {
+                $vote?->addReason('The user is authenticated.');
+
                 return VoterInterface::ACCESS_GRANTED;
             }
 
             if (self::IS_REMEMBERED === $attribute && $this->authenticationTrustResolver->isRememberMe($token)) {
-                return VoterInterface::ACCESS_GRANTED;
-            }
-
-            if (self::IS_ANONYMOUS === $attribute && $this->authenticationTrustResolver->isAnonymous($token)) {
-                trigger_deprecation('symfony/security-core', '5.4', 'The "IS_ANONYMOUSLY" security attribute is deprecated, anonymous no longer exists in version 6.');
+                $vote?->addReason('The user is remembered.');
 
                 return VoterInterface::ACCESS_GRANTED;
             }
 
             if (self::IS_IMPERSONATOR === $attribute && $token instanceof SwitchUserToken) {
+                $vote?->addReason('The user is impersonating another user.');
+
                 return VoterInterface::ACCESS_GRANTED;
             }
+        }
+
+        if (VoterInterface::ACCESS_DENIED === $result) {
+            $vote?->addReason('The user is not appropriately authenticated.');
         }
 
         return $result;
@@ -122,9 +111,7 @@ class AuthenticatedVoter implements CacheableVoterInterface
         return \in_array($attribute, [
             self::IS_AUTHENTICATED_FULLY,
             self::IS_AUTHENTICATED_REMEMBERED,
-            self::IS_AUTHENTICATED_ANONYMOUSLY,
             self::IS_AUTHENTICATED,
-            self::IS_ANONYMOUS,
             self::IS_IMPERSONATOR,
             self::IS_REMEMBERED,
             self::PUBLIC_ACCESS,

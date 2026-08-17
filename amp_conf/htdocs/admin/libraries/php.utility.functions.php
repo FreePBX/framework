@@ -45,7 +45,7 @@ function freepbx_strftime($format, $time=false)
  * @param float|null $timeout The timeout duration in seconds.
  * @return Process The Process object representing the command.
  */
-function freepbx_get_process_obj($command, string $cwd = null, array $env = null, $input = null, ?float $timeout = 60) 
+function freepbx_get_process_obj($command, ?string $cwd = null, ?array $env = null, $input = null, ?float $timeout = 60) 
 {
     try {
         // Using an array of arguments is the recommended way to define commands in Process.

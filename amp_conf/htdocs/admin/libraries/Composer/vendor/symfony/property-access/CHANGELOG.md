@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add `PropertyPath::append()`, a static helper to join property path fragments
+
+7.0
+---
+
+ * Add method `isNullSafe()` to `PropertyPathInterface`
+ * Require explicit argument when calling `PropertyAccessorBuilder::setCacheItemPool()`
+
 6.3
 ---
 

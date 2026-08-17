@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\RememberMe\RememberMeDetails;
 use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
@@ -44,19 +43,12 @@ use Symfony\Component\Security\Http\RememberMe\ResponseListener;
  */
 class RememberMeAuthenticator implements InteractiveAuthenticatorInterface
 {
-    private $rememberMeHandler;
-    private $secret;
-    private $tokenStorage;
-    private $cookieName;
-    private $logger;
-
-    public function __construct(RememberMeHandlerInterface $rememberMeHandler, string $secret, TokenStorageInterface $tokenStorage, string $cookieName, ?LoggerInterface $logger = null)
-    {
-        $this->rememberMeHandler = $rememberMeHandler;
-        $this->secret = $secret;
-        $this->tokenStorage = $tokenStorage;
-        $this->cookieName = $cookieName;
-        $this->logger = $logger;
+    public function __construct(
+        private RememberMeHandlerInterface $rememberMeHandler,
+        private TokenStorageInterface $tokenStorage,
+        private string $cookieName,
+        private ?LoggerInterface $logger = null,
+    ) {
     }
 
     public function supports(Request $request): ?bool
@@ -74,41 +66,28 @@ class RememberMeAuthenticator implements InteractiveAuthenticatorInterface
             return false;
         }
 
-        if (null !== $this->logger) {
-            $this->logger->debug('Remember-me cookie detected.');
-        }
+        $this->logger?->debug('Remember-me cookie detected.');
 
         // the `null` return value indicates that this authenticator supports lazy firewalls
         return null;
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
-        $rawCookie = $request->cookies->get($this->cookieName);
-        if (!$rawCookie) {
+        if (!$rawCookie = $request->cookies->get($this->cookieName)) {
             throw new \LogicException('No remember-me cookie is found.');
         }
 
         $rememberMeCookie = RememberMeDetails::fromRawCookie($rawCookie);
 
-        return new SelfValidatingPassport(new UserBadge($rememberMeCookie->getUserIdentifier(), function () use ($rememberMeCookie) {
-            return $this->rememberMeHandler->consumeRememberMeCookie($rememberMeCookie);
-        }));
-    }
+        $userBadge = new UserBadge($rememberMeCookie->getUserIdentifier(), fn () => $this->rememberMeHandler->consumeRememberMeCookie($rememberMeCookie));
 
-    /**
-     * @deprecated since Symfony 5.4, use {@link createToken()} instead
-     */
-    public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface
-    {
-        trigger_deprecation('symfony/security-http', '5.4', 'Method "%s()" is deprecated, use "%s::createToken()" instead.', __METHOD__, __CLASS__);
-
-        return $this->createToken($passport, $firewallName);
+        return new SelfValidatingPassport($userBadge);
     }
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        return new RememberMeToken($passport->getUser(), $firewallName, $this->secret);
+        return new RememberMeToken($passport->getUser(), $firewallName);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

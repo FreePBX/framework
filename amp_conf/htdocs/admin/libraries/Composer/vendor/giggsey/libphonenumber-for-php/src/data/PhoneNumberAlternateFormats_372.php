@@ -1,50 +1,47 @@
 <?php
 
 /**
- * libphonenumber-for-php-lite data file
+ * libphonenumber-for-php data file
  * This file has been @generated from libphonenumber data
  * Do not modify!
  * @internal
  */
 
-return [
-    'id' => '',
-    'countryCode' => 372,
-    'internationalPrefix' => '',
-    'sameMobileAndFixedLinePattern' => false,
-    'numberFormat' => [
-        [
-            'pattern' => '(\\d)(\\d{3})(\\d{3})',
-            'format' => '$1 $2 $3',
-            'leadingDigitsPatterns' => [
-                '6',
-            ],
-            'nationalPrefixFormattingRule' => '',
-            'domesticCarrierCodeFormattingRule' => '',
-            'nationalPrefixOptionalWhenFormatting' => false,
-        ],
-        [
-            'pattern' => '(\\d{2})(\\d{2})(\\d{3})',
-            'format' => '$1 $2 $3',
-            'leadingDigitsPatterns' => [
-                '[4-79]',
-            ],
-            'nationalPrefixFormattingRule' => '',
-            'domesticCarrierCodeFormattingRule' => '',
-            'nationalPrefixOptionalWhenFormatting' => false,
-        ],
-        [
-            'pattern' => '(\\d{2})(\\d{3})(\\d{2})',
-            'format' => '$1 $2 $3',
-            'leadingDigitsPatterns' => [
-                '[4-79]',
-            ],
-            'nationalPrefixFormattingRule' => '',
-            'domesticCarrierCodeFormattingRule' => '',
-            'nationalPrefixOptionalWhenFormatting' => false,
-        ],
-    ],
-    'intlNumberFormat' => [],
-    'mainCountryForCode' => false,
-    'mobileNumberPortableRegion' => false,
-];
+declare(strict_types=1);
+
+namespace libphonenumber\data;
+
+use libphonenumber\NumberFormat;
+use libphonenumber\PhoneMetadata;
+
+/**
+ * @internal
+ */
+class PhoneNumberAlternateFormats_372 extends PhoneMetadata
+{
+    protected const ID = '';
+    protected const COUNTRY_CODE = 372;
+
+    protected ?string $internationalPrefix = '';
+
+    public function __construct()
+    {
+        $this->numberFormat = [
+            (new NumberFormat())
+                ->setPattern('(\d)(\d{3})(\d{3})')
+                ->setFormat('$1 $2 $3')
+                ->setLeadingDigitsPattern(['6'])
+                ->setNationalPrefixOptionalWhenFormatting(false),
+            (new NumberFormat())
+                ->setPattern('(\d{2})(\d{2})(\d{3})')
+                ->setFormat('$1 $2 $3')
+                ->setLeadingDigitsPattern(['[4-79]'])
+                ->setNationalPrefixOptionalWhenFormatting(false),
+            (new NumberFormat())
+                ->setPattern('(\d{2})(\d{3})(\d{2})')
+                ->setFormat('$1 $2 $3')
+                ->setLeadingDigitsPattern(['[4-79]'])
+                ->setNationalPrefixOptionalWhenFormatting(false),
+        ];
+    }
+}
