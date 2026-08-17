@@ -15,14 +15,14 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use FreePBX;
 #[\AllowDynamicProperties]
 class Mysql extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('mysql')
 		->setAliases(array('m'))
 		->setDescription('Run a mysql Query:')
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		global $amp_conf; //an angel lost it's wings today for using this
 		$dbtype = $amp_conf["AMPDBENGINE"];
 
@@ -48,5 +48,6 @@ class Mysql extends Command {
 		if(!posix_isatty(STDIN)) {
 			echo $process->getOutput();
 		}
+		return 0;
 	}
 }

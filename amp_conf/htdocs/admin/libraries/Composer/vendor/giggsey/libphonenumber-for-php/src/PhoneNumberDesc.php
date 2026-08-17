@@ -1,95 +1,83 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libphonenumber;
 
 /**
  * Phone Number Description
+ * @internal
  */
 class PhoneNumberDesc
 {
-    protected $hasNationalNumberPattern = false;
-    protected $nationalNumberPattern = '';
-    protected $hasExampleNumber = false;
-    protected $exampleNumber = '';
+    protected bool $hasNationalNumberPattern = false;
+    protected string $nationalNumberPattern = '';
+    protected bool $hasExampleNumber = false;
+    protected string $exampleNumber = '';
     /**
-     * @var array
+     * @var int[]
      */
-    protected $possibleLength;
+    protected array $possibleLength = [];
     /**
-     * @var array
+     * @var int[]
      */
-    protected $possibleLengthLocalOnly;
-
-    public function __construct()
-    {
-        $this->clear();
-    }
+    protected array $possibleLengthLocalOnly = [];
 
     /**
-     * @return PhoneNumberDesc
+     * @return int[]
      */
-    public function clear()
-    {
-        $this->clearNationalNumberPattern();
-        $this->clearPossibleLength();
-        $this->clearPossibleLengthLocalOnly();
-        $this->clearExampleNumber();
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPossibleLength()
+    public function getPossibleLength(): array
     {
         return $this->possibleLength;
     }
 
     /**
-     * @param array $possibleLength
+     * @param int[] $possibleLength
      */
-    public function setPossibleLength($possibleLength)
+    public function setPossibleLength(array $possibleLength): static
     {
         $this->possibleLength = $possibleLength;
+        return $this;
     }
 
-    public function addPossibleLength($possibleLength)
+    public function addPossibleLength(int $possibleLength): void
     {
-        if (!in_array($possibleLength, $this->possibleLength)) {
+        if (!in_array($possibleLength, $this->possibleLength, true)) {
             $this->possibleLength[] = $possibleLength;
         }
     }
 
-    public function clearPossibleLength()
+    public function clearPossibleLength(): void
     {
         $this->possibleLength = [];
     }
 
     /**
-     * @return array
+     * @return int[]
      */
-    public function getPossibleLengthLocalOnly()
+    public function getPossibleLengthLocalOnly(): array
     {
         return $this->possibleLengthLocalOnly;
     }
 
     /**
-     * @param array $possibleLengthLocalOnly
+     * @param int[] $possibleLengthLocalOnly
      */
-    public function setPossibleLengthLocalOnly($possibleLengthLocalOnly)
+    public function setPossibleLengthLocalOnly(array $possibleLengthLocalOnly): static
     {
         $this->possibleLengthLocalOnly = $possibleLengthLocalOnly;
+
+        return $this;
     }
 
-    public function addPossibleLengthLocalOnly($possibleLengthLocalOnly)
+    public function addPossibleLengthLocalOnly(int $possibleLengthLocalOnly): void
     {
-        if (!in_array($possibleLengthLocalOnly, $this->possibleLengthLocalOnly)) {
+        if (!in_array($possibleLengthLocalOnly, $this->possibleLengthLocalOnly, true)) {
             $this->possibleLengthLocalOnly[] = $possibleLengthLocalOnly;
         }
     }
 
-    public function clearPossibleLengthLocalOnly()
+    public function clearPossibleLengthLocalOnly(): void
     {
         $this->possibleLengthLocalOnly = [];
     }
@@ -97,24 +85,17 @@ class PhoneNumberDesc
     /**
      * @return boolean
      */
-    public function hasNationalNumberPattern()
+    public function hasNationalNumberPattern(): bool
     {
         return $this->hasNationalNumberPattern;
     }
 
-    /**
-     * @return string
-     */
-    public function getNationalNumberPattern()
+    public function getNationalNumberPattern(): string
     {
         return $this->nationalNumberPattern;
     }
 
-    /**
-     * @param string $value
-     * @return PhoneNumberDesc
-     */
-    public function setNationalNumberPattern($value)
+    public function setNationalNumberPattern(string $value): static
     {
         $this->hasNationalNumberPattern = true;
         $this->nationalNumberPattern = $value;
@@ -122,37 +103,17 @@ class PhoneNumberDesc
         return $this;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function clearNationalNumberPattern()
-    {
-        $this->hasNationalNumberPattern = false;
-        $this->nationalNumberPattern = '';
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function hasExampleNumber()
+    public function hasExampleNumber(): bool
     {
         return $this->hasExampleNumber;
     }
 
-    /**
-     * @return string
-     */
-    public function getExampleNumber()
+    public function getExampleNumber(): string
     {
         return $this->exampleNumber;
     }
 
-    /**
-     * @param string $value
-     * @return PhoneNumberDesc
-     */
-    public function setExampleNumber($value)
+    public function setExampleNumber(string $value): static
     {
         $this->hasExampleNumber = true;
         $this->exampleNumber = $value;
@@ -160,76 +121,20 @@ class PhoneNumberDesc
         return $this;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function clearExampleNumber()
-    {
-        $this->hasExampleNumber = false;
-        $this->exampleNumber = '';
-
-        return $this;
-    }
+    private static self $emptyObject;
 
     /**
-     * @return PhoneNumberDesc
+     * Used for metadata as a shortcut to an empty object
+     * Use the same object to reduce load further
+     * @internal
      */
-    public function mergeFrom(PhoneNumberDesc $other)
+    public static function empty(): self
     {
-        if ($other->hasNationalNumberPattern()) {
-            $this->setNationalNumberPattern($other->getNationalNumberPattern());
-        }
-        if ($other->hasExampleNumber()) {
-            $this->setExampleNumber($other->getExampleNumber());
-        }
-        $this->setPossibleLength($other->getPossibleLength());
-        $this->setPossibleLengthLocalOnly($other->getPossibleLengthLocalOnly());
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function exactlySameAs(PhoneNumberDesc $other)
-    {
-        return $this->nationalNumberPattern === $other->nationalNumberPattern &&
-        $this->exampleNumber === $other->exampleNumber;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        $data = [];
-        if ($this->hasNationalNumberPattern()) {
-            $data['NationalNumberPattern'] = $this->getNationalNumberPattern();
-        }
-        if ($this->hasExampleNumber()) {
-            $data['ExampleNumber'] = $this->getExampleNumber();
+        if (!isset(self::$emptyObject)) {
+            self::$emptyObject = (new self())
+                ->setPossibleLength([-1]);
         }
 
-        $data['PossibleLength'] = $this->getPossibleLength();
-        $data['PossibleLengthLocalOnly'] = $this->getPossibleLengthLocalOnly();
-
-        return $data;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function fromArray(array $input)
-    {
-        if (isset($input['NationalNumberPattern']) && $input['NationalNumberPattern'] != '') {
-            $this->setNationalNumberPattern($input['NationalNumberPattern']);
-        }
-        if (isset($input['ExampleNumber']) && $input['NationalNumberPattern'] != '') {
-            $this->setExampleNumber($input['ExampleNumber']);
-        }
-        $this->setPossibleLength($input['PossibleLength']);
-        $this->setPossibleLengthLocalOnly($input['PossibleLengthLocalOnly']);
-
-        return $this;
+        return self::$emptyObject;
     }
 }

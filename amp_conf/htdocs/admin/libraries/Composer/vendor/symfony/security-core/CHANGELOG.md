@@ -1,6 +1,89 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add support for enums in `SignatureHasher::computeSignatureHash()`
+ * Add `getParentRoleNames()` method to `RoleHierarchyInterface`
+
+8.0
+---
+
+ * Add argument `$accessDecision` to `AccessDecisionStrategyInterface::decide()`
+ * Remove `PersistentTokenInterface::getClass()`
+ * Remove the user FQCN from the remember-me cookie
+ * Remove `RememberMeToken::getSecret()`
+ * Remove `UserInterface::eraseCredentials()` and `TokenInterface::eraseCredentials()`,
+   erase credentials e.g. using `__serialize()` instead
+ * Add argument `$accessDecision` to `AccessDecisionManagerInterface::decide()` and `AuthorizationCheckerInterface::isGranted()`
+ * Add argument `$vote` to `VoterInterface::vote()` and `Voter::voteOnAttribute()`
+ * Add argument `$token` to `UserCheckerInterface::checkPostAuth()`
+ * Make `UserChainProvider` implement `AttributesBasedUserProviderInterface`
+
+7.4
+---
+
+ * Add `MermaidDumper` to dump Role Hierarchy graphs in the Mermaid.js flowchart format
+ * Deprecate `PersistentTokenInterface::getClass()`, the user class will be removed from the remember-me cookie in 8.0
+ * Add `extraData` property to `Vote` objects
+ * Add argument `$accessDecision` to `AccessDecisionStrategyInterface`
+
+7.3
+---
+
+ * Add `UserAuthorizationCheckerInterface` to test user authorization without relying on the session
+ * Add `OfflineTokenInterface` to mark tokens that do not represent the currently logged-in user
+ * Deprecate `UserInterface::eraseCredentials()` and `TokenInterface::eraseCredentials()`,
+   erase credentials e.g. using `__serialize()` instead
+ * Add ability for voters to explain their vote
+ * Add support for voting on closures
+ * Add `OAuth2User` with OAuth2 Access Token Introspection support for `OAuth2TokenHandler`
+
+7.2
+---
+
+ * Make `AccessDecisionStrategyTestCase` compatible with PHPUnit 10+
+ * Add `$token` argument to `UserCheckerInterface::checkPostAuth()`
+ * Deprecate argument `$secret` of `RememberMeToken`
+ * Deprecate returning an empty string in `UserInterface::getUserIdentifier()`
+
+7.0
+---
+
+ * Remove the `Security` class, use `Symfony\Bundle\SecurityBundle\Security` instead
+ * Require explicit argument when calling `TokenStorage::setToken()`
+ * Change argument `$lastUsed` of `TokenProviderInterface::updateToken()` to accept `DateTimeInterface`
+
+6.4
+---
+
+ * Make `PersistentToken` immutable
+ * Deprecate accepting only `DateTime` for `TokenProviderInterface::updateToken()`, use `DateTimeInterface` instead
+
+6.3
+---
+
+ * Add `AttributesBasedUserProviderInterface` to allow `$attributes` optional argument on `loadUserByIdentifier`
+ * Add `OidcUser` with OIDC support for `OidcUserInfoTokenHandler`
+
+6.2
+---
+
+ * Deprecate the `Security` class, use `Symfony\Bundle\SecurityBundle\Security` instead
+ * Change the signature of `TokenStorageInterface::setToken()` to `setToken(?TokenInterface $token)`
+ * Deprecate calling `TokenStorage::setToken()` without arguments
+ * Add a `ChainUserChecker` to allow calling multiple user checkers for a firewall
+
+6.0
+---
+
+ * `TokenInterface` does not extend `Serializable` anymore
+ * Remove all classes in the `Core\Encoder\`  sub-namespace, use the `PasswordHasher` component instead
+ * Remove methods `getPassword()` and `getSalt()` from `UserInterface`, use `PasswordAuthenticatedUserInterface`
+   or `LegacyPasswordAuthenticatedUserInterface` instead
+* `AccessDecisionManager` requires the strategy to be passed as in instance of `AccessDecisionStrategyInterface`
+
 5.4.21
 ------
 

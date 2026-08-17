@@ -1,6 +1,107 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Add `setNonce()` to `DumpDataCollector` to forward CSP nonces to every `HtmlDumper` it instantiates
+ * Add `#[MapRequestHeader]` to map a header from `Request` to a controller argument
+ * Add `hasErrors()` method to `Profile` to track profiles with errors (exceptions or error-level logs)
+ * Validate typed route parameters before calling controllers and return an HTTP error when an invalid value is provided
+ * Add `ControllerAttributeEvent` et al. to dispatch events named after controller attributes
+ * Add support for `UploadedFile` when using `MapRequestPayload`
+ * Add support for bundles as compiler pass
+ * Add support for `SOURCE_DATE_EPOCH` environment variable
+ * Add property `$controllerMetadata` to several kernel events to give listeners access to controller metadata
+ * Add `Request` attribute `_controller_attributes` to decouple controller attributes from their source code
+ * Return attributes as a flat list when using `Controller[Arguments]Event::getAttributes('*')`
+ * Pass `request` and `args` variables to `Cache` attribute expressions containing the `Request` object and controller arguments
+ * Allow using closures with the `Cache` attribute
+ * Allow setting a condition when the `Cache` attribute should be applied
+ * Add `ControllerEvent::evaluate()` et al. to help with evaluating expressions or closures in controller attributes
+ * Deprecate passing a non-flat list of attributes to `Controller::setController()`
+ * Deprecate the `Symfony\Component\HttpKernel\DependencyInjection\Extension` class, use the parent `Symfony\Component\DependencyInjection\Extension\Extension` class instead
+ * Allow using Expression or \Closure for `validationGroups` in `#[MapRequestPayload]` and `#[MapQueryString]`
+ * Deprecate passing a `ControllerArgumentsEvent` to the `ViewEvent` constructor; pass a `ControllerArgumentsMetadata` instead
+ * Support variadic argument with `#[MapRequestPayload]`
+ * Add `#[Serialize]` to serialize values returned by controllers
+ * Add argument `$mapWhenEmpty` to `MapQueryString` and `MapRequestPayload` for always attempting denormalization with empty query and request payload
+ * Deprecate `Bundle::registerCommands()`, use the `#[AsCommand]` attribute or the `console.command` service tag instead of overriding this method
+ * Deprecate `BundleInterface`, use the one from the DependencyInjection component instead
+ * Deprecate `MergeExtensionConfigurationPass`, use the one from the DependencyInjection component instead
+ * Deprecate `FileLocator`, use the one from the DependencyInjection component instead
+ * Add `#[RateLimit]` attribute to declaratively enforce rate limiting on controllers.
+ * Deprecate `ServicesResetter`, `ServicesResetterInterface`, and `ResettableServicePass`, use the ones from the DependencyInjection component instead
+
+8.0
+---
+
+ * Remove `AddAnnotatedClassesToCachePass`
+ * Remove `Extension::getAnnotatedClassesToCompile()` and `Extension::addAnnotatedClassesToCompile()`
+ * Remove `Kernel::getAnnotatedClassesToCompile()` and `Kernel::setAnnotatedClassCache()`
+ * Make `ServicesResetter` class `final`
+ * Add argument `$logChannel` to `ErrorListener::logException()`
+ * Add argument `$event` to `DumpListener::configure()`
+ * Replace `__sleep/wakeup()` by `__(un)serialize()` on kernels and data collectors
+ * Add method `getShareDir()` to `KernelInterface`
+
+7.4
+---
+
+ * Add support for the `QUERY` HTTP method
+ * Deprecate implementing `__sleep/wakeup()` on kernels; use `__(un)serialize()` instead
+ * Deprecate implementing `__sleep/wakeup()` on data collectors; use `__(un)serialize()` instead
+ * Add `#[IsSignatureValid]` attribute to validate URI signatures
+ * Make `Profile` final and `Profiler::__sleep()` internal
+ * Collect the application runner class
+ * Allow configuring `DumpListener` to use a different dumper when CLI profiling is enabled
+
+7.3
+---
+
+ * Record a `waiting` trace in the `HttpCache` when the cache had to wait for another request to finish
+ * Add `$key` argument to `#[MapQueryString]` that allows using a specific key for argument resolving
+ * Support `Uid` in `#[MapQueryParameter]`
+ * Add `ServicesResetterInterface`, implemented by `ServicesResetter`
+ * Allow configuring the logging channel per type of exceptions in ErrorListener
+
+7.2
+---
+
+ * Remove `@internal` flag and add `@final` to `ServicesResetter`
+ * Add support for `SYMFONY_DISABLE_RESOURCE_TRACKING` env var
+ * Add support for configuring trusted proxies/headers/hosts via env vars
+
+7.1
+---
+
+ * Add method `isKernelTerminating()` to `ExceptionEvent` that allows to check if an exception was thrown while the kernel is being terminated
+ * Add `HttpException::fromStatusCode()`
+ * Add `$validationFailedStatusCode` argument to `#[MapQueryParameter]` that allows setting a custom HTTP status code when validation fails
+ * Add `NearMissValueResolverException` to let value resolvers report when an argument could be under their watch but failed to be resolved
+ * Add `$type` argument to `#[MapRequestPayload]` that allows mapping a list of items
+ * The `Extension` class is marked as internal, extend the `Extension` class from the DependencyInjection component instead
+ * Deprecate `Extension::addAnnotatedClassesToCompile()`
+ * Deprecate `AddAnnotatedClassesToCachePass`
+ * Deprecate the `setAnnotatedClassCache()` and `getAnnotatedClassesToCompile()` methods of the `Kernel` class
+ * Add `#[MapUploadedFile]` attribute to fetch, validate, and inject uploaded files into controller arguments
+
+7.0
+---
+
+ * Add argument `$reflector` to `ArgumentResolverInterface::getArguments()` and `ArgumentMetadataFactoryInterface::createArgumentMetadata()`
+ * Remove `ArgumentValueResolverInterface`, use `ValueResolverInterface` instead
+ * Remove `StreamedResponseListener`
+ * Remove `AbstractSurrogate::$phpEscapeMap`
+ * Remove `HttpKernelInterface::MASTER_REQUEST`
+ * Remove `terminate_on_cache_hit` option from `HttpCache`
+ * Require explicit argument when calling `ConfigDataCollector::setKernel()`, `RouterListener::setCurrentRequest()`
+ * Remove `Kernel::stripComments()`
+ * Remove `FileLinkFormatter`, use `FileLinkFormatter` from the ErrorHandler component instead
+ * Remove `UriSigner`, use `UriSigner` from the HttpFoundation component instead
+ * Add argument `$buildDir` to `WarmableInterface`
+ * Add argument `$filter` to `Profiler::find()` and `FileProfilerStorage::find()`
+
 6.4
 ---
 

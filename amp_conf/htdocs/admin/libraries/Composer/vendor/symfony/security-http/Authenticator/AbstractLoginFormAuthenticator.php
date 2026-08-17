@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 /**
  * A base class to make form login authentication easier!
@@ -27,17 +27,23 @@ abstract class AbstractLoginFormAuthenticator extends AbstractAuthenticator impl
 {
     /**
      * Return the URL to the login page.
+     *
+     * The default `supports()` implementation below compares this value
+     * character-for-character against the current request path
+     * (`$request->getBaseUrl().$request->getPathInfo()`), so this must return a
+     * path (e.g. `/login`). If you build the URL via `HttpUtils::generateUri()`,
+     * which may produce an absolute URL, also override `supports()`.
      */
     abstract protected function getLoginUrl(Request $request): string;
 
     /**
-     * {@inheritdoc}
-     *
      * Override to change the request conditions that have to be
      * matched in order to handle the login form submit.
      *
-     * This default implementation handles all POST requests to the
-     * login path (@see getLoginUrl()).
+     * This default implementation handles POST requests whose path equals
+     * the value returned by `getLoginUrl()`; the comparison is strict,
+     * so `getLoginUrl()` must return a path rather than an absolute URL.
+     * Or this method need to be overridden.
      */
     public function supports(Request $request): bool
     {
@@ -50,7 +56,7 @@ abstract class AbstractLoginFormAuthenticator extends AbstractAuthenticator impl
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
         if ($request->hasSession()) {
-            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+            $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
         }
 
         $url = $this->getLoginUrl($request);

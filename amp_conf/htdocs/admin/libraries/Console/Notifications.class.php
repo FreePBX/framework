@@ -13,7 +13,7 @@ use Symfony\Component\Console\Helper\Table;
 
 #[\AllowDynamicProperties]
 class Notifications extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('notifications')
 		->setAliases(array('notification'))
 		->setDescription(_('Manage notifications'))
@@ -25,7 +25,7 @@ class Notifications extends Command {
 		->setHelp($this->showHelp());
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$args = $input->getArgument('args');
 		$nt = \notifications::create();
 		if($input->getOption('list')){
@@ -71,6 +71,7 @@ class Notifications extends Command {
 		if (empty($options)) {
 			$output->writeln($this->showHelp());
 		}
+		return 0;
 	}
 
 	private function showHelp(){

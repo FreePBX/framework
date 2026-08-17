@@ -20,36 +20,35 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  */
 class RoleVoter implements CacheableVoterInterface
 {
-    private $prefix;
-
-    public function __construct(string $prefix = 'ROLE_')
-    {
-        $this->prefix = $prefix;
+    public function __construct(
+        private string $prefix = 'ROLE_',
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function vote(TokenInterface $token, mixed $subject, array $attributes, ?Vote $vote = null): int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $roles = $this->extractRoles($token);
+        $missingRoles = [];
 
         foreach ($attributes as $attribute) {
             if (!\is_string($attribute) || !str_starts_with($attribute, $this->prefix)) {
                 continue;
             }
 
-            if ('ROLE_PREVIOUS_ADMIN' === $attribute) {
-                trigger_deprecation('symfony/security-core', '5.1', 'The ROLE_PREVIOUS_ADMIN role is deprecated and will be removed in version 6.0, use the IS_IMPERSONATOR attribute instead.');
+            $result = VoterInterface::ACCESS_DENIED;
+
+            if (\in_array($attribute, $roles, true)) {
+                $vote?->addReason(\sprintf('The user has %s.', $attribute));
+
+                return VoterInterface::ACCESS_GRANTED;
             }
 
-            $result = VoterInterface::ACCESS_DENIED;
-            foreach ($roles as $role) {
-                if ($attribute === $role) {
-                    return VoterInterface::ACCESS_GRANTED;
-                }
-            }
+            $missingRoles[] = $attribute;
+        }
+
+        if (VoterInterface::ACCESS_DENIED === $result) {
+            $vote?->addReason(\sprintf('The user doesn\'t have%s %s.', 1 < \count($missingRoles) ? ' any of' : '', implode(', ', $missingRoles)));
         }
 
         return $result;
@@ -65,7 +64,7 @@ class RoleVoter implements CacheableVoterInterface
         return true;
     }
 
-    protected function extractRoles(TokenInterface $token)
+    protected function extractRoles(TokenInterface $token): array
     {
         return $token->getRoleNames();
     }

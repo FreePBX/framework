@@ -1,68 +1,46 @@
 <?php
 
 /**
- * libphonenumber-for-php-lite data file
+ * libphonenumber-for-php data file
  * This file has been @generated from libphonenumber data
  * Do not modify!
  * @internal
  */
 
-return [
-    'generalDesc' => [
-        'NationalNumberPattern' => '0\\d',
-        'PossibleLength' => [
-            2,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'tollFree' => [
-        'NationalNumberPattern' => '0[1-49]',
-        'ExampleNumber' => '01',
-        'PossibleLength' => [],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'premiumRate' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'emergency' => [
-        'NationalNumberPattern' => '0[1-3]',
-        'ExampleNumber' => '01',
-        'PossibleLength' => [],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'shortCode' => [
-        'NationalNumberPattern' => '0[1-49]',
-        'ExampleNumber' => '01',
-        'PossibleLength' => [],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'standardRate' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'carrierSpecific' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'smsServices' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'id' => 'TM',
-    'countryCode' => 0,
-    'internationalPrefix' => '',
-    'sameMobileAndFixedLinePattern' => false,
-    'numberFormat' => [],
-    'intlNumberFormat' => [],
-    'mainCountryForCode' => false,
-    'mobileNumberPortableRegion' => false,
-];
+declare(strict_types=1);
+
+namespace libphonenumber\data;
+
+use libphonenumber\PhoneMetadata;
+use libphonenumber\PhoneNumberDesc;
+
+/**
+ * @internal
+ */
+class ShortNumberMetadata_TM extends PhoneMetadata
+{
+    protected const ID = 'TM';
+    protected const COUNTRY_CODE = 0;
+
+    protected ?string $internationalPrefix = '';
+
+    public function __construct()
+    {
+        $this->generalDesc = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('0\d')
+            ->setPossibleLength([2]);
+        $this->premiumRate = PhoneNumberDesc::empty();
+        $this->tollFree = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('0[1-49]')
+            ->setExampleNumber('01');
+        $this->emergency = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('0[1-3]')
+            ->setExampleNumber('01');
+        $this->short_code = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('0[1-49]')
+            ->setExampleNumber('01');
+        $this->standard_rate = PhoneNumberDesc::empty();
+        $this->carrierSpecific = PhoneNumberDesc::empty();
+        $this->smsServices = PhoneNumberDesc::empty();
+    }
+}

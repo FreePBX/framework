@@ -18,7 +18,7 @@ use Symfony\Component\Console\Command\HelpCommand;
 #[\AllowDynamicProperties]
 class UpdateManager extends Command {
 	private $FreePBXConf = null;
-	protected function configure(){
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('updatemanager')
 		->setAliases(array('msm','modulesystemmanager'))
@@ -27,7 +27,7 @@ class UpdateManager extends Command {
 			new InputOption('list', 'l', InputOption::VALUE_NONE, _('List Configs')),
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->um = new \FreePBX\Builtin\UpdateManager();
 		$this->su = new \FreePBX\Builtin\SystemUpdates();
 		$this->settings = $this->um->getCurrentUpdateSettings(false);
@@ -52,7 +52,7 @@ class UpdateManager extends Command {
 			}
 			$table->setRows($rows);
 			$table->render();
-			return;
+			return 0;
 		}
 
 		$args = $input->getArgument('args');
@@ -67,10 +67,11 @@ class UpdateManager extends Command {
 			}else{
 				$output->writeln(sprintf(_('The setting %s was not found!'),$setting));
 			}
-			return;
+			return 0;
 		}
 
 		$this->outputHelp($input,$output);
+		return 0;
 	}
 
 	/**

@@ -22,36 +22,34 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\LoginLink\Exception\ExpiredLoginLinkException;
 use Symfony\Component\Security\Http\LoginLink\Exception\InvalidLoginLinkException;
+use Symfony\Component\Security\Http\ParameterBagUtils;
 
 /**
  * @author Ryan Weaver <ryan@symfonycasts.com>
  */
 final class LoginLinkHandler implements LoginLinkHandlerInterface
 {
-    private $urlGenerator;
-    private $userProvider;
-    private $options;
-    private $signatureHasher;
+    private array $options;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, UserProviderInterface $userProvider, SignatureHasher $signatureHasher, array $options)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->userProvider = $userProvider;
-        $this->signatureHasher = $signatureHasher;
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator,
+        private UserProviderInterface $userProvider,
+        private SignatureHasher $signatureHasher,
+        array $options,
+    ) {
         $this->options = array_merge([
             'route_name' => null,
             'lifetime' => 600,
         ], $options);
     }
 
-    public function createLoginLink(UserInterface $user, ?Request $request = null): LoginLinkDetails
+    public function createLoginLink(UserInterface $user, ?Request $request = null, ?int $lifetime = null): LoginLinkDetails
     {
-        $expires = time() + $this->options['lifetime'];
+        $expires = time() + ($lifetime ?: $this->options['lifetime']);
         $expiresAt = new \DateTimeImmutable('@'.$expires);
 
         $parameters = [
-            // @deprecated since Symfony 5.3, change to $user->getUserIdentifier() in 6.0
-            'user' => method_exists($user, 'getUserIdentifier') ? $user->getUserIdentifier() : $user->getUsername(),
+            'user' => $user->getUserIdentifier(),
             'expires' => $expires,
             'hash' => $this->signatureHasher->computeSignatureHash($user, $expires),
         ];
@@ -82,26 +80,26 @@ final class LoginLinkHandler implements LoginLinkHandlerInterface
 
     public function consumeLoginLink(Request $request): UserInterface
     {
-        $userIdentifier = $request->get('user');
+        $userIdentifier = ParameterBagUtils::getRequestParameterValue($request, 'user');
 
-        if (!$hash = $request->get('hash')) {
+        if (!$hash = ParameterBagUtils::getRequestParameterValue($request, 'hash')) {
             throw new InvalidLoginLinkException('Missing "hash" parameter.');
         }
-        if (!$expires = $request->get('expires')) {
+        if (!\is_string($hash)) {
+            throw new InvalidLoginLinkException('Invalid "hash" parameter.');
+        }
+
+        if (!$expires = ParameterBagUtils::getRequestParameterValue($request, 'expires')) {
             throw new InvalidLoginLinkException('Missing "expires" parameter.');
+        }
+        if (!preg_match('/^\d+$/', $expires)) {
+            throw new InvalidLoginLinkException('Invalid "expires" parameter.');
         }
 
         try {
             $this->signatureHasher->acceptSignatureHash($userIdentifier, $expires, $hash);
 
-            // @deprecated since Symfony 5.3, change to $this->userProvider->loadUserByIdentifier() in 6.0
-            if (method_exists($this->userProvider, 'loadUserByIdentifier')) {
-                $user = $this->userProvider->loadUserByIdentifier($userIdentifier);
-            } else {
-                trigger_deprecation('symfony/security-core', '5.3', 'Not implementing method "loadUserByIdentifier()" in user provider "%s" is deprecated. This method will replace "loadUserByUsername()" in Symfony 6.0.', get_debug_type($this->userProvider));
-
-                $user = $this->userProvider->loadUserByUsername($userIdentifier);
-            }
+            $user = $this->userProvider->loadUserByIdentifier($userIdentifier);
 
             $this->signatureHasher->verifySignatureHash($user, $expires, $hash);
         } catch (UserNotFoundException $e) {

@@ -110,7 +110,7 @@ class FreePBXInstallCommand extends Command {
 	private $output;
 	private $input;
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName('install')
 			->setDescription('FreePBX Installation Utility')
@@ -145,7 +145,7 @@ class FreePBXInstallCommand extends Command {
 		return '';
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		global $amp_conf; /* This makes pandas sad. :( */
 		$this->output = $output;
 		$this->input = $input;

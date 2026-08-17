@@ -692,7 +692,7 @@ class DB_result {
  */
 class DB_Error {
 	private $e =null;
-	public function __construct(Exception $exception = null) {
+	public function __construct(?Exception $exception = null) {
 		$this->e = $exception;
 	}
 	/**

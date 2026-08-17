@@ -24,7 +24,7 @@ class FWHelpCommand extends HelpCommand {
 		"text" => "FreePBX"
 	);
 
-	public function setCommand(Command $command) {
+	public function setCommand(Command $command): void {
 		$this->command = $command;
 	}
 	
@@ -69,7 +69,7 @@ class FWHelpCommand extends HelpCommand {
 		$helper = new DescriptorHelper();
 		$helper->describe($output, $this->command, array(
 			'format' => $input->getOption('format'),
-			'raw' => $input->getOption('raw'),
+			'raw_text' => $input->getOption('raw'),
 		));
 		$this->command = null;
 		return 0;

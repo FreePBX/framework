@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[\AllowDynamicProperties]
 class Context extends Command {
 	private $FreePBXConf = null;
-	protected function configure(){
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('context')
 		->setAliases(array('cx'))
@@ -18,7 +18,7 @@ class Context extends Command {
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$args = $input->getArgument('args');
 		$FreePBX = \FreePBX::Create();
 		$astMan = $FreePBX->astman;
@@ -38,5 +38,6 @@ class Context extends Command {
 				$output->writeln(_('May be invalid Check your spelling'));
 			}
 		}
+		return 0;
 	}
 }

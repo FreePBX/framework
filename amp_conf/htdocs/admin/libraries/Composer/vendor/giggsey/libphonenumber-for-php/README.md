@@ -11,13 +11,12 @@ A PHP library for parsing, formatting, storing and validating international phon
  - [Installation](#installation)
  - [Documentation](#documentation)
  - [Online Demo](#online-demo)
- - [Highlights of functionality](#highlights-of-functionality)
-   - [Versioning](#versioning)
-   - [Quick Examples](#quick-examples)
-     - [Geocoder](#geocoder)
-     - [ShortNumberInfo](#shortnumberinfo)
-     - [Mapping Phone Numbers to Carrier](#mapping-phone-numbers-to-carrier)
-     - [Mapping Phone Numbers to TimeZones](#mapping-phone-numbers-to-timezones)
+ - [Versioning](#versioning)
+ - [Quick Examples](#quick-examples)
+   - [Geocoder](#geocoder)
+   - [ShortNumberInfo](#shortnumberinfo)
+   - [Mapping Phone Numbers to Carrier](#mapping-phone-numbers-to-carrier)
+   - [Mapping Phone Numbers to TimeZones](#mapping-phone-numbers-to-timezones)
  - [FAQ](#faq)
    - [Problems with Invalid Numbers?](#problems-with-invalid-numbers)
  - [Generating data](#generating-data)
@@ -26,7 +25,7 @@ A PHP library for parsing, formatting, storing and validating international phon
 
 ## Installation
 
-PHP versions 7.4 to PHP 8.4 are currently supported.
+PHP versions 8.1 to 8.5 are currently supported.
 
 The PECL [mbstring](http://php.net/mbstring) extension is required.
 
@@ -44,6 +43,10 @@ If you do not use composer, ensure that you also load any dependencies that this
 
 If you only want to make use of the core PhoneNumber Util functionality, you can use [giggsey/libphonenumber-for-php-lite](https://github.com/giggsey/libphonenumber-for-php-lite), which offers a much smaller package size.
 
+### PHP Version Policy
+
+This library will be updated to use [supported versions of PHP](https://www.php.net/supported-versions.php) without major version bumps.
+
 ## Documentation
 
  - [PhoneNumber Util](docs/PhoneNumberUtil.md)
@@ -56,16 +59,6 @@ If you only want to make use of the core PhoneNumber Util functionality, you can
 
 ## Online Demo
 An [online demo](http://giggsey.com/libphonenumber/) is available, and the source can be found at [giggsey/libphonenumber-example](https://github.com/giggsey/libphonenumber-example).
-
-# Highlights of functionality
-* Parsing/formatting/validating phone numbers for all countries/regions of the world.
-* `getNumberType` - gets the type of the number based on the number itself; able to distinguish Fixed-line, Mobile, Toll-free, Premium Rate, Shared Cost, VoIP and Personal Numbers (whenever feasible).
-* `isNumberMatch` - gets a confidence level on whether two numbers could be the same.
-* `getExampleNumber`/`getExampleNumberByType` - provides valid example numbers for all countries/regions, with the option of specifying which type of example phone number is needed.
-* `isValidNumber` - full validation of a phone number for a region using length and prefix information.
-* `PhoneNumberOfflineGeocoder` - provides geographical information related to a phone number.
-* `PhoneNumberToTimeZonesMapper` - provides timezone information related to a phone number.
-* `PhoneNumberToCarrierMapper` - provides carrier information related to a phone number.
 
 ## Versioning
 
@@ -236,21 +229,15 @@ If Google's [Online Demo](https://libphonenumber.appspot.com/) gives a different
 
 ## Generating data
 
-Generating the data is not normally needed, as this repository will generally always have the up to data metadata.
+Generating the data is not normally needed, as this repository will generally always have the up to date metadata.
 
-If you do need to generate the data, the commands are provided by [Phing](https://www.phing.info). Ensure you have all the dev composer dependencies installed, then run
+To compile the data, run the composer script 'build'
 
 ```bash
-vendor/bin/phing compile
+composer run build
 ```
 
-This compile process clones the [libphonenumber](https://github.com/google/libphonenumber) project at the version specified in [METADATA-VERSION.txt](METADATA-VERSION.txt).
-
-### Running tests
-
-This project uses [PHPUnit Bridge](https://symfony.com/doc/current/components/phpunit_bridge.html) to maintain compatibility for the supported PHP versions.
-
-To run the tests locally, run the `./phpunit` script.
+This build process clones the [libphonenumber](https://github.com/google/libphonenumber) project at the version specified in [METADATA-VERSION.php](METADATA-VERSION.php).
 
 ## Integration with frameworks
 
@@ -260,8 +247,6 @@ Other packages exist that integrate libphonenumber-for-php into frameworks.
 | --------- |:-------------:|
 |Symfony|[PhoneNumberBundle](https://github.com/odolbeau/phone-number-bundle)|
 |Laravel|[Laravel Phone](https://github.com/Propaganistas/Laravel-Phone)|
-|Yii2|[PhoneInput](https://github.com/Borales/yii2-phone-input)|
-|Kohana|[PhoneNumber](https://github.com/softmediadev/kohana-phonenumber)|
 |TYPO3|[TYPO3 Phone Extension](https://github.com/simonschaufi/typo3-phone)|
 
 These packages are supplied by third parties, and their quality can not be guaranteed.

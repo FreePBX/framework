@@ -20,7 +20,7 @@ class Chown extends Command {
 	private $blacklist = array('files' => array(), 'dirs' => array());
 	public $moduleName = '';
 	private $fs = null;
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
@@ -32,7 +32,7 @@ class Chown extends Command {
 		$this->loadChownConf();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->output = $output;
 		$args = array();
 
