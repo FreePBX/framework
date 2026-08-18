@@ -221,7 +221,7 @@ $(document).ready(function(){
 		$('#systemupdatestab').addClass('active');
 		$('a[href="#summarytab"]').removeClass('active');
 		$('a[href="#systemupdatestab"]').data('user-clicked', true);
-		$('a[href="#systemupdatestab"]').tab('show');
+		bootstrap.Tab.getOrCreateInstance($('a[href="#systemupdatestab"]')[0]).show();
 	});
 
 })
@@ -429,7 +429,7 @@ function show_modules_modal(e) {
 	clean_modadmin_modal();
 	$(".modal-title", "#updatesmodal").text(_("Available Module Updates"));
 	$(".modal-body", "#updatesmodal").text(_("Loading, please wait ..."));
-	$("#updatesmodal").modal('show');
+	bootstrap.Modal.getOrCreateInstance($("#updatesmodal")[0]).show();
 	// Run an ajax request to get the details of the modules that need upgrading.
 	$.ajax({
 		url: window.ajaxurl,
@@ -499,7 +499,7 @@ function show_sysupdate_modal() {
 	// Try to render any updates that may already exist. 'window.currentupdate' may have been
 	// generated with a <script> tag inside SystemUpdates
 	render_updates_in_modal(false); // false == don't refresh, we're doing it two lines down.
-	$("#updatesmodal").modal('show');
+	bootstrap.Modal.getOrCreateInstance($("#updatesmodal")[0]).show();
 	// Now trigger an update, to try to refresh update the page
 	update_sysupdate_modal();
 }

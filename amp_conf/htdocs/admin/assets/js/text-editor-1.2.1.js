@@ -131,11 +131,11 @@ You should have received a copy of the GNU General Public License along with thi
                         class: "active"
                     }).append($('<a/>', {
                         "href": "#uploadImageBar_" + _idSuffix,
-                        "data-toggle": "tab"
+                        "data-bs-toggle": "tab"
                     }).html("From Computer")
                     )).append($('<li/>').append($('<a/>', {
                         "href": "#imageFromLinkBar_" + _idSuffix,
-                        "data-toggle": "tab"
+                        "data-bs-toggle": "tab"
                     }).html("From URL")));
 
             var tabContent = $("<div/>", { class: "tab-content" });
@@ -740,7 +740,8 @@ You should have received a copy of the GNU General Public License along with thi
                         var _idSuffix = "_" + this.attr("id");
                         $('#inputText' + _idSuffix);
                         $('#inputUrl' + _idSuffix);
-                        $(".alert").alert("close");
+                        //$(".alert").alert("close");
+                        bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
                         if ($(editorObj).data('currentRange') != '') {
                             $('#inputText_' + _idSuffix).val($(editorObj).data('currentRange'));
                         }
@@ -772,7 +773,8 @@ You should have received a copy of the GNU General Public License along with thi
                         }
                         $(editorObj).data("editor").find('a[href="' + targetURL + '"]').each(function () { $(this).attr("target", "_blank"); });
                         $(".alert").alert("close");
-                        $("#InsertLink" + _idSuffix).modal("hide");
+                        // $("#InsertLink" + _idSuffix).modal("hide");
+                        bootstrap.Modal.getOrCreateInstance($("#InsertLink"+_idSuffix)[0]).hide();
                         $(editorObj).data("editor").focus();
                         return false;
                     }
@@ -808,7 +810,8 @@ You should have received a copy of the GNU General Public License along with thi
                             methods.showMessage.apply(this, ["imgErrMsg" + _idSuffix, "Please select an image"]);
                             return false;
                         }
-                        $("#InsertImage" + _idSuffix).modal("hide");
+                        // $("#InsertImage" + _idSuffix).modal("hide");
+                        bootstrap.Modal.getOrCreateInstance($("#InsertImage"+_idSuffix)[0]).hide();
                         $(this).data("editor").focus();
                     }
                 },
@@ -883,7 +886,8 @@ You should have received a copy of the GNU General Public License along with thi
                             methods.restoreSelection.apply(this, [htmlTableCntr.html(), 'html']);
                         else
                             document.execCommand('insertHTML', false, htmlTableCntr.html());
-                        $("#InsertTable" + _idSuffix).modal("hide");
+                        // $("#InsertTable" + _idSuffix).modal("hide");
+                        bootstrap.Modal.getOrCreateInstance($("#InsertTable"+ _idSuffix)[0]).hide();
                         $(this).data("editor").focus();
                     }
                 },
@@ -1247,14 +1251,15 @@ You should have received a copy of the GNU General Public License along with thi
                             $("#" + imgId).unwrap();
                     }
                 }
-                $("#imgAttribute").modal("hide");
+                // $("#imgAttribute").modal("hide");
+                bootstrap.Modal.getOrCreateInstance($("#imgAttribute")[0]).hide();
                 editorObj.data("editor").focus();
             };
             methods.createModal.apply(this, [cModalId, cModalHeader, imgModalBody, onSave]);
             var modalTrigger = $('<a/>', {
                 href: "#" + cModalId,
                 "text": "Image Attributes",
-                "data-toggle": "modal"
+                "data-bs-toggle": "modal"
             }).click(function (e) {
                 return function () {
                     $('#context-menu').remove();
@@ -1329,14 +1334,15 @@ You should have received a copy of the GNU General Public License along with thi
                 $(event.target).closest('table').attr('border', tblBorderEdt);
                 $(event.target).closest('table').attr('cellspacing', tblCellspacingEdt);
                 $(event.target).closest('table').attr('cellpadding', tblCellpaddingEdt);
-                $("#" + modalId).modal("hide");
+                // $("#" + modalId).modal("hide");
+                bootstrap.Modal.getOrCreateInstance($("#"+modalId)[0]).hide();
                 editorObj.data("editor").focus();
             };
             methods.createModal.apply(this, [modalId, modalHeader, tblModalBody, onSave]);
             var modalTrigger = $('<a/>', {
                 href: "#" + modalId,
                 "text": "Table Properties",
-                "data-toggle": "modal"
+                "data-bs-toggle": "modal"
             }).click(function (e) {
                 return function () {
                     var _idSuffix = "_" + editorObj.attr("id") + "_Edt";
@@ -1431,7 +1437,7 @@ You should have received a copy of the GNU General Public License along with thi
                 href: "#" + modalId,
                 role: "button",
                 class: "btn btn-default",
-                "data-toggle": "modal"
+                "data-bs-toggle": "modal"
             });
             var modalElement = $('<div/>', {
                 id: modalId,
@@ -1449,7 +1455,7 @@ You should have received a copy of the GNU General Public License along with thi
             }).append($('<button/>', {
                 type: "button",
                 class: "close",
-                "data-dismiss": "modal",
+                "data-bs-dismiss": "modal",
                 "aria-hidden": "true"
             }).html('x')
             ).append($('<h3/>', {
@@ -1463,7 +1469,7 @@ You should have received a copy of the GNU General Public License along with thi
             }).append($('<button/>', {
                 type: "button",
                 class: "btn btn-default",
-                "data-dismiss": "modal",
+                "data-bs-dismiss": "modal",
                 "aria-hidden": "true"
             }).html('Cancel')
             ).append($('<button/>', {
@@ -1491,7 +1497,7 @@ You should have received a copy of the GNU General Public License along with thi
                 var menuElement = $("<ul/>", { class: "dropdown-menu" });
                 menuWrapElement.append($('<a/>', {
                     class: "btn btn-default dropdown-toggle",
-                    "data-toggle": "dropdown",
+                    "data-bs-toggle": "dropdown",
                     "href": "javascript:void(0)",
                     "title": itemSettings["tooltip"]
                 }).html(itemSettings["default"]).append($("<span/>", { class: "caret" })).mousedown(function (e) {
@@ -1662,11 +1668,14 @@ You should have received a copy of the GNU General Public License along with thi
             ).append($('<button/>', {
                 type: "button",
                 class: "close",
-                "data-dismiss": "alert",
+                "data-bs-dismiss": "alert",
                 html: "x"
             })).append($('<span/>').html(message));
             errorDiv.appendTo($('#' + target));
-            setTimeout(function () { $('.alert').alert('close'); }, 3000);
+            setTimeout(function () {
+                // $('.alert').alert('close'); 
+                bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                }, 3000);
         },
 
         getText: function () {
