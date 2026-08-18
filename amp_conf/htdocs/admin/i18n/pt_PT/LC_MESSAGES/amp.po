@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-22 07:20+0000\n"
+"POT-Creation-Date: 2026-08-18 06:58+0000\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -738,7 +738,7 @@ msgstr ""
 "etc)<br><br>Formato deverá ser: <b>XXXXXXXXXX</b><br><br>.Pode também ser "
 "associado a este DID um CID opcional, definindo o próximo campo"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:533
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:544
 msgid "A minium of asterisk-version-switch-6.1-19 or higher is required"
 msgstr ""
 
@@ -1437,7 +1437,7 @@ msgstr "Dir AGI do Asterisk"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "Servidor mini-HTTP embutido do Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1491,7 +1491,7 @@ msgstr "Utilizador do Asterisk Manager"
 msgid "Asterisk Manager Write Timeout"
 msgstr "Timeout de Escrita do Asterisk Manager"
 
-#: ../core/install.php:1273
+#: ../core/install.php:1279
 msgid "Asterisk Mini HTTP Server Bind Address Security Notice"
 msgstr ""
 
@@ -1595,7 +1595,7 @@ msgid ""
 "written out. %s and Asterisk might be in a weird state"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:528
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:539
 msgid ""
 "Asterisk version switch has started. Kindly check the fetchApiStatus api "
 "with the transaction id."
@@ -1761,7 +1761,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:495
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:506
 msgid "Automatic update status"
 msgstr ""
 
@@ -1787,7 +1787,7 @@ msgstr ""
 "output do script na página web."
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:510
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:389
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:400
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
 "completed."
@@ -2683,8 +2683,8 @@ msgstr ""
 msgid "Congestion"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:441
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:452
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:467
 msgid "Connected"
 msgstr ""
 
@@ -3238,7 +3238,7 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:471
 msgid "Database Status"
 msgstr ""
 
@@ -5155,7 +5155,7 @@ msgstr "Falha ao executar scripts de instalação"
 msgid "Failed to run un-installation scripts"
 msgstr "Falha ao executar scripts de desinstalação"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:399
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:410
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5176,7 +5176,7 @@ msgstr ""
 msgid "Failed to send update notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:530
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:541
 msgid "Failed to start asterisk version switch"
 msgstr ""
 
@@ -5698,7 +5698,7 @@ msgstr ""
 msgid "GUI Behavior"
 msgstr "Comportamento do GUI"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:481
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6526,12 +6526,16 @@ msgstr ""
 msgid "Initial Setup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:323
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:325
 msgid "Initial Setup is completed"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:8
 msgid "Initial setup"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:321
+msgid "Initial setup is already complete; cannot create a new administrator"
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
@@ -6738,7 +6742,7 @@ msgstr ""
 msgid "Invalid path value"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:386
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:397
 msgid ""
 "Invalid privileges to execute yum-run-update. Please run: fwconsole chown "
 "through console and try again."
@@ -6939,7 +6943,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:481
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:492
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7169,7 +7173,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:213
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:221
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:295
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:363
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
 #: ../core/Api/Gql/Dids.php:110 ../core/Api/Gql/Dids.php:226
 #: ../core/Api/Gql/Dids.php:274
 msgid "Message for the request"
@@ -7970,8 +7974,8 @@ msgid ""
 "reports BUSY or INVALID NUMBER."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:443
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:454
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:469
 msgid "Not Connected"
 msgstr ""
 
@@ -8017,7 +8021,7 @@ msgstr ""
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:436
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:447
 msgid "Not running"
 msgstr ""
 
@@ -9582,7 +9586,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:434
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
 msgid "Running"
 msgstr ""
 
@@ -10224,7 +10228,7 @@ msgstr ""
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:483
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:494
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10400,7 +10404,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:497
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:508
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -10514,7 +10518,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:217
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:299
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:367
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Status for the request"
 msgstr ""
 
@@ -10956,7 +10960,7 @@ msgid ""
 "Settings with the Browser Stats setting."
 msgstr ""
 
-#: ../core/install.php:1274
+#: ../core/install.php:1280
 msgid ""
 "The HTTP/HTTPS Bind Address is set to a non-default value. Please ensure "
 "that external access to this address is properly restricted to prevent "
@@ -12037,7 +12041,7 @@ msgstr ""
 msgid "Track module (edge/stable) "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:382
 msgid "Transaction Id for status check"
 msgstr ""
 
@@ -12485,6 +12489,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:45
 msgid "Update system RPM package"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Rest/System.php:13
+msgid "Update system information"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:167
@@ -13693,7 +13701,7 @@ msgstr ""
 msgid "Your system is using "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:397
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:408
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
