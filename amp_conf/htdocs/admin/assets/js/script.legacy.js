@@ -125,11 +125,16 @@ function warnInvalid(theField, s, stype) {
 		while(typeof tab !== "undefined" && count < 5) {
 			if($('li.change-tab[data-name="' + tab + '"] a').length) {
 				$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
-				$('li.change-tab[data-name="' + tab + '"] a').tab("show");
+				// $('li.change-tab[data-name="' + tab + '"] a').tab("show");
+				bootstrap.Tab.getOrCreateInstance(
+					document.querySelector('li.change-tab[data-name="' + tab + '"] a')
+				).show();
 				tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
 			} else if($('li[role="presentation"] a[href="#' + tab + '"]').length) {
-				$('li[role="presentation"] a[href="#' + tab + '"]').one("shown.bs.tab");
-				$('li[role="presentation"] a[href="#' + tab + '"]').tab("show");
+				// $('li[role="presentation"] a[href="#' + tab + '"]').one("shown.bs.tab");
+				bootstrap.Tab.getOrCreateInstance(
+					document.querySelector('li[role="presentation"] a[href="#' + tab + '"]')
+				).show();
 				tab = $('li[role="presentation"] a[href="#' + tab + '"]').parents(".tab-pane").prop("id");
 			} else {
 				tab = undefined;
@@ -144,7 +149,7 @@ function warnInvalid(theField, s, stype) {
 		} else if(field.is('select')) {
 			type = 'select';
 		}
-		field.before('<i class="fa fa-exclamation-triangle input-warn" data-type="' + type + '" data-toggle="tooltip" data-placement="left" title="'+s+'"></i>');
+		field.before('<i class="fa fa-exclamation-triangle input-warn" data-type="' + type + '" data-bs-toggle="tooltip" data-bs-placement="left" title="'+s+'"></i>');
 
 		field.one("propertychange change contextmenu keyup input paste", function() {
 			$(this).parents(".element-container").removeClass("has-error has-warning has-success");
@@ -1371,7 +1376,7 @@ $(document).ready(function() {
 		//Show tab if location hash matches data-name
 		var loc = window.location.hash.replace("#", "");
 		if (loc !== "" && $(".fpbx-container li[data-name=" + loc + "] a").length > 0) {
-			$(".fpbx-container li[data-name=" + loc + "] a").tab('show');
+			bootstrap.Tab.getOrCreateInstance($(".fpbx-container li[data-name=" + loc + "] a")[0]).show();
 		}
 
 		//Hover over (?) bubbles, they will lock until container is exited
@@ -1429,7 +1434,7 @@ $(document).ready(function() {
 		resizeRightNav();
 	});
 
-	$(document).on("shown.bs.tab", 'a[data-toggle="tab"]', function(e) {
+	$(document).on("shown.bs.tab", 'a[data-bs-toggle="tab"]', function(e) {
 		positionActionBar();
 	});
 
@@ -1665,8 +1670,10 @@ $(document).ready(function() {
 			if(typeof extmap[val] == "undefined" || $(this).data("extdisplay") == val) {
 				$(this).removeClass("duplicate-exten").parents(".form-group").removeClass("has-warning").find(".input-warn").remove();
 			} else {
-				$(this).addClass("duplicate-exten").before('<i class="fa fa-exclamation-triangle input-warn" data-toggle="tooltip" data-placement="left" title="'+ val + fpbx.msg.framework.validation.duplicate + extmap[val]+'"></i>').parents(".form-group").addClass("has-warning");
-				$(this).parents(".form-group").find(".input-warn").tooltip();
+				$(this).addClass("duplicate-exten").before('<i class="fa fa-exclamation-triangle input-warn" data-bs-toggle="tooltip" data-bs-placement="left" title="'+ val + fpbx.msg.framework.validation.duplicate + extmap[val]+'"></i>').parents(".form-group").addClass("has-warning");
+				$(this).parents(".form-group").find(".input-warn").each(function() {
+					bootstrap.Tooltip.getOrCreateInstance(this);
+				});
 			}
 		}
 		//remove previous binds so we don't duplicate

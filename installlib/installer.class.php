@@ -1780,7 +1780,7 @@ class Installer {
 	);
 
 	$settings[$category]['JQUERY_CSS'] = array(
-	'value' => 'assets/css/jquery-ui.css',
+	'value' => 'assets/css/jquery-ui-1.14.2.min.css',
 	'options' => '',
 	'name' => 'jQuery UI css',
 	'description' => 'css file for jquery ui',
