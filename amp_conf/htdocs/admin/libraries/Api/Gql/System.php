@@ -28,7 +28,7 @@ class System extends Base {
 	 * @return void
 	 */
 	public function mutationCallback() {
-		if($this->checkReadScope('system')) {
+		if($this->checkWriteScope('system')) {
 			return function() {
 				return [
 				'addInitialSetup' => Relay::mutationWithClientMutationId([
@@ -317,6 +317,8 @@ class System extends Base {
 		$rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
 		if (count($rows) > 0) {
 			$message = _("Admin user already exists, updating other parameters");
+		}elseif (!$this->isInitialSetupAllowed()) {
+			return ['message' => _('Initial setup is already complete; cannot create a new administrator'), 'status' => false];
 		}else{
 			$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
 			$sth->execute(array($username, sha1($settings['password'])));
@@ -330,6 +332,15 @@ class System extends Base {
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
 		return ['message' => $message,'status' => true];
+	}
+	
+	/**
+	 * Returns true only when no GUI administrators exist yet (initial setup).
+	 */
+	private function isInitialSetupAllowed() {
+		$db = $this->freepbx->Database();
+		$count = (int) $db->query("SELECT COUNT(`username`) FROM `ampusers`")->fetchColumn();
+		return $count === 0;
 	}
 	
 	/**
