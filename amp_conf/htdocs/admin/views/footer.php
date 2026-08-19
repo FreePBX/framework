@@ -277,6 +277,60 @@ addLoadEvent(function(){
   })
 });
 </script>
+<script>
+(function () {
+	// Bootstrap 5 compatibility: upgrade legacy BS3/4 data-* attrs used across modules
+	function upgradeLegacyBootstrapAttrs(root) {
+		var $scope = root ? $(root) : $(document);
+
+		$scope.find('[data-dismiss]:not([data-bs-dismiss])').each(function () {
+			$(this).attr('data-bs-dismiss', $(this).attr('data-dismiss'));
+		});
+
+		$scope.find('[data-toggle]:not([data-bs-toggle])').each(function () {
+			var toggle = $(this).attr('data-toggle');
+			if (toggle !== 'table') {
+				$(this).attr('data-bs-toggle', toggle);
+			}
+		});
+
+		$scope.find('[data-target]:not([data-bs-target])').each(function () {
+			$(this).attr('data-bs-target', $(this).attr('data-target'));
+		});
+	}
+
+	$(function () {
+		upgradeLegacyBootstrapAttrs();
+	});
+
+	$(document).on('show.bs.modal', '.modal', function () {
+		upgradeLegacyBootstrapAttrs(this);
+	});
+})();
+</script>
+<script>
+(function () {
+	function swapRefreshIcons() {
+		$('.bi-arrow-clockwise').each(function () {
+			$(this).removeClass('bi bi-arrow-clockwise').addClass('fa fa-refresh');
+		});
+	}
+
+	// run once
+	$(function () {
+		swapRefreshIcons();
+	});
+
+	// run again after bootstrap-table updates
+	$(document).on('post-header.bs.table load-success.bs.table refresh.bs.table', function () {
+		swapRefreshIcons();
+	});
+
+	// fallback for async toolbar rendering
+	setTimeout(swapRefreshIcons, 500);
+	setTimeout(swapRefreshIcons, 1500);
+})();
+</script>
 <div id="outdated">
   <h6><?php echo _("Your browser is out-of-date!")?></h6>
   <p><?php echo sprintf(_("%s requires a new browser to function correctly. You can still use %s with the browser you currently have but your experience may be diminished and is not supported"),FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND"),FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND"))?><a id="btnUpdateBrowser" href="http://outdatedbrowser.com/"><?php echo _("Update my browser now")?></a></p>
@@ -305,6 +359,8 @@ addLoadEvent(function(){
   $consolealert .='
   });
   </script>';
+
+  
   if (isset($_SESSION['AMP_user']) && !isset($_REQUEST['fw_popover'])){
     echo $consolealert;
   }
