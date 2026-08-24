@@ -83,10 +83,10 @@ h6 {
 table {
 	border-collapse: separate;
 	border-spacing: 2px;
-	th {
-		background-color: @table-th-background-color;
-		color: @table-th-text-color;
-	}
+}
+.table > thead > tr > th, .bootstrap-table .table > thead > tr > th{
+	background-color: @table-th-background-color;
+	color: @table-th-text-color;
 }
 .table>thead>tr>th,
 .table>tbody>tr>th,
@@ -1073,6 +1073,10 @@ label{
 }
 .modal-header{
 	flex-direction: row-reverse;
+	justify-content: space-between;
+}
+.modal-header button{
+	display: contents;
 }
 pre{
 	display: block;
