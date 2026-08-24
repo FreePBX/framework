@@ -16,10 +16,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FreePBXHelpCommand extends HelpCommand {
 	private $command;
 
-	public function setCommand(\Symfony\Component\Console\Command\Command $command) {
+	public function setCommand(\Symfony\Component\Console\Command\Command $command): void{
 		$this->command = $command;
 	}
-	protected function execute(InputInterface $input, OutputInterface $output):int {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln(" ______             _____  ______   __");
 		$output->writeln("|  ____|           |  __ \|  _ \ \ / /");
 		$output->writeln("| |__ _ __ ___  ___| |__) | |_) \ V /");
@@ -39,5 +39,7 @@ class FreePBXHelpCommand extends HelpCommand {
 			'raw' => $input->getOption('raw'),
 		));
 		$this->command = null;
-	}
+	
+		return 0;
+}
 }

@@ -168,6 +168,25 @@ hr {
 	margin-bottom: 0px;
 }
 
+// Bootstrap 5-era libraries emit Font Awesome 5 style prefixes, but the admin
+// only loads Font Awesome 4.7.0, where these carry no font-family at all. The
+// glyph content still applies, so the icons render as tofu until we point them
+// at the 4.x face.
+.fas,
+.far,
+.fal,
+.fab {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fa-sm {
+	font-size: .875em;
+}
+
 span.twitter-typeahead .tt-dropdown-menu {
 	overflow-x: hidden;
 }
@@ -175,6 +194,12 @@ span.twitter-typeahead .tt-dropdown-menu {
 /**
  * Table Definitions
  */
+// Bootstrap 5 stripes odd rows with an `inset 0 0 0 9999px` box-shadow instead
+// of a background, so it tints over the colours below and flattens the contrast
+// to #f2f2f2 against #f5f5f5. Neutralise the overlay and let these rules stripe.
+.table.table-striped {
+	--bs-table-striped-bg: transparent;
+}
 .alt_table tr:nth-child(even),
 .table-striped &>tbody &>tr:nth-child(even) &>td,
 .table-striped &>tbody &>tr:nth-child(even) &>th {
@@ -536,7 +561,10 @@ div.attention {
 	margin-top: 10px;
 	border-bottom-color: @border-color;
 	> li {
+		// Bootstrap 5's `.nav-link` colours tabs with `--bs-link-color`, which
+		// outranks the global `a` rule the resting state used to inherit from.
 		> a, > a:visited {
+			color: @text-color;
 			font-weight: bold;
 			padding: 5px 18px;
 			background: #ffffff;
@@ -657,6 +685,9 @@ div.attention {
  * Scrolling Nav Tabs
  */
 .nav-container {
+	// The scrollers below are absolutely positioned; without this they anchor to
+	// the initial containing block and land at the edges of the page.
+	position: relative;
 	.wrapper {
 		position: relative;
 		margin: 0 auto;
@@ -668,8 +699,9 @@ div.attention {
 			left: 0px;
 			top:0px;
 			min-width:3000px;
-			margin-left:12px;
-    margin-left: 14px;
+			// Indent with padding, not margin, so the strip's bottom border still
+			// starts at the container edge and meets the panel below it.
+			padding-left: 14px;
     margin-top: 9px;
 			li{
 				display:table-cell;
@@ -683,6 +715,10 @@ div.attention {
 		}
 	}
 	.scroller {
+		// Stays invisible until the scroll JS reveals an arrow, otherwise the
+		// empty box strands its bottom border as a stray stub. Visibility rather
+		// than display so its width stays in the scroll calculations.
+		visibility: hidden;
 		padding: 7px;
 		background-color: #fff;
 		height: 35px;
@@ -695,6 +731,9 @@ div.attention {
 			color: gray;
 			cursor: not-allowed;
 		}
+	}
+	.scroller:has(i[style]:not([style*="none"])) {
+		visibility: visible;
 	}
 	.scroller-right{
 		position: absolute;
@@ -866,6 +905,24 @@ div.attention {
 	color: @button-hover-text-color !important;
 	background-color: @button-hover-background-color !important;
 	border-color: @button-hover-border-color !important;
+}
+
+// The page-size entries are `<a class="dropdown-item" href="#">`, and `href="#"`
+// always counts as visited, so the global `a:visited` rule outranks Bootstrap's
+// `.dropdown-item`. Hand the colours back to the dropdown variables.
+.fixed-table-pagination .page-list .dropdown-menu {
+	.dropdown-item,
+	.dropdown-item:visited {
+		color: var(--bs-dropdown-link-color);
+	}
+	.dropdown-item:hover,
+	.dropdown-item:focus {
+		color: var(--bs-dropdown-link-hover-color);
+	}
+	.dropdown-item.active,
+	.dropdown-item.active:visited {
+		color: var(--bs-dropdown-link-active-color);
+	}
 }
 
 .progress-bar {
