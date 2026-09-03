@@ -11,7 +11,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Request_Helper extends Self_Helper {
 
 	private $overrides = array();

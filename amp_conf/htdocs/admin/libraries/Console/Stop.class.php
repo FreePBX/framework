@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 //progress bar
 use Symfony\Component\Console\Helper\ProgressBar;
 
-#[\AllowDynamicProperties]
 class Stop extends Command {
 	protected function configure(): void{
 		$this->setName('stop')

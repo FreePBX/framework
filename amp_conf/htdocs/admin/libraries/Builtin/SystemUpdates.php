@@ -4,7 +4,6 @@ namespace FreePBX\Builtin;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 
-#[\AllowDynamicProperties]
 class SystemUpdates {
 	private $lock;
 	private $freepbx = null;

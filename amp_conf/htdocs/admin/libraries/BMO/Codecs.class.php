@@ -11,10 +11,11 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-#[\AllowDynamicProperties]
 class Codecs {
 
 	private $cache = array();
+	private $freepbx;
+	private $astman;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {

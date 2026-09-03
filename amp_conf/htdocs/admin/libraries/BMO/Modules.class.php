@@ -12,10 +12,11 @@ namespace FreePBX;
 
 use Carbon\Carbon;
 
-#[\AllowDynamicProperties]
 class Modules extends DB_Helper{
 
 	private static $count = 0;
+	private $FreePBX;
+	private $modclass;
 	public $active_modules;
 	private $moduleMethods = array();
 	private $moduleStatusInfo = [];

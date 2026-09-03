@@ -10,8 +10,8 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
-#[\AllowDynamicProperties]
 class Validate extends Command {
+	private $FreePBXConf = null;
 	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('validate')

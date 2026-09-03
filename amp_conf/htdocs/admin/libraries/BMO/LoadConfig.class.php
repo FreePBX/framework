@@ -12,7 +12,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class LoadConfig {
 
 	private $RawConfigContents;
@@ -21,6 +20,7 @@ class LoadConfig {
 	public $ProcessedConfig;
 
 	private $Filename;
+	private $freepbx;
 
 	/**
 	 * Setup the call to load config, same as loadConfig() method below

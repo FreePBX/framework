@@ -10,7 +10,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Job {
 	private $db;
 	private $freepbx;

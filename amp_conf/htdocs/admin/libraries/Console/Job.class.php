@@ -12,10 +12,10 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Command\HelpCommand;
 
-#[\AllowDynamicProperties]
 class Job extends Command {
 	private $output;
 	private $input;
+	private $freePBX = null;
 	private $force = false;
 	private $fwjobsLogEnabled=false;
 	private $fwjobslogfd=null;

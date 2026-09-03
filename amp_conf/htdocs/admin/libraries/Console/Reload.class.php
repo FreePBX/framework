@@ -12,7 +12,6 @@ use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Console\Command\LockableTrait;
 
-#[\AllowDynamicProperties]
 class Reload extends Command {
 	use LockableTrait;
 
@@ -23,6 +22,17 @@ class Reload extends Command {
 	private $symlink_notice_modules_bin = "";
 	private $symlink_notice_modules_agi = "";
 	private $cp_errors = "";
+	private $messageBuffer = [];
+	private $errorBuffer = [];
+	private $symlink_dirs = [];
+	private $symlink_sound_dirs = [];
+	private $cp_dirs = [];
+	private $input = null;
+	private $output = null;
+	private $json = false;
+	private $dryrun = false;
+	private $skip_registry_checks = false;
+	private $dont_reload_asterisk = false;
 
 	protected function configure(): void{
 		$this->messageBuffer = [];

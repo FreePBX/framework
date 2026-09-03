@@ -9,7 +9,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\Question;
 
-#[\AllowDynamicProperties]
 class Kvstore extends Command {
   protected function configure(): void{
     $this->setName('kvstore')

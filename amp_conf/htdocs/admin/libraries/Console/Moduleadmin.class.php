@@ -13,9 +13,15 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Command\LockableTrait;
 use FreePBX;
-#[\AllowDynamicProperties]
 class Moduleadmin extends Command {
 	use LockableTrait;
+	private $FreePBX = null;
+	private $input = null;
+	private $out = null;
+	private $color = false;
+	private $force = false;
+	private $jsonpretty = false;
+	private $progress = null;
 	private $activeRepos = [];
 	private $mf = null;
 	private $setRepos = false;

@@ -1,9 +1,11 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\Builtin;
-#[\AllowDynamicProperties]
 class UpdateManager {
 	private $email_to;
+	private $freepbx;
+	private $brand;
+	private $machine_id;
 	public function __construct() {
 		$this->freepbx = \FreePBX::create();
 

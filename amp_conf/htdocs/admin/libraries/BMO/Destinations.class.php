@@ -2,9 +2,9 @@
 namespace FreePBX;
 use modgettext;
 
-#[\AllowDynamicProperties]
 class Destinations {
 	private $dest_cache = [];
+	private $FreePBX;
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new \Exception("Need to be instantiated with a FreePBX Object");

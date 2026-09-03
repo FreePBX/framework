@@ -10,11 +10,11 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class ConfigFile {
 
 	public $config;
 	private $file;
+	private $FreePBX;
 
 
 	/**

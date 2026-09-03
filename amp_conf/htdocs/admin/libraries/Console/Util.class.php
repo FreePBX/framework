@@ -13,7 +13,6 @@ use Symfony\Component\Finder\Finder;
 //Process
 use Symfony\Component\Process\Process;
 
-#[\AllowDynamicProperties]
 class Util extends Command {
 	protected function configure(): void{
 		$this->setName('util')

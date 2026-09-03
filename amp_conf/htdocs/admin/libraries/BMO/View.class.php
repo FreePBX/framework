@@ -9,7 +9,6 @@
 namespace FreePBX;
 use Carbon\Carbon;
 
-#[\AllowDynamicProperties]
 class View {
 	private string $queryString = "";
 	private bool $replaceState = false;
@@ -19,6 +18,8 @@ class View {
 	private $timeformat = '';
 	private $datetimeformat = '';
 	private array $drawselect_destinations = [];
+	private $freepbx;
+	private $nt;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {

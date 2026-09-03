@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\AllowDynamicProperties]
 class Context extends Command {
 	private $FreePBXConf = null;
 	protected function configure(): void{

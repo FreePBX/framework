@@ -12,6 +12,8 @@ class Ajax extends FreePBX_Helpers {
 	public $storage = 'null';
 	private $headers = array();
 	public $settings = array( "authenticate" => true, "allowremote" => false, "changesession" => false );
+	private $freepbx;
+	private $req;
 
 	public function __construct($freepbx = null) {
 		$this->init();

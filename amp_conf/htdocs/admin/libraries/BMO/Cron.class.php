@@ -23,13 +23,13 @@
 namespace FreePBX;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-#[\AllowDynamicProperties]
 class Cron {
 
 	private $user;
 	private $uoption = "";
 	private $lock;
 	private $errfile;
+	private $freepbx;
 
 	/**
 	 * Constructor for Cron Tab Manager Class

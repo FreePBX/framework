@@ -12,7 +12,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 *
 * @author Fabien Potencier <fabien@symfony.com>
 */
-#[\AllowDynamicProperties]
 class FreePBXHelpCommand extends HelpCommand {
 	private $command;
 

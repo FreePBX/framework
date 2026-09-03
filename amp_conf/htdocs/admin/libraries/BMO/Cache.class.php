@@ -19,7 +19,6 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\PhpFileCache;
 use Doctrine\Common\Cache\RedisCache;
 
-#[\AllowDynamicProperties]
 class Cache {
 	private $cache;
 	private $freepbx;

@@ -9,7 +9,6 @@
 
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Search extends FreePBX_Helpers {
 
 	public function ajaxRequest($cmd, &$settings) {
