@@ -821,7 +821,17 @@ div.attention {
                 border-color: @fixed-list-btn-border-color;
         }
 	.fixed-table-container {
-		margin-bottom: 10px;
+		margin: 0 12px 12px;
+
+		// Global table.less drops the first header's left border so a flush
+		// table can share the container radius. This panel insets the table,
+		// so that missing stroke leaves Username open on the left.
+		thead th {
+			border-top: 1px solid @border-color;
+		}
+		thead th:first-child {
+			border-left: 1px solid @border-color;
+		}
 	}
 	&.locked {
 		position: absolute;
@@ -918,10 +928,12 @@ div.attention {
 	.dropdown-item:hover,
 	.dropdown-item:focus {
 		color: var(--bs-dropdown-link-hover-color);
+		background-color: var(--bs-dropdown-link-hover-bg);
 	}
 	.dropdown-item.active,
 	.dropdown-item.active:visited {
 		color: var(--bs-dropdown-link-active-color);
+		background-color: var(--bs-dropdown-link-active-bg);
 	}
 }
 
@@ -1131,9 +1143,23 @@ label{
 .modal-header{
 	flex-direction: row-reverse;
 	justify-content: space-between;
+	align-items: center;
 }
-.modal-header button{
+.modal-header button.close{
 	display: contents;
+}
+/* Bootstrap 5 close control is an empty button with a background-image X.
+   display:contents removes that box, so the icon never paints. */
+.modal-header .btn-close{
+	display: inline-block;
+	flex-shrink: 0;
+	width: 12px;
+	height: 12px;
+	padding: 0;
+	margin: 0;
+	opacity: 0.5;
+	background-size: 12px;
+	box-sizing: content-box;
 }
 pre{
 	display: block;

@@ -1459,12 +1459,19 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		var fpbxForm = $(".fpbx-submit:visible");
-			formName = fpbxForm.attr("name");
-			buttonName = $(this).attr("name").toLowerCase();
+		if (!fpbxForm.length) {
+			fpbxForm = $(".fpbx-submit").first();
+		}
+		var formEl = fpbxForm[0];
+		if (!formEl) {
+			console.warn("No fpbx-submit form found for action-bar button");
+			return;
+		}
+		var buttonName = ($(this).attr("name") || "").toLowerCase();
 
 		switch (buttonName) {
 			case "reset":
-				document.forms[formName].reset();
+				formEl.reset();
 			break;
 			case "submit":
 				if(!fpbxForm[0].checkValidity()){
@@ -2105,9 +2112,17 @@ $(document).ready(function(){
 		var reAdjust = function(){
 			$(".nav-container").each(function() {
 				var container = $(this),
-						t = container.find('.wrapper').outerWidth(),
+						wrapper = container.find('.wrapper'),
+						t = wrapper.outerWidth(),
 						p = container.find('.list').position().left,
 						w = widthOfList(container);
+				// Hidden tab panes report width 0, which looks like overflow
+				// and leaves a stray right chevron (Contact Manager External/Private).
+				if (!t || !wrapper.is(':visible')) {
+					container.find('.scroller-right i').hide();
+					container.find('.scroller-left i').hide();
+					return;
+				}
 				if((w - t + p) < 0) {
 					container.find('.scroller-right i').hide();
 				} else {
@@ -2122,7 +2137,7 @@ $(document).ready(function(){
 		};
 
 		reAdjust();
-		$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+		$(document).on('shown.bs.tab', 'a[data-bs-toggle="tab"], a[data-toggle="tab"]', function () {
 			reAdjust();
 		});
 		$(window).on('resize',function(e){
