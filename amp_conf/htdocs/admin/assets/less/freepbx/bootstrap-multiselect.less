@@ -177,17 +177,27 @@ span.multiselect-native-select select{
   }
 
   .multiselect-option, .multiselect-group, .multiselect-all {
-    &.active:not(.multiselect-active-item-fallback), &:not(.multiselect-active-item-fallback):active {
-      background-color: rgb(255, 255, 255);
-      color: black;
+    // Checked rows stay white; the checkbox is the selected indicator.
+    // `.active` is applied to every checked option, so Bootstrap's
+    // dropdown-item.active blue would paint the whole list.
+    &.active:not(.multiselect-active-item-fallback),
+    &:not(.multiselect-active-item-fallback):active {
+      background-color: #fff;
+      color: inherit;
     }
 
     &:hover, &:focus {
-      background-color: #e3e3e3 !important;
+      background-color: #e3e3e3;
+      color: inherit;
     }
 
     &:focus {
       outline: none;
+    }
+
+    &.active .form-check-label,
+    &:active .form-check-label {
+      color: inherit;
     }
   }
 }
