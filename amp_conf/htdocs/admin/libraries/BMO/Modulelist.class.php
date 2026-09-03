@@ -8,7 +8,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Modulelist {
 	private $modules = array();
 	private $FreePBX = null;

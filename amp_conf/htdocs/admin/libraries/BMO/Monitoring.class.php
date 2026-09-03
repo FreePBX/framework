@@ -9,7 +9,6 @@
 
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Monitoring {
 	protected static $status = array(
 		0 => "OK",

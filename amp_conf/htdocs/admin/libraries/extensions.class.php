@@ -1,5 +1,4 @@
 <?php
-#[\AllowDynamicProperties]
 class extensions {
 	/** The config
 	 * array(section=>array(extension=>array( array('basetag'=>basetag,'tag'=>tag,'addpri'=>addpri,'cmd'=>cmd) )))
@@ -13,6 +12,11 @@ class extensions {
 	var $_hints;
 
 	var $_sorted;
+	var $_globals;
+	var $_generals;
+	var $_includes;
+	var $_switches;
+	var $_exec;
 
   var $_section_comment = array();
 
@@ -536,10 +540,11 @@ class ext_bridge extends extension {
 	}
 }
 
-#[\AllowDynamicProperties]
 class ext_gosubif extends extension {
 	var $true_priority;
 	var $false_priority;
+	var $true_args;
+	var $false_args;
 	var $condition;
 	function __construct($condition, $true_priority, $false_priority = false, $true_args = '', $false_args = '') {
 		$this->true_priority = $true_priority;
@@ -1009,10 +1014,17 @@ class ext_playback extends extension {
 	}
 }
 
-#[\AllowDynamicProperties]
 class ext_queue {
-	var $var;
-	var $value;
+	var $queuename;
+	var $options;
+	var $optionalurl;
+	var $announceoverride;
+	var $timeout;
+	var $agi;
+	var $macro;
+	var $gosub;
+	var $rule;
+	var $position;
 
 	// Queue(queuename,options,URL,announceoverride,timeout,AGI,macro,gosub,rule,position)
 	function __construct($queuename, $options, $optionalurl, $announceoverride, $timeout, $agi='', $macro='', $gosub='', $rule='', $position='') {
@@ -1045,8 +1057,12 @@ class ext_queue {
 	}
 }
 
-#[\AllowDynamicProperties]
 class ext_queuelog extends extension {
+	var $queue;
+	var $uniqueid;
+	var $agent;
+	var $event;
+	var $additionalinfo;
 
 	function __construct($queue, $uniqueid, $agent, $event, $additionalinfo = ''){
 		$this->queue			= $queue;
@@ -1961,8 +1977,11 @@ class ext_stopmusiconhold extends extension {
 	}
 }
 
-#[\AllowDynamicProperties]
 class ext_PauseQueueMember extends extension {
+	var $queue;
+	var $agent;
+	var $event;
+	var $additionalinfo;
 
 	function __construct($queue, $agent, $event = '', $additionalinfo = ''){
 		$this->queue			= $queue;
@@ -1982,8 +2001,11 @@ class ext_PauseQueueMember extends extension {
 	}
 }
 
-#[\AllowDynamicProperties]
 class ext_UnpauseQueueMember extends extension {
+	var $queue;
+	var $agent;
+	var $event;
+	var $additionalinfo;
 
 	function __construct($queue, $agent, $event, $additionalinfo = ''){
 		$this->queue			= $queue;

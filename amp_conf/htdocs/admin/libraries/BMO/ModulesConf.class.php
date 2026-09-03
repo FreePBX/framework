@@ -8,7 +8,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class ModulesConf {
 
 	private $conf;

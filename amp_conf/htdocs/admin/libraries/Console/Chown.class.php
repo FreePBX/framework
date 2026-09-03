@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Exception\IOException;
 
-#[\AllowDynamicProperties]
 class Chown extends Command {
 	//private $requireroot = true;  //commented out: http://issues.freepbx.org/browse/FREEPBX-13793
 	private $errors = array();
@@ -20,6 +19,9 @@ class Chown extends Command {
 	private $blacklist = array('files' => array(), 'dirs' => array());
 	public $moduleName = '';
 	private $fs = null;
+	private $modfiles = array();
+	private $output = null;
+	private $permissionWarnings = array();
 	protected function configure(): void{
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
@@ -396,15 +398,15 @@ class Chown extends Command {
 	 */
 	private function checkPermissions($file, $mode) {
 		if(is_string($mode)) {
-			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
-			$this->d[] = "<error>".sprintf(_('Permissions should be set as integer not a string'))."</error>";
+			$this->permissionWarnings[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
+			$this->permissionWarnings[] = "<error>".sprintf(_('Permissions should be set as integer not a string'))."</error>";
 			return false;
 		}
 
 		// 511 is the integer value of 0777
 		if (octdec(decoct($mode)) > 511) {
-			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
-			$this->d[] = "<error>".sprintf(_('Incorrect permissions please check the permission your trying to set'))."</error>";
+			$this->permissionWarnings[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
+			$this->permissionWarnings[] = "<error>".sprintf(_('Incorrect permissions please check the permission your trying to set'))."</error>";
 			return false;
 		}
 

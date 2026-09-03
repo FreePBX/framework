@@ -17,8 +17,8 @@ use Symfony\Component\Console\Command\HelpCommand;
 
 use Respect\Validation\Validator as v;
 
-#[\AllowDynamicProperties]
 class Setting extends Command {
+	private $FreePBXConf = null;
 	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('setting')

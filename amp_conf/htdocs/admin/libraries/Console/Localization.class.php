@@ -21,7 +21,6 @@ use Sepia\PoParser\Parser as POP;
 
 use Carbon\Carbon;
 
-#[\AllowDynamicProperties]
 class Localization extends Command {
 
 	const PROJECT_LIST = ['freepbx','fpbxc'];
@@ -33,6 +32,7 @@ class Localization extends Command {
 
 	private $requests;
 	private $headers = [];
+	private $components = [];
 
 	protected function configure(): void{
 		$this->setName('localization')

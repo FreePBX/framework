@@ -10,7 +10,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Unlock extends FreePBX_Helpers {
 
 	public function __construct($freepbx = null, $var = null) {

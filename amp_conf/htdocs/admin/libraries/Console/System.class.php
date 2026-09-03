@@ -11,7 +11,6 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Command\LockableTrait;
 
-#[\AllowDynamicProperties]
 class System extends Command {
 	use LockableTrait;
 

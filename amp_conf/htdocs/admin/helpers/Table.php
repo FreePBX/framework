@@ -26,7 +26,6 @@
  * @author		ExpressionEngine Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/uri.html
  */
-#[\AllowDynamicProperties]
 class CI_Table {
 
 	var $rows				= array();
@@ -37,6 +36,7 @@ class CI_Table {
 	var $newline			= "\n";
 	var $empty_cells		= "";
 	var	$function			= FALSE;
+	var $temp				= NULL;
 
   /* Commented out to make this class PHP 4 compatible, Philippe Lindheimer
 	public function __construct()

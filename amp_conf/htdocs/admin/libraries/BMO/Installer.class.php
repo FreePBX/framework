@@ -10,7 +10,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Installer {
 
 	private $agidir;

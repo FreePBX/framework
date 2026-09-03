@@ -14,7 +14,6 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class GPG {
 
 	// Statuses:
@@ -74,6 +73,10 @@ class GPG {
 	// Manually loaded keys are here (This gets initialized in
 	// __construct, below, because PHP)
 	public $keydir;
+
+	// Environment handed to gpg when it is run. Must stay null until
+	// runGPG() builds it, as that is what the isset() check keys off.
+	private $gpgenv;
 
 	// Constructor, to provide some per-OS values
 	// Fail if gpg isn't in an expected place

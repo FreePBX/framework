@@ -14,28 +14,30 @@ use Swift_SmtpTransport;
 use Swift_Mailer;
 use Swift_Message;
 
-#[\AllowDynamicProperties]
 class Mail {
 	private $toset = false;
 	private $bodyset = false;
 	private $attachmentset = false;
 	private $multipart = false;
 	private $freepbx;
+	private $mailer = null;
+	private $message = null;
 
 	public function __construct($freepbx) {
 		$this->freepbx = $freepbx;
 	}
 
+	/**
+	 * Kept so that $mail->mailer and $mail->message keep working for callers
+	 * that used them before they became real properties.
+	 */
 	public function __get($var) {
 		switch($var) {
 			case 'mailer':
-				$this->mailer = new Swift_Mailer(new Swift_SmtpTransport('localhost', 25));
-				return $this->mailer;
+				return $this->getMailer();
 			break;
 			case 'message':
-				$this->message = new Swift_Message();
-				$this->resetMessage();
-				return $this->message;
+				return $this->getMessage();
 			break;
 		}
 	}
@@ -61,65 +63,72 @@ class Mail {
 
 		//$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 		$ident = $this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT');
-		$this->message->setFrom(array($from_email => sprintf(_("%s Message"),$ident)));
-		$this->message->setSubject(sprintf(_("Notification from %s"),$ident));
-		$this->message->setPriority(3); //Normal
-		$this->message->getHeaders()->addTextHeader('Auto-Submitted', 'auto-generated');
+		$this->getMessage()->setFrom(array($from_email => sprintf(_("%s Message"),$ident)));
+		$this->getMessage()->setSubject(sprintf(_("Notification from %s"),$ident));
+		$this->getMessage()->setPriority(3); //Normal
+		$this->getMessage()->getHeaders()->addTextHeader('Auto-Submitted', 'auto-generated');
 	}
 
 	public function setFrom($email,$name){
-		$this->message->setFrom(array($email => $name));
+		$this->getMessage()->setFrom(array($email => $name));
 	}
 
 	//5 = lowest, 4 = low, 3 = Normal, 2 = High, 1 = Highest
 	public function setPriority($priority){
-		$this->message->setPriority($priority);
+		$this->getMessage()->setPriority($priority);
 	}
 
 	public function setSubject($subject){
-		$this->message->setSubject($subject);
+		$this->getMessage()->setSubject($subject);
 	}
 
 	public function setTo($recipientArray){
-		$this->message->setTo($recipientArray);
+		$this->getMessage()->setTo($recipientArray);
 		$this->toset= true;
 	}
 
 	public function setBody($body){
-		$this->message->setBody($body);
+		$this->getMessage()->setBody($body);
 		$this->bodyset = true;
 	}
 
 	public function addAttachment($path){
-		$this->message->attach(\Swift_Attachment::fromPath($path));
+		$this->getMessage()->attach(\Swift_Attachment::fromPath($path));
 		$this->attachmentset = true;
 	}
 
 	public function setMultipart($text,$html){
-		$this->message->setBody($html,'text/html');
-		$this->message->addPart($text,'text/plain');
+		$this->getMessage()->setBody($html,'text/html');
+		$this->getMessage()->addPart($text,'text/plain');
 		$this->multipart = true;
 	}
 
 	public function addHeader($header,$value){
-		$headers = $this->message->getHeaders();
+		$headers = $this->getMessage()->getHeaders();
 		$headers->addTextHeader($header, $value);
 	}
 
 	public function send(){
 
 		if($this->toset && ($this->bodyset || $this->multipart)){
-			return $this->mailer->send($this->message);
+			return $this->getMailer()->send($this->getMessage());
 		}else{
 			throw new Exception("Recipient and message must be set", 1);
 		}
 	}
 
 	public function getMessage() {
+		if ($this->message === null) {
+			$this->message = new Swift_Message();
+			$this->resetMessage();
+		}
 		return $this->message;
 	}
 
 	public function getMailer() {
+		if ($this->mailer === null) {
+			$this->mailer = new Swift_Mailer(new Swift_SmtpTransport('localhost', 25));
+		}
 		return $this->mailer;
 	}
 	

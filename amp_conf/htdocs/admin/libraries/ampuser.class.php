@@ -6,6 +6,12 @@
 class ampuser {
 	public $username;
 	public $id;
+	public $lang;
+	public $tz;
+	public $dateformat;
+	public $timeformat;
+	public $datetimeformat;
+	public $_lastactivity;
 	private $password;
 	private $extension_high;
 	private $extension_low;

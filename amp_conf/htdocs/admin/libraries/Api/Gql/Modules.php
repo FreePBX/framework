@@ -7,9 +7,9 @@ use GraphQL\Type\Definition\Type;
 use FreePBX\modules\Api\Gql\Base;
 use GraphQL\Type\Definition\EnumType;
 
-#[\AllowDynamicProperties]
 class Modules extends Base {
 	protected $description = 'Provide functionality to your PBX Modules';
+	protected $moduleStatuses;
 	public static function getScopes() {
 		return [
 				'read:modules' => [

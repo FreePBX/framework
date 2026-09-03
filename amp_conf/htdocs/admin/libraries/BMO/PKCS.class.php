@@ -15,7 +15,6 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-#[\AllowDynamicProperties]
 class PKCS {
 
 	// Our path to openssl.
@@ -37,6 +36,12 @@ class PKCS {
 
 	private static $certmanObj = false;
 	private static $filestoreObj = false;
+
+	private $debug = 0;
+
+	// Environment handed to openssl when it is run. Must stay null until
+	// runOpenSSL() builds it, as that is what the isset() check keys off.
+	private $opensslenv;
 	
 	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {

@@ -9,8 +9,9 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class WriteConfig {
+
+	private $freepbx;
 
 	/**
 	 * Header gets added to every generated file

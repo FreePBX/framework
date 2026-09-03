@@ -11,7 +11,6 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 //la mesa
 use Symfony\Component\Console\Helper\Table;
 
-#[\AllowDynamicProperties]
 class Notifications extends Command {
 	protected function configure(): void{
 		$this->setName('notifications')
