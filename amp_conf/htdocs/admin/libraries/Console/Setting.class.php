@@ -17,9 +17,9 @@ use Symfony\Component\Console\Command\HelpCommand;
 
 use Respect\Validation\Validator as v;
 
-#[\AllowDynamicProperties]
 class Setting extends Command {
-	protected function configure(){
+	private $FreePBXConf = null;
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('setting')
 		->setAliases(array('set'))
@@ -31,7 +31,7 @@ class Setting extends Command {
 			new InputOption('export', 'e', InputOption::VALUE_REQUIRED, _('Export settings to file')),
 			new InputArgument('args', InputArgument::IS_ARRAY, _('<keyword> [<value>]'), null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$args = $input->getArgument('args');
 		if ($input->getOption('export')){
 			$filename = $input->getOption('export');

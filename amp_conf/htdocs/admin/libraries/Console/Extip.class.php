@@ -8,16 +8,15 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-#[\AllowDynamicProperties]
 class Extip extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('extip')
 		->setAliases(array('externalip'))
 		->setDescription(_('Get External IP'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$extipsrc = 'https://mirror.freepbx.org/whatismyip.php';
 		$extip = file_get_contents($extipsrc);
 		$xml = simplexml_load_string($extip);
@@ -30,5 +29,6 @@ class Extip extends Command {
 		}else{
 			$output->writeln(_('We were unable to obtain a valid IP Data'));
 		}
+		return 0;
 	}
 }

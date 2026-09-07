@@ -8,8 +8,9 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class DialplanHooks {
+
+	private $FreePBX;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {

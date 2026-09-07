@@ -289,12 +289,14 @@
 .navbar-nav .dropdown-item{
 	color:inherit !important;
 }
-.navbar-nav .dropdown-item.active{
+.navbar-nav .dropdown-menu .dropdown-item:hover,
+.navbar-nav .dropdown-menu .dropdown-item:focus {
 	color: #333;
-	background-color: @background-color;
-	font-weight: bold;
+	background-color: #f5f5f5;
 }
-.navbar-nav .dropdown-item:focus {
+.navbar-nav .dropdown-menu .dropdown-item.active,
+.navbar-nav .dropdown-menu .dropdown-item.active:visited,
+.navbar-nav .dropdown-menu .dropdown-item:active {
 	color: #333;
 	background-color: @background-color;
 	font-weight: bold;

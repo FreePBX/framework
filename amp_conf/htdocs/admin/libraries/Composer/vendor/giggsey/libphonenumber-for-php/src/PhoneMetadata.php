@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace libphonenumber;
+
+use function count;
 
 /**
  * Class PhoneMetadata
@@ -10,959 +14,292 @@ namespace libphonenumber;
 class PhoneMetadata
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $id;
+    protected const ID = null;
     /**
-     * @var int
+     * @var int|null
      */
-    protected $countryCode;
-    protected $leadingDigits;
-    protected $internationalPrefix;
-    protected $preferredInternationalPrefix;
-    protected $nationalPrefixForParsing;
-    protected $nationalPrefixTransformRule;
-    protected $nationalPrefix;
-    protected $preferredExtnPrefix;
-    protected $mainCountryForCode = false;
-    protected $mobileNumberPortableRegion = false;
-    protected $generalDesc;
+    protected const COUNTRY_CODE = null;
     /**
-     * @var PhoneNumberDesc
+     * @var string|null
      */
-    protected $mobile;
-    protected $premiumRate;
-    protected $fixedLine;
-    protected $sameMobileAndFixedLinePattern = false;
-    protected $numberFormat = [];
-    protected $tollFree;
-    protected $sharedCost;
-    protected $personalNumber;
-    protected $voip;
-    protected $pager;
-    protected $uan;
-    protected $emergency;
-    protected $voicemail;
+    protected const LEADING_DIGITS = null;
     /**
-     * @var PhoneNumberDesc
+     * @var string|null
      */
-    protected $short_code;
-    /**
-     * @var PhoneNumberDesc
-     */
-    protected $standard_rate;
-    /**
-     * @var PhoneNumberDesc
-     */
-    protected $carrierSpecific;
-    /**
-     * @var PhoneNumberDesc
-     */
-    protected $smsServices;
-    /**
-     * @var PhoneNumberDesc
-     */
-    protected $noInternationalDialling;
+    protected const NATIONAL_PREFIX = null;
+    protected ?string $nationalPrefixForParsing = null;
+    protected ?string $internationalPrefix = null;
+    protected ?string $preferredInternationalPrefix = null;
+    protected ?string $nationalPrefixTransformRule = null;
+    protected ?string $preferredExtnPrefix = null;
+    protected bool $mainCountryForCode = false;
+    protected bool $mobileNumberPortableRegion = false;
+    protected ?PhoneNumberDesc $generalDesc = null;
+    protected ?PhoneNumberDesc $mobile = null;
+    protected ?PhoneNumberDesc $premiumRate = null;
+    protected ?PhoneNumberDesc $fixedLine = null;
+    protected bool $sameMobileAndFixedLinePattern = false;
     /**
      * @var NumberFormat[]
      */
-    protected $intlNumberFormat = [];
-
+    protected array $numberFormat = [];
+    protected ?PhoneNumberDesc $tollFree = null;
+    protected ?PhoneNumberDesc $sharedCost = null;
+    protected ?PhoneNumberDesc $personalNumber = null;
+    protected ?PhoneNumberDesc $voip = null;
+    protected ?PhoneNumberDesc $pager = null;
+    protected ?PhoneNumberDesc $uan = null;
+    protected ?PhoneNumberDesc $emergency = null;
+    protected ?PhoneNumberDesc $voicemail = null;
+    protected ?PhoneNumberDesc $short_code = null;
+    protected ?PhoneNumberDesc $standard_rate = null;
+    protected ?PhoneNumberDesc $carrierSpecific = null;
+    protected ?PhoneNumberDesc $smsServices = null;
+    protected ?PhoneNumberDesc $noInternationalDialling = null;
     /**
-     * @return boolean
+     * @var NumberFormat[]
      */
-    public function hasId()
-    {
-        return $this->id !== null;
-    }
+    protected array $intlNumberFormat = [];
 
-    /**
-     * @return boolean
-     */
-    public function hasCountryCode()
-    {
-        return $this->countryCode !== null;
-    }
-
-    public function hasInternationalPrefix()
-    {
-        return $this->internationalPrefix !== null;
-    }
-
-    public function hasMainCountryForCode()
-    {
-        return $this->mainCountryForCode !== null;
-    }
-
-    public function isMainCountryForCode()
+    public function isMainCountryForCode(): bool
     {
         return $this->mainCountryForCode;
     }
 
-    public function getMainCountryForCode()
+    public function getMainCountryForCode(): bool
     {
         return $this->mainCountryForCode;
     }
 
-    public function setMainCountryForCode($value)
+    public function numberFormatSize(): int
     {
-        $this->mainCountryForCode = $value;
-        return $this;
+        return count($this->numberFormat);
     }
 
-    public function clearMainCountryForCode()
-    {
-        $this->mainCountryForCode = false;
-        return $this;
-    }
-
-    public function hasMobileNumberPortableRegion()
-    {
-        return $this->mobileNumberPortableRegion !== null;
-    }
-
-    public function hasSameMobileAndFixedLinePattern()
-    {
-        return $this->sameMobileAndFixedLinePattern !== null;
-    }
-
-    public function numberFormatSize()
-    {
-        return \count($this->numberFormat);
-    }
-
-    /**
-     * @param int $index
-     * @return NumberFormat
-     */
-    public function getNumberFormat($index)
+    public function getNumberFormat(int $index): NumberFormat
     {
         return $this->numberFormat[$index];
     }
 
-    public function intlNumberFormatSize()
+    public function intlNumberFormatSize(): int
     {
-        return \count($this->intlNumberFormat);
+        return count($this->intlNumberFormat);
     }
 
-    public function getIntlNumberFormat($index)
+    public function getIntlNumberFormat(int $index): NumberFormat
     {
         return $this->intlNumberFormat[$index];
     }
 
-    public function clearIntlNumberFormat()
-    {
-        $this->intlNumberFormat = [];
-        return $this;
-    }
-
-    public function toArray()
-    {
-        $output = [];
-
-        if ($this->hasGeneralDesc()) {
-            $output['generalDesc'] = $this->getGeneralDesc()->toArray();
-        }
-
-        if ($this->hasFixedLine()) {
-            $output['fixedLine'] = $this->getFixedLine()->toArray();
-        }
-
-        if ($this->hasMobile()) {
-            $output['mobile'] = $this->getMobile()->toArray();
-        }
-
-        if ($this->hasTollFree()) {
-            $output['tollFree'] = $this->getTollFree()->toArray();
-        }
-
-        if ($this->hasPremiumRate()) {
-            $output['premiumRate'] = $this->getPremiumRate()->toArray();
-        }
-
-        if ($this->hasPremiumRate()) {
-            $output['premiumRate'] = $this->getPremiumRate()->toArray();
-        }
-
-        if ($this->hasSharedCost()) {
-            $output['sharedCost'] = $this->getSharedCost()->toArray();
-        }
-
-        if ($this->hasPersonalNumber()) {
-            $output['personalNumber'] = $this->getPersonalNumber()->toArray();
-        }
-
-        if ($this->hasVoip()) {
-            $output['voip'] = $this->getVoip()->toArray();
-        }
-
-        if ($this->hasPager()) {
-            $output['pager'] = $this->getPager()->toArray();
-        }
-
-        if ($this->hasUan()) {
-            $output['uan'] = $this->getUan()->toArray();
-        }
-
-        if ($this->hasEmergency()) {
-            $output['emergency'] = $this->getEmergency()->toArray();
-        }
-
-        if ($this->hasVoicemail()) {
-            $output['voicemail'] = $this->getVoicemail()->toArray();
-        }
-
-        if ($this->hasShortCode()) {
-            $output['shortCode'] = $this->getShortCode()->toArray();
-        }
-
-        if ($this->hasStandardRate()) {
-            $output['standardRate'] = $this->getStandardRate()->toArray();
-        }
-
-        if ($this->hasCarrierSpecific()) {
-            $output['carrierSpecific'] = $this->getCarrierSpecific()->toArray();
-        }
-
-        if ($this->hasSmsServices()) {
-            $output['smsServices'] = $this->getSmsServices()->toArray();
-        }
-
-        if ($this->hasNoInternationalDialling()) {
-            $output['noInternationalDialling'] = $this->getNoInternationalDialling()->toArray();
-        }
-
-        $output['id'] = $this->getId();
-        if ($this->hasCountryCode()) {
-            $output['countryCode'] = $this->getCountryCode();
-        }
-
-        if ($this->hasInternationalPrefix()) {
-            $output['internationalPrefix'] = $this->getInternationalPrefix();
-        }
-
-        if ($this->hasPreferredInternationalPrefix()) {
-            $output['preferredInternationalPrefix'] = $this->getPreferredInternationalPrefix();
-        }
-
-        if ($this->hasNationalPrefix()) {
-            $output['nationalPrefix'] = $this->getNationalPrefix();
-        }
-
-        if ($this->hasPreferredExtnPrefix()) {
-            $output['preferredExtnPrefix'] = $this->getPreferredExtnPrefix();
-        }
-
-        if ($this->hasNationalPrefixForParsing()) {
-            $output['nationalPrefixForParsing'] = $this->getNationalPrefixForParsing();
-        }
-
-        if ($this->hasNationalPrefixTransformRule()) {
-            $output['nationalPrefixTransformRule'] = $this->getNationalPrefixTransformRule();
-        }
-
-        if ($this->hasSameMobileAndFixedLinePattern()) {
-            $output['sameMobileAndFixedLinePattern'] = $this->getSameMobileAndFixedLinePattern();
-        }
-
-        $output['numberFormat'] = [];
-        foreach ($this->numberFormats() as $numberFormat) {
-            $output['numberFormat'][] = $numberFormat->toArray();
-        }
-
-        $output['intlNumberFormat'] = [];
-        foreach ($this->intlNumberFormats() as $intlNumberFormat) {
-            $output['intlNumberFormat'][] = $intlNumberFormat->toArray();
-        }
-
-        $output['mainCountryForCode'] = $this->getMainCountryForCode();
-
-        if ($this->hasLeadingDigits()) {
-            $output['leadingDigits'] = $this->getLeadingDigits();
-        }
-
-        if ($this->hasMobileNumberPortableRegion()) {
-            $output['mobileNumberPortableRegion'] = $this->isMobileNumberPortableRegion();
-        }
-
-        return $output;
-    }
-
-    public function hasGeneralDesc()
+    public function hasGeneralDesc(): bool
     {
         return $this->generalDesc !== null;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getGeneralDesc()
+    public function getGeneralDesc(): ?PhoneNumberDesc
     {
         return $this->generalDesc;
     }
 
-    public function setGeneralDesc(PhoneNumberDesc $value)
-    {
-        $this->generalDesc = $value;
-        return $this;
-    }
-
-    public function hasFixedLine()
+    public function hasFixedLine(): bool
     {
         return $this->fixedLine !== null;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getFixedLine()
+    public function getFixedLine(): ?PhoneNumberDesc
     {
         return $this->fixedLine;
     }
 
-    public function setFixedLine(PhoneNumberDesc $value)
-    {
-        $this->fixedLine = $value;
-        return $this;
-    }
-
-    public function hasMobile()
+    public function hasMobile(): bool
     {
         return $this->mobile !== null;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getMobile()
+    public function getMobile(): ?PhoneNumberDesc
     {
         return $this->mobile;
     }
 
-    public function setMobile(PhoneNumberDesc $value)
-    {
-        $this->mobile = $value;
-        return $this;
-    }
-
-    public function hasTollFree()
-    {
-        return $this->tollFree !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getTollFree()
+    public function getTollFree(): ?PhoneNumberDesc
     {
         return $this->tollFree;
     }
 
-    public function setTollFree(PhoneNumberDesc $value)
-    {
-        $this->tollFree = $value;
-        return $this;
-    }
-
-    public function hasPremiumRate()
-    {
-        return $this->premiumRate !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getPremiumRate()
+    public function getPremiumRate(): ?PhoneNumberDesc
     {
         return $this->premiumRate;
     }
 
-    public function setPremiumRate(PhoneNumberDesc $value)
-    {
-        $this->premiumRate = $value;
-        return $this;
-    }
-
-    public function hasSharedCost()
-    {
-        return $this->sharedCost !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getSharedCost()
+    public function getSharedCost(): ?PhoneNumberDesc
     {
         return $this->sharedCost;
     }
 
-    public function setSharedCost(PhoneNumberDesc $value)
-    {
-        $this->sharedCost = $value;
-        return $this;
-    }
-
-    public function hasPersonalNumber()
-    {
-        return $this->personalNumber !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getPersonalNumber()
+    public function getPersonalNumber(): ?PhoneNumberDesc
     {
         return $this->personalNumber;
     }
 
-    public function setPersonalNumber(PhoneNumberDesc $value)
-    {
-        $this->personalNumber = $value;
-        return $this;
-    }
-
-    public function hasVoip()
-    {
-        return $this->voip !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getVoip()
+    public function getVoip(): ?PhoneNumberDesc
     {
         return $this->voip;
     }
 
-    public function setVoip(PhoneNumberDesc $value)
-    {
-        $this->voip = $value;
-        return $this;
-    }
-
-    public function hasPager()
-    {
-        return $this->pager !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getPager()
+    public function getPager(): ?PhoneNumberDesc
     {
         return $this->pager;
     }
 
-    public function setPager(PhoneNumberDesc $value)
-    {
-        $this->pager = $value;
-        return $this;
-    }
-
-    public function hasUan()
-    {
-        return $this->uan !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getUan()
+    public function getUan(): ?PhoneNumberDesc
     {
         return $this->uan;
     }
 
-    public function setUan(PhoneNumberDesc $value)
-    {
-        $this->uan = $value;
-        return $this;
-    }
-
-    public function hasEmergency()
+    public function hasEmergency(): bool
     {
         return $this->emergency !== null;
     }
 
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getEmergency()
+    public function getEmergency(): ?PhoneNumberDesc
     {
         return $this->emergency;
     }
 
-    public function setEmergency(PhoneNumberDesc $value)
-    {
-        $this->emergency = $value;
-        return $this;
-    }
-
-    public function hasVoicemail()
-    {
-        return $this->voicemail !== null;
-    }
-
-    /**
-     * @return PhoneNumberDesc
-     */
-    public function getVoicemail()
+    public function getVoicemail(): ?PhoneNumberDesc
     {
         return $this->voicemail;
     }
 
-    public function setVoicemail(PhoneNumberDesc $value)
-    {
-        $this->voicemail = $value;
-        return $this;
-    }
-
-    public function hasShortCode()
-    {
-        return $this->short_code !== null;
-    }
-
-    public function getShortCode()
+    public function getShortCode(): ?PhoneNumberDesc
     {
         return $this->short_code;
     }
 
-    public function setShortCode(PhoneNumberDesc $value)
-    {
-        $this->short_code = $value;
-        return $this;
-    }
 
-    public function hasStandardRate()
-    {
-        return $this->standard_rate !== null;
-    }
-
-    public function getStandardRate()
+    public function getStandardRate(): ?PhoneNumberDesc
     {
         return $this->standard_rate;
     }
 
-    public function setStandardRate(PhoneNumberDesc $value)
-    {
-        $this->standard_rate = $value;
-        return $this;
-    }
-
-    public function hasCarrierSpecific()
-    {
-        return $this->carrierSpecific !== null;
-    }
-
-    public function getCarrierSpecific()
+    public function getCarrierSpecific(): ?PhoneNumberDesc
     {
         return $this->carrierSpecific;
     }
 
-    public function setCarrierSpecific(PhoneNumberDesc $value)
-    {
-        $this->carrierSpecific = $value;
-        return $this;
-    }
-
-    public function hasSmsServices()
-    {
-        return $this->smsServices !== null;
-    }
-
-    public function getSmsServices()
+    public function getSmsServices(): ?PhoneNumberDesc
     {
         return $this->smsServices;
     }
 
-    public function setSmsServices(PhoneNumberDesc $value)
-    {
-        $this->smsServices = $value;
-        return $this;
-    }
-
-    public function hasNoInternationalDialling()
-    {
-        return $this->noInternationalDialling !== null;
-    }
-
-    public function getNoInternationalDialling()
+    public function getNoInternationalDialling(): ?PhoneNumberDesc
     {
         return $this->noInternationalDialling;
     }
 
-    public function setNoInternationalDialling(PhoneNumberDesc $value)
+
+    public function getId(): ?string
     {
-        $this->noInternationalDialling = $value;
-        return $this;
+        return static::ID;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getCountryCode(): ?int
     {
-        return $this->id;
+        return static::COUNTRY_CODE;
     }
 
-    /**
-     * @param string $value
-     * @return PhoneMetadata
-     */
-    public function setId($value)
-    {
-        $this->id = $value;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCountryCode()
-    {
-        return $this->countryCode;
-    }
-
-    /**
-     * @param int $value
-     * @return PhoneMetadata
-     */
-    public function setCountryCode($value)
-    {
-        $this->countryCode = $value;
-        return $this;
-    }
-
-    public function getInternationalPrefix()
+    public function getInternationalPrefix(): ?string
     {
         return $this->internationalPrefix;
     }
 
-    public function setInternationalPrefix($value)
-    {
-        $this->internationalPrefix = $value;
-        return $this;
-    }
 
-    public function hasPreferredInternationalPrefix()
+    public function hasPreferredInternationalPrefix(): bool
     {
         return ($this->preferredInternationalPrefix !== null);
     }
 
-    public function getPreferredInternationalPrefix()
+    public function getPreferredInternationalPrefix(): ?string
     {
         return $this->preferredInternationalPrefix;
     }
 
-    public function setPreferredInternationalPrefix($value)
+    public function hasNationalPrefix(): bool
     {
-        $this->preferredInternationalPrefix = $value;
-        return $this;
+        return static::NATIONAL_PREFIX !== null;
     }
 
-    public function clearPreferredInternationalPrefix()
+    public function getNationalPrefix(): ?string
     {
-        $this->preferredInternationalPrefix = null;
-        return $this;
+        return static::NATIONAL_PREFIX;
     }
 
-    public function hasNationalPrefix()
-    {
-        return $this->nationalPrefix !== null;
-    }
-
-    public function getNationalPrefix()
-    {
-        return $this->nationalPrefix;
-    }
-
-    public function setNationalPrefix($value)
-    {
-        $this->nationalPrefix = $value;
-        return $this;
-    }
-
-    public function clearNationalPrefix()
-    {
-        $this->nationalPrefix = '';
-        return $this;
-    }
-
-    public function hasPreferredExtnPrefix()
+    public function hasPreferredExtnPrefix(): bool
     {
         return $this->preferredExtnPrefix !== null;
     }
 
-    public function getPreferredExtnPrefix()
+    public function getPreferredExtnPrefix(): ?string
     {
         return $this->preferredExtnPrefix;
     }
 
-    public function setPreferredExtnPrefix($value)
-    {
-        $this->preferredExtnPrefix = $value;
-        return $this;
-    }
-
-    public function clearPreferredExtnPrefix()
-    {
-        $this->preferredExtnPrefix = '';
-        return $this;
-    }
-
-    public function hasNationalPrefixForParsing()
+    public function hasNationalPrefixForParsing(): bool
     {
         return $this->nationalPrefixForParsing !== null;
     }
 
-    public function getNationalPrefixForParsing()
+    public function getNationalPrefixForParsing(): ?string
     {
         return $this->nationalPrefixForParsing;
     }
 
-    public function setNationalPrefixForParsing($value)
-    {
-        $this->nationalPrefixForParsing = $value;
-        return $this;
-    }
-
-    public function hasNationalPrefixTransformRule()
-    {
-        return $this->nationalPrefixTransformRule !== null;
-    }
-
-    public function getNationalPrefixTransformRule()
+    public function getNationalPrefixTransformRule(): ?string
     {
         return $this->nationalPrefixTransformRule;
     }
 
-    public function setNationalPrefixTransformRule($value)
-    {
-        $this->nationalPrefixTransformRule = $value;
-        return $this;
-    }
-
-    public function clearNationalPrefixTransformRule()
-    {
-        $this->nationalPrefixTransformRule = '';
-        return $this;
-    }
-
-    public function getSameMobileAndFixedLinePattern()
+    public function getSameMobileAndFixedLinePattern(): bool
     {
         return $this->sameMobileAndFixedLinePattern;
-    }
-
-    public function setSameMobileAndFixedLinePattern($value)
-    {
-        $this->sameMobileAndFixedLinePattern = $value;
-        return $this;
-    }
-
-    public function clearSameMobileAndFixedLinePattern()
-    {
-        $this->sameMobileAndFixedLinePattern = false;
-        return $this;
     }
 
     /**
      * @return NumberFormat[]
      */
-    public function numberFormats()
+    public function numberFormats(): array
     {
         return $this->numberFormat;
     }
 
-    public function intlNumberFormats()
+    /**
+     * @return NumberFormat[]
+     */
+    public function intlNumberFormats(): array
     {
         return $this->intlNumberFormat;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasLeadingDigits()
+    public function hasLeadingDigits(): bool
     {
-        return $this->leadingDigits !== null;
+        return static::LEADING_DIGITS !== null;
     }
 
-    public function getLeadingDigits()
+    public function getLeadingDigits(): ?string
     {
-        return $this->leadingDigits;
+        return static::LEADING_DIGITS;
     }
 
-    public function setLeadingDigits($value)
-    {
-        $this->leadingDigits = $value;
-        return $this;
-    }
-
-    public function isMobileNumberPortableRegion()
+    public function isMobileNumberPortableRegion(): bool
     {
         return $this->mobileNumberPortableRegion;
     }
 
-    public function setMobileNumberPortableRegion($value)
+    public function setInternationalPrefix(string $value): static
     {
-        $this->mobileNumberPortableRegion = $value;
-        return $this;
-    }
-
-    public function clearMobileNumberPortableRegion()
-    {
-        $this->mobileNumberPortableRegion = false;
-        return $this;
-    }
-
-    /**
-     * @return PhoneMetadata
-     */
-    public function fromArray(array $input)
-    {
-        if (isset($input['generalDesc'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setGeneralDesc($desc->fromArray($input['generalDesc']));
-        }
-
-        if (isset($input['fixedLine'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setFixedLine($desc->fromArray($input['fixedLine']));
-        }
-
-        if (isset($input['mobile'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setMobile($desc->fromArray($input['mobile']));
-        }
-
-        if (isset($input['tollFree'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setTollFree($desc->fromArray($input['tollFree']));
-        }
-
-        if (isset($input['premiumRate'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setPremiumRate($desc->fromArray($input['premiumRate']));
-        }
-
-        if (isset($input['sharedCost'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setSharedCost($desc->fromArray($input['sharedCost']));
-        }
-
-        if (isset($input['personalNumber'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setPersonalNumber($desc->fromArray($input['personalNumber']));
-        }
-
-        if (isset($input['voip'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setVoip($desc->fromArray($input['voip']));
-        }
-
-        if (isset($input['pager'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setPager($desc->fromArray($input['pager']));
-        }
-
-        if (isset($input['uan'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setUan($desc->fromArray($input['uan']));
-        }
-
-        if (isset($input['emergency'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setEmergency($desc->fromArray($input['emergency']));
-        }
-
-        if (isset($input['voicemail'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setVoicemail($desc->fromArray($input['voicemail']));
-        }
-
-        if (isset($input['shortCode'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setShortCode($desc->fromArray($input['shortCode']));
-        }
-
-        if (isset($input['standardRate'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setStandardRate($desc->fromArray($input['standardRate']));
-        }
-
-        if (isset($input['carrierSpecific'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setCarrierSpecific($desc->fromArray($input['carrierSpecific']));
-        }
-
-        if (isset($input['smsServices'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setSmsServices($desc->fromArray($input['smsServices']));
-        }
-
-        if (isset($input['noInternationalDialling'])) {
-            $desc = new PhoneNumberDesc();
-            $this->setNoInternationalDialling($desc->fromArray($input['noInternationalDialling']));
-        }
-
-        $this->setId($input['id']);
-        $this->setCountryCode($input['countryCode']);
-        $this->setInternationalPrefix($input['internationalPrefix']);
-
-        if (isset($input['preferredInternationalPrefix'])) {
-            $this->setPreferredInternationalPrefix($input['preferredInternationalPrefix']);
-        }
-        if (isset($input['nationalPrefix'])) {
-            $this->setNationalPrefix($input['nationalPrefix']);
-        }
-        if (isset($input['nationalPrefix'])) {
-            $this->setNationalPrefix($input['nationalPrefix']);
-        }
-
-        if (isset($input['preferredExtnPrefix'])) {
-            $this->setPreferredExtnPrefix($input['preferredExtnPrefix']);
-        }
-
-        if (isset($input['nationalPrefixForParsing'])) {
-            $this->setNationalPrefixForParsing($input['nationalPrefixForParsing']);
-        }
-
-        if (isset($input['nationalPrefixTransformRule'])) {
-            $this->setNationalPrefixTransformRule($input['nationalPrefixTransformRule']);
-        }
-
-        foreach ($input['numberFormat'] as $numberFormatElt) {
-            $numberFormat = new NumberFormat();
-            $numberFormat->fromArray($numberFormatElt);
-            $this->addNumberFormat($numberFormat);
-        }
-
-        foreach ($input['intlNumberFormat'] as $intlNumberFormatElt) {
-            $numberFormat = new NumberFormat();
-            $numberFormat->fromArray($intlNumberFormatElt);
-            $this->addIntlNumberFormat($numberFormat);
-        }
-
-        $this->setMainCountryForCode($input['mainCountryForCode']);
-
-        if (isset($input['leadingDigits'])) {
-            $this->setLeadingDigits($input['leadingDigits']);
-        }
-
-        if (isset($input['mobileNumberPortableRegion'])) {
-            $this->setMobileNumberPortableRegion($input['mobileNumberPortableRegion']);
-        }
-
-        return $this;
-    }
-
-    public function addNumberFormat(NumberFormat $value)
-    {
-        $this->numberFormat[] = $value;
-        return $this;
-    }
-
-    public function addIntlNumberFormat(NumberFormat $value)
-    {
-        $this->intlNumberFormat[] = $value;
+        $this->internationalPrefix = $value;
         return $this;
     }
 }

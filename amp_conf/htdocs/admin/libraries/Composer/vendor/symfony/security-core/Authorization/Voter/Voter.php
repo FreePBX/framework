@@ -18,16 +18,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
  *
  * @author Roman Marintšenko <inoryy@gmail.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
+ *
+ * @template TAttribute of string
+ * @template TSubject of mixed
  */
 abstract class Voter implements VoterInterface, CacheableVoterInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function vote(TokenInterface $token, $subject, array $attributes)
+    public function vote(TokenInterface $token, mixed $subject, array $attributes, ?Vote $vote = null): int
     {
         // abstain vote by default in case none of the attributes are supported
-        $vote = self::ACCESS_ABSTAIN;
+        $voteResult = self::ACCESS_ABSTAIN;
 
         foreach ($attributes as $attribute) {
             try {
@@ -35,12 +35,7 @@ abstract class Voter implements VoterInterface, CacheableVoterInterface
                     continue;
                 }
             } catch (\TypeError $e) {
-                if (\PHP_VERSION_ID < 80000) {
-                    if (0 === strpos($e->getMessage(), 'Argument 1 passed to')
-                        && false !== strpos($e->getMessage(), '::supports() must be of the type string')) {
-                        continue;
-                    }
-                } elseif (false !== strpos($e->getMessage(), 'supports(): Argument #1')) {
+                if (str_contains($e->getMessage(), 'supports(): Argument #1')) {
                     continue;
                 }
 
@@ -48,15 +43,27 @@ abstract class Voter implements VoterInterface, CacheableVoterInterface
             }
 
             // as soon as at least one attribute is supported, default is to deny access
-            $vote = self::ACCESS_DENIED;
+            $voteResult = self::ACCESS_DENIED;
 
-            if ($this->voteOnAttribute($attribute, $subject, $token)) {
+            if (null !== $vote) {
+                $vote->result = $voteResult;
+            }
+
+            if ($this->voteOnAttribute($attribute, $subject, $token, $vote)) {
                 // grant access as soon as at least one attribute returns a positive response
+                if (null !== $vote) {
+                    $vote->result = self::ACCESS_GRANTED;
+                }
+
                 return self::ACCESS_GRANTED;
             }
         }
 
-        return $vote;
+        if (null !== $vote) {
+            $vote->result = $voteResult;
+        }
+
+        return $voteResult;
     }
 
     /**
@@ -82,20 +89,20 @@ abstract class Voter implements VoterInterface, CacheableVoterInterface
     /**
      * Determines if the attribute and subject are supported by this voter.
      *
-     * @param string $attribute An attribute
-     * @param mixed  $subject   The subject to secure, e.g. an object the user wants to access or any other PHP type
+     * @param mixed $subject The subject to secure, e.g. an object the user wants to access or any other PHP type
      *
-     * @return bool
+     * @psalm-assert-if-true TSubject $subject
+     * @psalm-assert-if-true TAttribute $attribute
      */
-    abstract protected function supports(string $attribute, $subject);
+    abstract protected function supports(string $attribute, mixed $subject): bool;
 
     /**
      * Perform a single access check operation on a given attribute, subject and token.
      * It is safe to assume that $attribute and $subject already passed the "supports()" method check.
      *
-     * @param mixed $subject
-     *
-     * @return bool
+     * @param TAttribute $attribute
+     * @param TSubject   $subject
+     * @param Vote|null  $vote      Should be used to explain the vote
      */
-    abstract protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token);
+    abstract protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool;
 }

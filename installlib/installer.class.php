@@ -4,8 +4,10 @@ namespace FreePBX\Install;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\AllowDynamicProperties]
 class Installer {
+	private $input = null;
+	private $output = null;
+
 	function __construct(InputInterface $input = NULL, OutputInterface $output = NULL) {
 		$this->input = $input;
 		$this->output = $output;
@@ -1780,7 +1782,7 @@ class Installer {
 	);
 
 	$settings[$category]['JQUERY_CSS'] = array(
-	'value' => 'assets/css/jquery-ui.css',
+	'value' => 'assets/css/jquery-ui-1.14.2.min.css',
 	'options' => '',
 	'name' => 'jQuery UI css',
 	'description' => 'css file for jquery ui',

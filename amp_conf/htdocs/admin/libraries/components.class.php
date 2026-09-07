@@ -4,7 +4,6 @@
 $_guielement_tabindex = 1;
 $_guielement_formfields = 0;
 
-#[\AllowDynamicProperties]
 class component {
 	protected $compname; // Component name (e.g. users, devices, etc.)
 
@@ -28,7 +27,7 @@ class component {
 
 	protected $opts; //array of configurable options
 
-	private $translations = array();
+	protected $tabtranslations = array();
 
 	public function __construct($compname) {
 		$this->compname = $compname;
@@ -505,12 +504,12 @@ class component {
 	}
 }
 
-#[\AllowDynamicProperties]
 class guielement {
 	protected $_elemname;
 	protected $_html;
 	protected $_javascript;
 	protected $_opts;
+	protected $type;
 
 	public function __construct($elemname, $html = '', $javascript = '') {
 		global $CC;
@@ -571,7 +570,6 @@ class guielement {
  *
  * @param $table bool if this element is in a table or not, Default is true.
  */
-#[\AllowDynamicProperties]
 class gui_hidden extends guielement {
 	public function __construct($elemname, $currentvalue = '', $table=true) {
 		if(is_array($elemname)) {
@@ -595,12 +593,12 @@ class gui_hidden extends guielement {
  ** guiinput is the base class of all form fields          **
  ************************************************************
  */
-#[\AllowDynamicProperties]
 class guiinput extends guielement {
 	protected $currentvalue = null;
 	protected $prompttext = null;
 	protected $helptext = null;
 	protected $jsvalidation = null;
+	protected $jsvalidationtest = null;
 	protected $failvalidationmsg = null;
 	protected $canbeempty = null;
 	protected $type;
@@ -728,7 +726,6 @@ class guiinput extends guielement {
 }
 
 // Textbox
-#[\AllowDynamicProperties]
 class gui_textbox extends guiinput {
 
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
@@ -752,7 +749,6 @@ class gui_textbox extends guiinput {
 }
 
 // Textbox with Enable/Disable Check after
-#[\AllowDynamicProperties]
 class gui_textbox_check extends gui_textbox {
 
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
@@ -800,7 +796,6 @@ class gui_textbox_check extends gui_textbox {
 }
 
 // Password
-#[\AllowDynamicProperties]
 class gui_password extends guiinput {
 
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
@@ -830,7 +825,6 @@ class gui_password extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_multiselectbox extends guiinput {
 	public function __construct($elemname, $valarray = array(), $currentvalue = array(), $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
@@ -875,7 +869,6 @@ class gui_multiselectbox extends guiinput {
 }
 
 // Select box
-#[\AllowDynamicProperties]
 class gui_selectbox extends guiinput {
 
 	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
@@ -920,7 +913,6 @@ class gui_selectbox extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_checkbox extends guiinput {
 	public function __construct($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
@@ -938,7 +930,6 @@ class gui_checkbox extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_checkset extends guiinput {
 	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
 		if(is_array($elemname)) {
@@ -975,7 +966,6 @@ class gui_checkset extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_radio extends guiinput {
 	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
 		if(is_array($elemname)) {
@@ -1013,7 +1003,6 @@ class gui_radio extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_button extends guiinput {
 
 	public function __construct($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
@@ -1030,7 +1019,6 @@ class gui_button extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_alertinfodrawselects extends guiinput {
 
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
@@ -1059,7 +1047,6 @@ class gui_alertinfodrawselects extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_drawselects extends guiinput {
 
 	public function __construct($elemname, $index = '', $dest = '', $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
@@ -1084,7 +1071,6 @@ class gui_drawselects extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_textarea extends guiinput {
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='', $select = array()) {
 		if(is_array($elemname)) {
@@ -1105,7 +1091,6 @@ class gui_textarea extends guiinput {
 	}
 }
 
-#[\AllowDynamicProperties]
 class gui_textarea_select extends gui_textarea {
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='',$select=array()) {
 		if(is_array($elemname)) {
@@ -1152,7 +1137,6 @@ class gui_textarea_select extends gui_textarea {
  ** guitext is the base class of all text fields (e.g. h1) **
  ************************************************************
  */
-#[\AllowDynamicProperties]
 class guitext extends guielement {
 	protected $html_text;
 	protected $helptext;
@@ -1211,7 +1195,6 @@ class guitext extends guielement {
 /**
  * Generate a bootstrap table
  */
-#[\AllowDynamicProperties]
 class gui_table extends guitext {
 	public function __construct($elemname, $headers, $rows=array(), $options=array()) {
 		// call parent class contructor
@@ -1269,7 +1252,6 @@ class gui_table extends guitext {
 /**
  * Send HTML down the line directly into the component
  */
-#[\AllowDynamicProperties]
 class gui_html extends guitext {
 	public function __construct($elemname, $html) {
 		// call parent class contructor
@@ -1283,7 +1265,6 @@ class gui_html extends guitext {
 }
 
 // Label -- just text basically!
-#[\AllowDynamicProperties]
 class gui_label extends guitext {
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
@@ -1297,7 +1278,6 @@ class gui_label extends guitext {
 }
 
 // Main page header
-#[\AllowDynamicProperties]
 class gui_pageheading extends guitext {
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
@@ -1310,7 +1290,6 @@ class gui_pageheading extends guitext {
 }
 
 // Second level / sub header
-#[\AllowDynamicProperties]
 class gui_subheading extends guitext {
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
@@ -1323,7 +1302,6 @@ class gui_subheading extends guitext {
 }
 
 // URL / Link
-#[\AllowDynamicProperties]
 class gui_link extends guitext {
 	public function __construct($elemname, $text, $url, $uselang = true, $class='') {
 		// call parent class contructor
@@ -1334,7 +1312,6 @@ class gui_link extends guitext {
 		$this->type = "link";
 	}
 }
-#[\AllowDynamicProperties]
 class gui_link_label extends guitext {
 	public function __construct($elemname, $text, $tooltip, $uselang = true, $class='') {
 		// call parent class contructor

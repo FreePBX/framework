@@ -7,17 +7,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[\AllowDynamicProperties]
 class Unlock extends Command {
 	private $FreePBXConf = null;
-	protected function configure(){
+	protected function configure(): void{
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('unlock')
 		->setDescription(_('Unlock Session'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$sp = session_save_path();
 		if(empty($sp)) {
 			$sp = "/var/lib/php/session"; //hard coded but we warn below!
@@ -30,7 +29,7 @@ class Unlock extends Command {
 		//If we don't have a session file, it is probably not a valid session
 		if(!file_exists($file)){
 			$output->writeln(sprintf(_('Unlocking: %s Failed, Invalid session'),$args[0]));
-			return;
+			return 0;
 		} else {
 			unlink($file); //PHP gets pissy when I try to edit a session that's not mine
 		}
@@ -45,5 +44,6 @@ class Unlock extends Command {
 		session_write_close();
 		chown($file,$this->FreePBXConf->get("AMPASTERISKWEBUSER"));
 		chgrp($file,$this->FreePBXConf->get("AMPASTERISKWEBGROUP"));
+		return 0;
 	}
 }

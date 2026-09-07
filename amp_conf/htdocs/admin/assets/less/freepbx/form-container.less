@@ -117,6 +117,7 @@
 				height: 34px;
 			}
 			.form-group {
+				position: relative;
 				/**
 				 * Input error
 				 */
@@ -138,6 +139,8 @@
 				 * Readjust formatting when changing to a mobile view
 				 */
 				div[class*="col-"] {
+					/* Bootstrap 5 dropped position:relative on columns; warnInvalid icons need it */
+					position: relative;
 					@media (min-width: 992px) {
 						top: 2px;
 					}

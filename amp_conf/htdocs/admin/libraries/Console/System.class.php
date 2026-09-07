@@ -11,7 +11,6 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Command\LockableTrait;
 
-#[\AllowDynamicProperties]
 class System extends Command {
 	use LockableTrait;
 
@@ -41,7 +40,7 @@ class System extends Command {
 		$this->updatemanager->sendEmail("systemautoupdates", sprintf(_("%s (%s) System Updates"), $brand, $ident), implode("\n", $body), 4, true);
 	}
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('system')
 		->setAliases(array('sysup','sys','systemupdate'))
 		->setDescription('System Update Administration')
@@ -51,7 +50,7 @@ class System extends Command {
 		));
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if (!$this->lock()) {
 			$output->writeln('The command is already running in another process.');
 			return 0;

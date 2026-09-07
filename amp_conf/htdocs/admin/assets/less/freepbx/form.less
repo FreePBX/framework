@@ -212,20 +212,28 @@ a.badge:focus {
 .form-check{
     display: flex;
     align-items: center;
+    padding-left: 0;
 }
-.form-check-input{
-    height: 11px;
+// Bootstrap 5 draws the tick as a background-image sized to the box, so width and
+// height must stay equal or the checkmark is squashed and the box looks distorted.
+// `.form-check .form-check-input { margin-left: -1.5em }` is 0-2-0 and outranks a
+// bare `.form-check-input` reset; without the matching indent the box is pulled
+// outside the dropdown and clipped.
+.form-check .form-check-input{
+    float: none;
+    width: 14px;
+    height: 14px;
+    margin: 0 8px 0 0;
+    border-color: #949ba1;
+    flex-shrink: 0;
 }
 
 .multiselect-option{
-    padding: 0.22rem 0.5rem;
-    .form-check-input{
-        margin-bottom: 2px;
-    }
+    padding: 0.35rem 0.75rem;
 }
 
 .multiselect-all{
-    padding: 0.25rem 0.7rem;
+    padding: 0.35rem 0.75rem;
 }
 
 .multiselect-container{
@@ -237,10 +245,14 @@ a.badge:focus {
 
 .row > .form-group{
     display: flex;
+    position: relative;
     width: -webkit-fill-available;
     width: -moz-available;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+}
+.form-group > [class*="col-"] {
+    position: relative;
 }
 
 .element-container .row .form-group {
@@ -279,4 +291,41 @@ a.badge:focus {
     flex-flow: row wrap;
     -ms-flex-align: center;
     align-items: center;
+}
+
+// Language / timezone: compact Inherit dropdown + shortcut buttons on one row,
+// matching the FreePBX 17 input-group layout. Bootstrap 5 form-select is
+// width:100%, which stretched the dropdown across the column.
+.lang-tz-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+
+	> .btn-group {
+		width: auto;
+		display: inline-flex;
+	}
+
+	.multiselect.form-select,
+	.multiselect.form-control {
+		width: auto;
+		min-width: 7rem;
+		display: inline-block;
+	}
+
+	.lang-tz-actions {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+
+		> .btn {
+			margin-right: 5px;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
 }

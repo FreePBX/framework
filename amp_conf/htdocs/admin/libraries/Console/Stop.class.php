@@ -11,9 +11,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 //progress bar
 use Symfony\Component\Console\Helper\ProgressBar;
 
-#[\AllowDynamicProperties]
 class Stop extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('stop')
 			->setDescription(_('Stop Asterisk and run other needed FreePBX commands'))
 			->addOption('pre', null, InputOption::VALUE_NONE, _('Only run pre-stop hooks'))
@@ -24,7 +23,7 @@ class Stop extends Command {
 			->setHelp($this->showHelp());
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if(posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);

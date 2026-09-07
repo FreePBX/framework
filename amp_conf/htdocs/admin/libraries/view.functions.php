@@ -458,7 +458,7 @@ function framework_server_name() {
 function show_help($message, $title='', $collapse=false, $collapseable=true, $class='default') {
 	$thisid = uniqid();
 	$html = "<div class='panel panel-$class panel-help'>";
-	$html .= sprintf('<div class="panel-heading" %s href="#%s" role="button" aria-expanded="%s" aria-controls="%s">', (($collapseable) ? 'data-toggle="collapse"' : '' ), "panelId$thisid", ((! $collapse) ? 'false' : 'true'),"panelId$thisid");
+	$html .= sprintf('<div class="panel-heading" %s href="#%s" role="button" aria-expanded="%s" aria-controls="%s">', (($collapseable) ? 'data-bs-toggle="collapse"' : '' ), "panelId$thisid", ((! $collapse) ? 'false' : 'true'),"panelId$thisid");
 	$html .= '<h3 class="panel-title">';
 	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg fa-fw"></i></span>';
 	$html .= ($title) ? $title : _("Helpful Information");
@@ -480,7 +480,7 @@ function show_help($message, $title='', $collapse=false, $collapseable=true, $cl
 function show_deprecated($message="", $dismisable = true, $logit = false){
 	if($dismisable){
 		$html = '<div class="alert alert-warning alert-dismissable hidden depnotice" data-for="dep">';
-		$html .= '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+		$html .= '<button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">&times;</button>';
   }else{
 		$html = '<div class="alert alert-warning hidden">';
 	}

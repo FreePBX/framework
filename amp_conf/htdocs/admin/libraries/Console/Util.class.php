@@ -13,15 +13,14 @@ use Symfony\Component\Finder\Finder;
 //Process
 use Symfony\Component\Process\Process;
 
-#[\AllowDynamicProperties]
 class Util extends Command {
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('util')
 			->setDescription(_('Common utilities'))
 			->setDefinition(array(
 				new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		global $amp_conf;
 
 		$args = $input->getArgument('args');
@@ -186,5 +185,6 @@ class Util extends Command {
 				$output->writeln('Invalid argument');
 			break;
 		}
+		return 0;
 	}
 }

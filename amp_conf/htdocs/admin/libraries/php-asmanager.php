@@ -68,7 +68,6 @@ function phpasmanager_error_handler($errno, $errstr, $errfile, $errline) {
 * @example examples/sip_show_peer.php Get information about a sip peer
 * @package phpAGI
 */
-#[\AllowDynamicProperties]
 class AGI_AsteriskManager {
 	/**
 	* Config variables
@@ -158,6 +157,7 @@ class AGI_AsteriskManager {
 	public $log_level;
 
 	public $useCaching = false;
+	public $response_catch = array();
 
 	private $memAstDB = array();
 	private $memAstDBArray = array();

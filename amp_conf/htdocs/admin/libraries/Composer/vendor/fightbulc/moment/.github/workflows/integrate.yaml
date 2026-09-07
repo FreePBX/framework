@@ -1,0 +1,53 @@
+name: "Integrate"
+
+on:
+  pull_request: null
+  push:
+    branches:
+      - "master"
+
+jobs:
+  tests:
+    name: "Tests"
+
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          extensions: "none, curl, dom, json, mbstring, tokenizer, xml, xmlwriter"
+          php-version: "${{ matrix.php-version }}'"
+
+      - name: "Set up problem matchers for PHP"
+        run: "echo \"::add-matcher::${{ runner.tool_cache }}/php.json\""
+
+      - name: "Set up problem matchers for phpunit/phpunit"
+        run: "echo \"::add-matcher::${{ runner.tool_cache }}/phpunit.json\""
+
+      - name: "Validate composer.json and composer.lock"
+        run: "composer validate --ansi"
+
+      - name: "Install dependencies with composer"
+        run: "composer install --ansi --prefer-dist --no-progress"
+
+      - name: "Run tests with phpunit/phpunit"
+        run: "vendor/bin/phpunit --colors=always --configuration=tests/phpunit.xml"

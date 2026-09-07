@@ -20,6 +20,7 @@ use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\StreamableInputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
@@ -38,14 +39,10 @@ use Symfony\Component\PasswordHasher\LegacyPasswordHasherInterface;
 #[AsCommand(name: 'security:hash-password', description: 'Hash a user password')]
 class UserPasswordHashCommand extends Command
 {
-    private PasswordHasherFactoryInterface $hasherFactory;
-    private array $userClasses;
-
-    public function __construct(PasswordHasherFactoryInterface $hasherFactory, array $userClasses = [])
-    {
-        $this->hasherFactory = $hasherFactory;
-        $this->userClasses = $userClasses;
-
+    public function __construct(
+        private PasswordHasherFactoryInterface $hasherFactory,
+        private array $userClasses = [],
+    ) {
         parent::__construct();
     }
 
@@ -57,42 +54,49 @@ class UserPasswordHashCommand extends Command
             ->addOption('empty-salt', null, InputOption::VALUE_NONE, 'Do not generate a salt or let the hasher generate one.')
             ->setHelp(<<<EOF
 
-The <info>%command.name%</info> command hashes passwords according to your
-security configuration. This command is mainly used to generate passwords for
-the <comment>in_memory</comment> user provider type and for changing passwords
-in the database while developing the application.
+                The <info>%command.name%</info> command hashes passwords according to your
+                security configuration. This command is mainly used to generate passwords for
+                the <comment>in_memory</comment> user provider type and for changing passwords
+                in the database while developing the application.
 
-Suppose that you have the following security configuration in your application:
+                Suppose that you have the following security configuration in your application:
 
-<comment>
-# config/packages/security.yml
-security:
-    password_hashers:
-        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
-        App\Entity\User: auto
-</comment>
+                <comment>
+                # config/packages/security.yml
+                security:
+                    password_hashers:
+                        Symfony\Component\Security\Core\User\InMemoryUser: plaintext
+                        App\Entity\User: auto
+                </comment>
 
-If you execute the command non-interactively, the first available configured
-user class under the <comment>security.password_hashers</comment> key is used and a random salt is
-generated to hash the password:
+                Executing the command interactively prompts for the password and uses
+                the first available configured user class under the
+                <comment>security.password_hashers</comment> key:
 
-  <info>php %command.full_name% --no-interaction [password]</info>
+                  <info>php %command.full_name%</info>
 
-Pass the full user class path as the second argument to hash passwords for
-your own entities:
+                Pass the full user class path as the second argument to hash passwords for
+                your own entities (pass <comment>''</comment> as the first argument to keep the interactive prompt):
 
-  <info>php %command.full_name% --no-interaction [password] 'App\Entity\User'</info>
+                  <info>php %command.full_name% '' 'App\Entity\User'</info>
 
-Executing the command interactively allows you to generate a random salt for
-hashing the password:
+                Passing the password on the command line is supported for non-interactive
+                use, but exposes the plaintext to shell history and the process list
+                (<comment>ps</comment>, <comment>/proc/&lt;pid&gt;/cmdline</comment>, container audit logs); prefer the
+                interactive form when a terminal is available:
 
-  <info>php %command.full_name% [password] 'App\Entity\User'</info>
+                  <info>php %command.full_name% --no-interaction [password] 'App\Entity\User'</info>
 
-In case your hasher doesn't require a salt, add the <comment>empty-salt</comment> option:
+                Read the password from standard input by passing <comment>-</comment> as the password
+                argument; this avoids exposing it to shell history or the process list:
 
-  <info>php %command.full_name% --empty-salt [password] 'App\Entity\User'</info>
+                  <info>echo \$PASSWORD | php %command.full_name% --no-interaction -</info>
 
-EOF
+                In case your hasher doesn't require a salt, add the <comment>empty-salt</comment> option:
+
+                  <info>php %command.full_name% --empty-salt</info>
+
+                EOF
             )
         ;
     }
@@ -105,6 +109,14 @@ EOF
         $input->isInteractive() ? $errorIo->title('Symfony Password Hash Utility') : $errorIo->newLine();
 
         $password = $input->getArgument('password');
+
+        if ('-' === $password) {
+            $stream = $input instanceof StreamableInputInterface ? $input->getStream() : null;
+            $password = rtrim(fgets($stream ?? \STDIN) ?: '', "\r\n");
+        } elseif ($password && $input->isInteractive()) {
+            $errorIo->warning('Passing the password as a command argument exposes it to shell history and the process list (ps, /proc/<pid>/cmdline, container audit logs); prefer the interactive prompt or pass "-" to read it from stdin.');
+        }
+
         $userClass = $this->getUserClass($input, $io);
         $emptySalt = $input->getOption('empty-salt');
 
@@ -166,8 +178,6 @@ EOF
     {
         if ($input->mustSuggestArgumentValuesFor('user-class')) {
             $suggestions->suggestValues($this->userClasses);
-
-            return;
         }
     }
 
@@ -178,7 +188,7 @@ EOF
     {
         $passwordQuestion = new Question('Type in your password to be hashed');
 
-        return $passwordQuestion->setValidator(function ($value) {
+        return $passwordQuestion->setValidator(static function ($value) {
             if ('' === trim($value)) {
                 throw new InvalidArgumentException('The password must not be empty.');
             }

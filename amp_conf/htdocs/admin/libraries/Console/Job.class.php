@@ -12,10 +12,10 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Command\HelpCommand;
 
-#[\AllowDynamicProperties]
 class Job extends Command {
 	private $output;
 	private $input;
+	private $freePBX = null;
 	private $force = false;
 	private $fwjobsLogEnabled=false;
 	private $fwjobslogfd=null;
@@ -23,7 +23,7 @@ class Job extends Command {
 	use LockableTrait;
 
 
-	protected function configure() {
+	protected function configure(): void {
 		$this->setName('job')
 		->setDescription(_('Centralized job management'))
 		->setDefinition(array(
@@ -35,7 +35,7 @@ class Job extends Command {
 		));
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->output = $output;
 		$this->input = $input;
 
@@ -84,7 +84,7 @@ class Job extends Command {
 					$job['modulename'],
 					$job['jobname'],
 					$job['schedule'],
-					\Cron\CronExpression::factory($job['schedule'])->getNextRunDate()->format('Y-m-d H:i:s'),
+					(new \Cron\CronExpression($job['schedule']))->getNextRunDate()->format('Y-m-d H:i:s'),
 					(!empty($job['command']) ? _('Command').': '.$job['command'] : _('Class').': '.$job['class']),
 					!empty($job['enabled']) ? 'Yes' : 'No'
 				);
@@ -150,7 +150,7 @@ class Job extends Command {
 		}
 		$time = new \DateTimeImmutable("now");
 		foreach($jobs as $config) {
-			if (!$this->force && !\Cron\CronExpression::factory($config['schedule'])->isDue($time)) {
+			if (!$this->force && !(new \Cron\CronExpression($config['schedule']))->isDue($time)) {
 				if ($this->output->isVerbose() || !empty($this->input->getOption('run'))) {
 					$msg = sprintf(_('Skipping %s::%s because schedule does not match'), $config['module'], $config['job']);
 					$this->writelog($msg);

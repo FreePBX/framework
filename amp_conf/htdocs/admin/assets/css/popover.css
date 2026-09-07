@@ -3,3 +3,10 @@
 body {
 	background-color:white;
 }
+
+/* The parent dialog already has Save/Cancel; hide page chrome inside the iframe */
+#action-bar,
+#floating-nav-bar,
+#footer {
+	display: none !important;
+}

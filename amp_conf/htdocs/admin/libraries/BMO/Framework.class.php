@@ -9,11 +9,11 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class Framework extends FreePBX_Helpers implements BMO {
 
 	private static $sysUpdate = false;
 	private static $monitoringObj = false;
+	private $freepbx;
 
 	public function __construct($freepbx = null) {
 		$this->freepbx = $freepbx;

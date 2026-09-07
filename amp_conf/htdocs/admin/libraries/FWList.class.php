@@ -24,7 +24,7 @@ class FWListCommand extends Command {
 		"text" => "FreePBX"
 	);
 
-	protected function configure() {
+	protected function configure(): void {
 		$this
 		->setName('list')
 		->setDefinition($this->createDefinition())

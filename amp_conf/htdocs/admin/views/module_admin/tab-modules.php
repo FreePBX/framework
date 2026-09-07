@@ -171,20 +171,20 @@ if($online) {
 									<div class="col-2">
 										<div class="nav flex-column nav-pills">
 											<?php if (!empty($module['attention'])) { ?>
-												<a class="nav-link active" href="#attention_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _('Attention')?></a>
+												<a class="nav-link active" href="#attention_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _('Attention')?></a>
 											<?php } ?>
-												<a class="nav-link active" href="#info_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Info")?></a>
+												<a class="nav-link active" href="#info_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _("Info")?></a>
 											<?php if(!empty($module['changelog'])) { ?>
-												<a class="nav-link" href="#changelog_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Changelog")?></a>
+												<a class="nav-link" href="#changelog_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _("Changelog")?></a>
 											<?php } ?>
 											<?php if(!empty($module['previous'])) {?>
-												<a class="nav-link" href="#previous_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Previous")?></a>
+												<a class="nav-link" href="#previous_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _("Previous")?></a>
 											<?php } ?>
 											<?php if($breaking['breaking'] && !empty($breaking['issues'][$module['name']])) {?>
-												<a class="nav-link" href="#breaking_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Conflicts")?></a>
+												<a class="nav-link" href="#breaking_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _("Conflicts")?></a>
 											<?php } ?>
 											<?php if ($devel) { ?>
-												<a class="nav-link" href="#devel_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Debug")?></a>
+												<a class="nav-link" href="#devel_<?php echo prep_id($module['name'])?>" data-bs-toggle="tab"><?php echo _("Debug")?></a>
 											<?php } ?>
 										</div>
 									</div>

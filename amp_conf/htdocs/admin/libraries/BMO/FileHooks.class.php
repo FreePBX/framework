@@ -8,8 +8,9 @@
  */
 namespace FreePBX;
 
-#[\AllowDynamicProperties]
 class FileHooks {
+
+	private $FreePBX;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {

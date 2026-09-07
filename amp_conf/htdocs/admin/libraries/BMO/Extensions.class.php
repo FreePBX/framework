@@ -3,9 +3,9 @@ namespace FreePBX;
 use modgettext;
 use fwmsg;
 
-#[\AllowDynamicProperties]
 class Extensions {
 	private $extmap = [];
+	private $FreePBX;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {

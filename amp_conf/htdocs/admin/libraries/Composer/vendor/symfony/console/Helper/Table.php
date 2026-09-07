@@ -14,6 +14,7 @@ namespace Symfony\Component\Console\Helper;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\WrappableOutputFormatterInterface;
 use Symfony\Component\Console\Output\ConsoleSectionOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,20 +46,19 @@ class Table
     private array $rows = [];
     private array $effectiveColumnWidths = [];
     private int $numberOfColumns;
-    private OutputInterface $output;
     private TableStyle $style;
     private array $columnStyles = [];
     private array $columnWidths = [];
+    private array $configuredColumnWidths = [];
     private array $columnMaxWidths = [];
     private bool $rendered = false;
     private string $displayOrientation = self::DISPLAY_ORIENTATION_DEFAULT;
 
     private static array $styles;
 
-    public function __construct(OutputInterface $output)
-    {
-        $this->output = $output;
-
+    public function __construct(
+        private OutputInterface $output,
+    ) {
         self::$styles ??= self::initStyles();
 
         $this->setStyle('default');
@@ -66,10 +66,8 @@ class Table
 
     /**
      * Sets a style definition.
-     *
-     * @return void
      */
-    public static function setStyleDefinition(string $name, TableStyle $style)
+    public static function setStyleDefinition(string $name, TableStyle $style): void
     {
         self::$styles ??= self::initStyles();
 
@@ -138,6 +136,7 @@ class Table
     public function setColumnWidth(int $columnIndex, int $width): static
     {
         $this->columnWidths[$columnIndex] = $width;
+        $this->configuredColumnWidths[$columnIndex] = $width;
 
         return $this;
     }
@@ -150,6 +149,7 @@ class Table
     public function setColumnWidths(array $widths): static
     {
         $this->columnWidths = [];
+        $this->configuredColumnWidths = [];
         foreach ($widths as $index => $width) {
             $this->setColumnWidth($index, $width);
         }
@@ -194,7 +194,7 @@ class Table
     /**
      * @return $this
      */
-    public function setRows(array $rows)
+    public function setRows(array $rows): static
     {
         $this->rows = [];
 
@@ -312,10 +312,8 @@ class Table
      *     | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      *     | 960-425-059-0 | The Lord of the Rings | J. R. R. Tolkien |
      *     +---------------+-----------------------+------------------+
-     *
-     * @return void
      */
-    public function render()
+    public function render(): void
     {
         $divider = new TableSeparator();
         $isCellWithColspan = static fn ($cell) => $cell instanceof TableCell && $cell->getColspan() >= 2;
@@ -430,7 +428,7 @@ class Table
                     $this->renderRowSeparator(self::SEPARATOR_MID, null, null, $previousRow, $row);
                 }
 
-                if ($isHeader && !$isHeaderSeparatorRendered) {
+                if ($isHeader && !$isHeaderSeparatorRendered && $this->style->displayOutsideBorder()) {
                     $this->renderRowSeparator(
                         self::SEPARATOR_TOP,
                         $hasTitle ? $this->headerTitle : null,
@@ -473,7 +471,9 @@ class Table
             $this->renderRowSeparator(self::SEPARATOR_MID, null, null, $previousRow);
         }
 
-        $this->renderRowSeparator(self::SEPARATOR_BOTTOM, $this->footerTitle, $this->style->getFooterTitleFormat(), $previousRow);
+        if ($this->getStyle()->displayOutsideBorder()) {
+            $this->renderRowSeparator(self::SEPARATOR_BOTTOM, $this->footerTitle, $this->style->getFooterTitleFormat(), $previousRow);
+        }
 
         $this->cleanup();
         $this->rendered = true;
@@ -704,13 +704,18 @@ class Table
                             $this->columnWidths[$item['column']] = $minWidthColumn;
                             $columnsMinWidthProcessed[$item['column']] = true;
                             $cellWidth -= $minWidthColumn + $lengthColumnBorder;
+                        } elseif ('min' === $item['type'] && ($this->configuredColumnWidths[$item['column']] ?? 0) > 0) {
+                            // this column already covers part of the cell, so share only the rest
+                            $columnsMinWidthProcessed[$item['column']] = true;
+                            $cellWidth -= $this->configuredColumnWidths[$item['column']] + $lengthColumnBorder;
                         }
                     }
                     for ($i = $column; $i < ($column + $colspan); ++$i) {
                         if (isset($columnsMinWidthProcessed[$i])) {
                             continue;
                         }
-                        $this->columnWidths[$i] = $cellWidth + $lengthColumnBorder;
+                        // a width set through setColumnWidth() is a minimum, unlike one computed for an earlier row
+                        $this->columnWidths[$i] = max($this->configuredColumnWidths[$i] ?? 0, $cellWidth + $lengthColumnBorder);
                     }
                 }
                 if (!str_contains($cell ?? '', "\n")) {
@@ -803,7 +808,7 @@ class Table
 
         foreach ($unmergedRows as $unmergedRowKey => $unmergedRow) {
             // we need to know if $unmergedRow will be merged or inserted into $rows
-            if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRows[$unmergedRowKey]) <= $this->numberOfColumns)) {
+            if (isset($rows[$unmergedRowKey]) && \is_array($rows[$unmergedRowKey]) && ($this->getNumberOfColumns($rows[$unmergedRowKey]) + $this->getNumberOfColumns($unmergedRow) <= $this->numberOfColumns)) {
                 foreach ($unmergedRow as $cellKey => $cell) {
                     // insert cell into row at cellKey position
                     array_splice($rows[$unmergedRowKey], $cellKey, 0, [$cell]);
@@ -811,8 +816,8 @@ class Table
             } else {
                 $row = $this->copyRow($rows, $unmergedRowKey - 1);
                 foreach ($unmergedRow as $column => $cell) {
-                    if (!empty($cell)) {
-                        $row[$column] = $unmergedRow[$column];
+                    if ($cell) {
+                        $row[$column] = $cell;
                     }
                 }
                 array_splice($rows, $unmergedRowKey, 0, [$row]);
@@ -889,32 +894,45 @@ class Table
      */
     private function calculateColumnsWidth(iterable $groups): void
     {
-        for ($column = 0; $column < $this->numberOfColumns; ++$column) {
-            $lengths = [];
-            foreach ($groups as $group) {
-                foreach ($group as $row) {
-                    if ($row instanceof TableSeparator) {
-                        continue;
-                    }
+        $formatter = $this->output->getFormatter();
 
-                    foreach ($row as $i => $cell) {
-                        if ($cell instanceof TableCell) {
-                            $textContent = Helper::removeDecoration($this->output->getFormatter(), $cell);
-                            $textLength = Helper::width($textContent);
-                            if ($textLength > 0) {
-                                $contentColumns = mb_str_split($textContent, ceil($textLength / $cell->getColspan()));
-                                foreach ($contentColumns as $position => $content) {
-                                    $row[$i + $position] = $content;
-                                }
+        // Initialize max widths for all columns
+        $maxColumnWidths = array_fill(0, $this->numberOfColumns, 0);
+
+        // Single pass through all rows to calculate all column widths at once
+        foreach ($groups as $group) {
+            foreach ($group as $row) {
+                if ($row instanceof TableSeparator) {
+                    continue;
+                }
+
+                // Process TableCell colspan splitting once per row
+                foreach ($row as $i => $cell) {
+                    if ($cell instanceof TableCell && $cell->getColspan() > 1) {
+                        $textContent = Helper::removeDecoration($formatter, $cell);
+                        $textLength = Helper::width($textContent);
+                        if ($textLength > 0) {
+                            $contentColumns = mb_str_split($textContent, (int) ceil($textLength / $cell->getColspan()));
+                            foreach ($contentColumns as $position => $content) {
+                                $row[$i + $position] = $content;
                             }
                         }
                     }
+                }
 
-                    $lengths[] = $this->getCellWidth($row, $column);
+                // Calculate width for each column in this row
+                for ($column = 0; $column < $this->numberOfColumns; ++$column) {
+                    $cellWidth = $this->getCellWidth($row, $column, $formatter);
+                    if ($cellWidth > $maxColumnWidths[$column]) {
+                        $maxColumnWidths[$column] = $cellWidth;
+                    }
                 }
             }
+        }
 
-            $this->effectiveColumnWidths[$column] = max($lengths) + Helper::width($this->style->getCellRowContentFormat()) - 2;
+        $cellContentFormatWidth = Helper::width($this->style->getCellRowContentFormat()) - 2;
+        for ($column = 0; $column < $this->numberOfColumns; ++$column) {
+            $this->effectiveColumnWidths[$column] = $maxColumnWidths[$column] + $cellContentFormatWidth;
         }
     }
 
@@ -923,13 +941,13 @@ class Table
         return Helper::width(\sprintf($this->style->getBorderFormat(), $this->style->getBorderChars()[3]));
     }
 
-    private function getCellWidth(array $row, int $column): int
+    private function getCellWidth(array $row, int $column, OutputFormatterInterface $formatter): int
     {
         $cellWidth = 0;
 
         if (isset($row[$column])) {
             $cell = $row[$column];
-            $cellWidth = Helper::width(Helper::removeDecoration($this->output->getFormatter(), $cell));
+            $cellWidth = Helper::width(Helper::removeDecoration($formatter, $cell));
         }
 
         $columnWidth = $this->columnWidths[$column] ?? 0;
@@ -952,6 +970,12 @@ class Table
      */
     private static function initStyles(): array
     {
+        $markdown = new TableStyle();
+        $markdown
+            ->setDefaultCrossingChar('|')
+            ->setDisplayOutsideBorder(false)
+        ;
+
         $borderless = new TableStyle();
         $borderless
             ->setHorizontalBorderChars('=')
@@ -989,6 +1013,7 @@ class Table
 
         return [
             'default' => new TableStyle(),
+            'markdown' => $markdown,
             'borderless' => $borderless,
             'compact' => $compact,
             'symfony-style-guide' => $styleGuide,

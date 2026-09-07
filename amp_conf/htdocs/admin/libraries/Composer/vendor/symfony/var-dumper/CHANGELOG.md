@@ -1,6 +1,43 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Allow `HtmlDumper::setNonce()` to take a distinct style nonce alongside the script nonce
+ * Dump class-strings as class stubs with source location and static properties
+
+7.4
+---
+
+ * Add support for adding more default casters to `AbstractCloner::addDefaultCasters()`
+ * Select HtmlDumper only if `Accept` header contains "html"
+
+7.3
+---
+
+ * Add casters for `Dba\Connection`, `SQLite3Result`, `OpenSSLAsymmetricKey` and `OpenSSLCertificateSigningRequest`
+ * Deprecate `ResourceCaster::castCurl()`, `ResourceCaster::castGd()` and `ResourceCaster::castOpensslX509()`
+ * Mark all casters as `@internal`
+
+7.2
+---
+
+ * Add support for `FORCE_COLOR` environment variable
+ * Add support for virtual properties
+
+7.1
+---
+
+ * Add support for new DOM extension classes in `DOMCaster`
+
+7.0
+---
+
+ * Add argument `$label` to `VarDumper::dump()`
+ * Require explicit argument when calling `VarDumper::setHandler()`
+ * Remove display of backtrace in `Twig_Template`, only `Twig\Template` is supported
+
 6.4
 ---
 

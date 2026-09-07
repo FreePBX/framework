@@ -17,11 +17,15 @@ namespace FreePBX;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
-#[\AllowDynamicProperties]
 class Database extends \PDO {
 	private $dsn = null; //pdo dsn
 	private $dConn = null; //docterine connection
 	private $dVersion = null; //driver version
+	private $FreePBX = null;
+	private $dsnarr = array(); //dsn, exploded
+	private $username = null;
+	private $password = null;
+	private $engine = null;
 	/**
 	 * Connecting to the Database object
 	 * If you pass nothing to this it will assume the default database

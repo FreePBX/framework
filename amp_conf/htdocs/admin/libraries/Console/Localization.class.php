@@ -21,7 +21,6 @@ use Sepia\PoParser\Parser as POP;
 
 use Carbon\Carbon;
 
-#[\AllowDynamicProperties]
 class Localization extends Command {
 
 	const PROJECT_LIST = ['freepbx','fpbxc'];
@@ -33,8 +32,9 @@ class Localization extends Command {
 
 	private $requests;
 	private $headers = [];
+	private $components = [];
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('localization')
 			->setDescription(_('Localization Utilities'))
 			->setDefinition(array(
@@ -46,19 +46,20 @@ class Localization extends Command {
 				new InputOption('ignorechange', null, InputOption::VALUE_NONE, _('Ignore last change date, process regardless')),
 			));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if(!empty($input->getOption('authorization'))) {
 			$this->setAuth($input->getOption('authorization'));
 		}
 		if($input->getOption('list')) {
 			$this->getList($input,$output);
-			return;
+			return 0;
 		}
 		if($input->getOption('update')) {
 			$this->update($input,$output);
-			return;
+			return 0;
 		}
 		$this->outputHelp($input,$output);
+		return 0;
 	}
 
 	private function setAuth($token) {

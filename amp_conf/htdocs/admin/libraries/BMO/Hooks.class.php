@@ -7,10 +7,11 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-#[\AllowDynamicProperties]
 class Hooks extends DB_Helper {
 
 	private $hooks;
+	private $FreePBX;
+	private $activemods = array();
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)

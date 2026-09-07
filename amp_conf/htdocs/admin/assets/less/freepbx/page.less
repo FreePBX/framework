@@ -51,7 +51,11 @@ html {
 }
 input[type=search].form-control {
 	width: 98.5%;
-	height: 24px;
+	height: 31px;
+	min-height: 31px;
+	padding: 5px 9px;
+	font-size: 14px;
+	line-height: 1.42857143;
 }
 h5{
 	font-size: 14px;
@@ -83,10 +87,10 @@ h6 {
 table {
 	border-collapse: separate;
 	border-spacing: 2px;
-	th {
-		background-color: @table-th-background-color;
-		color: @table-th-text-color;
-	}
+}
+.table > thead > tr > th, .bootstrap-table .table > thead > tr > th{
+	background-color: @table-th-background-color;
+	color: @table-th-text-color;
 }
 .table>thead>tr>th,
 .table>tbody>tr>th,
@@ -168,6 +172,25 @@ hr {
 	margin-bottom: 0px;
 }
 
+// Bootstrap 5-era libraries emit Font Awesome 5 style prefixes, but the admin
+// only loads Font Awesome 4.7.0, where these carry no font-family at all. The
+// glyph content still applies, so the icons render as tofu until we point them
+// at the 4.x face.
+.fas,
+.far,
+.fal,
+.fab {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fa-sm {
+	font-size: .875em;
+}
+
 span.twitter-typeahead .tt-dropdown-menu {
 	overflow-x: hidden;
 }
@@ -175,6 +198,12 @@ span.twitter-typeahead .tt-dropdown-menu {
 /**
  * Table Definitions
  */
+// Bootstrap 5 stripes odd rows with an `inset 0 0 0 9999px` box-shadow instead
+// of a background, so it tints over the colours below and flattens the contrast
+// to #f2f2f2 against #f5f5f5. Neutralise the overlay and let these rules stripe.
+.table.table-striped {
+	--bs-table-striped-bg: transparent;
+}
 .alt_table tr:nth-child(even),
 .table-striped &>tbody &>tr:nth-child(even) &>td,
 .table-striped &>tbody &>tr:nth-child(even) &>th {
@@ -536,7 +565,10 @@ div.attention {
 	margin-top: 10px;
 	border-bottom-color: @border-color;
 	> li {
+		// Bootstrap 5's `.nav-link` colours tabs with `--bs-link-color`, which
+		// outranks the global `a` rule the resting state used to inherit from.
 		> a, > a:visited {
+			color: @text-color;
 			font-weight: bold;
 			padding: 5px 18px;
 			background: #ffffff;
@@ -657,6 +689,9 @@ div.attention {
  * Scrolling Nav Tabs
  */
 .nav-container {
+	// The scrollers below are absolutely positioned; without this they anchor to
+	// the initial containing block and land at the edges of the page.
+	position: relative;
 	.wrapper {
 		position: relative;
 		margin: 0 auto;
@@ -668,8 +703,9 @@ div.attention {
 			left: 0px;
 			top:0px;
 			min-width:3000px;
-			margin-left:12px;
-    margin-left: 14px;
+			// Indent with padding, not margin, so the strip's bottom border still
+			// starts at the container edge and meets the panel below it.
+			padding-left: 14px;
     margin-top: 9px;
 			li{
 				display:table-cell;
@@ -683,6 +719,10 @@ div.attention {
 		}
 	}
 	.scroller {
+		// Stays invisible until the scroll JS reveals an arrow, otherwise the
+		// empty box strands its bottom border as a stray stub. Visibility rather
+		// than display so its width stays in the scroll calculations.
+		visibility: hidden;
 		padding: 7px;
 		background-color: #fff;
 		height: 35px;
@@ -695,6 +735,9 @@ div.attention {
 			color: gray;
 			cursor: not-allowed;
 		}
+	}
+	.scroller:has(i[style]:not([style*="none"])) {
+		visibility: visible;
 	}
 	.scroller-right{
 		position: absolute;
@@ -782,7 +825,17 @@ div.attention {
                 border-color: @fixed-list-btn-border-color;
         }
 	.fixed-table-container {
-		margin-bottom: 10px;
+		margin: 0 12px 12px;
+
+		// Global table.less drops the first header's left border so a flush
+		// table can share the container radius. This panel insets the table,
+		// so that missing stroke leaves Username open on the left.
+		thead th {
+			border-top: 1px solid @border-color;
+		}
+		thead th:first-child {
+			border-left: 1px solid @border-color;
+		}
 	}
 	&.locked {
 		position: absolute;
@@ -866,6 +919,26 @@ div.attention {
 	color: @button-hover-text-color !important;
 	background-color: @button-hover-background-color !important;
 	border-color: @button-hover-border-color !important;
+}
+
+// The page-size entries are `<a class="dropdown-item" href="#">`, and `href="#"`
+// always counts as visited, so the global `a:visited` rule outranks Bootstrap's
+// `.dropdown-item`. Hand the colours back to the dropdown variables.
+.fixed-table-pagination .page-list .dropdown-menu {
+	.dropdown-item,
+	.dropdown-item:visited {
+		color: var(--bs-dropdown-link-color);
+	}
+	.dropdown-item:hover,
+	.dropdown-item:focus {
+		color: var(--bs-dropdown-link-hover-color);
+		background-color: var(--bs-dropdown-link-hover-bg);
+	}
+	.dropdown-item.active,
+	.dropdown-item.active:visited {
+		color: var(--bs-dropdown-link-active-color);
+		background-color: var(--bs-dropdown-link-active-bg);
+	}
 }
 
 .progress-bar {
@@ -993,6 +1066,18 @@ label{
 }
 
 .fixed-table-toolbar {
+	.search {
+		.search-input,
+		.form-control,
+		input {
+			height: 31px;
+			min-height: 31px;
+			padding: 5px 9px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			border-radius: @button-radius;
+		}
+	}
 	.dropdown-menu{
 		width: max-content;
 		li{
@@ -1073,6 +1158,24 @@ label{
 }
 .modal-header{
 	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
+}
+.modal-header button.close{
+	display: contents;
+}
+/* Bootstrap 5 close control is an empty button with a background-image X.
+   display:contents removes that box, so the icon never paints. */
+.modal-header .btn-close{
+	display: inline-block;
+	flex-shrink: 0;
+	width: 12px;
+	height: 12px;
+	padding: 0;
+	margin: 0;
+	opacity: 0.5;
+	background-size: 12px;
+	box-sizing: content-box;
 }
 pre{
 	display: block;

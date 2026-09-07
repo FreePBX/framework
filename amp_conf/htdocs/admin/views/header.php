@@ -30,12 +30,12 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 //http to https
 $html .= '<meta name="referrer" content="always">';
 
-$html .= '<link href="assets/css/bootstrap-4.6.1.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-5.3.8.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/font-awesome.min-4.7.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-$html .= '<link href="assets/css/bootstrap-table-dev.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-$html .= '<link href="assets/css/bootstrap-table-reorder-rows.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-$html .= '<link href="assets/css/bootstrap-select-1.13.14.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-$html .= '<link href="assets/css/jquery-ui-1.13.2.custom.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-table.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-table-reorder-rows.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-select-1.14.0-beta3.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/jquery-ui-1.14.2.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/typehead.js-bootstrap3-0.2.3.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/notie.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/text-editor-1.2.1.css'.$version_tag.'" rel="stylesheet" type="text/css">';
@@ -65,7 +65,7 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 
 //include rtl stylesheet if using a right to left langauge
 if (isset($_SESSION['langdirection']) && ($_SESSION['langdirection'] == 'rtl')) {
-	$html .= '<link href="assets/css/bootstrap-rtl.css'.$version_tag.'" rel="stylesheet" type="text/css" />';
+	$html .= '<link href="assets/css/bootstrap-5.3.8.rtl.min.css'.$version_tag.'" rel="stylesheet" type="text/css" />';
 	$html .= '<link href="assets/css/mainstyle-rtl.css'.$version_tag.'" rel="stylesheet" type="text/css" />';
 }
 
@@ -73,7 +73,7 @@ $html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css'.$vers
 $html .= '<script type="text/javascript" src="assets/js/outdatedbrowser-1.1.3.min.js'.$version_tag.'"></script>';
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-$html .= '<script type="text/javascript" src="assets/js/jquery-3.6.0.min.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-4.0.0.min.js'.$version_tag.'"></script>';
 $html .= '<script type="text/javascript" src="assets/js/selector-set-1.1.0.js'.$version_tag.'"></script>';
 $html .= '<script type="text/javascript" src="assets/js/jquery.selector-set-0.2.2.js'.$version_tag.'"></script>';
 

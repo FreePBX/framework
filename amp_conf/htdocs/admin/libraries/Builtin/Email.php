@@ -5,13 +5,13 @@ namespace FreePBX\Builtin;
 /**
  * Abstraction layer for sending emails
  */
-#[\AllowDynamicProperties]
 class Email {
 
 	private $toarray = [];
 	private $subject = false;
 	private $from = false;
 	private $body = false;
+	private $bodyplain = false;
 	private $priority = 3;
 
 	public function __construct($to = false) {

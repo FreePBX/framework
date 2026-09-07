@@ -15,18 +15,17 @@ namespace Symfony\Component\Security\Core\User;
  * Represents the interface that all user classes must implement.
  *
  * This interface is useful because the authentication layer can deal with
- * the object through its lifecycle, using the object to get the hashed
- * password (for checking against a submitted password), assigning roles
- * and so on.
+ * the object through its lifecycle, assigning roles and so on.
  *
  * Regardless of how your users are loaded or where they come from (a database,
  * configuration, web service, etc.), you will have a class that implements
  * this interface. Objects that implement this interface are created and
  * loaded by different objects that implement UserProviderInterface.
  *
- * @see UserProviderInterface
+ * The __serialize/__unserialize() magic methods can be implemented on the user
+ * class to prevent sensitive credentials from being put in the session storage.
  *
- * @method string getUserIdentifier() returns the identifier for this user (e.g. its username or email address)
+ * @see UserProviderInterface
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
@@ -46,43 +45,12 @@ interface UserInterface
      *
      * @return string[]
      */
-    public function getRoles();
+    public function getRoles(): array;
 
     /**
-     * Returns the password used to authenticate the user.
+     * Returns the identifier for this user (e.g. username or email address).
      *
-     * This should be the hashed password. On authentication, a plain-text
-     * password will be hashed, and then compared to this value.
-     *
-     * This method is deprecated since Symfony 5.3, implement it from {@link PasswordAuthenticatedUserInterface} instead.
-     *
-     * @return string|null
+     * @return non-empty-string
      */
-    public function getPassword();
-
-    /**
-     * Returns the salt that was originally used to hash the password.
-     *
-     * This can return null if the password was not hashed using a salt.
-     *
-     * This method is deprecated since Symfony 5.3, implement it from {@link LegacyPasswordAuthenticatedUserInterface} instead.
-     *
-     * @return string|null
-     */
-    public function getSalt();
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials();
-
-    /**
-     * @return string
-     *
-     * @deprecated since Symfony 5.3, use getUserIdentifier() instead
-     */
-    public function getUsername();
+    public function getUserIdentifier(): string;
 }

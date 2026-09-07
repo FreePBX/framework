@@ -80,6 +80,10 @@ span.multiselect-native-select select{
   }
 
   .multiselect-filter {
+    padding: 5px;
+    align-items: stretch !important;
+    gap: 0;
+
     .input-group {
       margin:5px;
       flex-wrap: inherit !important;
@@ -90,27 +94,57 @@ span.multiselect-native-select select{
     }
 
     > .fa-search {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 1;
-      padding-left: 0.75rem;
+      padding: 6px 12px;
+      flex-shrink: 0;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      border-right: 0;
+      border-radius: 4px 0 0 4px;
+      color: #555;
+      font-size: 14px;
     }
 
     > input.multiselect-search {
-      border: none;
-      border-bottom: 1px solid lightgrey;
-      padding-left: 2rem;
-      margin-left: -1.625rem;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius:  0;
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 32px;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 0;
+      box-shadow: none;
+      background-color: #fff;
 
       &:focus {
-        border-bottom-right-radius: 0.25rem;
-        border-bottom-left-radius:  0.25rem;;
+        border-color: #ccc;
+        box-shadow: none;
+        z-index: 2;
+      }
+
+      // Native search cancel would duplicate the themed X on the right.
+      &::-webkit-search-cancel-button {
+        -webkit-appearance: none;
       }
     }
 
-    > .multiselect-moz-clear-filter {
-      margin-left: -1.5rem;
-      display: none;
+    > .multiselect-clear-filter {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 32px;
+      margin: 0 0 0 -1px;
+      padding: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      background-color: @form-button-background-color;
+      border: 1px solid @border-color;
+      border-radius: 0 4px 4px 0;
+      color: #555;
+      font-size: 14px;
     }
   }
 
@@ -119,11 +153,22 @@ span.multiselect-native-select select{
   }
 
   .multiselect-option, .multiselect-group, .multiselect-all {
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    padding: 0.35rem 0.75rem;
 
     &.dropdown-item,
     &.dropdown-toggle {
       cursor: pointer;
+    }
+
+    .form-check {
+      padding: 0;
+      margin: 0;
+      min-height: 0;
+    }
+
+    .form-check .form-check-input {
+      float: none;
+      margin: 0 8px 0 0;
     }
 
     .form-check-label {
@@ -132,21 +177,27 @@ span.multiselect-native-select select{
   }
 
   .multiselect-option, .multiselect-group, .multiselect-all {
-    &.active:not(.multiselect-active-item-fallback), &:not(.multiselect-active-item-fallback):active {
-      background-color: rgb(255, 255, 255);
-      color: black;
+    // Checked rows stay white; the checkbox is the selected indicator.
+    // `.active` is applied to every checked option, so Bootstrap's
+    // dropdown-item.active blue would paint the whole list.
+    &.active:not(.multiselect-active-item-fallback),
+    &:not(.multiselect-active-item-fallback):active {
+      background-color: #fff;
+      color: inherit;
     }
 
     &:hover, &:focus {
-      background-color: #e3e3e3 !important;
-    }
-
-    .form-check {
-      padding: 0 5px 0 20px;
+      background-color: #e3e3e3;
+      color: inherit;
     }
 
     &:focus {
       outline: none;
+    }
+
+    &.active .form-check-label,
+    &:active .form-check-label {
+      color: inherit;
     }
   }
 }
@@ -187,7 +238,13 @@ span.multiselect-native-select select{
 }
 
 .multiselect {
-  background: @form-button-background-color !important;
+  // Use background-color so the Bootstrap 5 form-select chevron survives.
+  background-color: @form-button-background-color !important;
+  background-image: var(--bs-form-select-bg-img);
+  background-repeat: no-repeat;
+  background-position: right .75rem center;
+  background-size: 16px 12px;
+  padding-right: 2.25rem;
   color: @form-button-text-color;
   border: 1px solid rgba(94,156,125,0.9);
   .multiselect-selected-text{
@@ -195,7 +252,7 @@ span.multiselect-native-select select{
   }
 }
 .multiselect:hover {
-  background: @btn-group-bg-color !important;
+  background-color: @btn-group-bg-color !important;
   color: @button-hover-text-color;
 }
 .panel-primary {

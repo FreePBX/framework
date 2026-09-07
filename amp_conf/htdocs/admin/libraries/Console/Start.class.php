@@ -13,12 +13,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
 //Process
 use Symfony\Component\Process\Process;
 
-#[\AllowDynamicProperties]
 class Start extends Command {
 	private $booted = false;
 	public $skipChown = false;
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('start')
 			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->addArgument('args', InputArgument::IS_ARRAY, _('Module names'))
@@ -28,7 +27,7 @@ class Start extends Command {
 			->setHelp($this->showHelp());
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		if(posix_geteuid() != 0) {
 			$output->writeln("<error>You need to be root to run this command</error>");
 			exit(1);

@@ -1,6 +1,21 @@
 CHANGELOG
 =========
 
+8.1
+---
+
+ * Deprecate calling `Filesystem::mirror()` with option `copy_on_windows`, use option `follow_symlinks` instead.
+
+7.1
+---
+
+ * Add the `Filesystem::readFile()` method
+
+7.0
+---
+
+ * Add argument `$lock` to `Filesystem::appendToFile()`
+
 5.4
 ---
 

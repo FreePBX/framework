@@ -1,99 +1,53 @@
 <?php
 
 /**
- * libphonenumber-for-php-lite data file
+ * libphonenumber-for-php data file
  * This file has been @generated from libphonenumber data
  * Do not modify!
  * @internal
  */
 
-return [
-    'generalDesc' => [
-        'NationalNumberPattern' => '(?:[01589]\\d|[46])\\d{4}',
-        'PossibleLength' => [
-            5,
-            6,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'fixedLine' => [
-        'NationalNumberPattern' => '6[2-467]\\d{3}',
-        'ExampleNumber' => '62889',
-        'PossibleLength' => [
-            5,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'mobile' => [
-        'NationalNumberPattern' => '4\\d{4}',
-        'ExampleNumber' => '40123',
-        'PossibleLength' => [
-            5,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'tollFree' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'premiumRate' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'sharedCost' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'personalNumber' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'voip' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'pager' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'uan' => [
-        'NationalNumberPattern' => '(?:0[1-9]|[1589]\\d)\\d{4}',
-        'ExampleNumber' => '542011',
-        'PossibleLength' => [
-            6,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'voicemail' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'noInternationalDialling' => [
-        'PossibleLength' => [
-            -1,
-        ],
-        'PossibleLengthLocalOnly' => [],
-    ],
-    'id' => 'AC',
-    'countryCode' => 247,
-    'internationalPrefix' => '00',
-    'sameMobileAndFixedLinePattern' => false,
-    'numberFormat' => [],
-    'intlNumberFormat' => [],
-    'mainCountryForCode' => false,
-    'mobileNumberPortableRegion' => false,
-];
+declare(strict_types=1);
+
+namespace libphonenumber\data;
+
+use libphonenumber\PhoneMetadata;
+use libphonenumber\PhoneNumberDesc;
+
+/**
+ * @internal
+ */
+class PhoneNumberMetadata_AC extends PhoneMetadata
+{
+    protected const ID = 'AC';
+    protected const COUNTRY_CODE = 247;
+
+    protected ?string $internationalPrefix = '00';
+
+    public function __construct()
+    {
+        $this->generalDesc = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('(?:[01589]\d|[2-467])\d{4}')
+            ->setPossibleLength([5, 6]);
+        $this->mobile = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('[2-47]\d{4}')
+            ->setExampleNumber('40123')
+            ->setPossibleLength([5]);
+        $this->premiumRate = PhoneNumberDesc::empty();
+        $this->fixedLine = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('6\d{4}')
+            ->setExampleNumber('62889')
+            ->setPossibleLength([5]);
+        $this->tollFree = PhoneNumberDesc::empty();
+        $this->sharedCost = PhoneNumberDesc::empty();
+        $this->personalNumber = PhoneNumberDesc::empty();
+        $this->voip = PhoneNumberDesc::empty();
+        $this->pager = PhoneNumberDesc::empty();
+        $this->uan = (new PhoneNumberDesc())
+            ->setNationalNumberPattern('(?:0[1-9]|[1589]\d)\d{4}')
+            ->setExampleNumber('542011')
+            ->setPossibleLength([6]);
+        $this->voicemail = PhoneNumberDesc::empty();
+        $this->noInternationalDialling = PhoneNumberDesc::empty();
+    }
+}

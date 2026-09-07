@@ -609,7 +609,7 @@ class BMore extends \FreePBX_Helpers {
 			$h[] = $this->tag('div', array('class' => 'panel panel-info'),
 				$this->tag('div', array('class' => 'panel-heading'),
 					$this->tag('div', array('class' => 'panel-title'),
-						$this->tag('a', array('href' => '#', 'data-toggle' => 'collapse', 'data-target' => "#$target"),
+						$this->tag('a', array('href' => '#', 'data-bs-toggle' => 'collapse', 'data-bs-target' => "#$target"),
 							$this->tag('i', array('class' => 'fa fa-info-circle'), '')
 						)."&nbsp;&nbsp;&nbsp;".$panel_header
 					)
@@ -971,7 +971,7 @@ class BMore extends \FreePBX_Helpers {
 		$close_params = array(
 			'type' => 'button',
 			'class' => 'close',
-			'data-dismiss' => 'modal',
+			'data-bs-dismiss' => 'modal',
 			'aria-label' => 'Close'
 		);
 		$body_context = $this->getContext($view_name);
@@ -1048,15 +1048,15 @@ class BMore extends \FreePBX_Helpers {
 				// modal link to another view
 				$modal_view = substr($link, 1);
 				$modal_id = $this->getId('modal');
-				$sword[] = $this->tag('button', array('class' => $class, 'data-toggle' => 'modal',
-					'data-target' => '#'.$modal_id),
+				$sword[] = $this->tag('button', array('class' => $class, 'data-bs-toggle' => 'modal',
+					'data-bs-target' => '#'.$modal_id),
 					$this->iconize($text));
 				$tail[] = $this->getModalDialogView($text, $modal_id, $modal_view);
 			} else if (is_array($link)) {
 				$sword[] = $this->tag('div', 'btn-group',
 					$this->tag('button',
 						array('class' => "$class dropdown-toggle", 'type' => 'button',
-							'data-toggle' => 'dropdown', 'aria-expanded' => 'false'),
+							'data-bs-toggle' => 'dropdown', 'aria-expanded' => 'false'),
 						$this->iconize($text) . ' ' . $this->tag('span class="caret"')
 					)."\n".
 					$this->tag('ul', array('class' => 'dropdown-menu', 'role' => 'menu'),
@@ -1112,7 +1112,7 @@ class BMore extends \FreePBX_Helpers {
 			$this->tag('button', array(
 				'type' => 'button',
 				'class' => 'btn btn-default',
-				'data-dismiss' => 'modal',
+				'data-bs-dismiss' => 'modal',
 			), _("Close"))
 		);
 		if (empty($context->buttons)) {

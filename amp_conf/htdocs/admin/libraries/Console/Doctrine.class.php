@@ -10,11 +10,10 @@ use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
 use Doctrine\DBAL\Schema\Schema;
 
-#[\AllowDynamicProperties]
 class Doctrine extends Command {
 	private $format = 'php';
 	private $database = '';
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('doctrine')
 		->setDescription('Run a doctrine commands')
 		->setDefinition(array(
@@ -23,12 +22,12 @@ class Doctrine extends Command {
 			new InputOption('force', '', InputOption::VALUE_NONE, _('Force XML/PHP output even if there is an alter string after generation checks')),
 			new InputArgument('args', InputArgument::IS_ARRAY, '', null),));
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$args = $input->getArgument('args');
 		$dbh = \FreePBX::Database();
 		if(empty($args[0])) {
 			$output->writeln('<error>You MUST declare a table name!</error>');
-			return;
+			return 0;
 		}
 		$table = $args[0];
 
@@ -144,5 +143,6 @@ class Doctrine extends Command {
 
 
 
+		return 0;
 	}
 }

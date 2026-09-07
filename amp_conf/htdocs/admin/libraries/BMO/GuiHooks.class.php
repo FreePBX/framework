@@ -7,8 +7,9 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-#[\AllowDynamicProperties]
 class GuiHooks {
+
+	private $FreePBX;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)

@@ -13,9 +13,15 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Command\LockableTrait;
 use FreePBX;
-#[\AllowDynamicProperties]
 class Moduleadmin extends Command {
 	use LockableTrait;
+	private $FreePBX = null;
+	private $input = null;
+	private $out = null;
+	private $color = false;
+	private $force = false;
+	private $jsonpretty = false;
+	private $progress = null;
 	private $activeRepos = [];
 	private $mf = null;
 	private $setRepos = false;
@@ -53,7 +59,7 @@ class Moduleadmin extends Command {
 		$this->updatemanager->sendEmail("moduleautoupdates", sprintf(_("%s (%s) Module Updates"), $brand, $ident), implode("\n", $body), 4, true);
 	}
 
-	protected function configure(){
+	protected function configure(): void{
 		$this->setName('moduleadmin')
 		->setAliases(array('ma'))
 		->setDescription('Module Administration')
@@ -78,7 +84,7 @@ class Moduleadmin extends Command {
 		->setHelp($this->showHelp());
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output): int{
 		$this->FreePBX = FreePBX::Create();
 		/* TODO: Come back to this at some point
 		if(posix_getuid() === 0) {
