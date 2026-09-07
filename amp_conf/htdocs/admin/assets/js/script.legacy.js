@@ -834,12 +834,14 @@ function bind_dests_double_selects() {
 				.html("<iframe data-popover-class=\"" + popover_box_class + "\" id=\"popover-frame\" frameBorder=\"0\" src=\"" + urlStr + "\" width=\"100%\" height=\"95%\"></iframe>")
 				.dialog({
 					title: "Add",
+					dialogClass: "fpbx-popover-dialog",
 					resizable: false,
 					modal: true,
 					width: window.innerWidth - (window.innerWidth * '.10'),
 					height: window.innerHeight - (window.innerHeight * '.10'),
 					create: function() {
-						$("body").scrollTop(0).css({ overflow: "hidden" });
+						$("body").scrollTop(0).css({ overflow: "hidden" }).addClass("fpbx-popover-open");
+						styleFpbxDialogCloseButton(this);
 					},
 					close: function(e) {
 						if(!runningPopOverActions) {
@@ -861,7 +863,7 @@ function bind_dests_double_selects() {
 							}
 							$("#popover-frame").contents().find("body").remove();
 							$("#popover-box-id").html("");
-							$("body").css({ overflow: "inherit" });
+							$("body").css({ overflow: "inherit" }).removeClass("fpbx-popover-open");
 						}
 						$(e.target).dialog("destroy").remove();
 					},
@@ -966,10 +968,31 @@ function closePopOver(drawselects) {
 		});
 	}
 
-	$("body").css({ overflow: "inherit" });
+	$("body").css({ overflow: "inherit" }).removeClass("fpbx-popover-open");
 	$("#popover-box-id").html("");
 	popover_box.dialog("close");
 	runningPopOverActions = false;
+}
+
+/**
+ * jQuery UI 1.14 no longer ships the closethick sprite. Replace the empty
+ * titlebar button with a Font Awesome X so the dialog can be dismissed.
+ */
+function styleFpbxDialogCloseButton(el) {
+	var $wrap = $(el).closest(".ui-dialog");
+	var $btn = $wrap.find(".ui-dialog-titlebar-close");
+	if ($btn.length) {
+		$btn.attr({
+			title: "Close",
+			"aria-label": "Close"
+		});
+		if (!$btn.find("i.fa").length) {
+			$btn.find(".ui-icon, .ui-button-icon, .ui-button-icon-space").hide();
+			$btn.append('<i class="fa fa-times" aria-hidden="true"></i>');
+		}
+	}
+	$wrap.find(".ui-dialog-buttonset button").addClass("btn")
+		.first().addClass("fpbx-dialog-save");
 }
 
 /**

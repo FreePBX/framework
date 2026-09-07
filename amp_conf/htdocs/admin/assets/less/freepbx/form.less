@@ -245,10 +245,14 @@ a.badge:focus {
 
 .row > .form-group{
     display: flex;
+    position: relative;
     width: -webkit-fill-available;
     width: -moz-available;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+}
+.form-group > [class*="col-"] {
+    position: relative;
 }
 
 .element-container .row .form-group {
