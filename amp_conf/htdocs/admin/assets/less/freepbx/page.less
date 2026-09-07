@@ -51,7 +51,11 @@ html {
 }
 input[type=search].form-control {
 	width: 98.5%;
-	height: 24px;
+	height: 31px;
+	min-height: 31px;
+	padding: 5px 9px;
+	font-size: 14px;
+	line-height: 1.42857143;
 }
 h5{
 	font-size: 14px;
@@ -1062,6 +1066,18 @@ label{
 }
 
 .fixed-table-toolbar {
+	.search {
+		.search-input,
+		.form-control,
+		input {
+			height: 31px;
+			min-height: 31px;
+			padding: 5px 9px;
+			font-size: 14px;
+			line-height: 1.42857143;
+			border-radius: @button-radius;
+		}
+	}
 	.dropdown-menu{
 		width: max-content;
 		li{

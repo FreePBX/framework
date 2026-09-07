@@ -51,6 +51,7 @@ ul.sortable.ui-sortable {
 
 .ui-dialog {
 	padding: 0;
+	z-index: 1055 !important;
 	.ui-dialog-content {
 		padding: .5em 1em 0em;
 	}
@@ -66,27 +67,115 @@ ul.sortable.ui-sortable {
 		border-top: 1px solid #e5e5e5;
 	}
 	.ui-dialog-titlebar {
+		position: relative;
 		padding: 15px;
 		border-bottom: 1px solid #e5e5e5;
 		min-height: 16.42857143px;
 		background-color: #fff;
 	}
+	/* jQuery UI 1.14 dropped the closethick sprite; draw a Font Awesome X instead */
 	.ui-dialog-titlebar-close {
-		overflow: hidden;
+		position: absolute !important;
+		top: 50% !important;
+		right: 12px !important;
+		left: auto !important;
+		width: 22px !important;
+		height: 22px !important;
+		margin: -11px 0 0 0 !important;
+		padding: 0 !important;
+		border: none !important;
+		background: transparent !important;
+		box-shadow: none !important;
+		text-indent: 0 !important;
+		overflow: hidden !important;
+		outline: none;
+		opacity: 1;
+		font-size: 0 !important;
+		line-height: 0 !important;
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+		.ui-icon,
+		.ui-button-icon,
+		.ui-button-icon-space,
+		.ui-button-icon-primary,
 		span.ui-button-text {
-			position: absolute;
-			top: 0px;
-			width: 44px;
-			height: 16px;
+			display: none !important;
 		}
-		span.ui-button-icon-primary.ui-icon.ui-icon-closethick {
-			float: right;
+		&::before {
+			content: "\f00d";
+			font-family: FontAwesome;
+			font-size: 14px;
+			line-height: 1;
+			color: #aaa;
+		}
+		&:has(i.fa)::before {
+			content: none;
+		}
+		i.fa {
+			font-size: 14px;
+			line-height: 1;
+			color: #aaa;
+			margin: 0;
 		}
 	}
 	.ui-dialog-titlebar-close:hover,
 	.ui-dialog-titlebar-close:focus {
 		outline: 0;
+		&::before,
+		i.fa {
+			color: #666;
+		}
 	}
+	/* jQuery UI 1.14 / Bootstrap 5 reset native <button> look; match FreePBX actions */
+	.ui-dialog-buttonset button,
+	.ui-dialog-buttonset .ui-button,
+	.ui-dialog-buttonset .btn {
+		display: inline-block;
+		font-size: 14px;
+		font-weight: bold;
+		line-height: 1.42857143;
+		padding: 5px 18px;
+		min-height: 31px;
+		min-width: 45px;
+		margin: 0 5px 0 0;
+		border-radius: @button-radius;
+		border: 1px solid darken(@border-color, 20%);
+		color: @button-active-text-color;
+		cursor: pointer;
+		background: @button-active-background-color;
+		appearance: none;
+		-webkit-appearance: none;
+	}
+	.ui-dialog-buttonset button:not(:first-child),
+	.ui-dialog-buttonset .ui-button:not(:first-child),
+	.ui-dialog-buttonset .btn:not(:first-child) {
+		background: @menu-button-background-color;
+		color: @button-text-color;
+		border-color: @border-color;
+	}
+	.ui-dialog-buttonset button:hover,
+	.ui-dialog-buttonset button.ui-state-hover,
+	.ui-dialog-buttonset .ui-button:hover,
+	.ui-dialog-buttonset .btn:hover,
+	.ui-dialog-buttonset .fpbx-dialog-save:hover,
+	.ui-dialog-buttonset .fpbx-dialog-save.ui-state-hover {
+		background: #fff !important;
+		background-color: #fff !important;
+		border-color: @border-color !important;
+		color: @button-text-color !important;
+	}
+}
+
+.ui-widget-overlay.ui-front {
+	z-index: 1050;
+}
+
+body.fpbx-popover-open #action-bar,
+body.fpbx-popover-open #floating-nav-bar,
+body:has(.ui-widget-overlay) #action-bar,
+body:has(.ui-widget-overlay) #floating-nav-bar {
+	display: none !important;
 }
 
 .rnav {
