@@ -12,7 +12,7 @@ class AcceptLanguage
     /**
      * @param string $acceptLanguageString
      */
-    public function __construct($acceptLanguageString = null)
+    public function __construct(mixed $acceptLanguageString = null)
     {
         if (null !== $acceptLanguageString) {
             $this->setAcceptLanguageString($acceptLanguageString);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "754e01df0147d7e23e1c04822aac0a23",
+    "content-hash": "3c29764e34099c2713a6e7830b664795",
     "packages": [
         {
             "name": "brick/math",
@@ -133,6 +133,61 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "ciaran-moore/browser-detector",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ciaran-moore/php-browser-detector.git",
+                "reference": "dfaaa23805994d6b74d1b8d639dd0b0a51792871"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ciaran-moore/php-browser-detector/zipball/dfaaa23805994d6b74d1b8d639dd0b0a51792871",
+                "reference": "dfaaa23805994d6b74d1b8d639dd0b0a51792871",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sinergi\\BrowserDetector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com"
+                },
+                {
+                    "name": "Chris Schuld"
+                },
+                {
+                    "name": "Ciaran Moore"
+                }
+            ],
+            "description": "Detecting the user's browser, operating system and language.",
+            "keywords": [
+                "browser",
+                "detection",
+                "language",
+                "operating system",
+                "os"
+            ],
+            "support": {
+                "source": "https://github.com/ciaran-moore/php-browser-detector/tree/1.0.1"
+            },
+            "time": "2025-02-21T14:38:45+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3553,60 +3608,6 @@
                 "source": "https://github.com/simplepie/simplepie/tree/1.9.0"
             },
             "time": "2025-09-12T06:34:27+00:00"
-        },
-        {
-            "name": "sinergi/browser-detector",
-            "version": "6.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sinergi/php-browser-detector.git",
-                "reference": "4927f7c2bedc48b68f183bd420aa3549c59e133b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/4927f7c2bedc48b68f183bd420aa3549c59e133b",
-                "reference": "4927f7c2bedc48b68f183bd420aa3549c59e133b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0 || ^9.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sinergi\\BrowserDetector\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Gabriel Bull",
-                    "email": "me@gabrielbull.com"
-                },
-                {
-                    "name": "Chris Schuld"
-                }
-            ],
-            "description": "Detecting the user's browser, operating system and language.",
-            "keywords": [
-                "browser",
-                "detection",
-                "language",
-                "operating system",
-                "os"
-            ],
-            "support": {
-                "issues": "https://github.com/sinergi/php-browser-detector/issues",
-                "source": "https://github.com/sinergi/php-browser-detector/tree/6.1.4"
-            },
-            "abandoned": true,
-            "time": "2021-09-23T13:51:44+00:00"
         },
         {
             "name": "slim/slim",

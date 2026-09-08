@@ -79,7 +79,7 @@ class BrowserDetector implements DetectorInterface
      *
      * @return bool
      */
-    public static function detect(Browser $browser, UserAgent $userAgent = null)
+    public static function detect(Browser $browser, UserAgent | null $userAgent = null)
     {
         self::$browser = $browser;
         if (is_null($userAgent)) {

@@ -89,7 +89,7 @@ class Browser
      *
      * @throws \Sinergi\BrowserDetector\InvalidArgumentException
      */
-    public function __construct($userAgent = null)
+    public function __construct(mixed $userAgent = null)
     {
         if ($userAgent instanceof UserAgent) {
             $this->setUserAgent($userAgent);

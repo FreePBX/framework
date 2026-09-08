@@ -12,7 +12,7 @@ class UserAgent
     /**
      * @param string $userAgentString
      */
-    public function __construct($userAgentString = null)
+    public function __construct(mixed $userAgentString = null)
     {
         if (null !== $userAgentString) {
             $this->setUserAgentString($userAgentString);

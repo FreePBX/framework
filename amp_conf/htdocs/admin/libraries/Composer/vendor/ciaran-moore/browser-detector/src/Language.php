@@ -22,7 +22,7 @@ class Language
      *
      * @throws \Sinergi\BrowserDetector\InvalidArgumentException
      */
-    public function __construct($acceptLanguage = null)
+    public function __construct(mixed $acceptLanguage = null)
     {
         if ($acceptLanguage instanceof AcceptLanguage) {
             $this->setAcceptLanguage($acceptLanguage);

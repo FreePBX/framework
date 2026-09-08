@@ -48,7 +48,7 @@ return array(
     'Symfony\\Component\\Clock\\' => array($vendorDir . '/symfony/clock'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
-    'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
+    'Sinergi\\BrowserDetector\\' => array($vendorDir . '/ciaran-moore/browser-detector/src'),
     'SimplePie\\' => array($vendorDir . '/simplepie/simplepie/src'),
     'Sepia\\PoParser\\' => array($vendorDir . '/sepia/po-parser/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
