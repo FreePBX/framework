@@ -1882,8 +1882,10 @@ $(document).ready(function() {
 			.dialog({
 				title: _("Login"),
 				resizable: false,
-				width: 400,
+				width: 420,
 				modal: true,
+				dialogClass: "fpbx-login-dialog",
+				position: { my: "center", at: "center", of: window },
 				buttons: [
 				],
 				focus: function() {

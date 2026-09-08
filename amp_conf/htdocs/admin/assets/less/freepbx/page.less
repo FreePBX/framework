@@ -115,6 +115,7 @@ textarea.form-control{
 	padding-left: 9px;
 	display: unset;
 	line-height: unset;
+	color: @input-text-color;
 }
 input[type=text]:hover:not([disabled]) {
 	border-color: #666 #CCC #CCC #CCC;
@@ -1453,6 +1454,43 @@ pre{
 .fpbx-container>.full-border>.nav-tabs {
 	margin-top: 3px;
 }
+
+.form-select,
+select.form-control {
+  color: @input-text-color;
+}
+
+.form-group {
+	margin-bottom: 1rem;
+}
+
+.dropdown-menu {
+  .dropdown-item,
+  .dropdown-item:visited,
+  li > a,
+  li > a:visited {
+    color: @input-text-color;
+  }
+
+  .dropdown-item:hover,
+  .dropdown-item:focus,
+  li:hover > a,
+  li:focus > a,
+  li > a:hover,
+  li > a:focus {
+    color: @button-hover-text-color;
+    background-color: @button-hover-background-color;
+  }
+
+  .dropdown-item.active,
+  .dropdown-item.active:visited,
+  li.active > a,
+  li.active > a:visited {
+    color: @button-active-text-color;
+    background-color: @button-active-background-color;
+  }
+}
+
 
 @media (min-width: 768px) {
 	.modal-content {
