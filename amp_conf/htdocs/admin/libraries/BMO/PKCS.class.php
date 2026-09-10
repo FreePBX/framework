@@ -193,7 +193,7 @@ EOF;
 				throw new \Exception(_("Invalid password supplied - less than 8 chars"));
 			}
 			// Generate a key
-			$out = $this->runOpenSSL("x509 -req -sha256 -days 7 " . $cdv ." -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+			$out = $this->runOpenSSL("x509 -req -sha256 -days " . $cdv ." -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
 		} else {
 			$out = $this->runOpenSSL("x509 -req -sha256 -days " . $cdv ." -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
 		}
