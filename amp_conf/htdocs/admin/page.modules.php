@@ -395,7 +395,7 @@ switch ($action) {
 		echo _("Updating Hooks...");
 		try {
 			$FreePBX->Hooks->updateBMOHooks();
-		}catch(\Exception) {}
+		} catch(\Exception $e) {}
 			echo _("Done")."<br />";
 		echo "</div>";
 		echo "<hr /><br />";
@@ -463,11 +463,14 @@ switch ($action) {
 					$dependerrors = $modulef->checkdepends($previous_data);
 					$conflicterrors = $FreePBX->Modules->checkConflicts($previous_data);
 					$rollbackerrors = false;
-					if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if (!empty($conflicterrors['breaking'] ?? null)) {
 						$rollbackerrors = true;
 						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$rollbackconflicts ?? '').'</li></ul></strong>');
+						foreach($conflicterrors['issues'] as $conflictmodule => $issue)
+						{
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
+								sprintf("<strong>%s</strong>", $modules[$module]['name']), sprintf('<strong><ul><li>%s</li></ul></strong>', implode('</li><li>',$issue)));
+						}
 					}
 					if (is_array($dependerrors)) {
 						$rollbackerrors = true;
@@ -523,12 +526,15 @@ switch ($action) {
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 						}
-						if ($conflicterrors['breaking'] && isset($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']]) && $action != 'upgradeignoreconflicts') {
+						if (!empty($conflicterrors['breaking'] ?? null)) {
 							$errorflag = true;
 							$checkdone = true;
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been corrected."),
-								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues'][$modules[$module]['name']]).'</li></ul></strong>');
+							foreach($conflicterrors['issues'] as $conflictmodule => $issue)
+							{
+								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
+									sprintf("<strong>%s</strong>", $modules[$module]['name']), sprintf('<strong><ul><li>%s</li></ul></strong>', implode('</li><li>',$issue)));
+							}
 						}
 						if(!$errorflag && !$checkdone){
 							switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
@@ -571,11 +577,14 @@ switch ($action) {
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if(isset($conflicterrors['breaking']) && $conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if (!empty($conflicterrors['breaking'] ?? null)) {
 						$skipaction = true;
 						$di = true;
-						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the conflicts have been installed."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues'][$modules[$module]['name']]).'</li></ul></strong>');
+						foreach($conflicterrors['issues'] as $conflictmodule => $issue)
+						{
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the conflicts have been resolved."),
+								sprintf("<strong>%s</strong>", $modules[$module]['name']), sprintf('<strong><ul><li>%s</li></ul></strong>', implode('</li><li>',$issue)));
+						}					
 					}
 					if(!empty($trackinfo) && (!isset($di) || !$di)){
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
@@ -617,11 +626,14 @@ switch ($action) {
 						$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if (isset($conflicterrors['breaking']) && $conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if (!empty($conflicterrors['breaking'] ?? null)) {
 						$skipaction = true;
 						$issues = true;
-						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues'][$modules[$module]['name']]).'</li></ul></strong>');
+						foreach($conflicterrors['issues'] as $conflictmodule => $issue)
+						{
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
+								sprintf("<strong>%s</strong>", $modules[$module]['name']), sprintf('<strong><ul><li>%s</li></ul></strong>', implode('</li><li>',$issue)));
+						}					
 					}
 					if(!$issues){
 						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
@@ -642,11 +654,14 @@ switch ($action) {
 					$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
 						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependserrors).'</li></ul></strong>');
 				}
-				if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+				if (!empty($conflicterrors['breaking'] ?? null)) {
 					$skipaction = true;
 					$issues = true;
-					$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the conflicts have been resolved."),
-						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues'][$modules[$module]['name']]).'</li></ul></strong>');
+					foreach($conflicterrors['issues'] as $conflictmodule => $issue)
+					{
+						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the conflicts have been resolved."),
+							sprintf("<strong>%s</strong>", $modules[$module]['name']), sprintf('<strong><ul><li>%s</li></ul></strong>', implode('</li><li>',$issue)));
+					}
 				}
 				if(!$issues){
 					$actionstext[] =  sprintf(_("%s %s will be enabled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
