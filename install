@@ -2,8 +2,8 @@
 <?php
 namespace FreePBX\Install;
 
-if (version_compare(PHP_VERSION, '7.4', '<')) {
-	echo "FreePBX Requires PHP Version 7.4 or Higher, you have: ".PHP_VERSION."\n";
+if (version_compare(PHP_VERSION, '8.2', '<')) {
+	echo "FreePBX Requires PHP Version 8.2 or Higher, you have: ".PHP_VERSION."\n";
 	return false;
 }
 
