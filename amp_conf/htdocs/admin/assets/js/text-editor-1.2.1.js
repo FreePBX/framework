@@ -740,8 +740,9 @@ You should have received a copy of the GNU General Public License along with thi
                         var _idSuffix = "_" + this.attr("id");
                         $('#inputText' + _idSuffix);
                         $('#inputUrl' + _idSuffix);
-                        //$(".alert").alert("close");
-                        bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                        if ($(".alert").length) {
+                            bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                        }
                         if ($(editorObj).data('currentRange') != '') {
                             $('#inputText_' + _idSuffix).val($(editorObj).data('currentRange'));
                         }
@@ -772,7 +773,9 @@ You should have received a copy of the GNU General Public License along with thi
                             document.execCommand('createLink', false, targetURL);
                         }
                         $(editorObj).data("editor").find('a[href="' + targetURL + '"]').each(function () { $(this).attr("target", "_blank"); });
-                        $(".alert").alert("close");
+                        if ($(".alert").length) {
+                            bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                        }
                         // $("#InsertLink" + _idSuffix).modal("hide");
                         bootstrap.Modal.getOrCreateInstance($("#InsertLink"+_idSuffix)[0]).hide();
                         $(editorObj).data("editor").focus();
@@ -1149,16 +1152,16 @@ You should have received a copy of the GNU General Public License along with thi
             //For contextmenu	       	
             $(document.body).mousedown(function (event) {
                 var target = $(event.target);
-                if (!target.parents().andSelf().is('#context-menu')) { // Clicked outside
+                if (!target.parents().addBack().is('#context-menu')) { // Clicked outside
                     $('#context-menu').remove();
                 }
-                if (!target.parents().andSelf().is('#specialchar') && (target.closest('a').html() != '<i class="fa fa-asterisk"></i>')) { //Clicked outside
+                if (!target.parents().addBack().is('#specialchar') && (target.closest('a').html() != '<i class="fa fa-asterisk"></i>')) { //Clicked outside
                     if ($("#specialchar").is(':visible')) {
                         $(editor_Content).data("editor").data("splcharsBtn", null);
                         $('#specialchar').remove();
                     }
                 }
-                if (!target.parents().andSelf().is('#paletteCntr') && (target.closest('a').html() != '<i class="fa fa-font"></i>')) { //Clicked outside
+                if (!target.parents().addBack().is('#paletteCntr') && (target.closest('a').html() != '<i class="fa fa-font"></i>')) { //Clicked outside
                     if ($("#paletteCntr").is(':visible')) {
                         $(editor_Content).data("editor").data("colorBtn", null);
                         $('#paletteCntr').remove();
@@ -1673,8 +1676,9 @@ You should have received a copy of the GNU General Public License along with thi
             })).append($('<span/>').html(message));
             errorDiv.appendTo($('#' + target));
             setTimeout(function () {
-                // $('.alert').alert('close'); 
-                bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                if ($(".alert").length) {
+                    bootstrap.Alert.getOrCreateInstance($(".alert")[0]).close();
+                }
                 }, 3000);
         },
 

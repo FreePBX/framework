@@ -284,6 +284,55 @@ a.badge:focus {
     font-size: 14px;
 }
 
+@fpbx-select-arrow: var(--bs-form-select-bg-img, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%230F5A59' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e"));
+
+/* Bootstrap 5 form-control hides native select arrows; restore the chevron */
+select:not([multiple]):not(.bsmultiselect):not(.chosenmultiselect) {
+	appearance: none;
+	-webkit-appearance: none;
+	background-image: @fpbx-select-arrow;
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	background-size: 16px 12px;
+	padding-right: 2.25rem;
+}
+
+/* Remove Bootstrap 5 blue focus ring on selects and checkboxes */
+select:focus,
+select:focus-visible,
+.form-select:focus,
+.form-select:focus-visible,
+.form-control:focus,
+.form-check-input:focus,
+.form-check-input:focus-visible,
+input[type="checkbox"]:focus,
+input[type="checkbox"]:focus-visible,
+.bootstrap-table input[type="checkbox"]:focus {
+	outline: none !important;
+	box-shadow: none !important;
+	--bs-focus-ring-color: transparent;
+	--bs-form-check-input-focus-box-shadow: none;
+}
+
+select:focus,
+.form-select:focus,
+.form-control:focus {
+	border-color: #ced4da !important;
+}
+
+.form-check-input,
+input[type="checkbox"] {
+	--bs-form-check-input-focus-border: #ced4da;
+	--bs-form-check-input-focus-box-shadow: none;
+}
+
+.form-check-input:focus,
+.form-check-input:focus-visible,
+input[type="checkbox"]:focus,
+input[type="checkbox"]:focus-visible {
+	border-color: #ced4da !important;
+}
+
 .form-group.clearfix {
     display: -ms-flexbox;
     display: flex;
