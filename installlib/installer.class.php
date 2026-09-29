@@ -614,6 +614,17 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['SCHEDULED_TASK_EXECUTION'] = array(
+		'value' => 'job',
+		'options' => array('cron', 'job'),
+		'name' => 'Scheduled Task Execution Method',
+		'description' => 'When using fwconsole jobs, scheduled tasks are processed one job at a time. On systems with a heavy workload, this may result in delays in task execution. This setting affects only tasks executed through fwconsole jobs.',
+		'readonly' => 0,
+		'hidden' => 0,
+		'level' => 0,
+		'emptyok' => 0,
+		'type' => CONF_TYPE_SELECT,
+	);
 
 	$category = 'Dialplan and Operational';
 
@@ -2165,7 +2176,7 @@ class Installer {
 	);
 
 
-	
+ 
 
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
 	// retain their values until the individual modules are updated and their install scripts run where a full
