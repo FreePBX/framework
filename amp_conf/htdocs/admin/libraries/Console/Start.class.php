@@ -185,12 +185,17 @@ class Start extends Command {
 		$progress = new ProgressBar($output, 0);
 		$progress->setFormat('[%bar%] %elapsed%');
 		$progress->start();
+		$starttimeout = \FreePBX::Config()->get("STARTTIMEOUT");
+		if (!isset($starttimeout) || !is_int($starttimeout) || $starttimeout < 30) {
+			$starttimeout = 30; // default STARTTIMEOUT
+		}
 		$i = 0;
+		$i_end = $starttimeout * 4; // see usleep comment
 		while(!$this->asteriskIsReady()) {
 			$astman->reconnect('on');
-			usleep(300000); //0.3 seconds in microseconds, which when multiplied by 100 will wait up to 30 seconds
+			usleep(250000); //0.25 seconds in microseconds, which when 1 sec = 4 usleep
 			$i++;
-			if($i >= 100) {
+			if($i >= $i_end) {
 				throw new \Exception("Unable to connect to Asterisk. Did it start?");
 			}
 			$progress->setProgress($i);
