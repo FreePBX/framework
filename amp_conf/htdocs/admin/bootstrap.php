@@ -47,6 +47,11 @@ $mt = microtime();
 //
 //enable error reporting and start benchmarking
 ini_set("default_charset","UTF-8");
+// PCRE JIT needs executable memory; SELinux / hardened PHP / some containers block it and the
+// resulting warning becomes a fatal ErrorException under Whoops (e.g. fwconsole from logrotate).
+if (function_exists('ini_set')) {
+	@ini_set('pcre.jit', '0');
+}
 
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
