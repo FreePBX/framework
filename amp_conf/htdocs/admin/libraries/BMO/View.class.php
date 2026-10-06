@@ -769,7 +769,7 @@ class View {
 			}
 			//draw "parent" select box
 			$style=' style="'.(($destmod=='Error')?'background-color:red;':'').'"';
-			$cat_html='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-control destdropdown ' . $class . '" ' . $style
+			$cat_html='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-select destdropdown ' . $class . '" ' . $style
 					. ($required ? ' required ' : '') //html5 validation
 					. ' data-id="' . $i . '" '
 					. $disabled .'>';
@@ -781,7 +781,7 @@ class View {
 			foreach($cat_options as $name => $data) {
 				$cat_html.='<option value="'.str_replace(' ','_',(string) $data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
 
-				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'd-none':'');
+				$data_class = 'form-select destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'd-none':'');
 				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . ($data['data_url'] ?? '') . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
 					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
 				foreach($data['destinations'] as $dest) {
