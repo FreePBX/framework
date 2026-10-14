@@ -25,7 +25,7 @@ class component {
 
 	protected $lists; // Array of lists
 
-	protected $opts; //array of configurable options
+	protected $opts = []; //array of configurable options
 
 	protected $tabtranslations = array();
 
@@ -74,6 +74,14 @@ class component {
 		if (!isset($this->opts[$section]['guielToggle'])) {
 			$this->opts[$section]['guielToggle'] = $state;
 		}
+	}
+
+	/**
+	 * Shared by guielement so section collapse state is the same array.
+	 * Must return by reference; guielement cannot read protected $opts.
+	 */
+	public function &getOpts() {
+		return $this->opts;
 	}
 
 	/*
@@ -524,7 +532,11 @@ class guielement {
 		$this->type = '';
 
 
-		$this->_opts = & $CC->_opts;
+		if (isset($CC) && $CC instanceof component) {
+			$this->_opts =& $CC->getOpts();
+		} else {
+			$this->_opts = [];
+		}
 	}
 
 	public function get($key) {
