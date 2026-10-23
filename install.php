@@ -553,6 +553,24 @@ if(method_exists(\FreePBX::create()->View,'getScripts')) {
 	out(_("Done"));
 }
 
+// Warn on the dashboard when PHP is older than the 8.2.35 security release.
+$nt = \FreePBX::Notifications();
+$nt->delete('framework', 'PHP_VERSION');
+if (version_compare(PHP_VERSION, '8.2.35', '<')) {
+	out(sprintf(_("Security Warning: PHP version %s is older than 8.2.35. A dashboard notification has been added."), PHP_VERSION));
+	$displayText = _("Important Security Update: PHP Version");
+	$extendedText = sprintf(_("Your system is currently running a PHP version <strong>older than 8.2.35</strong> (detected: %s). Recent PHP security vulnerabilities have been addressed in PHP <strong>8.2.35</strong>."), PHP_VERSION)."\n\n"
+		._("To protect your system, we strongly recommend updating PHP to the latest available PHP 8.2 security release.")."\n\n"
+		._("Please run the following commands from the CLI as <code>root</code>:")."\n\n"
+		."<code>apt update</code>\n"
+		."<code>apt upgrade</code>\n\n"
+		._("After the upgrade, verify your PHP version:")."\n\n"
+		."<code>php -v</code>\n\n"
+		._("Ensure that the installed PHP version is <strong>8.2.35 or later</strong>.")."\n\n"
+		."<strong>"._("Note:")."</strong> "._("The update should be performed during a suitable maintenance window, as package upgrades may restart services depending on the packages being updated.");
+	$nt->add_security('framework', 'PHP_VERSION', $displayText, $extendedText, '', false, true);
+}
+
 // Make sure our GPG keys are up to date
 outn(_("Refreshing GPG Keys..."));
 try {
