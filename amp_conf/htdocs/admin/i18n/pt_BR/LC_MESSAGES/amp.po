@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 02:43-0400\n"
+"POT-Creation-Date: 2026-10-23 06:19-0400\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1184,6 +1184,10 @@ msgstr "Detalhes Configurações Avançadas"
 
 #: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:39
 msgid "Affected files:"
+msgstr ""
+
+#: install.php:567
+msgid "After the upgrade, verify your PHP version:"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:310
@@ -2539,7 +2543,7 @@ msgstr "Verificando Online, Por Favor Aguarde..."
 msgid "Checking Signatures of Modules..."
 msgstr "Verificando Assinaturas de Módulos ..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:165 install.php:565
+#: amp_conf/htdocs/admin/libraries/Console/Util.class.php:165 install.php:583
 msgid "Checking and updating Sangoma Debian Repository GPG Key..."
 msgstr ""
 
@@ -4275,7 +4279,7 @@ msgstr "Não sei sobre módulos ainda. Necessita ser entregue a mim"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2136
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2286
 #: amp_conf/htdocs/admin/page.modules.php:399 install.php:485 install.php:491
-#: install.php:512 install.php:547 install.php:553 install.php:560
+#: install.php:512 install.php:547 install.php:553 install.php:578
 #: installlib/installcommand.class.php:557
 #: installlib/installcommand.class.php:595 ../core/install.php:271
 #: ../core/install.php:992
@@ -4287,7 +4291,7 @@ msgstr "Feito"
 msgid "Done with %s"
 msgstr ""
 
-#: install.php:567
+#: install.php:585
 msgid "Done."
 msgstr "Pronto."
 
@@ -4876,6 +4880,11 @@ msgstr ""
 msgid "English"
 msgstr "Inglês"
 
+#: install.php:569
+msgid ""
+"Ensure that the installed PHP version is <strong>8.2.35 or later</strong>."
+msgstr ""
+
 #: ../core/views/quickCreate.php:72
 msgid "Enter Channel"
 msgstr ""
@@ -5002,7 +5011,7 @@ msgstr "Erro ao analisar cdr_mysql.conf, nenhuma migração feita"
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:562
+#: install.php:580
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "Erro ao atualizar chaves GPG: %s"
@@ -6811,6 +6820,10 @@ msgstr "Importar configurações do arquivo"
 msgid "Import/Export Patterns"
 msgstr "Padrões de Importação/Exportação"
 
+#: install.php:561
+msgid "Important Security Update: PHP Version"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:78
 #, php-format
 msgid "Importing Advanced Settings from %s"
@@ -8596,6 +8609,10 @@ msgstr ""
 msgid "Note that this is for ASTERISK modules, not FreePBX Modules."
 msgstr "Note que isso é para módulos ASTERISK, não para módulos FreePBX."
 
+#: install.php:570
+msgid "Note:"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/welcome.php:15
 msgid "Notice"
 msgstr "Notificação"
@@ -9537,6 +9554,10 @@ msgstr ""
 msgid "Please review the output above for any errors while enabling modules"
 msgstr "Revise a saída acima para ver se há erros ao habilitar os módulos"
 
+#: install.php:564
+msgid "Please run the following commands from the CLI as <code>root</code>:"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/footer.php:121
 msgid "Please select a \"Destination\""
 msgstr "Por favor selecione um destino"
@@ -9917,7 +9938,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "Atualizando %s"
 
-#: install.php:557
+#: install.php:575
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -10416,15 +10437,15 @@ msgstr "SRTP via in-SDP (recomendado)"
 msgid "SUSPECT LINK:"
 msgstr "LINK SUSPEITO:"
 
-#: install.php:577
+#: install.php:595
 msgid "Sangoma Debian Repository GPG Key Expired"
 msgstr ""
 
-#: install.php:577
+#: install.php:595
 msgid "Sangoma Debian Repository GPG Key Expiring Soon"
 msgstr ""
 
-#: install.php:575
+#: install.php:593
 msgid "Sangoma Debian Repository GPG Key Update Failed"
 msgstr ""
 
@@ -10536,6 +10557,13 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:640
 msgid "Security Warning"
 msgstr "Aviso de Segurança"
+
+#: install.php:560
+#, php-format
+msgid ""
+"Security Warning: PHP version %s is older than 8.2.35. A dashboard "
+"notification has been added."
+msgstr ""
 
 #: ../core/install.php:58
 msgid ""
@@ -11807,7 +11835,7 @@ msgid ""
 "Settings with the Browser Stats setting."
 msgstr ""
 
-#: install.php:579
+#: install.php:597
 #, php-format
 msgid ""
 "The GPG key used to verify packages from deb.freepbx.org repository expired "
@@ -11816,7 +11844,7 @@ msgid ""
 "updategpgkey\" from CLI."
 msgstr ""
 
-#: install.php:580
+#: install.php:598
 #, php-format
 msgid ""
 "The GPG key used to verify packages from deb.freepbx.org will expire in %d "
@@ -12433,6 +12461,13 @@ msgid ""
 msgstr ""
 "O mecanismo backend de telefonia que está sendo usado, asterisk é a única "
 "opção atualmente."
+
+#: install.php:570
+msgid ""
+"The update should be performed during a suitable maintenance window, as "
+"package upgrades may restart services depending on the packages being "
+"updated."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1772
 msgid ""
@@ -13116,6 +13151,12 @@ msgstr ""
 "Para proteger a integridade do seu servidor, você deve permitir "
 "substituições no arquivo de configuração do seu servidor web para o Painel "
 "de Controle do Usuário. Para obter mais informações, consulte: %s"
+
+#: install.php:563
+msgid ""
+"To protect your system, we strongly recommend updating PHP to the latest "
+"available PHP 8.2 security release."
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:34
 msgid "Total Module Count:"
@@ -14876,6 +14917,14 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
+#: install.php:562
+#, php-format
+msgid ""
+"Your system is currently running a PHP version <strong>older than 8.2.35</"
+"strong> (detected: %s). Recent PHP security vulnerabilities have been "
+"addressed in PHP <strong>8.2.35</strong>."
+msgstr ""
+
 #: install.php:368
 msgid "Your system is using "
 msgstr ""
@@ -15649,7 +15698,7 @@ msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3330
-#: install.php:579 install.php:580
+#: install.php:597 install.php:598
 msgid "unknown"
 msgstr ""
 
