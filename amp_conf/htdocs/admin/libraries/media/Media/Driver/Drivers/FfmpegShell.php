@@ -35,10 +35,10 @@ class FfmpegShell extends \Media\Driver\Driver {
 	 */
 	private static function hasAAC() {
 		$loc = fpbx_which("ffmpeg");
-		$process = \freepbx_get_process_obj($loc.' -version');
+		$process = \freepbx_get_process_obj($loc.' -loglevel quiet -decoders');
 		$process->mustRun();
 		$output = $process->getOutput();
-		return !!preg_match_all('/enable-libfdk-aac\s/', $output);
+		return !!preg_match_all('/A\.{4}D aac/', $output);
 	}
 
 	public static function supportedCodecs(&$formats) {
