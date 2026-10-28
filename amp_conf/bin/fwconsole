@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+
+ini_set('pcre.jit', '0');
+
 $options = getopt("", array("fix_zend"));
 /* Optional. It’s better to do it in the php.ini file */
 date_default_timezone_set('America/Los_Angeles');
