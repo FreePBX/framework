@@ -13,6 +13,9 @@ define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
 define("FPBX_LOG_PHP",      "PHP");
 
+use Monolog\Formatter\LineFormatter;
+use Monolog\LogRecord;
+
 function SPLAutoloadBroken() {
 	if(!class_exists('freepbxSPLAutoLoadTest',false)) {
 		class freepbxSPLAutoLoadTest {
@@ -231,75 +234,297 @@ function d($var, $tags = null) {
 
 /**
  * FreePBX Debugging function
- * This function can be called as follows:
- * dbug() - will just print a time stamp to the debug log file ($amp_conf['FPBXDBUGFILE'])
- * dbug('string') - same as above + will print the string
- * dbug('string',$array) - same as above + will print_r the array after the message
- * dbug($array) - will print_r the array with no message (just a time stamp)
- * dbug('string',$array,1) - same as above + will var_dump the array
- * dbug($array,1) - will var_dump the array with no message  (just a time stamp)
  *
- * @author Moshe Brevda mbrevda => gmail ~ com
+ * Logs messages, arrays, or objects to a debug file with timestamp and caller information.
+ * Supports both positional and named arguments.
+ *
+ * @param mixed $message Message, array, or object to log (optional)
+ * @param mixed $dataOrDump Additional data or var_dump flag (optional)
+ * @param bool $dump Use var_dump instead of print_r for arrays/objects (optional)
+ * @param string $description Optional description for the log
+ * @param int $maxLines Maximum lines for array/object output (0 for unlimited)
+ * @return void
+ *
+ * Usage:
+ * - dbug() - Logs a timestamp only.
+ * - dbug('string') - Logs a string with timestamp.
+ * - dbug('string', $array) - Logs string description and print_r array.
+ * - dbug($array) - Logs print_r array with timestamp.
+ * - dbug('string', $array, 1) - Logs string description and var_dump array.
+ * - dbug($array, 1) - Logs var_dump array with timestamp.
+ * - dbug(message: 'string', maxLines: 50) - Named arguments with truncation.
  */
-function dbug(){
-	global $amp_conf;
+function dbug(
+    mixed $message = null,
+    mixed $dataOrDump = null,
+    bool $dump = false,
+    string $description = '',
+    int $maxLines = 100
+): void {
+    global $amp_conf;
 
-	$opts = func_get_args();
-	$disc = $msg = $dump = null;
+    if (($amp_conf['FPBXDBUGDISABLE'] ?? false)) {
+        return;
+    }
 
-	// Check if it is set to avoid un-defined errors if using in code portions that are
-	// not yet bootstrapped. Default to enabling it.
-	//
-	if (isset($amp_conf['FPBXDBUGDISABLE']) && $amp_conf['FPBXDBUGDISABLE']) {
-		return;
-	}
+    $context = build_log_context();
+    [$desc, $content, $useVarDump] = prepare_log_data($message, $dataOrDump, $dump, $description);
 
-	$dump = 0;
-	//sort arguments
-	switch (count($opts)) {
-		case 1:
-			$msg		= $opts[0];
-			break;
-		case 2:
-			if ( is_array($opts[0]) || is_object($opts[0]) ) {
-				$msg	= $opts[0];
-				$dump	= $opts[1];
-			} else {
-				$disc	= $opts[0];
-				$msg	= $opts[1];
-			}
-			break;
-		case 3:
-			$disc		= $opts[0];
-			$msg		= $opts[1];
-			$dump		= $opts[2];
-			break;
-	}
+    $header = build_log_header($desc);
+    $output = prepare_content($content, $useVarDump);
 
-	if (isset($disc) && $disc) {
-		$disc = ' \'' . $disc . '\':';
-	} else {
-		$disc = '';
-	}
+    dbug_write($header . $output, ['caller' => $context], true, $maxLines);
+}
 
-	$bt = debug_backtrace();
-	$txt = date("Y-M-d H:i:s")
-		. "\t" . $bt[0]['file'] . ':' . $bt[0]['line']
-		. "\n\n"
-		. $disc
-		. "\n"; //add timestamp + file info
-	dbug_write($txt, true);
-	if ($dump==1) {//force output via var_dump
-		ob_start();
-		var_dump($msg);
-		$msg=ob_get_contents();
-		ob_end_clean();
-		dbug_write($msg."\n\n\n");
-	} elseif(is_array($msg) || is_object($msg)) {
-		dbug_write(print_r($msg,true)."\n\n\n");
-	} else {
-		dbug_write($msg."\n\n\n");
-	}
+/**
+ * Prepares log data based on arguments.
+ *
+ * @param mixed $message Message or data
+ * @param mixed $dataOrDump Data or var_dump flag
+ * @param bool $dump Use var_dump flag
+ * @param string $description Optional description
+ * @return array{0: string, 1: mixed, 2: bool} Description, content, and var_dump flag
+ */
+function prepare_log_data(mixed $message, mixed $dataOrDump, bool $dump, string $description): array
+{
+    $desc = '';
+    $content = null;
+    $useVarDump = false;
+
+    $argc = count(func_get_args());
+    switch ($argc) {
+        case 0:
+            // No arguments, just timestamp
+            break;
+        case 1:
+            $content = $message;
+            break;
+        case 2:
+            if (is_array($message) || is_object($message)) {
+                $content = $message;
+                $useVarDump = (bool) $dataOrDump;
+            } else {
+                $desc = (string) $message;
+                $content = $dataOrDump;
+            }
+            break;
+        case 3:
+            $desc = (string) $message;
+            $content = $dataOrDump;
+            $useVarDump = $dump;
+            break;
+        default:
+            // Named arguments or invalid positional arguments
+            $desc = $description ?: (is_string($message) ? $message : '');
+            $content = $dataOrDump ?? '';
+            $useVarDump = $dump || (is_bool($dataOrDump) ? $dataOrDump : false);
+    }
+
+    return [$desc, $content, $useVarDump];
+}
+
+/**
+ * Builds log header with timestamp and description.
+ *
+ * @param string $description Optional description
+ * @return string
+ */
+function build_log_header(string $description): string
+{
+	$timestamp = FreePBX::View()->getDateTime();
+    $description = $description ? " '{$description}':\n" : '';
+    return "{$timestamp}\n\n{$description}";
+}
+
+/**
+ * Builds log context with caller information.
+ *
+ * @return array
+ */
+function build_log_context(): array
+{
+    $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2)[1];
+    return [
+        'file' => $backtrace['file'] ?? 'unknown',
+        'line' => $backtrace['line'] ?? 0,
+    ];
+}
+
+/**
+ * Prepares content for logging, handling arrays/objects with print_r or var_dump.
+ *
+ * @param mixed $content Content to log
+ * @param bool $useVarDump Use var_dump flag
+ * @return string
+ */
+function prepare_content(mixed $content, bool $useVarDump): string
+{
+    if ($useVarDump && (is_array($content) || is_object($content))) {
+        ob_start();
+        $output = ob_get_clean();
+        return $output !== false ? (string) $output . "\n\n\n" : "\n\n\n";
+    }
+
+    if (is_array($content) || is_object($content)) {
+        return print_r($content, true) . "\n\n\n";
+    }
+
+    return (string) $content . PHP_EOL;
+}
+
+/**
+ * Writes debug information to the configured log file and optional PHP console.
+ *
+ * @param string $message The debug message to log
+ * @param array $context Contextual data (e.g., file, line)
+ * @param bool $check Whether to skip logging if debug is disabled
+ * @param int $maxLines Maximum lines for array/object output (0 for unlimited)
+ * @return void
+ */
+function dbug_write(
+    string $message,
+    array $context = [],
+    bool $check = false,
+    int $maxLines = 100
+): void {
+    global $amp_conf;
+
+    if ($check && ($amp_conf['FPBXDBUGDISABLE'] ?? false)) {
+        return;
+    }
+
+    // Truncate large arrays/objects in context
+    $context = truncate_context($context, $maxLines);
+
+    // Set default log file if not defined
+    $logFile = $amp_conf['FPBXDBUGFILE'] ?? ($amp_conf['ASTLOGDIR'] . '/freepbx_debug');
+
+    // Log to Monolog
+    FreePBX::Logger()
+        ->createLogDriver('dbug', $logFile, \FreePBX\Logger::DEBUG, true)
+        ->debug($message, $context);
+
+    // Log to PHP Console if enabled
+    if ($amp_conf['PHP_CONSOLE'] ?? false) {
+        PhpConsole\Connector::getInstance()
+            ->getDebugDispatcher()
+            ->dispatchDebug($message, 'dbug');
+    }
+}
+
+/**
+ * Truncates large arrays/objects in context to a specified line limit.
+ *
+ * @param array $context Contextual data
+ * @param int $maxLines Maximum lines for output (0 for unlimited)
+ * @return array Truncated context
+ */
+function truncate_context(array $context, int $maxLines): array
+{
+    if ($maxLines === 0) {
+        return $context;
+    }
+
+    foreach ($context as $key => $value) {
+        if (is_array($value) || is_object($value)) {
+            $output = print_r($value, true);
+            $lines = explode("\n", $output);
+            if (count($lines) > $maxLines) {
+                $context[$key] = implode("\n", array_slice($lines, 0, $maxLines))
+                    . "\n[Output truncated at {$maxLines} lines]";
+            }
+        }
+    }
+
+    return $context;
+}
+
+class SensitiveDataLineFormatter extends LineFormatter
+{
+    private array $sensitive_keys;
+    private string $mask;
+    private string $base_format;
+
+    public function __construct($format, $dateFormat, $allowInlineLineBreaks, $sensitive_keys, $mask)
+    {
+        parent::__construct($format, $dateFormat, $allowInlineLineBreaks);
+        $this->sensitive_keys = $sensitive_keys;
+        $this->mask = $mask;
+        $this->base_format = $format;
+    }
+
+    public function format(array $record): string
+    {
+        $record = clone_record($record);
+        $record->context = filter_sensitive_data($record->context, $this->sensitive_keys, $this->mask);
+        $record->extra = filter_sensitive_data($record->extra, $this->sensitive_keys, $this->mask);
+
+        $format = $this->base_format;
+        if (empty($record->context)) {
+            $format = str_replace(' %context%', '', $format);
+        }
+        if (empty($record->extra)) {
+            $format = str_replace(' %extra%', '', $format);
+        }
+
+        $this->format = $format;
+        $output = parent::format($record);
+        $this->format = $this->base_format;
+
+        return $output;
+    }
+}
+
+function create_sensitive_data_formatter(): LineFormatter
+{
+    $sensitive_keys = ['password', 'secret', 'api_key', 'apikey', 'token', 'access_token', 'refresh_token'];
+    $mask = '[FILTERED]';
+    $base_format = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+
+    return new SensitiveDataLineFormatter(
+        $base_format,
+        'Y-m-d H:i:s',
+        true,
+        $sensitive_keys,
+        $mask
+    );
+}
+
+function filter_sensitive_data(array $data, array $sensitive_keys, string $mask): array
+{
+    return array_combine(
+        array_keys($data),
+        array_map(
+            fn($key, $value) => is_sensitive_key((string)$key, $sensitive_keys)
+                ? $mask
+                : (is_array($value) ? filter_sensitive_data($value, $sensitive_keys, $mask) : $value),
+            array_keys($data),
+            $data
+        )
+    );
+}
+
+function is_sensitive_key(string $key, array $sensitive_keys): bool
+{
+    $key = strtolower($key);
+    return array_reduce(
+        $sensitive_keys,
+        fn($carry, $sensitive_key) => $carry || str_contains($key, $sensitive_key),
+        false
+    );
+}
+
+function clone_record(LogRecord $record): LogRecord
+{
+    return new LogRecord(
+        datetime: $record->datetime,
+        channel: $record->channel,
+        level: $record->level,
+        levelName: $record->levelName,
+        message: $record->message,
+        context: $record->context,
+        extra: $record->extra
+    );
 }
 
 //http://php.net/manual/en/function.set-error-handler.php
@@ -571,25 +796,6 @@ function edit_crontab($remove = '', $add = '') {
 
 }
 
-/**
- *
- * @author Moshe Brevda mbrevda => gmail ~ com
- */
-function dbug_write($txt, $check = false){
-	global $amp_conf;
-	// dbug can be used prior to bootstrapping and initialization, so we set
-	// it if not defined here to a default.
-	//
-	if (!isset($amp_conf['FPBXDBUGFILE'])) {
-		$amp_conf['FPBXDBUGFILE'] = $amp_conf['ASTLOGDIR'].'/freepbx_debug';
-	}
-	$dbugfile = $amp_conf['FPBXDBUGFILE'];
-	FreePBX::Logger()->createLogDriver('dbug', $dbugfile, \FreePBX\Logger::DEBUG, true)->debug($txt);
-	if($amp_conf['PHP_CONSOLE']) {
-		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
-	}
-	/** Monolog */
-}
 
 /**
  * this function can print a json object in a "pretty" (i.e. human-readbale) format
@@ -1506,4 +1712,3 @@ function fetchFromEmail($isWelcomeEmail=false) {
 	}
 	return $from;
 }
-
