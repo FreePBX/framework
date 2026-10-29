@@ -26,6 +26,7 @@ class component {
 	protected $lists; // Array of lists
 
 	protected $opts; //array of configurable options
+	public $_opts; // public alias for guielement constructors (PHP 8.2+ requires a declared property)
 
 	protected $tabtranslations = array();
 
@@ -36,6 +37,9 @@ class component {
 		$this->sorted_jsfuncs = true;
 		$this->sorted_guifuncs = true;
 		$this->sorted_processfuncs = true;
+
+		$this->opts = array();
+		$this->_opts = &$this->opts;
 
 		//set section to hidden if requested by user
 		$user_hidden = isset($_COOKIE['guielToggle']) ? json_decode($_COOKIE['guielToggle']) : array();
