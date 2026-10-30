@@ -435,7 +435,12 @@ default_md = sha256
 			}
 		}
 
-		$cmd = $this->openssl. " $params";
+		$args = preg_split('/\s+/', trim((string)$params), -1, PREG_SPLIT_NO_EMPTY);
+		if (empty($args)) {
+			throw new \Exception(_("Unable to start OpenSSL"));
+		}
+		$cmd = array_merge(array($this->openssl), $args);
+		$cmdDisplay = implode(' ', array_map('escapeshellarg', $cmd));
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->opensslenv);
 
 		if (!is_resource($proc)) { // Unable to start!
@@ -454,7 +459,7 @@ default_md = sha256
 		$otimeout = ini_get('max_execution_time');
 		set_time_limit($this->timeout); //more pis. <3 all the pis for taking so long
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new \RuntimeException(sprintf(_("OpenSSL took too long to run the command '%s'"),$cmd));
+			throw new \RuntimeException(sprintf(_("OpenSSL took too long to run the command '%s'"),$cmdDisplay));
 		}
 
 		$status = explode("\n", stream_get_contents($pipes[3]));
@@ -527,7 +532,10 @@ default_md = sha256
 
 	private function validateName($name) {
 		// Remove any nasty characters
-		$name = str_replace( array('/', "'", '"', '\\', '&', ';', " "), "", $name);
+		$name = basename((string)$name);
+		if (!preg_match('/^[A-Za-z0-9._-]+$/', $name) || $name === '.' || $name === '..') {
+			throw new \Exception(_("Invalid certificate name"));
+		}
 		return $name;
 	}
 
