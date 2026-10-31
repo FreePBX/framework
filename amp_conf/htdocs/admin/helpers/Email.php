@@ -1577,11 +1577,6 @@ class CI_Email {
 
 		$status = pclose($fp);
 
-		if (version_compare(PHP_VERSION, '4.2.3') == -1)
-		{
-			$status = $status >> 8 & 0xFF;
-		}
-
 		if ($status != 0)
 		{
 			$this->_set_error_message('email_exit_status', $status);
