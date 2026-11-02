@@ -21,14 +21,7 @@ class ModulesConf {
 		// Now, is it empty? We want some defaults..
 		if (!is_array($this->ProcessedConfig) || sizeof($this->ProcessedConfig) == 0 ) {
 			$this->conf->addEntry("modules", "autoload=yes");
-			$this->conf->addEntry("modules", "preload=pbx_config.so");
-			$this->conf->addEntry("modules", "preload=chan_local.so");
-			$this->conf->addEntry("modules", "preload=res_mwi_blf.so");
-			$this->conf->addEntry("modules", "preload=func_db.so");
-			$this->conf->addEntry("modules", "preload=res_odbc.so");
-			$this->conf->addEntry("modules", "preload=res_config_odbc.so");
-			$this->conf->addEntry("modules", "preload=cdr_adaptive_odbc.so");
-			$this->conf->addEntry("modules", "noload=chan_also.so");
+			$this->conf->addEntry("modules", "noload=chan_alsa.so");
 			$this->conf->addEntry("modules", "noload=chan_oss.so");
 			$this->conf->addEntry("modules", "noload=app_directory_odbcstorage.so");
 			$this->conf->addEntry("modules", "noload=app_voicemail_odbcstorage.so");
@@ -36,14 +29,11 @@ class ModulesConf {
 		// https://issues.asterisk.org/jira/browse/ASTERISK-25966
 		//  and
 		// https://issues.asterisk.org/jira/browse/ASTERISK-25957
-		if(empty($this->ProcessedConfig['modules']['preload'])) {
-			$this->conf->addEntry("modules", "preload=func_db.so");
-			$this->conf->addEntry("modules", "preload=res_odbc.so");
-			$this->conf->addEntry("modules", "preload=res_config_odbc.so");
-			$this->conf->addEntry("modules", "preload=cdr_adaptive_odbc.so");
-		} else {
-			// Make sure all of our mandatory preloads are there.
-			$mandatory = array("func_db.so", "res_odbc.so", "res_config_odbc.so", "cdr_adaptive_odbc.so");
+		if(!empty($this->ProcessedConfig['modules']['preload'])) {
+			/* No mandatory preloads needed since the Asterisk
+			 * autoloader improved significantly in 2016. But
+			 * this may be useful again in the future. */
+			$mandatory = array();
 			foreach ($mandatory as $m) {
 				if ( 
 					(is_array($this->ProcessedConfig['modules']['preload']) && !in_array($m, $this->ProcessedConfig['modules']['preload'])) ||
