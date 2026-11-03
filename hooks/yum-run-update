@@ -1,6 +1,24 @@
 #!/usr/bin/php
 <?php
 
+if (is_link('/etc/freepbx.conf') || !is_file('/etc/freepbx.conf')) {
+    fwrite(STDERR, "Refusing to load /etc/freepbx.conf\n");
+    exit(1);
+}
+$confStat = stat('/etc/freepbx.conf');
+$conf = file_get_contents('/etc/freepbx.conf');
+if (!$confStat || $confStat['uid'] !== 0 || ($confStat['mode'] & 0022) || !is_string($conf)
+    || !preg_match('/AMPWEBROOT[\'"]\]\s*=\s*[\'"]([^\'"]+)/', $conf, $webroot)) {
+    fwrite(STDERR, "Refusing to load a writable FreePBX bootstrap\n");
+    exit(1);
+}
+$bootstrap = $webroot[1].'/admin/bootstrap.php';
+$bootStat = @stat($bootstrap);
+if (is_link($bootstrap) || !$bootStat || $bootStat['uid'] !== 0 || ($bootStat['mode'] & 0022)) {
+    fwrite(STDERR, "Refusing to load a writable FreePBX bootstrap\n");
+    exit(1);
+}
+
 include_once '/etc/freepbx.conf';
 error_reporting(E_ALL);
 
