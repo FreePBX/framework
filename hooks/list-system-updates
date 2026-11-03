@@ -6,6 +6,27 @@ ini_set('max_execution_time', 60);
 
 error_reporting(E_ALL);
 
+if (is_link('/etc/freepbx.conf') || !is_file('/etc/freepbx.conf')) {
+    fwrite(STDERR, "Refusing to load /etc/freepbx.conf\n");
+    exit(1);
+}
+$confStat = stat('/etc/freepbx.conf');
+if (!$confStat || $confStat['uid'] !== 0 || ($confStat['mode'] & 0022)) {
+    fwrite(STDERR, "Refusing to load a writable /etc/freepbx.conf\n");
+    exit(1);
+}
+$conf = file_get_contents('/etc/freepbx.conf');
+if (!is_string($conf) || !preg_match('/AMPWEBROOT[\'"]\]\s*=\s*[\'"]([^\'"]+)/', $conf, $webroot)) {
+    fwrite(STDERR, "Unable to resolve the FreePBX web root\n");
+    exit(1);
+}
+$bootstrap = $webroot[1].'/admin/bootstrap.php';
+$bootStat = @stat($bootstrap);
+if (is_link($bootstrap) || !$bootStat || $bootStat['uid'] !== 0 || ($bootStat['mode'] & 0022)) {
+    fwrite(STDERR, "Refusing to load a writable FreePBX bootstrap\n");
+    exit(1);
+}
+
 // Try to load sysadmin includes (may not exist on all systems)
 if (file_exists('/usr/lib/sysadmin/includes.php')) {
     require '/usr/lib/sysadmin/includes.php';
