@@ -8,7 +8,7 @@ class Installer {
 	private $input = null;
 	private $output = null;
 
-	function __construct(InputInterface $input = NULL, OutputInterface $output = NULL) {
+	function __construct(?InputInterface $input = null, ?OutputInterface $output = null) {
 		$this->input = $input;
 		$this->output = $output;
 	}
