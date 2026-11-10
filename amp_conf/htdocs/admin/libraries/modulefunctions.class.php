@@ -725,7 +725,9 @@ class module_functions {
 
 			if (is_array($results)) {
 				foreach($results as $row) {
-					if (isset($modules[ $row['modulename'] ])) {
+					// Only module.xml entries have a version. A duplicate database
+					// row for a module that is not on disk must not be compared.
+					if (isset($modules[ $row['modulename'] ]['version'])) {
 						if ($row['enabled'] != 0) {
 
 							// check if file and registered versions are the same
@@ -740,7 +742,7 @@ class module_functions {
 							$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
 						}
 
-					} else {
+					} elseif (!isset($modules[ $row['modulename'] ])) {
 						// no directory for this db entry
 						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
 						$modules[ $row['modulename'] ]['repo'] = 'broken';
