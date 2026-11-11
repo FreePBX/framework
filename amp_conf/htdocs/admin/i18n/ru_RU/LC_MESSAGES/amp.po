@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 01:25-0400\n"
+"POT-Creation-Date: 2026-11-11 01:44-0500\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -2931,7 +2931,7 @@ msgstr ""
 msgid "Could Not Create Cache Folder: %s"
 msgstr "Невозможно создать директорию для кэша: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:515
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:520
 #, php-format
 msgid "Could Not Create the Asterisk Keys Folder: %s"
 msgstr "Невозможно создать ключевую для Астериск директорию:  %s"
@@ -3975,7 +3975,7 @@ msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
 "Директория %s не существует,и не получается создать её (getGpgLocation)."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:596
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:604
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "Директория %s не существует,и не получается создать её."
@@ -4211,7 +4211,7 @@ msgstr ""
 msgid "Don't have permission/can't write to %s"
 msgstr "Нет прав/невозможно записать в %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:524
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:529
 #, php-format
 msgid "Don't have permission/can't write to: %s"
 msgstr "Нет прав/невозможно записать в: %s"
@@ -6350,7 +6350,7 @@ msgstr "Я могу создать только файлы .gpg сейчас"
 msgid "I don't know who I should be running GPG as."
 msgstr "Я не знаю от какого имени мне запустить GPG."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:507
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:512
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "Я не знаю от какого имени мне запустить OpenSSL."
 
@@ -7098,6 +7098,10 @@ msgstr "Указано неверное имя транка"
 #: amp_conf/htdocs/admin/config.php:501
 msgid "Invalid Username or Password"
 msgstr "Неверное имя пользователя или пароль"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:537
+msgid "Invalid certificate name"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2409
 msgid "Invalid description"
@@ -8720,7 +8724,7 @@ msgid ""
 "should not be changed unless you know what you are doing."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:457
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:462
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
 msgstr "Для OpenSSL слишком длинная команда %s "
@@ -9270,14 +9274,14 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:863
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:611
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:619
 #, php-format
 msgid ""
 "Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
 "'fwconsole chown' as root to repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:631
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:639
 #, php-format
 msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
@@ -13165,17 +13169,17 @@ msgstr "Невозможно открыть файл %s"
 msgid "Unable to parse %s: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:693
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:707
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:701
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:715
 #, php-format
 msgid "Unable to remove %s"
 msgstr "Невозможно удалить %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:721
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:729
 msgid "Unable to remove ca.cfg"
 msgstr "Невозможно удалить ca.cfg"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:726
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:734
 msgid "Unable to remove tmp.cfg"
 msgstr "Невозможно удалить tmp.cfg"
 
@@ -13215,7 +13219,8 @@ msgstr ""
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Невозможно запустить сервис GPG, выполнена команда: [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:442
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:440
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:447
 msgid "Unable to start OpenSSL"
 msgstr "Невозможно запустить OpenSSL"
 
