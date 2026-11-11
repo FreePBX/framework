@@ -21,10 +21,10 @@ if(version_compare($output,'8.0.0',"<")) {
 
 $engine_info = engine_getinfo();
 $astversion = $engine_info['version'];
-if (version_compare($astversion, "18", "lt") || version_compare($astversion, "24", "ge")) {
+if (version_compare($astversion, "18", "lt") || version_compare($astversion, "25", "ge")) {
 	out(sprintf(_("<error>Error!</error>")));
 	out(sprintf(_("<error>Unsupported Version of %s </error>"), $astversion));
-	out(sprintf(_("<error>Supported Asterisk versions: 18, 19, 20, 21, 22</error>")));
+	out(sprintf(_("<error>Supported Asterisk versions: 18, 19, 20, 21, 22, 23, 24</error>")));
 	exit(1);
 }
 out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));
