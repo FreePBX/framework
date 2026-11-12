@@ -27,10 +27,10 @@ class Restore Extends Base\RestoreBase{
 				$this->log(sprintf(_("Ignorning restore of MODULE_REPO Advanced Settings from %s"), $this->data['module']));
 				continue;
 			}
-			if($keyword === 'AUTHTYPE' && $value == 'none'){
-                                $this->log(_("Ignorning AUTHTYPE from backup"));
-                                continue;
-                        }
+			if ($keyword === 'AUTHTYPE' && $this->isDisabledAuthType($value)) {
+				$this->log(_("Ignorning AUTHTYPE from backup"));
+				continue;
+			}
 
 			if(in_array($keyword,$skinsettings)){
 				$this->log(sprintf(_("Ignorning Brand view  Setting %s"), $keyword));
@@ -106,6 +106,10 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Current Asterisk Modules Directory is %s"), $this->FreePBX->Config->get_conf_setting('ASTMODDIR',true)));
 					continue;
 				}
+				if ($data['keyword'] === 'AUTHTYPE' && $this->isDisabledAuthType($data['value'])) {
+					$this->log(_("Ignorning AUTHTYPE from backup"));
+					continue;
+				}
 				$val = str_replace('\r\n', "\r\n", $data['value']);
 				$usth->execute([
 					":keyword" => $data['keyword'],
@@ -119,5 +123,14 @@ class Restore Extends Base\RestoreBase{
 	public function reset() {
 		//dont uninstall as it will screw up the entire system
 		//Also it shouldn't be allowed even if forced!
+	}
+
+	/**
+	 * AUTHTYPE=none disables administrator login. gui_auth.php compares
+	 * strtolower() of the stored value, so case and surrounding whitespace
+	 * have to be normalized before deciding to keep the backup value.
+	 */
+	private function isDisabledAuthType($value) {
+		return strtolower(trim((string)$value)) === 'none';
 	}
 }
