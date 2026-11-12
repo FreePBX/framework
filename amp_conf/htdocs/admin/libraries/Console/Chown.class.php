@@ -89,9 +89,7 @@ class Chown extends Command {
 			$bindirs = array("bin", "hooks", "agi-bin");
 			foreach ($bindirs as $bindir) {
 				if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
-					$this->modfiles[$mod][] = array('type' => 'execdir',
-									'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
-									'perms' => 0755);
+					$this->modfiles[$mod][] = $this->bindirEntry($mod, $AMPWEBROOT."/admin/modules/".$mod."/".$bindir);
 				}
 			}
 			if(posix_geteuid() != 0) {
@@ -120,7 +118,10 @@ class Chown extends Command {
 			}
 			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $sessdir, 'perms' => 0774, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/amportal.conf', 'perms' => 0660, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/freepbx.conf', 'perms' => 0660, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/freepbx.conf', 'perms' => 0640, 'owner' => 'root', 'group' => $AMPASTERISKWEBGROUP, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $AMPWEBROOT.'/admin/bootstrap.php', 'perms' => 0644, 'owner' => 'root', 'group' => 'root', 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $AMPWEBROOT.'/admin/functions.inc.php', 'perms' => 0644, 'owner' => 'root', 'group' => 'root', 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $AMPWEBROOT.'/admin/libraries', 'perms' => 0755, 'owner' => 'root', 'group' => 'root', 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTRUNDIR, 'perms' => 0775, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => \FreePBX::GPG()->getGpgLocation(), 'perms' => 0775, 'always' => true);
 
@@ -137,7 +138,7 @@ class Chown extends Command {
 
 			// Anything in bin, agi-bin, and roothooks should be exec'd
 			// Should be after everything except but before hooks so that we dont get overwritten by ampwebroot
-			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0755, 'owner' => 'root', 'group' => 'root', 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTAGIDIR, 'perms' => 0775, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTVARLIBDIR. "/bin", 'perms' => 0775, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPWEBROOT."/admin/modules/framework/hooks", 'perms' => 0755, 'always' => true);
@@ -158,9 +159,7 @@ class Chown extends Command {
 				}
 				foreach ($bindirs as $bindir) {
 					if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
-						$this->modfiles[$mod][] = array('type' => 'execdir',
-										'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
-										'perms' => 0755);
+						$this->modfiles[$mod][] = $this->bindirEntry($mod, $AMPWEBROOT."/admin/modules/".$mod."/".$bindir);
 					}
 				}
 			}
@@ -423,6 +422,40 @@ class Chown extends Command {
 	private function fwcChownFiles(){
 		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
+	}
+
+	/**
+	 * Keep an explicit root owner declared by a module when the generic
+	 * executable-directory pass runs afterwards.
+	 */
+	private function bindirEntry($module, $path) {
+		$entry = array('type' => 'execdir', 'path' => $path, 'perms' => 0755);
+		$owner = $this->declaredOwner($module, $path);
+		if ($owner) {
+			$entry['owner'] = $owner['owner'];
+			$entry['group'] = $owner['group'];
+		}
+		return $entry;
+	}
+
+	private function declaredOwner($module, $path) {
+		if (empty($this->modfiles[$module]) || !is_array($this->modfiles[$module])) {
+			return null;
+		}
+		$found = null;
+		foreach ($this->modfiles[$module] as $existing) {
+			if (empty($existing['path']) || empty($existing['owner'])) {
+				continue;
+			}
+			$base = rtrim($existing['path'], '/');
+			if ($path === $base || strpos($path, $base.'/') === 0) {
+				$found = array(
+					'owner' => $existing['owner'],
+					'group' => isset($existing['group']) ? $existing['group'] : $existing['owner'],
+				);
+			}
+		}
+		return $found;
 	}
 
 	/**

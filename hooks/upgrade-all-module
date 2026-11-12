@@ -19,27 +19,55 @@ if (isset($argv[1])) {
 
 $firstCommandOutput = [];
 $firstCommandReturn = 1;
-$cmd = "/usr/sbin/fwconsole ma upgradeall";
+$cmd = "/usr/sbin/fwconsole";
+$fwconsole = realpath($cmd);
+$fwStat = $fwconsole ? @stat($fwconsole) : false;
+if ($fwconsole === false || !$fwStat || $fwStat['uid'] !== 0 || ($fwStat['mode'] & 0022)) {
+    fwrite(STDERR, "Refusing to run fwconsole\n");
+    exit(1);
+}
 
 //Running upgrade all module command
-exec($cmd, $firstCommandOutput, $firstCommandReturn);
+$process = proc_open(array($fwconsole, "ma", "upgradeall"), array(1 => array("pipe", "w"), 2 => array("pipe", "w")), $pipes);
+if (!is_resource($process)) {
+    exit(1);
+}
+$firstCommandOutput = preg_split("/\r\n|\n|\r/", rtrim(stream_get_contents($pipes[1])));
+stream_get_contents($pipes[2]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+$firstCommandReturn = proc_close($process);
 
 if($firstCommandReturn == 0){
    
    // Running Chown Command
    $chownCommandOutput = [];
    $chownCommandReturn = 1;
-   $chownCommand = "/usr/sbin/fwconsole chown 2>&1";
+   $chownCommand = array($fwconsole, "chown");
    if($runChownCommand){
-      exec($chownCommand, $chownCommandOutput, $chownCommandReturn);
+      $process = proc_open($chownCommand, array(1 => array("pipe", "w"), 2 => array("pipe", "w")), $pipes);
+      if (is_resource($process)) {
+         $chownCommandOutput = preg_split("/\r\n|\n|\r/", rtrim(stream_get_contents($pipes[1])));
+         stream_get_contents($pipes[2]);
+         fclose($pipes[1]);
+         fclose($pipes[2]);
+         $chownCommandReturn = proc_close($process);
+      }
    }
    
    //Running Reload Command
    $reloadCommandOutput = [];
    $reloadCommandReturn = 1;
-   $reloadCommand = "/usr/sbin/fwconsole reload 2>&1";
+   $reloadCommand = array($fwconsole, "reload");
    if($runReloadCommand){
-      exec($reloadCommand , $reloadCommandOutput, $reloadCommandReturn);
+      $process = proc_open($reloadCommand, array(1 => array("pipe", "w"), 2 => array("pipe", "w")), $pipes);
+      if (is_resource($process)) {
+         $reloadCommandOutput = preg_split("/\r\n|\n|\r/", rtrim(stream_get_contents($pipes[1])));
+         stream_get_contents($pipes[2]);
+         fclose($pipes[1]);
+         fclose($pipes[2]);
+         $reloadCommandReturn = proc_close($process);
+      }
    }
 
    $result = [];
