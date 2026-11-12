@@ -1436,6 +1436,8 @@ class Moduleadmin extends Command {
 		$rows[] = array('enablerepo',_('Enables repo, accepts argument repo[s]'));
 		$rows[] = array('list',_('List all local modules, accepts no arguments'));
 		$rows[] = array('listonline',_('List online modules, accepts no arguments'));
+		$rows[] = array('listonlinelicensed',_('List commercial modules online, accepts no arguments'));
+		$rows[] = array('lol',_('Shortcut for listonlinelicensed, accepts no arguments'));
 		$rows[] = array('showupgrades',_('Shows a list of modules that may be updated, accepts no arguments'));
 		$rows[] = array('i18n',_('Shows translation information for supplied modules, accepts argument module[s]'));
 		$rows[] = array('refreshsignatures',_('ReDownloads all modules that have invalid signatures'));
@@ -1698,6 +1700,31 @@ class Moduleadmin extends Command {
 				}
 				$this->updatemanager->unsignedEmail();
 				break;
+			case 'lol':
+			case 'listonlinelicensed':
+					// Remove any old notifications.
+					$this->nt->delete("freepbx", "VULNERABILITIES");
+					$list = $this->nt->list_security();
+					$list = is_array($list) ? $list : array();
+					foreach($list as $l) {
+						if($l['id'] === 'VULNERABILITIES_FIXED' && !$l['candelete']) {
+							$this->nt->delete("freepbx", "VULNERABILITIES_FIXED");
+							$this->nt->add_notice('freepbx', 'VULNERABILITIES_FIXED', $l['display_text'], $l['extended_text'], '',true,true);
+						}
+					}
+					$announcements = $this->mf->get_annoucements();
+					$this->showLicensedList(true);
+					$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
+					if($settings['auto_module_security_updates'] === 'enabled') {
+						$this->updateSecurity();
+					}
+					$this->updatemanager->securityEmail();
+					$moduleupdates = $settings['auto_module_updates'];
+					if($moduleupdates == 'enabled' || $moduleupdates == 'emailonly') {
+						$this->updatemanager->updateEmail($moduleupdates == 'enabled');
+					}
+					$this->updatemanager->unsignedEmail();
+					break;
 			case 'reversedepends':
 				if(empty($args)){
 					fatal(_("Missing module name"));
@@ -1919,6 +1946,134 @@ class Moduleadmin extends Command {
 			];
 		}
 		return $this->FreePBX->Modules->checkConflicts($module);
+	}
+
+	/**
+	 * Highest published version for a commercial module.
+	 * commercial.unavail holds releases newer than the licensed version.
+	 */
+	private function latestPublishedVersion(array $onlineModule) {
+		$latest = (string) ($onlineModule['version'] ?? '');
+		$unavail = $onlineModule['commercial']['unavail'] ?? null;
+		if (is_string($unavail) && $unavail !== '') {
+			$decoded = json_decode($unavail, true);
+			$unavail = is_array($decoded) ? $decoded : [];
+		}
+		if (!is_array($unavail)) {
+			return $latest;
+		}
+		foreach (array_keys($unavail) as $version) {
+			$version = (string) $version;
+			if ($latest === '' || version_compare_freepbx($latest, $version) < 0) {
+				$latest = $version;
+			}
+		}
+		return $latest;
+	}
+
+ 	private function showLicensedList($online = false) {
+		global $amp_conf;
+		$modules_local = $this->mf->getinfo(false,false,true);
+		$modules = $modules_local;
+		$this->check_active_repos();
+		$showSignCol = ($this->FreePBX->Config->get('SIGNATURECHECK')) ? _('Signature') : null;
+		if ($online) {
+			$modules_online = $this->mf->getonlinexml();
+			if (isset($modules_online)) {
+				$modules += $modules_online;
+			}
+		}
+		ksort($modules);
+		$this->mf->getAllSignatures(!$online, $online);
+		$rows = array();
+		foreach (array_keys($modules) as $name) {
+			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:0;
+			// Don't include modules not in our repo unless they are locally installed already
+			if ((!isset($this->activeRepos[$modules[$name]['repo']]) || !$this->activeRepos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+				continue;
+			}
+			if (strtolower($modules[$name]['repo'] ?? '') !== 'commercial') {
+				continue;
+			}
+			switch ($status_index) {
+				case MODULE_STATUS_NOTINSTALLED:
+					if (isset($modules_local[$name])) {
+						$status = _('Not Installed (Locally available)');
+					} else {
+						$status = _('Not Installed (Available online: ').$modules_online[$name]['version'].')';
+					}
+					$status = ($this->color && $this->format != 'json')?'<comment>'.$status.'</comment>':$status;
+				break;
+				case MODULE_STATUS_DISABLED:
+					$status = _('Disabled');
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
+				break;
+				case MODULE_STATUS_NEEDUPGRADE:
+					$status = _('Disabled; Pending upgrade to ').$modules[$name]['version'];
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
+				break;
+				case MODULE_STATUS_BROKEN:
+					$status = _('Broken');
+					$status = ($this->color && $this->format != 'json')?'<error>'.$status.'</error>':$status;
+				break;
+				default:
+					// Mirror "version" is the highest release this deployment is licensed for.
+					// Newer releases the license does not cover are in commercial.unavail.
+					if (isset($modules_online[$name]['version'])) {
+						$installedVersion = $modules[$name]['version'];
+						$licensedVersion = $modules_online[$name]['version'];
+						$latestPublished = $this->latestPublishedVersion($modules_online[$name]);
+						$vercomp = version_compare_freepbx($installedVersion, $licensedVersion);
+						if ($vercomp < 0) {
+							$status = sprintf(_('Update available to newer online licensed version (%s)'), $licensedVersion);
+						} else if ($vercomp > 0) {
+							$status = sprintf(_('Newer than online licensed version (%s)'), $licensedVersion);
+						} else if (version_compare_freepbx($licensedVersion, $latestPublished) < 0) {
+							$status = sprintf(_('Currently at latest online licensed version but renewal update available for purchase at portal.sangoma.com (%s)'), $latestPublished);
+						} else {
+							$status = _('Already at the latest online licensed and updated version');
+						}
+					} else if (isset($modules_online)) {
+						// we're connected to online, but didn't find this module
+						$status = _('Enabled; Not available online');
+					} else {
+						$status = _('Enabled');
+					}
+					$status = ($this->color && $this->format != 'json')?'<info>'.$status.'</info>':$status;
+
+				break;
+			}
+			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
+			$module_license = isset($modules[$name]['license'])?$modules[$name]['license']:'';
+			if (!empty($showSignCol)) {
+				if ($status_index == MODULE_STATUS_NOTINSTALLED && !isset($modules_local[$name])) {
+					$module_Signature = '';
+				} elseif (file_exists($this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig")) {
+					$sigfile = $this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig";
+					$sig = $this->FreePBX->GPG->checkSig($sigfile);
+					if(isset($sig['config']['signedwith']) && in_array($sig['config']['signedwith'], array('B53D215A755231A3','86CE877469D2EAD9'))) {
+						$module_Signature = 'Sangoma';
+					} else {
+						$module_Signature = 'Unknown';
+					}
+				} else {
+					$module_Signature = 'Unsigned';
+				}
+				array_push($rows,array($name, $module_version, $status, $module_license, $module_Signature));
+			} else {
+				array_push($rows,array($name, $module_version, $status, $module_license));
+			}
+		}
+		$headers = (!empty($showSignCol)) ? array(_('Module'), _('Version'), _('Status'),_('License'), $showSignCol) : array(_('Module'), _('Version'), _('Status'),_('License'));
+		if($this->format == 'json') {
+			$this->writeln($rows);
+		} else {
+			$table = new Table($this->out);
+			$table
+				->setHeaders($headers)
+				->setRows($rows);
+			$table->render();
+		}
 	}
 
 }
