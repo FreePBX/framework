@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 07:17-0400\n"
+"POT-Creation-Date: 2026-11-18 06:15-0500\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -2913,7 +2913,7 @@ msgstr ""
 msgid "Could Not Create Cache Folder: %s"
 msgstr "نمیتواند فولدر کش ایجاد کند: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:520
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:525
 #, php-format
 msgid "Could Not Create the Asterisk Keys Folder: %s"
 msgstr "عدم توانایی در ساخت فولدر کلیدهای استریسک: %s"
@@ -3951,7 +3951,7 @@ msgstr "برداشتن مستقیم تماس"
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr "دایرکتوری %s وجود ندادر، و نمیتوان آن را ساخت (getGpgLocation)."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:601
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:609
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "دایرکتوری %s وجود ندارد، و نمیتواند ساخته شود."
@@ -4187,7 +4187,7 @@ msgstr "با فرض پاسخ منفی از پرسش برای فعال کردن �
 msgid "Don't have permission/can't write to %s"
 msgstr "دسترسی لازم را ندارید/نمیتوانید بنویسید در %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:529
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:534
 #, php-format
 msgid "Don't have permission/can't write to: %s"
 msgstr "دسترسی لازم را ندارید/نمیتوانید بنویسید در: %s"
@@ -6311,7 +6311,7 @@ msgstr "I can  only do .gpg files at the moment"
 msgid "I don't know who I should be running GPG as."
 msgstr "I don't know  who I should be running GPG as."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:512
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:517
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "I don't know  who I should be running OpenSSL as."
 
@@ -7046,6 +7046,10 @@ msgstr "نام ترانک وارد شده نامعتبر"
 #: amp_conf/htdocs/admin/config.php:501
 msgid "Invalid Username or Password"
 msgstr "نام کاربری یا کلمه عبور نامعتبر است"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:542
+msgid "Invalid certificate name"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2409
 msgid "Invalid description"
@@ -8651,7 +8655,7 @@ msgid ""
 "should not be changed unless you know what you are doing."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:462
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:467
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
 msgstr "OpenSSL  took too long to run the command '%s'"
@@ -9208,7 +9212,7 @@ msgstr ""
 "کنید"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:866
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:616
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:624
 #, php-format
 msgid ""
 "Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
@@ -9217,7 +9221,7 @@ msgstr ""
 "حطای دسترسی در دایرکتوری %s (is %s:%s, should be %s:%s) - لطفا دستور "
 "'fwconsole chown' را با دسترسی روت اجرا کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:636
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:644
 #, php-format
 msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
@@ -13142,17 +13146,17 @@ msgstr "عدم توانایی بازکردن فایل %s"
 msgid "Unable to parse %s: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:698
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:712
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:706
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:720
 #, php-format
 msgid "Unable to remove %s"
 msgstr "عدم توانایی حذف %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:726
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:734
 msgid "Unable to remove ca.cfg"
 msgstr "عدم توانایی حذف ca.cfg"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:731
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:739
 msgid "Unable to remove tmp.cfg"
 msgstr "عدم توانایی حذف tmp.cfg"
 
@@ -13194,7 +13198,8 @@ msgstr "عدم اجرای استریسک!"
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Unable to  start GPG, the command was: [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:447
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:445
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:452
 msgid "Unable to start OpenSSL"
 msgstr "عدم توانایی اجرای OpenSSL"
 

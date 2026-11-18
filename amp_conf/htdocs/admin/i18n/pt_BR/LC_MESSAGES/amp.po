@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 07:17-0400\n"
+"POT-Creation-Date: 2026-11-18 06:15-0500\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -2959,7 +2959,7 @@ msgstr ""
 msgid "Could Not Create Cache Folder: %s"
 msgstr "Não Foi Possível Criar Pasta Cache: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:520
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:525
 #, php-format
 msgid "Could Not Create the Asterisk Keys Folder: %s"
 msgstr "Não Foi Possível Criar a Pasta de Chaves Asterisk: %s"
@@ -4013,7 +4013,7 @@ msgstr "Puxar chamadas direcionado"
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr "Diretório %s não existe e não posso fazê-lo (getGpgLocation)."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:601
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:609
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "Diretório %s não existe e não posso fazê-lo."
@@ -4251,7 +4251,7 @@ msgstr "Não pergunte para ativar módulos desativados assumir não."
 msgid "Don't have permission/can't write to %s"
 msgstr "Não possui permissão/não pode escrever para %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:529
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:534
 #, php-format
 msgid "Don't have permission/can't write to: %s"
 msgstr "Não possui permissão/não pode escrever para: %s"
@@ -6411,7 +6411,7 @@ msgstr "Eu posso apenas fazer arquivos .gpg no momento"
 msgid "I don't know who I should be running GPG as."
 msgstr "Eu não sei quem Eu deveria rodando como GPG."
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:512
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:517
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "Eu não sei quem eu deveria rodar como OpenSSL."
 
@@ -7156,6 +7156,10 @@ msgstr "Nome de tronco inválido"
 #: amp_conf/htdocs/admin/config.php:501
 msgid "Invalid Username or Password"
 msgstr "Nome de usuário ou senha inválidos"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:542
+msgid "Invalid certificate name"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2409
 msgid "Invalid description"
@@ -8773,7 +8777,7 @@ msgid ""
 "should not be changed unless you know what you are doing."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:462
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:467
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
 msgstr "OpenSSL demorou muito tempo para executar o comando '%s'"
@@ -9340,7 +9344,7 @@ msgstr ""
 "Erro de permissões em %s - execute 'fwconsole chown' como root para reparar"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:866
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:616
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:624
 #, php-format
 msgid ""
 "Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
@@ -9349,7 +9353,7 @@ msgstr ""
 "Erro de permissões no diretório %s (é %s:%s, deve ser %s:%s) - execute "
 "'fwconsole chown' como root para reparar"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:636
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:644
 #, php-format
 msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
@@ -13344,17 +13348,17 @@ msgstr "Não foi possível abrir o arquivo %s"
 msgid "Unable to parse %s: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:698
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:712
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:706
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:720
 #, php-format
 msgid "Unable to remove %s"
 msgstr "Não foi possível remover %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:726
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:734
 msgid "Unable to remove ca.cfg"
 msgstr "Não foi possível remover ca.cfg"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:731
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:739
 msgid "Unable to remove tmp.cfg"
 msgstr "Não foi possível remover tmp.cfg"
 
@@ -13396,7 +13400,8 @@ msgstr "Não foi possível iniciar o Asterisk!"
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Não foi possível iniciar o GPG, o comando foi: [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:447
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:445
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:452
 msgid "Unable to start OpenSSL"
 msgstr "Não foi possível iniciar o OpenSSL"
 
