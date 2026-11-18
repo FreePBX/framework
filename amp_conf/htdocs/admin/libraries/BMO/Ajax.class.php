@@ -168,6 +168,11 @@ class Ajax extends FreePBX_Helpers {
 	/**
 	 * Check if the logged-in admin may use AJAX for a module section.
 	 *
+	 * An item's access="all" grants AJAX only for a real module page.
+	 * External links (href) and items that do not require authentication
+	 * are ignored, so they cannot open the rest of the module's AJAX
+	 * commands. Admins who have the module's own section still pass.
+	 *
 	 * @param string $module Module rawname
 	 * @return bool
 	 */
@@ -180,6 +185,9 @@ class Ajax extends FreePBX_Helpers {
 				continue;
 			}
 			foreach ($mod['items'] ?? [] as $itemKey => $item) {
+				if ($this->isNonPageMenuItem($item)) {
+					continue;
+				}
 				if (isset($item['access']) && strtolower($item['access']) === 'all') {
 					return true;
 				}
@@ -190,6 +198,19 @@ class Ajax extends FreePBX_Helpers {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Menu items that are not module pages must not grant AJAX access.
+	 *
+	 * @param array $item Parsed module.xml menu item
+	 * @return bool True when the item should be ignored
+	 */
+	private function isNonPageMenuItem($item) {
+		if (!empty($item['href'])) {
+			return true;
+		}
+		return isset($item['requires_auth']) && strtolower($item['requires_auth']) === 'false';
 	}
 
 	/**
