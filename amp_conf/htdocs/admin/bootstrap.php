@@ -42,6 +42,13 @@ if (isset($bootstrap_settings['returnimmediately'])) {
 	return;
 }
 
+// Reject uninitialized session ids (FREEI-3370). ajax.php and config.php start the
+// session before this file is included, so they set this themselves. Only set it
+// here when no session is active; PHP refuses session ini changes after session_start.
+if (session_status() !== PHP_SESSION_ACTIVE) {
+	ini_set('session.use_strict_mode', '1');
+}
+
 $mt = microtime();
 // we should never re-run this file, something is wrong if we do.
 //

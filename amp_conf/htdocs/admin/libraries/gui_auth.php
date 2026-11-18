@@ -107,6 +107,8 @@ if (!isset($_SESSION['AMP_user'])) {
 	}
 
 	if (isset($_SESSION['AMP_user'])) {
+		// Replace the pre-login session id so a fixed PHPSESSID cannot be reused (FREEI-3370).
+		session_regenerate_id(true);
 		define('FREEPBX_IS_AUTH', 'TRUE');
 		FreePBX::Modules()->getActiveModules(false);
 	}
