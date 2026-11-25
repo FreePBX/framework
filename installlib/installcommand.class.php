@@ -541,8 +541,8 @@ class FreePBXInstallCommand extends Command {
 			$db = new \DB($fbxdb);
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
-			if (!$db->getOne($sql)) {
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ?";
+			if (!$db->getOne($sql, [$amp_conf['AMPDBNAME']])) {
 				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
 
 				$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
@@ -560,7 +560,8 @@ class FreePBXInstallCommand extends Command {
 				}
 
 				$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
-				$db->query("INSERT INTO admin (variable,value) VALUES ('version','".$fwver."')");
+				$sql = "INSERT INTO admin (variable,value) VALUES (?, ?)";
+				$db->prepare($sql)->execute(['version', $fwver]);
 			}
 
 			if($dbroot) {
@@ -574,8 +575,8 @@ class FreePBXInstallCommand extends Command {
 				//check collate
 			}
 			$db->query("USE ".$amp_conf['CDRDBNAME']);
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
-			if (!$db->getOne($sql)) {
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = ?";
+			if (!$db->getOne($sql, [$amp_conf['CDRDBNAME']])) {
 				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
 				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
 			}

@@ -115,8 +115,8 @@ class module_functions {
 		$last_repo = !empty($result['data']) ? $result2['data']:'';
 		if ($last_repo !== $repo_url) {
 			sql("DELETE FROM module_xml WHERE id = 'module_repo'");
-			$data4sql = $db->escapeSimple($repo_url);
-			sql("INSERT INTO module_xml (id,time,data) VALUES ('module_repo',".time().",'".$data4sql."')");
+			$sql = "INSERT INTO module_xml (id, time, data) VALUES ('module_repo', ?, ?)";
+			$db->prepare($sql)->execute([time(), $repo_url]);
 			$skip_cache = true;
 		}
 
@@ -168,41 +168,49 @@ class module_functions {
 				}
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($modules));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('modules',".time().",'".$data4sql."')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('modules', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($modules)]);
 			}
 			if(!empty($allxml['xml']['edge'])) {
 				$edge = $allxml['xml']['edge'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($edge));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'".$data4sql."')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('edge', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($edge)]);
 			} else {
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('edge', ?, ?)";
+				$db->prepare($sql)->execute([time(),'']);
 			}
 			if(!empty($allxml['xml']['beta'])) {
 				$beta = $allxml['xml']['beta'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($beta));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('beta', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($beta)]);
 			} else {
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('beta', ?, ?)";
+				$db->prepare($sql)->execute([time(),'']);
 			}
 			if(!empty($allxml['xml']['security'])) {
 				$security = $allxml['xml']['security'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($security));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('security',".time().",'".$data4sql."')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('security', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($security)]);
 			}
 			if(!empty($allxml['xml']['previous'])) {
 				$previous = $allxml['xml']['previous'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($previous));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('previous',".time().",'".$data4sql."')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('previous', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($previous)]);
 			}
 			if (!empty($allxml['xml']['expired'])) {
 				$expired = $allxml['xml']['expired'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($expired));
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('expired'," . time() . ",'" . $data4sql . "')");
+				$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('expired', ?, ?)";
+				$db->prepare($sql)->execute([time(),json_encode($expired)]);
 			}
 		}
 
@@ -498,8 +506,10 @@ class module_functions {
 				if(!empty($repos_serialized)) {
 					$repos = unserialize($repos_serialized);
 					$repos_json = $db->escapeSimple(json_encode($repos));
-					sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
-					sql("DELETE FROM `module_xml` WHERE `id` = 'repos_serialized'");
+					$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('repos_json', ?, ?)";
+					$db->prepare($sql)->execute([time(),json_encode($repos)]);
+					$sql = "DELETE FROM module_xml WHERE id = 'repos_serialized'";
+					$db->prepare($sql)->execute();
 				}
 			}
 			if (!empty($repos)) {
@@ -539,8 +549,8 @@ class module_functions {
 			unset($repos[$repo]);
 		}
 		$repos_json = $db->escapeSimple(json_encode($repos));
-		$o = sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('repos_json', '".time()."','".$repos_json."')");
-		return $o;
+		$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('repos_json', ?, ?)";
+		return $db->prepare($sql)->execute([time(),json_encode($repos)]);
 	}
 
 	/**
@@ -559,7 +569,8 @@ class module_functions {
 				}
 			}
 			$repos_json = $db->escapeSimple(json_encode($repos));
-			sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
+			$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('remote_repos_json', ?, ?)";
+			$db->prepare($sql)->execute([time(),json_encode($repos)]);
 			return $repos;
 		}
 		return false;
@@ -587,7 +598,8 @@ class module_functions {
 						$final_repos[] = $repo;
 		}
 		$repos_json = $db->escapeSimple(json_encode($final_repos));
-		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
+		$sql = "REPLACE INTO module_xml (id, time, data) VALUES ('remote_repos_json', ?, ?)";
+		$db->prepare($sql)->execute([time(),json_encode($final_repos)]);
 	}
 
 	/**
@@ -730,7 +742,7 @@ class module_functions {
 
 							// check if file and registered versions are the same
 							// version_compare returns 0 if no difference
-							if (version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
+							if (isset($row['version']) && isset($modules[ $row['modulename'] ]['version'])  && version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
 								$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_ENABLED;
 							} else {
 								$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
@@ -2070,18 +2082,22 @@ class module_functions {
 
 		if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
 			// customize INSERT query
-			$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
+			$sql = "INSERT INTO modules (`modulename`, `version`, `enabled`) VALUES (?,?,?)";
+			try {
+				$db->prepare($sql)->execute([$modules[$modulename]['rawname'], $modules[$modulename]['version'], 1]);
+			} catch (\Exception $e) {
+				return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $e->getMessage()));
+			}
 			freepbx_log(FPBX_LOG_UPDATE,sprintf(_("Module: %s installed at version %s"),$modules[$modulename]['rawname'],$modules[$modulename]['version']));
 		} else {
 			// just need to update the version
-			$sql = "UPDATE modules SET version='".$db->escapeSimple($modules[$modulename]['version'])."' WHERE modulename = '".$db->escapeSimple($modules[$modulename]['rawname'])."'";
+			$sql = "UPDATE modules SET `version` = ? WHERE `modulename` = ?";
+			try {
+				$db->prepare($sql)->execute([$modules[$modulename]['version'], $modules[$modulename]['rawname']]);
+			} catch (\Exception $e) {
+				die($e->getMessage());
+			}
 			freepbx_log(FPBX_LOG_UPDATE,sprintf(_("Module: %s Updated to version %s"),$modules[$modulename]['rawname'],$modules[$modulename]['version']));
-		}
-
-		// run query
-		$results = $db->query($sql);
-		if(DB::IsError($results)) {
-			return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $results->getMessage()));
 		}
 
 		// If module is framework then update the framework version
@@ -2089,10 +2105,11 @@ class module_functions {
 		// framework and freepbx versions are the same
 		if($modulename == 'framework' && !empty($modules[$modulename]['version']) && (getVersion() != $modules[$modulename]['version'])) {
 			out(sprintf(_("Framework Detected, Setting FreePBX Version to %s"),$modules[$modulename]['version']));
-			$sql = "UPDATE admin SET value = '".$db->escapeSimple($modules[$modulename]['version'])."' WHERE variable = 'version'";
-			$result = $db->query($sql);
-			if(DB::IsError($result)) {
-				die($result->getMessage());
+			$sql = "UPDATE admin SET `value` = ? WHERE `variable` = 'version'";
+			try {
+				$db->prepare($sql)->execute([$modules[$modulename]['version']]);
+			} catch (\Exception $e) {
+				die($e->getMessage());
 			}
 			if(getVersion() != $modules[$modulename]['version']) {
 				die(_('Internal Error. Function getVersion did not match the Framework version, even after it was suppose to be applied'));
@@ -2265,10 +2282,11 @@ class module_functions {
 			return $rejects;
 		}
 
-		$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
-		$results = $db->query($sql);
-		if(DB::IsError($results)) {
-			return array(_("Error updating database: ").$results->getMessage());
+		$sql = "DELETE FROM modules WHERE modulename = ?";
+		try{
+			$db->prepare($sql)->execute([$modulename]);
+		} catch (\Exception $e) {
+			return array(_("Error updating database: ").$e->getMessage());
 		}
 
 		if (!$this->_runscripts($modulename, 'uninstall', $modules)) {
@@ -2364,14 +2382,17 @@ class module_functions {
 	/** Internal use only */
 	private function setenabled($modulename, $enabled) {
 		global $db;
-		$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.$db->escapeSimple($modulename).'"';
-		$results = $db->query($sql);
-		if(DB::IsError($results)) {
-			die_freepbx($sql."<br>\n".$results->getMessage());
+		$is_enabled = $enabled ? 1 : 0;
+		$sql = "UPDATE modules SET enabled = ? WHERE modulename = ?";
+		try{
+			$result = $db->prepare($sql)->execute([$is_enabled, $modulename]);
+		} catch (\Exception $e) {
+			die_freepbx($sql."<br>\n".$e->getMessage());
 		}
 		\FreePBX::Modulelist()->invalidate();
 		$this->getInfoCache = array(); //invalidate local
 		$this->modXMLCache = array();
+		return $result;
 	}
 
 	function _readxml($modulename, $cached = true) {
