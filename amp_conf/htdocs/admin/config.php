@@ -135,7 +135,8 @@ include_once '/etc/freepbx.conf';
 //which disables any zend module that breaks the autoloader
 if(function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
 	//note this has to be done outside of freepbx_die
-	die(_("The autoloader is damaged. Please run: ".$amp_conf['AMPBIN']."/fwconsole --fix_zend"));
+	$fwconsole = !empty($amp_conf['AMPSBIN']) ? $amp_conf['AMPSBIN']."/fwconsole" : "/usr/sbin/fwconsole";
+	die(_("The autoloader is damaged. Please run: ".$fwconsole." --fix_zend"));
 }
 
 $d = FreePBX::View()->setAdminLocales();

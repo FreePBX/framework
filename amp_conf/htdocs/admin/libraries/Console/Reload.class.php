@@ -453,9 +453,11 @@ class Reload extends Command {
 			$this->freepbx->Notifications->delete('freepbx', 'SIGNATURE_CHECK');
 			$this->freepbx->Performance->Start("Signature Checks");
 			$external = true;
-			if(file_exists($this->freepbx->Config->get('AMPBIN')."/fwconsole")) {
-				if(!is_executable($this->freepbx->Config->get('AMPBIN')."/fwconsole")) {
-					if(!@chmod($this->freepbx->Config->get('AMPBIN')."/fwconsole", 0755)) {
+			$fwconsole = $this->freepbx->Config->get('AMPSBIN')."/fwconsole";
+			// Never execute the AMPBIN copy. That directory is writable by asterisk.
+			if(is_file($fwconsole) && !is_link($fwconsole)) {
+				if(!is_executable($fwconsole)) {
+					if(!@chmod($fwconsole, 0755)) {
 						$external = false;
 					}
 				}
@@ -463,7 +465,7 @@ class Reload extends Command {
 				$external = false;
 			}
 			if($external) {
-				exec($this->freepbx->Config->get('AMPBIN')."/fwconsole util signaturecheck > /dev/null 2>&1 &");
+				exec($fwconsole." util signaturecheck > /dev/null 2>&1 &");
 			} else {
 				\module_functions::create()->getAllSignatures(false);
 			}
