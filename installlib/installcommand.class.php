@@ -654,21 +654,10 @@ class FreePBXInstallCommand extends Command {
 			mkdir($sbin, 0755);
 		}
 
-		//Put new fwconsole into place
-		if(!file_exists($sbin."/fwconsole")) {
-			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
-			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
-				$output->writeln("<error>Error</error>");
-			}
-			$output->writeln("Done");
-		} elseif(file_exists($sbin."/fwconsole") && (!is_link($sbin."/fwconsole") || readlink($sbin."/fwconsole") != $bin."/fwconsole")) {
-			unlink($sbin."/fwconsole");
-			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
-			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
-				$output->writeln("<error>Error</error>");
-			}
-			$output->writeln("Done");
-		}
+		// Install fwconsole as a real file under AMPSBIN. A symlink into AMPBIN
+		// is replaceable by the asterisk user, who can then get root the next
+		// time an administrator runs fwconsole.
+		$this->installRootFwconsole($output, $this->rootPath."/amp_conf/bin/fwconsole", $sbin."/fwconsole");
 
 		//put old amportal into place
 		if(!file_exists($sbin."/amportal")) {
@@ -705,10 +694,12 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 		if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
-			$privileged = $bin."/fwconsole";
-			if (file_exists($privileged) && !is_link($privileged)) {
-				@chown($privileged, 'root');
-				@chgrp($privileged, 'root');
+			foreach (array($bin."/fwconsole", $sbin."/fwconsole") as $privileged) {
+				if (file_exists($privileged) && !is_link($privileged)) {
+					@chown($privileged, 'root');
+					@chgrp($privileged, 'root');
+					@chmod($privileged, 0755);
+				}
 			}
 		}
 
@@ -1067,5 +1058,44 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 		$this->isTtySupported = (bool) @proc_open('echo 1 >/dev/null', array(array('file', '/dev/tty', 'r'), array('file', '/dev/tty', 'w'), array('file', '/dev/tty', 'w')), $pipes);
 		return $this->isTtySupported;
+	}
+
+	/**
+	 * Install fwconsole as a root-owned regular file. Replaces a symlink when one is present.
+	 */
+	private function installRootFwconsole(OutputInterface $output, $source, $dest) {
+		$output->write("Installing root-owned ".$dest." ...");
+		if (!$this->replaceWithRootOwnedFile($source, $dest)) {
+			$output->writeln("<error>Error</error>");
+			return;
+		}
+		$output->writeln("Done");
+	}
+
+	private function replaceWithRootOwnedFile($source, $dest) {
+		if (!is_file($source)) {
+			return false;
+		}
+		$tmp = $dest.".new";
+		if (file_exists($tmp) || is_link($tmp)) {
+			@unlink($tmp);
+		}
+		if (!@copy($source, $tmp)) {
+			return false;
+		}
+		@chmod($tmp, 0755);
+		if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
+			@chown($tmp, 'root');
+			@chgrp($tmp, 'root');
+		}
+		if ((is_link($dest) || file_exists($dest)) && !@unlink($dest)) {
+			@unlink($tmp);
+			return false;
+		}
+		if (!@rename($tmp, $dest)) {
+			@unlink($tmp);
+			return false;
+		}
+		return true;
 	}
 }

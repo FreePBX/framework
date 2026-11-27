@@ -32,6 +32,31 @@ out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));
 
 // HELPER FUNCTIONS:
 
+function framework_install_root_fwconsole($source, $dest) {
+	if (!is_file($source)) {
+		return false;
+	}
+	$tmp = $dest.".new";
+	if (file_exists($tmp) || is_link($tmp)) {
+		@unlink($tmp);
+	}
+	if (!@copy($source, $tmp)) {
+		return false;
+	}
+	@chmod($tmp, 0755);
+	@chown($tmp, 'root');
+	@chgrp($tmp, 'root');
+	if ((is_link($dest) || file_exists($dest)) && !@unlink($dest)) {
+		@unlink($tmp);
+		return false;
+	}
+	if (!@rename($tmp, $dest)) {
+		@unlink($tmp);
+		return false;
+	}
+	return true;
+}
+
 function framework_print_errors($src, $dst, $errors) {
 	out("error copying files:");
 	out(sprintf(_("'cp -rf' from src: '%s' to dst: '%s'...details follow"), $src, $dst));
@@ -422,6 +447,20 @@ if ($ret != 0) {
 		}
 	}
 	out(_("done"));
+}
+
+$sbin_dest = isset($amp_conf['AMPSBIN']) ? $amp_conf['AMPSBIN'] : '/usr/sbin';
+$fw_dest = $sbin_dest . '/fwconsole';
+$fw_src = $base_source . '/bin/fwconsole';
+if (function_exists('posix_geteuid') && posix_geteuid() === 0) {
+	outn(sprintf(_("Installing root-owned fwconsole to %s.."), $fw_dest));
+	if (!framework_install_root_fwconsole($fw_src, $fw_dest)) {
+		out(_("failed"));
+	} else {
+		out(_("done"));
+	}
+} elseif (is_link($fw_dest) || !file_exists($fw_dest)) {
+	out(sprintf(_("fwconsole at %s must be a root-owned file, not a symlink. Re-run the framework install as root."), $fw_dest));
 }
 
 unset($out);

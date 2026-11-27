@@ -168,6 +168,12 @@ class Chown extends Command {
 			// After AMPBIN execdir above: fwconsole must not be owned/writable by the web/Asterisk
 			// service user (local replacement before root invokes fwconsole).
 			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $AMPBIN.'/fwconsole', 'perms' => 0755, 'owner' => 'root', 'group' => 'root', 'always' => true);
+			// The privileged entry point lives in AMPSBIN and must be a real root-owned
+			// file. A symlink into AMPBIN can be replaced by the asterisk user.
+			if (!empty($AMPSBIN)) {
+				$this->ensureRootFwconsole($AMPSBIN, isset($AMPWEBROOT) ? $AMPWEBROOT : '');
+				$this->modfiles['framework'][] = array('type' => 'file', 'path' => $AMPSBIN.'/fwconsole', 'perms' => 0755, 'owner' => 'root', 'group' => 'root', 'always' => true);
+			}
 		}
 		//Let's move the custom array to the end so it happens last
 		//FREEPBX-12515
@@ -635,6 +641,42 @@ class Chown extends Command {
 						);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Replace a symlink at AMPSBIN/fwconsole with a root-owned copy of the packaged file.
+	 * An existing regular file is left in place so a later chown cannot swap in a
+	 * copy from the asterisk-writable module tree.
+	 */
+	private function ensureRootFwconsole($ampsbin, $ampwebroot) {
+		if (posix_geteuid() !== 0 || $ampsbin === '') {
+			return;
+		}
+		$dest = $ampsbin.'/fwconsole';
+		if (is_file($dest) && !is_link($dest)) {
+			return;
+		}
+		$source = rtrim((string)$ampwebroot, '/').'/admin/modules/framework/amp_conf/bin/fwconsole';
+		if (!is_file($source) || is_link($source)) {
+			return;
+		}
+		$tmp = $dest.'.new';
+		if (file_exists($tmp) || is_link($tmp)) {
+			@unlink($tmp);
+		}
+		if (!@copy($source, $tmp)) {
+			return;
+		}
+		@chmod($tmp, 0755);
+		@chown($tmp, 'root');
+		@chgrp($tmp, 'root');
+		if ((is_link($dest) || file_exists($dest)) && !@unlink($dest)) {
+			@unlink($tmp);
+			return;
+		}
+		if (!@rename($tmp, $dest)) {
+			@unlink($tmp);
 		}
 	}
 

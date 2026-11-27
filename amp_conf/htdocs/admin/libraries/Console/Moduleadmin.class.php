@@ -373,7 +373,7 @@ class Moduleadmin extends Command {
 				$fwconsole = "/usr/sbin/fwconsole";
 			}
 			if (!file_exists($fwconsole)) {
-				$attempts = array ("/var/lib/asterisk/bin/fwconsole", "/usr/sbin/fwconsole", "/usr/local/sbin/fwconsole", "/var/www/html/admin/modules/framework/amp_conf/bin/fwconsole", "/usr/local/bin/fwconsole");
+				$attempts = array ("/usr/sbin/fwconsole", "/usr/local/sbin/fwconsole", "/usr/local/bin/fwconsole", "/var/www/html/admin/modules/framework/amp_conf/bin/fwconsole", "/var/lib/asterisk/bin/fwconsole");
 				$found = false;
 				foreach ($attempts as $f) {
 					if (file_exists($f)) {
